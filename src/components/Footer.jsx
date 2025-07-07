@@ -1,0 +1,77 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { FaEnvelope, FaLinkedin, FaTwitter } from 'react-icons/fa';
+
+export default function Footer() {
+  return (
+    <footer
+      role="contentinfo"
+      className="bg-gray-900 text-white py-10 px-6"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
+      >
+        {/* Left Section */}
+        <div className="text-center md:text-left">
+          <h4 className="text-xl font-bold tracking-wide">ByOnco</h4>
+          <p className="text-sm text-gray-400 mt-1">
+            © 2025 PraesidioCare Pvt. Ltd. All rights reserved.
+          </p>
+        </div>
+
+        {/* Right Section */}
+        <div className="text-center md:text-right space-y-2">
+          <div className="flex justify-center md:justify-end items-center gap-4 text-gray-300">
+            <FaEnvelope aria-hidden="true" />
+            <a
+              href="mailto:contact@byoncocare.com"
+              className="hover:text-white underline underline-offset-2 transition"
+              aria-label="Email ByOnco"
+            >
+              contact@byoncocare.com
+            </a>
+          </div>
+          <div className="space-x-4 text-sm text-gray-300">
+            <a
+              href="/privacy"
+              className="hover:text-white underline-offset-2 hover:underline transition"
+            >
+              Privacy Policy
+            </a>
+            <span>·</span>
+            <a
+              href="/terms"
+              className="hover:text-white underline-offset-2 hover:underline transition"
+            >
+              Terms
+            </a>
+            <span>·</span>
+            <a
+              href="/careers"
+              className="hover:text-white underline-offset-2 hover:underline transition"
+            >
+              Careers
+            </a>
+          </div>
+        </div>
+
+        {/* Optional: Social Icons */}
+        <div className="flex justify-center md:justify-end gap-4 text-gray-400 mt-4 md:mt-0">
+          <a
+            href="https://linkedin.com/company/byoncocare"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="hover:text-white transition"
+          >
+            <FaLinkedin size={18} />
+          </a>
+          
+        </div>
+      </motion.div>
+    </footer>
+  );
+}
