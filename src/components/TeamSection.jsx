@@ -42,7 +42,7 @@ export default function TeamSection() {
           Built by a world-class team
         </h3>
 
-        <div className="flex flex-row flex-wrap justify-center items-center gap-2 sm:gap-20 md:gap-20">
+        <div className="flex flex-row flex-wrap justify-center items-center gap-6 sm:gap-20 md:gap-20">
           {affiliations.map((item, index) => (
             <motion.img
               key={index}
