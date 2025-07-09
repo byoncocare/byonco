@@ -56,9 +56,10 @@ export default function Hero() {
           className="w-full max-w-2xl text-center lg:text-left"
         >
           {/* Tagline */}
-          <div className="text-sm font-semibold mb-3 text-[#5e17eb]">
+          <div className="text-sm font-semibold mb-3 text-orange-600">
             ByOnco — Where Intelligence Meets Empathy.
           </div>
+
 
           {/* Headline */}
           <motion.h1
