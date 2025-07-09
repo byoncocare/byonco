@@ -54,7 +54,7 @@ const cardVariants = {
 export default function Features() {
   return (
     <section
-      className="bg-[#f9fafb] py-20 px-6 md:px-20"
+      className="bg-[#f9fafb] py-16 px-4 sm:px-6 md:px-20"
       aria-labelledby="features-heading"
       role="region"
     >
@@ -67,13 +67,13 @@ export default function Features() {
       >
         <h2
           id="features-heading"
-          className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-10"
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-8"
         >
           Key Features
         </h2>
 
         <motion.div
-          className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-left"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-left"
           variants={containerVariants}
         >
           {features.map((item, i) => (
@@ -86,13 +86,13 @@ export default function Features() {
               role="article"
             >
               <div
-                className="text-4xl mb-4"
+                className="text-3xl sm:text-4xl mb-4 text-center"
                 role="img"
                 aria-label={`${item.title} icon`}
               >
                 {item.icon}
               </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
                 {item.title}
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed">

@@ -48,24 +48,24 @@ const testimonials = [
 export default function Testimonials() {
   return (
     <section
-      className="bg-white py-20 px-6 overflow-hidden"
+      className="bg-white py-16 px-4 sm:px-6 overflow-hidden"
       aria-labelledby="testimonials-heading"
     >
       <h2
         id="testimonials-heading"
-        className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-12"
+        className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-10"
       >
         What Patients & Partners Say
       </h2>
 
-      <div className="relative w-full overflow-x-hidden">
+      <div className="relative w-full overflow-x-auto">
         <motion.div
-          className="flex gap-6 w-max"
+          className="flex gap-4 sm:gap-6 w-max scroll-smooth snap-x snap-mandatory"
           initial={{ x: 0 }}
           animate={{ x: ['0%', '-50%'] }}
           transition={{
             repeat: Infinity,
-            duration: 60,
+            duration: 90,
             ease: 'linear',
           }}
           role="list"
@@ -74,7 +74,7 @@ export default function Testimonials() {
           {[...testimonials, ...testimonials].map((t, i) => (
             <motion.article
               key={i}
-              className="group bg-gray-50 border border-gray-200 rounded-xl shadow-sm p-6 w-80 flex-shrink-0 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 focus-within:shadow-lg focus-within:outline-none"
+              className="snap-start bg-gray-50 border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 w-72 sm:w-80 flex-shrink-0 transition-all duration-300 hover:shadow-md hover:-translate-y-1 focus-within:shadow-lg focus-within:outline-none"
               tabIndex="0"
               role="listitem"
               aria-label={`Testimonial from ${t.name}`}

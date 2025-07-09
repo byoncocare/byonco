@@ -33,9 +33,12 @@ export default function FAQ() {
   };
 
   return (
-    <section className="bg-[#fdfdfd] py-20 px-6">
+    <section className="bg-[#fdfdfd] py-16 px-4 sm:px-6" aria-labelledby="faq-heading">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+        <h2
+          id="faq-heading"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10"
+        >
           Frequently Asked <span className="text-orange-500 underline decoration-wavy">Questions</span>
         </h2>
 
@@ -51,7 +54,7 @@ export default function FAQ() {
                   role="button"
                   aria-expanded={isOpen}
                   aria-controls={`${itemId}-content`}
-                  className="bg-[#fff6f2] rounded-lg p-5 shadow-sm hover:shadow-md focus:shadow-md outline-none transition-all duration-300 cursor-pointer"
+                  className="bg-[#fff6f2] rounded-lg p-5 shadow-sm hover:shadow-md focus:shadow-md transition-all duration-300 cursor-pointer outline-none"
                   onClick={() => toggleFAQ(index)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -61,7 +64,7 @@ export default function FAQ() {
                   }}
                 >
                   <div className="flex justify-between items-center">
-                    <p className="text-base md:text-lg font-medium text-gray-900">
+                    <p className="text-base sm:text-lg font-medium text-gray-900">
                       {item.question}
                     </p>
                     <motion.span
@@ -69,6 +72,7 @@ export default function FAQ() {
                       initial={false}
                       animate={{ rotate: isOpen ? 45 : 0 }}
                       transition={{ duration: 0.3 }}
+                      aria-hidden="true"
                     >
                       +
                     </motion.span>
@@ -78,9 +82,9 @@ export default function FAQ() {
                     {isOpen && (
                       <motion.p
                         id={`${itemId}-content`}
-                        className="mt-4 text-sm md:text-base text-gray-700 leading-relaxed"
+                        className="mt-4 text-sm sm:text-base text-gray-700 leading-relaxed"
                         initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
+                        animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.4 }}
                       >

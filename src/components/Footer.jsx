@@ -6,25 +6,25 @@ export default function Footer() {
   return (
     <footer
       role="contentinfo"
-      className="bg-gray-900 text-white py-10 px-6"
+      className="bg-gray-900 text-white py-10 px-4 sm:px-6"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
+        className="max-w-7xl mx-auto flex flex-col md:flex-row flex-wrap gap-6 items-center justify-between text-center md:text-left"
       >
         {/* Left Section */}
-        <div className="text-center md:text-left">
+        <div className="flex-1 min-w-[250px]">
           <h4 className="text-xl font-bold tracking-wide">ByOnco</h4>
           <p className="text-sm text-gray-400 mt-1">
             © 2025 PraesidioCare Pvt. Ltd. All rights reserved.
           </p>
         </div>
 
-        {/* Right Section */}
-        <div className="text-center md:text-right space-y-2">
-          <div className="flex justify-center md:justify-end items-center gap-4 text-gray-300">
+        {/* Middle Section - Contact Info */}
+        <div className="flex-1 min-w-[250px] space-y-3">
+          <div className="flex justify-center md:justify-start items-center gap-3 text-gray-300">
             <FaEnvelope aria-hidden="true" />
             <a
               href="mailto:contact@byoncocare.com"
@@ -34,7 +34,7 @@ export default function Footer() {
               contact@byoncocare.com
             </a>
           </div>
-          <div className="space-x-4 text-sm text-gray-300">
+          <div className="text-sm text-gray-300 space-x-3">
             <a
               href="/privacy"
               className="hover:text-white underline-offset-2 hover:underline transition"
@@ -58,18 +58,27 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Optional: Social Icons */}
-        <div className="flex justify-center md:justify-end gap-4 text-gray-400 mt-4 md:mt-0">
+        {/* Right Section - Social Icons */}
+        <div className="flex-1 min-w-[250px] flex justify-center md:justify-end gap-4 text-gray-400">
           <a
             href="https://linkedin.com/company/byoncocare"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="LinkedIn"
+            aria-label="ByOnco LinkedIn"
             className="hover:text-white transition"
           >
             <FaLinkedin size={18} />
           </a>
-          
+          {/* Optional Twitter or more */}
+          {/* <a
+            href="https://twitter.com/byoncocare"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="ByOnco Twitter"
+            className="hover:text-white transition"
+          >
+            <FaTwitter size={18} />
+          </a> */}
         </div>
       </motion.div>
     </footer>
