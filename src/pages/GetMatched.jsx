@@ -83,7 +83,7 @@ export default function GetMatched() {
   };
 
   return (
-    <main className="min-h-screen bg-[#d9f1f5] px-4 py-12 relative">
+    <main className="min-h-screen bg-gradient-to-br from-[#f9f9fc] to-[#e5f7f6] px-4 py-8 sm:py-12 relative">
       {/* CTA Button */}
       <div className="absolute top-4 right-4 z-10">
         <button
@@ -94,81 +94,86 @@ export default function GetMatched() {
         </button>
       </div>
 
-      {/* Main Content */}
       <div className="flex flex-col items-center">
+        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-gray-800 mb-12 text-center"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-10 text-center"
         >
           <span className="text-[#183b4d]">ByOnco</span>
           <span className="text-[#2ca3a2] font-semibold">care</span>
         </motion.h1>
 
-        {/* Search Bar */}
+        {/* Input Section */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="w-full max-w-3xl bg-white/60 backdrop-blur-lg rounded-xl shadow-lg flex items-center justify-between px-6 py-4 mb-10"
+          className="w-full max-w-3xl bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl px-4 py-5 sm:px-6 mb-10"
         >
-          <div className="flex items-center gap-3 flex-1">
-            <FiSearch className="text-gray-500 w-5 h-5" />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleAskClick()}
-              placeholder="Search hospitals, treatments, insurance, PMJAY help…"
-              className="bg-transparent outline-none w-full text-gray-800 text-lg placeholder:text-gray-500"
-              aria-label="Search input"
-            />
-          </div>
-
-          <div className="flex items-center gap-4 text-gray-600">
-            <FiMapPin className="hover:text-teal-600 transition" />
-            <FiSettings className="hover:text-teal-600 transition" />
-            <FiGlobe className="hover:text-teal-600 transition" />
-            <FiLink className="hover:text-teal-600 transition" />
-            <FiMic
-              onClick={handleVoiceInput}
-              className={`hover:text-teal-600 transition cursor-pointer ${
-                isListening ? 'text-red-600 animate-pulse' : ''
-              }`}
-              aria-label="Voice Input"
-            />
-            <button
-              onClick={handleAskClick}
-              disabled={loading}
-              className="bg-[#2ca3a2] hover:bg-[#239191] text-white p-2 rounded-md"
-              aria-label="Ask"
-            >
-              {loading ? (
-            <div className="flex items-center gap-2 animate-pulse text-sm text-gray-600">
-          <FiActivity className="w-5 h-5 text-[#2ca3a2]" />
-            <span>ByOnco AI is fetching answers...</span>
+          <div className="flex flex-col sm:flex-row items-stretch gap-4">
+            <div className="flex items-center gap-2 flex-grow bg-white px-3 py-2 rounded-md border border-gray-300 shadow-sm">
+              <FiSearch className="text-gray-500 w-5 h-5" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAskClick()}
+                placeholder="Search hospitals, treatments, PMJAY, insurance…"
+                className="w-full outline-none text-gray-800 text-base placeholder:text-gray-500"
+              />
             </div>
-            ) : (
-          <FiActivity className="w-5 h-5" />
-            )}
-            </button>
+
+            <div className="flex justify-between sm:justify-start items-center gap-3 flex-wrap">
+              <FiMapPin className="text-gray-600 hover:text-teal-600" />
+              <FiSettings className="text-gray-600 hover:text-teal-600" />
+              <FiGlobe className="text-gray-600 hover:text-teal-600" />
+              <FiLink className="text-gray-600 hover:text-teal-600" />
+              <FiMic
+                onClick={handleVoiceInput}
+                className={`cursor-pointer ${
+                  isListening ? 'text-red-600 animate-pulse' : 'text-gray-600 hover:text-teal-600'
+                }`}
+              />
+              <button
+                onClick={handleAskClick}
+                disabled={loading}
+                className="bg-[#2ca3a2] hover:bg-[#239191] text-white p-2 rounded-md"
+              >
+                {loading ? (
+                  <span className="w-5 h-5 animate-spin border-2 border-white border-t-transparent rounded-full inline-block" />
+                ) : (
+                  <FiActivity className="w-5 h-5" />
+                )}
+              </button>
+            </div>
           </div>
         </motion.div>
 
-        {/* Response Display */}
+        {/* Response Output */}
         {response && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="max-w-4xl w-full bg-white border border-gray-200 rounded-xl p-6 shadow-md text-gray-800"
+            className="max-w-3xl w-full bg-white border border-gray-200 rounded-xl p-6 shadow-md text-gray-800"
           >
-            <h2 className="text-lg font-semibold mb-4 text-[#1f575e]">ByOnco AI Recommendation:</h2>
-            <div
-              className="prose max-w-none text-gray-800"
-              dangerouslySetInnerHTML={{ __html: formatResponseHTML(response) }}
-            />
+            <div className="flex items-start gap-3">
+              <img
+                src="/icons/bot-avatar.svg"
+                alt="ByOnco AI"
+                className="w-10 h-10 rounded-full border border-gray-300"
+              />
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold mb-2 text-[#1f575e]">ByOnco AI Recommendation:</h2>
+                <div
+                  className="prose max-w-none text-gray-800"
+                  dangerouslySetInnerHTML={{ __html: formatResponseHTML(response) }}
+                />
+              </div>
+            </div>
           </motion.div>
         )}
       </div>
