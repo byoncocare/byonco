@@ -17,12 +17,13 @@ export default function GetMatched() {
   const [response, setResponse] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
+  const BACKEND_URL = 'https://byonco-fastapi-backend.onrender.com/api/gpt';
 
   const handleAskClick = async () => {
     if (!query.trim()) return;
@@ -30,10 +31,8 @@ export default function GetMatched() {
     setResponse('');
 
     try {
-      const res = await axios.post('https://byonco-fastapi-backend.onrender.com/api/gpt', {
-        prompt: query,
-      });
-      setResponse(res.data.response);
+      const res = await axios.post(BACKEND_URL, { prompt: query });
+      setResponse(res.data.response || '⚠️ No response from server.');
     } catch (error) {
       console.error('API Error:', error);
       alert('⚠️ Something went wrong while fetching GPT response.');
@@ -85,7 +84,7 @@ export default function GetMatched() {
 
   return (
     <main className="min-h-screen bg-[#d9f1f5] px-4 py-12 relative">
-      {/* Try Pro Button */}
+      {/* CTA Button */}
       <div className="absolute top-4 right-4 z-10">
         <button
           onClick={() => navigate('/get-started')}
@@ -95,7 +94,7 @@ export default function GetMatched() {
         </button>
       </div>
 
-      {/* Centered Content */}
+      {/* Main Content */}
       <div className="flex flex-col items-center">
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
@@ -154,7 +153,7 @@ export default function GetMatched() {
           </div>
         </motion.div>
 
-        {/* AI Response */}
+        {/* Response Display */}
         {response && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
