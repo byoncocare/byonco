@@ -48,7 +48,7 @@ export default function Hero() {
           </nav>
           <button
             onClick={handleJoinWaitlistClick}
-            className="bg-[#2563eb] text-white text-sm px-5 py-2 rounded-full shadow hover:bg-[#1d4ed8] transition duration-200"
+            className="bg-black text-white px-7 py-3 rounded-full text-sm hover:scale-105 hover:bg-gray-900 transition-transform duration-300"
             aria-label="Join the waitlist for ByOnco"
           >
             Join the Waitlist
