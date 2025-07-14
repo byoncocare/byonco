@@ -161,7 +161,7 @@ export default function GetMatched() {
             transition={{ duration: 0.5 }}
             className="max-w-4xl w-full bg-white border border-gray-200 rounded-xl p-6 shadow-md text-gray-800"
           >
-            <h2 className="text-lg font-semibold mb-4 text-[#1f575e]">AI Recommendation:</h2>
+            <h2 className="text-lg font-semibold mb-4 text-[#1f575e]">ByOnco AI Recommendation:</h2>
             <div
               className="prose max-w-none text-gray-800"
               dangerouslySetInnerHTML={{ __html: formatResponseHTML(response) }}
