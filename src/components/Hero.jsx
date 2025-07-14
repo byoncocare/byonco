@@ -1,7 +1,19 @@
+// src/components/Hero.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
+  const navigate = useNavigate();
+
+  const handleGetMatchedClick = () => {
+    navigate('/get-matched');
+  };
+
+  const handleJoinWaitlistClick = () => {
+    navigate('/join-waitlist');
+  };
+
   return (
     <main
       className="bg-gradient-to-br from-[#fef9f7] to-[#fbfbfa] min-h-screen flex flex-col font-sans text-gray-800"
@@ -35,7 +47,8 @@ export default function Hero() {
             <a href="#contact" className="hover:text-black transition-colors">Contact</a>
           </nav>
           <button
-            className="bg-black text-white text-sm px-5 py-2 rounded-full shadow hover:bg-gray-900 transition duration-200"
+            onClick={handleJoinWaitlistClick}
+            className="bg-[#2563eb] text-white text-sm px-5 py-2 rounded-full shadow hover:bg-[#1d4ed8] transition duration-200"
             aria-label="Join the waitlist for ByOnco"
           >
             Join the Waitlist
@@ -60,7 +73,6 @@ export default function Hero() {
             ByOnco — Where Intelligence Meets Empathy.
           </div>
 
-
           {/* Headline */}
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
@@ -82,6 +94,7 @@ export default function Hero() {
           {/* CTAs */}
           <div className="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
             <button
+              onClick={handleGetMatchedClick}
               className="bg-black text-white px-7 py-3 rounded-full text-sm hover:scale-105 hover:bg-gray-900 transition-transform duration-300"
               aria-label="Get matched with the best hospital"
             >
