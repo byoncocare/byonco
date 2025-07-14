@@ -145,10 +145,13 @@ export default function GetMatched() {
               aria-label="Ask"
             >
               {loading ? (
-                <span className="w-5 h-5 animate-spin border-2 border-white border-t-transparent rounded-full inline-block" />
-              ) : (
-                <FiActivity className="w-5 h-5" />
-              )}
+            <div className="flex items-center gap-2 animate-pulse text-sm text-gray-600">
+          <FiActivity className="w-5 h-5 text-[#2ca3a2]" />
+            <span>ByOnco AI is fetching answers...</span>
+            </div>
+            ) : (
+          <FiActivity className="w-5 h-5" />
+            )}
             </button>
           </div>
         </motion.div>
