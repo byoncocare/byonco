@@ -30,7 +30,7 @@ export default function GetMatched() {
     setResponse('');
 
     try {
-      const res = await axios.post('http://127.0.0.1:8000/api/gpt', {
+      const res = await axios.post('https://byonco-fastapi-backend.onrender.com/api/gpt', {
         prompt: query,
       });
       setResponse(res.data.response);
