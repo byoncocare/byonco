@@ -102,10 +102,10 @@ export default function GetMatched() {
 
   return (
     <main className={`min-h-screen px-4 py-12 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-[#fdfefe] to-[#e9fdfb]'}`}>
-      <div className="absolute top-4 right-4 z-10">
+      <div className="absolute top-2 right-2 z-10">
         <button
           onClick={() => navigate('/get-started')}
-          className="text-[#2563eb] border border-[#2563eb] font-semibold px-4 py-2 rounded hover:bg-[#2563eb] hover:text-white transition text-sm sm:text-base"
+          className="text-xs sm:text-sm md:text-base px-2 sm:px-4 py-1 sm:py-2 border border-[#2563eb] text-[#2563eb] font-medium rounded hover:bg-[#2563eb] hover:text-white transition"
         >
           Try ByOnco Pro
         </button>
