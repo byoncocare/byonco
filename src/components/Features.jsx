@@ -54,6 +54,7 @@ const cardVariants = {
 export default function Features() {
   return (
     <section
+      id="features"
       className="bg-[#f9fafb] py-16 px-4 sm:px-6 md:px-20"
       aria-labelledby="features-heading"
       role="region"

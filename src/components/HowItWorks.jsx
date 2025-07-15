@@ -33,6 +33,7 @@ const steps = [
 export default function HowItWorks() {
   return (
     <section
+      id="how"
       className="bg-white py-16 px-4 sm:px-6 md:px-16 lg:px-24"
       aria-label="How ByOnco Works Section"
     >

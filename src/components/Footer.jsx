@@ -5,6 +5,7 @@ import { FaEnvelope, FaLinkedin, FaTwitter } from 'react-icons/fa';
 export default function Footer() {
   return (
     <footer
+      id="contact"
       role="contentinfo"
       className="bg-gray-900 text-white py-10 px-4 sm:px-6"
     >

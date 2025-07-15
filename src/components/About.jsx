@@ -37,6 +37,7 @@ const cardVariants = {
 export default function AboutByOnco() {
   return (
     <motion.section
+      id="about"
       className="bg-[#fefcfb] py-16 px-4 sm:px-6 md:px-20"
       initial="hidden"
       whileInView="visible"

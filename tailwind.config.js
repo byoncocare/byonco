@@ -5,7 +5,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // You can extend fonts, colors, etc. here
+      animation: {
+        blink: 'blink 1.2s infinite steps(1)',
+      },
+      keyframes: {
+        blink: {
+          '0%, 100%': { opacity: '0' },
+          '50%': { opacity: '1' },
+        },
+      },
     },
   },
   plugins: [
