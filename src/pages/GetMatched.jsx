@@ -111,7 +111,7 @@ export default function GetMatched() {
         </button>
       </div>
 
-      <div className="flex flex-col items-center px-2 w-full max-w-4xl mx-auto mt-28 sm:mt-36">
+      <div className="flex flex-col items-center px-2 w-full max-w-4xl mx-auto mt-20 sm:mt-28">
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -122,7 +122,6 @@ export default function GetMatched() {
           <span className="text-[#2ca3a2]">care</span>
         </motion.h1>
 
-        {/* Search Box */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -145,7 +144,6 @@ export default function GetMatched() {
               />
             </div>
 
-            {/* Icon Bar */}
             <div className="flex justify-between items-center flex-wrap gap-4 text-sm">
               <div className="flex gap-4 text-gray-600 items-center">
                 <FiMapPin onClick={() => setModal('location')} className="hover:text-teal-600 cursor-pointer" />
@@ -166,8 +164,19 @@ export default function GetMatched() {
           </div>
         </motion.div>
 
-        {/* Response Box */}
-        {response && (
+        {/* Response Box or Loading */}
+        {loading ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="w-full bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-md text-gray-800 flex items-center justify-start space-x-3"
+          >
+            <div className="w-3 h-3 rounded-full bg-gray-500 animate-bounce [animation-delay:.1s]" />
+            <div className="w-3 h-3 rounded-full bg-gray-500 animate-bounce [animation-delay:.2s]" />
+            <div className="w-3 h-3 rounded-full bg-gray-500 animate-bounce [animation-delay:.3s]" />
+            <span className="text-gray-500 ml-4">Processing your request…</span>
+          </motion.div>
+        ) : response && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
