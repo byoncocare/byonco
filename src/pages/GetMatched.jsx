@@ -167,22 +167,25 @@ export default function GetMatched() {
         </motion.div>
 
         {/* Response Box */}
-        {response && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="w-full bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-md text-gray-800 overflow-auto max-h-[70vh]"
-          >
-            <div className="flex items-start gap-3">
-              <img src="/icons/bot-avatar.svg" alt="ByOnco AI" className="w-10 h-10 rounded-full border border-gray-300" />
-              <div className="flex-1">
-                <h2 className="text-base sm:text-lg font-semibold mb-2 text-[#1f575e]">ByOnco AI Recommendation:</h2>
-                <div className="prose max-w-none text-gray-800" dangerouslySetInnerHTML={{ __html: formatResponseHTML(response) }} />
-              </div>
-            </div>
-          </motion.div>
+          {response && (
+        <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="w-full bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-md text-gray-800 overflow-auto max-h-[70vh]"
+        >
+          <div className="flex flex-col gap-3">
+          <h2 className="text-base sm:text-lg font-semibold text-[#1f575e]">
+           ByOnco AI Recommendation:
+          </h2>
+          <div
+          className="prose max-w-none text-gray-800"
+          dangerouslySetInnerHTML={{ __html: formatResponseHTML(response) }}
+          />
+          </div>
+        </motion.div>
         )}
+
 
         {/* Modals */}
         <AnimatePresence>
