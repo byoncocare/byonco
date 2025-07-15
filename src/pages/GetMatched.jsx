@@ -107,7 +107,7 @@ export default function GetMatched() {
           onClick={() => navigate('/get-started')}
           className="text-xs sm:text-sm md:text-base px-2 sm:px-4 py-1 sm:py-2 border border-[#2563eb] text-[#2563eb] font-medium rounded hover:bg-[#2563eb] hover:text-white transition"
         >
-          Try ByOnco Pro
+          ByOnco Pro
         </button>
       </div>
 
