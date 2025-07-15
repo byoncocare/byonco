@@ -17,6 +17,10 @@ import TeamSection from './components/TeamSection';
 import FAQ from './components/FAQ';
 
 // Pages
+import Security from './pages/Security';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
+import Careers from './pages/Careers';
 import GetStarted from './pages/GetStarted';
 import GetMatched from './pages/GetMatched';
 import JoinWaitlist from './pages/JoinWaitlist'; // ✅ Newly added
@@ -99,6 +103,70 @@ function App() {
             </motion.div>
           }
         />
+
+        <Route
+          path="/careers"
+          element={
+           <motion.div
+             className="min-h-screen bg-[#fdfdfc]"
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             exit={{ opacity: 0 }}
+             transition={{ duration: 0.4 }}
+           >
+             <Careers />
+           </motion.div>
+          }
+        />
+
+        <Route
+          path="/terms-and-conditions"
+          element={
+          <motion.div
+            className="min-h-screen bg-[#fdfdfc]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+         >
+            <TermsAndConditions />
+          </motion.div>
+        }
+      />
+
+        <Route
+          path="/privacy"
+          element={
+          <motion.div
+            className="min-h-screen bg-[#fdfdfc]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+         >
+            <PrivacyPolicy />
+          </motion.div>
+        }
+      />
+
+      <Route
+          path="/security"
+          element={
+          <motion.div
+            className="min-h-screen bg-[#fdfdfc]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+         >
+            <Security />
+          </motion.div>
+        }
+      />
+
+
+
+
 
         {/* Optional: 404 fallback */}
         {/* <Route path="*" element={<NotFound />} /> */}

@@ -23,7 +23,7 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Middle Section - Contact Info */}
+        {/* Middle Section - Contact Info & Links */}
         <div className="flex-1 min-w-[250px] space-y-3">
           <div className="flex justify-center md:justify-start items-center gap-3 text-gray-300">
             <FaEnvelope aria-hidden="true" />
@@ -44,10 +44,17 @@ export default function Footer() {
             </a>
             <span>·</span>
             <a
-              href="/terms"
+              href="/terms-and-conditions"
               className="hover:text-white underline-offset-2 hover:underline transition"
             >
-              Terms
+              Terms and Conditions
+            </a>
+            <span>·</span>
+            <a
+              href="/security"
+              className="hover:text-white underline-offset-2 hover:underline transition"
+            >
+              Security
             </a>
             <span>·</span>
             <a
@@ -59,7 +66,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Right Section - Social Icons */}
+        {/* Right Section - Social Links */}
         <div className="flex-1 min-w-[250px] flex justify-center md:justify-end gap-4 text-gray-400">
           <a
             href="https://linkedin.com/company/byoncocare"
@@ -70,8 +77,8 @@ export default function Footer() {
           >
             <FaLinkedin size={18} />
           </a>
-          {/* Optional Twitter or more */}
-          {/* <a
+          {/* Optional: Uncomment to enable Twitter
+          <a
             href="https://twitter.com/byoncocare"
             target="_blank"
             rel="noopener noreferrer"
