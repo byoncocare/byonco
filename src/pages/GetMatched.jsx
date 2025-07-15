@@ -101,7 +101,7 @@ export default function GetMatched() {
   };
 
   return (
-    <main className={`min-h-screen px-4 py-12 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-[#fdfefe] to-[#e9fdfb]'}`}>
+    <main className={`min-h-screen flex items-center justify-center px-4 py-8 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-[#fdfefe] to-[#e9fdfb]'}`}>
       <div className="absolute top-2 right-2 z-10">
         <button
           onClick={() => navigate('/get-started')}
@@ -111,23 +111,22 @@ export default function GetMatched() {
         </button>
       </div>
 
-      <div className="flex flex-col items-center px-2 w-full max-w-4xl mx-auto">
+      <div className="w-full max-w-4xl flex flex-col items-center justify-center gap-6 text-center">
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center text-2xl sm:text-4xl font-bold mb-6"
+          className="text-2xl sm:text-4xl font-bold"
         >
           <span className="text-[#183b4d]">ByOnco</span>
           <span className="text-[#2ca3a2]">care</span>
         </motion.h1>
 
-        {/* Search Box */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="w-full bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-lg px-4 py-6 sm:px-6 mb-8"
+          className="w-full bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-lg px-4 py-6 sm:px-6"
         >
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between bg-white border border-gray-300 rounded-full px-4 py-3 shadow-sm">
@@ -145,7 +144,6 @@ export default function GetMatched() {
               />
             </div>
 
-            {/* Icon Bar */}
             <div className="flex justify-between items-center flex-wrap gap-4 text-sm">
               <div className="flex gap-4 text-gray-600 items-center">
                 <FiMapPin onClick={() => setModal('location')} className="hover:text-teal-600 cursor-pointer" />
@@ -166,28 +164,20 @@ export default function GetMatched() {
           </div>
         </motion.div>
 
-        {/* Response Box */}
-          {response && (
-        <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="w-full bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-md text-gray-800 overflow-auto max-h-[70vh]"
-        >
-          <div className="flex flex-col gap-3">
-          <h2 className="text-base sm:text-lg font-semibold text-[#1f575e]">
-           ByOnco AI Recommendation:
-          </h2>
-          <div
-          className="prose max-w-none text-gray-800"
-          dangerouslySetInnerHTML={{ __html: formatResponseHTML(response) }}
-          />
-          </div>
-        </motion.div>
+        {response && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="w-full bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-md text-gray-800 overflow-auto max-h-[70vh]"
+          >
+            <div className="flex flex-col gap-3">
+              <h2 className="text-base sm:text-lg font-semibold text-[#1f575e]">ByOnco AI Recommendation:</h2>
+              <div className="prose max-w-none text-gray-800" dangerouslySetInnerHTML={{ __html: formatResponseHTML(response) }} />
+            </div>
+          </motion.div>
         )}
 
-
-        {/* Modals */}
         <AnimatePresence>
           {modal === 'location' && (
             <motion.div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
