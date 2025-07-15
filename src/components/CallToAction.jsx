@@ -7,7 +7,7 @@ export default function CallToAction() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/get-started');
+    navigate('/join-waitlist');
   };
 
   return (

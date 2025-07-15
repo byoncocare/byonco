@@ -104,11 +104,13 @@ export default function GetMatched() {
     <main className={`min-h-screen px-4 pb-12 pt-8 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-[#fdfefe] to-[#e9fdfb]'}`}>
       <div className="fixed top-2 right-2 z-10">
         <button
-          onClick={() => navigate('/get-started')}
+          onClick={() => navigate('/pro-waitlist')}
           className="text-xs sm:text-sm md:text-base px-2 sm:px-4 py-1 sm:py-2 border border-[#2563eb] text-[#2563eb] font-medium rounded hover:bg-[#2563eb] hover:text-white transition"
+          aria-label="Join ByOnco Pro waitlist"
         >
-          ByOnco Pro
+         ByOnco Pro
         </button>
+
       </div>
 
       <div className="flex flex-col items-center px-2 w-full max-w-4xl mx-auto mt-20 sm:mt-28">

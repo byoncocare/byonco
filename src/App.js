@@ -17,6 +17,7 @@ import TeamSection from './components/TeamSection';
 import FAQ from './components/FAQ';
 
 // Pages
+import ByOncoProWaitlist from './pages/ByOncoProWaitlist';
 import Security from './pages/Security';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsAndConditions from './pages/TermsAndConditions';
@@ -163,9 +164,21 @@ function App() {
           </motion.div>
         }
       />
-
-
-
+      
+      <Route
+          path="/pro-waitlist"
+          element={
+           <motion.div
+            className="min-h-screen bg-[#f8f8ff]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+           transition={{ duration: 0.4 }}
+         >
+           <ByOncoProWaitlist />
+          </motion.div>
+        }
+      />
 
 
         {/* Optional: 404 fallback */}

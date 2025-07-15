@@ -10,10 +10,6 @@ export default function Hero() {
     navigate('/get-matched');
   };
 
-  const handleJoinWaitlistClick = () => {
-    navigate('/join-waitlist');
-  };
-
   return (
     <main
       className="bg-gradient-to-br from-[#fef9f7] to-[#fbfbfa] min-h-screen flex flex-col font-sans text-gray-800"
@@ -47,12 +43,13 @@ export default function Hero() {
             <a href="#contact" className="hover:text-black transition-colors">Contact</a>
           </nav>
           <button
-            onClick={handleJoinWaitlistClick}
+            onClick={() => navigate('/join-waitlist')}
             className="bg-black text-white px-7 py-3 rounded-full text-sm hover:scale-105 hover:bg-gray-900 transition-transform duration-300"
             aria-label="Join the waitlist for ByOnco"
           >
             Join the Waitlist
           </button>
+
         </div>
       </header>
 

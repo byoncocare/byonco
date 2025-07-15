@@ -1,11 +1,12 @@
-// src/pages/JoinWaitlist.jsx
+// src/pages/ByOncoProWaitlist.jsx
 
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
-export default function JoinWaitlist() {
+export default function ByOncoProWaitlist() {
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to top when component mounts
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -17,8 +18,13 @@ export default function JoinWaitlist() {
         transition={{ duration: 0.8 }}
         className="text-3xl sm:text-4xl font-extrabold text-center text-gray-900 mb-8"
       >
-        Join the ByOnco Waitlist
+        Unlock <span className="text-blue-600">ByOnco Pro</span>
       </motion.h1>
+
+      {/* Subtitle */}
+      <p className="text-center text-gray-700 mb-6 max-w-2xl mx-auto text-base sm:text-lg">
+        Get early access to <strong>real-time bed availability</strong>, <strong>live treatment queues</strong>, and <strong>priority hospital matching</strong>—designed for patients who can’t afford to wait.
+      </p>
 
       {/* Embedded Typeform */}
       <motion.div
@@ -28,20 +34,29 @@ export default function JoinWaitlist() {
         className="w-full max-w-5xl mx-auto shadow-md rounded-lg overflow-hidden"
       >
         <iframe
-          src="https://form.typeform.com/to/IrpbkJrO"
+          src="https://form.typeform.com/to/uhMG1bob"
           width="100%"
           height="700"
           frameBorder="0"
           allow="camera; microphone; autoplay; encrypted-media;"
-          title="ByOnco Waitlist Form"
+          title="ByOnco Pro"
           className="w-full"
         ></iframe>
       </motion.div>
 
-      {/* Footer Text */}
+      {/* Footer */}
       <p className="text-center text-gray-500 text-sm mt-6">
-        🔒 Your information is safe with us. We’ll only use it to match you with the best care options.
+        🔒 Your responses help us tailor ByOnco Pro for patients who need urgent, smart, AI-powered help.
       </p>
+
+      <div className="text-center mt-4">
+        <Link
+          to="/"
+          className="text-blue-600 hover:text-blue-800 transition font-medium text-sm"
+        >
+          ← Back to Home
+        </Link>
+      </div>
     </main>
   );
 }
