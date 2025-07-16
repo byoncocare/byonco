@@ -97,12 +97,17 @@ export default function Hero() {
             >
               Get Matched Now
             </button>
-            <button
-              className="border border-gray-400 text-gray-700 px-7 py-3 rounded-full text-sm hover:scale-105 hover:bg-gray-100 transition-transform duration-300"
-              aria-label="Watch a demo of the ByOnco platform"
+            
+            <a
+              href="https://calendly.com/getbyonco/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-gray-400 text-gray-700 px-7 py-3 rounded-full text-sm hover:scale-105 hover:bg-gray-100 transition-transform duration-300 inline-block"
+              aria-label="Book a demo of the ByOnco platform"
             >
-              Watch Demo
-            </button>
+              Book a Demo
+            </a>
+
           </div>
 
           {/* Microtrust */}
