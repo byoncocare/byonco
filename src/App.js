@@ -1,4 +1,5 @@
 // src/App.js
+import './styles/globals.css';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,6 +16,7 @@ import CallToAction from './components/CallToAction';
 import Footer from './components/Footer';
 import TeamSection from './components/TeamSection';
 import FAQ from './components/FAQ';
+import CookieConsent from './components/CookieConsent';
 
 // Pages
 import ByOncoProWaitlist from './pages/ByOncoProWaitlist';
@@ -24,7 +26,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import Careers from './pages/Careers';
 import GetStarted from './pages/GetStarted';
 import GetMatched from './pages/GetMatched';
-import JoinWaitlist from './pages/JoinWaitlist'; // ✅ Newly added
+import JoinWaitlist from './pages/JoinWaitlist';
 
 function HomePage() {
   return (
@@ -52,139 +54,107 @@ function HomePage() {
 
 function App() {
   return (
-    <AnimatePresence mode="wait">
-      <Routes>
-        {/* Main landing page */}
-        <Route path="/" element={<HomePage />} />
+    <>
+      <AnimatePresence mode="wait">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-        {/* Get Started (optional/legacy) */}
-        <Route
-          path="/get-started"
-          element={
-            <motion.div
-              className="min-h-screen bg-white text-gray-900"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <GetStarted />
-            </motion.div>
-          }
-        />
+          <Route
+            path="/get-started"
+            element={
+              <motion.div className="min-h-screen bg-white text-gray-900"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}>
+                <GetStarted />
+              </motion.div>
+            }
+          />
 
-        {/* Perplexity-style AI assistant */}
-        <Route
-          path="/get-matched"
-          element={
-            <motion.div
-              className="min-h-screen"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <GetMatched />
-            </motion.div>
-          }
-        />
+          <Route
+            path="/get-matched"
+            element={
+              <motion.div className="min-h-screen"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}>
+                <GetMatched />
+              </motion.div>
+            }
+          />
 
-        {/* ✅ New: Join Waitlist Page */}
-        <Route
-          path="/join-waitlist"
-          element={
-            <motion.div
-              className="min-h-screen bg-[#f8f8ff]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <JoinWaitlist />
-            </motion.div>
-          }
-        />
+          <Route
+            path="/join-waitlist"
+            element={
+              <motion.div className="min-h-screen bg-[#f8f8ff]"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}>
+                <JoinWaitlist />
+              </motion.div>
+            }
+          />
 
-        <Route
-          path="/careers"
-          element={
-           <motion.div
-             className="min-h-screen bg-[#fdfdfc]"
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             exit={{ opacity: 0 }}
-             transition={{ duration: 0.4 }}
-           >
-             <Careers />
-           </motion.div>
-          }
-        />
+          <Route
+            path="/careers"
+            element={
+              <motion.div className="min-h-screen bg-[#fdfdfc]"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}>
+                <Careers />
+              </motion.div>
+            }
+          />
 
-        <Route
-          path="/terms-and-conditions"
-          element={
-          <motion.div
-            className="min-h-screen bg-[#fdfdfc]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-         >
-            <TermsAndConditions />
-          </motion.div>
-        }
-      />
+          <Route
+            path="/terms-and-conditions"
+            element={
+              <motion.div className="min-h-screen bg-[#fdfdfc]"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}>
+                <TermsAndConditions />
+              </motion.div>
+            }
+          />
 
-        <Route
-          path="/privacy"
-          element={
-          <motion.div
-            className="min-h-screen bg-[#fdfdfc]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-         >
-            <PrivacyPolicy />
-          </motion.div>
-        }
-      />
+          <Route
+            path="/privacy"
+            element={
+              <motion.div className="min-h-screen bg-[#fdfdfc]"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}>
+                <PrivacyPolicy />
+              </motion.div>
+            }
+          />
 
-      <Route
-          path="/security"
-          element={
-          <motion.div
-            className="min-h-screen bg-[#fdfdfc]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-         >
-            <Security />
-          </motion.div>
-        }
-      />
-      
-      <Route
-          path="/pro-waitlist"
-          element={
-           <motion.div
-            className="min-h-screen bg-[#f8f8ff]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-           transition={{ duration: 0.4 }}
-         >
-           <ByOncoProWaitlist />
-          </motion.div>
-        }
-      />
+          <Route
+            path="/security"
+            element={
+              <motion.div className="min-h-screen bg-[#fdfdfc]"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}>
+                <Security />
+              </motion.div>
+            }
+          />
 
+          <Route
+            path="/pro-waitlist"
+            element={
+              <motion.div className="min-h-screen bg-[#f8f8ff]"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}>
+                <ByOncoProWaitlist />
+              </motion.div>
+            }
+          />
 
-        {/* Optional: 404 fallback */}
-        {/* <Route path="*" element={<NotFound />} /> */}
-      </Routes>
-    </AnimatePresence>
+          {/* Optional fallback */}
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Routes>
+      </AnimatePresence>
+
+      {/* ✅ Cookie Consent visible across all routes */}
+      <CookieConsent />
+    </>
   );
 }
 
