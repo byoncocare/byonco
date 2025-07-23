@@ -1,3 +1,6 @@
+// Top of the file
+/* global dataLayer */
+
 // src/components/CookieConsent.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
