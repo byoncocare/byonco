@@ -26,7 +26,7 @@ export default function Hero() {
         <img
           src="/byonco-logo.svg"
           alt="ByOnco logo — AI-powered cancer care platform"
-          className="h-[56px] sm:h-24 w-auto object-contain"
+          className="h-[28px] sm:h-20 w-auto object-contain"
         />
 
         {/* Mobile Menu Toggle */}
@@ -98,9 +98,8 @@ export default function Hero() {
 
             {/* External Links */}
             <div className="mt-auto pt-10 pb-6 space-y-2 text-sm text-gray-500 border-t border-gray-200">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">Twitter ↗</a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+              <a href="https://www.linkedin.com/company/byoncocare" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+              <a href="https://www.instagram.com/byoncocare/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
             </div>
           </motion.div>
         )}
