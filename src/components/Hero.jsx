@@ -1,10 +1,11 @@
 // src/components/Hero.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleGetMatchedClick = () => {
     navigate('/get-matched');
@@ -17,31 +18,42 @@ export default function Hero() {
     >
       {/* Header */}
       <header
-        className="flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 md:px-16 py-6 gap-4"
+        className="relative flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 md:px-16 py-6 gap-4"
         role="banner"
         aria-label="Main site navigation"
       >
         {/* Logo */}
-        <div className="flex items-center" aria-label="ByOnco logo">
+        <div className="flex items-center w-full justify-between sm:justify-start" aria-label="ByOnco logo">
           <img
             src="/byonco-logo.svg"
             alt="ByOnco logo — AI-powered cancer care platform"
-            className="h-16 sm:h-24 w-auto object-contain"
+            className="h-12 sm:h-20 w-auto object-contain"
           />
+
+          {/* Hamburger Menu (mobile only) */}
+          <button
+            className="sm:hidden text-gray-800 text-2xl focus:outline-none"
+            aria-label="Toggle menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
         </div>
 
-        {/* Nav + CTA */}
-        <div className="flex flex-col sm:flex-row items-center gap-4">
-          <nav
-            className="hidden md:flex space-x-4 text-sm text-gray-600"
-            role="navigation"
-            aria-label="Primary"
-          >
-            <a href="#how" className="hover:text-black transition-colors">How it Works</a>
-            <a href="#features" className="hover:text-black transition-colors">Features</a>
-            <a href="#about" className="hover:text-black transition-colors">About</a>
-            <a href="#contact" className="hover:text-black transition-colors">Contact</a>
-          </nav>
+        {/* Desktop Nav */}
+        <nav
+          className="hidden md:flex space-x-6 text-sm text-gray-600"
+          role="navigation"
+          aria-label="Primary"
+        >
+          <a href="#how" className="hover:text-black transition-colors">How it Works</a>
+          <a href="#features" className="hover:text-black transition-colors">Features</a>
+          <a href="#about" className="hover:text-black transition-colors">About</a>
+          <a href="#contact" className="hover:text-black transition-colors">Contact</a>
+        </nav>
+
+        {/* CTA Button (Join Waitlist) */}
+        <div className="hidden sm:flex">
           <button
             onClick={() => navigate('/join-waitlist')}
             className="bg-black text-white px-7 py-3 rounded-full text-sm hover:scale-105 hover:bg-gray-900 transition-transform duration-300"
@@ -49,8 +61,26 @@ export default function Hero() {
           >
             Join the Waitlist
           </button>
-
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {menuOpen && (
+          <div className="absolute top-[100%] left-4 right-4 bg-white rounded-xl shadow-lg py-4 px-6 z-50 space-y-3 sm:hidden text-sm text-gray-700">
+            <a href="#how" className="block border-b pb-2">How it Works</a>
+            <a href="#features" className="block border-b pb-2">Features</a>
+            <a href="#about" className="block border-b pb-2">About</a>
+            <a href="#contact" className="block border-b pb-2">Contact</a>
+            <button
+              onClick={() => {
+                navigate('/join-waitlist');
+                setMenuOpen(false);
+              }}
+              className="w-full mt-2 bg-black text-white px-6 py-3 rounded-full text-sm"
+            >
+              Join the Waitlist
+            </button>
+          </div>
+        )}
       </header>
 
       {/* Hero Content */}
@@ -65,12 +95,10 @@ export default function Hero() {
           transition={{ duration: 1 }}
           className="w-full max-w-2xl text-center lg:text-left"
         >
-          {/* Tagline */}
           <div className="text-sm font-semibold mb-3 text-orange-600">
             ByOnco — Where Intelligence Meets Empathy.
           </div>
 
-          {/* Headline */}
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,7 +108,6 @@ export default function Hero() {
             The Future of Cancer Care Starts Here
           </motion.h1>
 
-          {/* Subheadline */}
           <p className="mt-4 sm:mt-6 text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed">
             One platform. Every answer. <br />
             <span className="text-gray-800">
@@ -97,7 +124,6 @@ export default function Hero() {
             >
               Get Matched Now
             </button>
-            
             <a
               href="https://calendly.com/getbyonco/30min"
               target="_blank"
@@ -107,10 +133,8 @@ export default function Hero() {
             >
               Book a Demo
             </a>
-
           </div>
 
-          {/* Microtrust */}
           <p className="text-xs text-gray-500 mt-4" aria-label="Trust statement">
             Trusted by top oncologists and 1,000+ patients across India.
           </p>
@@ -125,7 +149,6 @@ export default function Hero() {
           role="img"
           aria-label="Illustration of a patient receiving AI-assisted support"
         >
-          {/* Ambient glow */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.4 }}
