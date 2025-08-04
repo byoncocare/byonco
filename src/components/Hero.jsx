@@ -1,6 +1,6 @@
 // src/components/Hero.jsx
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
@@ -18,77 +18,100 @@ export default function Hero() {
     >
       {/* Header */}
       <header
-        className="relative flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 md:px-16 py-6 gap-4"
+        className="relative flex items-center justify-between px-4 sm:px-6 md:px-16 py-4"
         role="banner"
         aria-label="Main site navigation"
       >
         {/* Logo */}
-        <div className="flex items-center w-full justify-between sm:justify-start" aria-label="ByOnco logo">
-          <img
-            src="/byonco-logo.svg"
-            alt="ByOnco logo — AI-powered cancer care platform"
-            className="h-12 sm:h-20 w-auto object-contain"
-          />
+        <img
+          src="/byonco-logo.svg"
+          alt="ByOnco logo — AI-powered cancer care platform"
+          className="h-[56px] sm:h-24 w-auto object-contain"
+        />
 
-          {/* Hamburger Menu (mobile only) */}
-          <button
-            className="sm:hidden text-gray-800 text-2xl focus:outline-none"
-            aria-label="Toggle menu"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            ☰
-          </button>
-        </div>
-
-        {/* Desktop Nav */}
-        <nav
-          className="hidden md:flex space-x-6 text-sm text-gray-600"
-          role="navigation"
-          aria-label="Primary"
+        {/* Mobile Menu Toggle */}
+        <button
+          className="sm:hidden text-gray-800 text-xl"
+          aria-label="Open menu"
+          onClick={() => setMenuOpen(true)}
         >
-          <a href="#how" className="hover:text-black transition-colors">How it Works</a>
-          <a href="#features" className="hover:text-black transition-colors">Features</a>
-          <a href="#about" className="hover:text-black transition-colors">About</a>
-          <a href="#contact" className="hover:text-black transition-colors">Contact</a>
-        </nav>
+          Menu ☰
+        </button>
 
-        {/* CTA Button (Join Waitlist) */}
-        <div className="hidden sm:flex">
+        {/* Desktop Navigation */}
+        <nav className="hidden sm:flex space-x-6 text-sm text-gray-600 items-center">
+          <a href="#how" className="hover:text-black">How it Works</a>
+          <a href="#features" className="hover:text-black">Features</a>
+          <a href="#about" className="hover:text-black">About</a>
+          <a href="#contact" className="hover:text-black">Contact</a>
           <button
             onClick={() => navigate('/join-waitlist')}
-            className="bg-black text-white px-7 py-3 rounded-full text-sm hover:scale-105 hover:bg-gray-900 transition-transform duration-300"
-            aria-label="Join the waitlist for ByOnco"
+            className="bg-black text-white px-6 py-2 rounded-full text-sm hover:bg-gray-900 transition"
           >
             Join the Waitlist
           </button>
-        </div>
-
-        {/* Mobile Dropdown Menu */}
-        {menuOpen && (
-          <div className="absolute top-[100%] left-4 right-4 bg-white rounded-xl shadow-lg py-4 px-6 z-50 space-y-3 sm:hidden text-sm text-gray-700">
-            <a href="#how" className="block border-b pb-2">How it Works</a>
-            <a href="#features" className="block border-b pb-2">Features</a>
-            <a href="#about" className="block border-b pb-2">About</a>
-            <a href="#contact" className="block border-b pb-2">Contact</a>
-            <button
-              onClick={() => {
-                navigate('/join-waitlist');
-                setMenuOpen(false);
-              }}
-              className="w-full mt-2 bg-black text-white px-6 py-3 rounded-full text-sm"
-            >
-              Join the Waitlist
-            </button>
-          </div>
-        )}
+        </nav>
       </header>
 
-      {/* Hero Content */}
+      {/* Slide-In Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-0 right-0 w-full h-full z-50 bg-white shadow-xl px-6 py-6 flex flex-col"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <img
+                src="/byonco-logo.svg"
+                alt="ByOnco"
+                className="h-10 w-auto"
+              />
+              <button
+                className="text-xl text-gray-800"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                Close ×
+              </button>
+            </div>
+
+            {/* Nav Links */}
+            <div className="flex flex-col space-y-4 text-lg font-medium text-gray-800">
+              <a href="#how" onClick={() => setMenuOpen(false)}>How it Works</a>
+              <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
+              <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+              <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
+              <button
+                onClick={() => {
+                  navigate('/join-waitlist');
+                  setMenuOpen(false);
+                }}
+                className="bg-black text-white w-full py-3 rounded-full mt-4"
+              >
+                Join the Waitlist
+              </button>
+            </div>
+
+            {/* External Links */}
+            <div className="mt-auto pt-10 pb-6 space-y-2 text-sm text-gray-500 border-t border-gray-200">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">Twitter ↗</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero Section */}
       <section
-        className="flex flex-col-reverse lg:flex-row items-center justify-between px-4 sm:px-6 md:px-24 lg:px-32 mt-8 md:mt-20 gap-10 md:gap-20"
+        className="flex flex-col-reverse lg:flex-row items-center justify-between px-4 sm:px-6 md:px-24 lg:px-32 mt-4 md:mt-20 gap-10 md:gap-20"
         aria-label="Hero section"
       >
-        {/* Text Section */}
+        {/* Text Block */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -115,7 +138,6 @@ export default function Hero() {
             </span>
           </p>
 
-          {/* CTAs */}
           <div className="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
             <button
               onClick={handleGetMatchedClick}
@@ -145,7 +167,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, ease: 'easeOut' }}
-          className="w-full max-w-md sm:max-w-lg flex justify-center items-center relative"
+          className="w-full max-w-md sm:max-w-lg flex justify-center items-center relative mt-[-20px] sm:mt-0"
           role="img"
           aria-label="Illustration of a patient receiving AI-assisted support"
         >
