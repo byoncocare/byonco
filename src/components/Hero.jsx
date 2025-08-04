@@ -35,7 +35,7 @@ export default function Hero() {
           aria-label="Open menu"
           onClick={() => setMenuOpen(true)}
         >
-          Menu ☰
+          ☰
         </button>
 
         {/* Desktop Navigation */}
@@ -75,7 +75,7 @@ export default function Hero() {
                 onClick={() => setMenuOpen(false)}
                 aria-label="Close menu"
               >
-                Close ×
+                ×
               </button>
             </div>
 
