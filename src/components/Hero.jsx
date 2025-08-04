@@ -26,7 +26,7 @@ export default function Hero() {
         <img
           src="/byonco-logo.svg"
           alt="ByOnco logo — AI-powered cancer care platform"
-          className="h-[40px] w-auto ml-4 mt-2 object-contain"
+          className="h-[20px] w-auto ml-4 mt-2 object-contain"
 
 
         />
