@@ -18,7 +18,7 @@ export default function Hero() {
     >
       {/* Header */}
     <header
-  className="flex items-center px-4 sm:px-6 md:px-16 py-4"
+  className="relative flex items-center justify-between px-4 sm:px-6 md:px-16 py-4"
   role="banner"
   aria-label="Main site navigation"
 >
@@ -28,9 +28,6 @@ export default function Hero() {
     alt="ByOnco logo — AI-powered cancer care platform"
     className="h-16 sm:h-24 w-auto object-contain"
   />
-
-  {/* Spacer to push nav and button to the right */}
-  <div className="flex-grow" />
 
   {/* Desktop Navigation */}
   <nav className="hidden md:flex space-x-8 text-sm text-gray-700 font-medium items-center">
@@ -48,7 +45,7 @@ export default function Hero() {
 
   {/* Mobile Menu Toggle (Only visible on small screens) */}
   <button
-    className="block md:hidden text-gray-800 text-2xl"
+    className="block md:hidden ml-auto text-gray-800 text-2xl"
     aria-label="Open menu"
     onClick={() => setMenuOpen(true)}
   >
