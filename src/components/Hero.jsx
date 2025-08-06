@@ -31,15 +31,6 @@ export default function Hero() {
 
         />
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="sm:hidden text-gray-800 text-xl"
-          aria-label="Open menu"
-          onClick={() => setMenuOpen(true)}
-        >
-          ☰
-        </button>
-
         {/* Desktop Navigation */}
         <nav className="hidden sm:flex space-x-6 text-sm text-gray-600 items-center">
           <a href="#how" className="hover:text-black">How it Works</a>
@@ -53,6 +44,15 @@ export default function Hero() {
             Join the Waitlist
           </button>
         </nav>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className="sm:hidden text-gray-800 text-xl"
+          aria-label="Open menu"
+          onClick={() => setMenuOpen(true)}
+        >
+          ☰
+        </button>
       </header>
 
       {/* Slide-In Mobile Menu */}
