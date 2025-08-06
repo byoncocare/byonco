@@ -17,7 +17,7 @@ export default function Hero() {
       role="main"
     >
       {/* Header */}
-      <header
+    <header
   className="relative flex items-center justify-between px-4 sm:px-6 md:px-16 py-4"
   role="banner"
   aria-label="Main site navigation"
@@ -43,15 +43,17 @@ export default function Hero() {
     </button>
   </nav>
 
-  {/* Mobile Menu Toggle */}
+  {/* Mobile Menu Toggle (Only visible on small screens) */}
   <button
-    className="md:hidden text-gray-800 text-xl"
+    className="block md:hidden ml-auto text-gray-800 text-2xl"
     aria-label="Open menu"
     onClick={() => setMenuOpen(true)}
   >
     ☰
   </button>
 </header>
+
+
 
 
       {/* Slide-In Mobile Menu */}
