@@ -70,7 +70,7 @@ export default function Hero() {
               <img
                 src="/byonco-logo.svg"
                 alt="ByOnco"
-                className="h-6 sm:h-8 md:h-10 w-auto"
+                className="h-[2px] sm:h-[4px] md:h-[6px] w-auto"
               />
               <button
                 className="text-xl text-gray-800"
