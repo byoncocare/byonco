@@ -63,7 +63,7 @@ export default function Hero() {
   animate={{ x: 0 }}
   exit={{ x: '100%' }}
   transition={{ duration: 0.3 }}
-  className="fixed top-0 right-0 w-full h-full z-50 bg-white/60 backdrop-blur-md shadow-xl px-6 py-6 flex flex-col"
+  className="sm:hidden fixed top-0 right-0 w-full h-full z-50 bg-white/60 backdrop-blur-md shadow-xl px-6 py-6 flex flex-col"
 >
   {/* Header (only close button now) */}
   <div className="flex items-center justify-end mb-6">
