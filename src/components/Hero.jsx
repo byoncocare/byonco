@@ -17,7 +17,7 @@ export default function Hero() {
       role="main"
     >
       {/* Header */}
-    <header
+  <header
   className="relative flex items-center justify-between px-4 sm:px-6 md:px-16 py-4"
   role="banner"
   aria-label="Main site navigation"
@@ -29,29 +29,33 @@ export default function Hero() {
     className="h-16 sm:h-24 w-auto object-contain"
   />
 
-  {/* Desktop Navigation */}
-  <nav className="hidden md:flex space-x-8 text-sm text-gray-700 font-medium items-center">
-    <a href="#how" className="hover:text-black">How it Works</a>
-    <a href="#features" className="hover:text-black">Features</a>
-    <a href="#about" className="hover:text-black">About</a>
-    <a href="#contact" className="hover:text-black">Contact</a>
-    <button
-      onClick={() => navigate('/join-waitlist')}
-      className="bg-black text-white px-6 py-2 rounded-full text-sm hover:bg-gray-900 transition"
-    >
-      Join the Waitlist
-    </button>
-  </nav>
+  {/* Right side: Nav (desktop) + Hamburger (mobile) */}
+  <div className="flex items-center gap-4 ml-auto">
+    {/* Desktop Navigation */}
+    <nav className="hidden md:flex space-x-8 text-sm text-gray-700 font-medium items-center">
+      <a href="#how" className="hover:text-black">How it Works</a>
+      <a href="#features" className="hover:text-black">Features</a>
+      <a href="#about" className="hover:text-black">About</a>
+      <a href="#contact" className="hover:text-black">Contact</a>
+      <button
+        onClick={() => navigate('/join-waitlist')}
+        className="bg-black text-white px-6 py-2 rounded-full text-sm hover:bg-gray-900 transition"
+      >
+        Join the Waitlist
+      </button>
+    </nav>
 
-  {/* Mobile Menu Toggle (Only visible on small screens) */}
-  <button
-    className="block md:hidden ml-auto text-gray-800 text-2xl"
-    aria-label="Open menu"
-    onClick={() => setMenuOpen(true)}
-  >
-    ☰
-  </button>
+    {/* Mobile Hamburger - only visible on small screens */}
+    <button
+      className="block md:hidden text-gray-800 text-2xl"
+      aria-label="Open menu"
+      onClick={() => setMenuOpen(true)}
+    >
+      ☰
+    </button>
+  </div>
 </header>
+
 
 
 
