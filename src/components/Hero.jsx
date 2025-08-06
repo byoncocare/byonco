@@ -59,52 +59,48 @@ export default function Hero() {
       <AnimatePresence>
   {menuOpen && (
     <motion.div
-      initial={{ x: '100%' }}
-      animate={{ x: 0 }}
-      exit={{ x: '100%' }}
-      transition={{ duration: 0.3 }}
-      className="fixed top-0 right-0 w-full h-full z-50 bg-white/60 backdrop-blur-md shadow-xl px-6 py-6 flex flex-col"
+  initial={{ x: '100%' }}
+  animate={{ x: 0 }}
+  exit={{ x: '100%' }}
+  transition={{ duration: 0.3 }}
+  className="fixed top-0 right-0 w-full h-full z-50 bg-white/60 backdrop-blur-md shadow-xl px-6 py-6 flex flex-col"
+>
+  {/* Header (only close button now) */}
+  <div className="flex items-center justify-end mb-6">
+    <button
+      className="text-xl text-gray-800"
+      onClick={() => setMenuOpen(false)}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <img
-          src="/byonco-logo.svg"
-          alt="ByOnco"
-          className="ml-2 mt-2 object-contain h-[28px] sm:h-[36px] md:h-[48px] lg:h-[60px] w-auto"
-        />
-        <button
-          className="text-xl text-gray-800"
-          onClick={() => setMenuOpen(false)}
-        >
-          ✕
-        </button>
-      </div>
+      ✕
+    </button>
+  </div>
 
-      {/* Links */}
-      <nav className="flex flex-col gap-6 text-lg font-medium text-gray-900 mb-8">
-        <a href="#how" onClick={() => setMenuOpen(false)}>How it Works</a>
-        <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
-        <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-        <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-      </nav>
+  {/* Navigation Links */}
+  <nav className="flex flex-col gap-6 text-lg font-medium text-gray-900 mb-8">
+    <a href="#how" onClick={() => setMenuOpen(false)}>How it Works</a>
+    <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
+    <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+    <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
+  </nav>
 
-      {/* CTA */}
-      <button
-        onClick={() => {
-          navigate('/join-waitlist');
-          setMenuOpen(false);
-        }}
-        className="bg-black text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-gray-900 transition"
-      >
-        Join the Waitlist
-      </button>
+  {/* CTA Button */}
+  <button
+    onClick={() => {
+      navigate('/join-waitlist');
+      setMenuOpen(false);
+    }}
+    className="bg-black text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-gray-900 transition"
+  >
+    Join the Waitlist
+  </button>
 
-      {/* Social Links with spacing */}
-      <div className="mt-10 flex gap-6 text-sm text-gray-600 underline underline-offset-2">
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
-      </div>
-    </motion.div>
+  {/* Social Links */}
+  <div className="mt-10 flex gap-6 text-sm text-gray-600 underline underline-offset-2">
+    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+  </div>
+</motion.div>
+
   )}
 </AnimatePresence>
 
