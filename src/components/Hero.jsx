@@ -26,7 +26,7 @@ export default function Hero() {
         <img
           src="/byonco-logo.svg"
           alt="ByOnco logo — AI-powered cancer care platform"
-          className="h-7 sm:h-8 md:h-10"
+          className="ml-2 mt-2 object-contain h-[28px] sm:h-[36px] md:h-[48px] lg:h-[60px] w-auto"
 
 
         />
@@ -70,7 +70,7 @@ export default function Hero() {
               <img
                 src="/byonco-logo.svg"
                 alt="ByOnco"
-                className="h-10 w-auto"
+                className="h-6 sm:h-8 md:h-10 w-auto"
               />
               <button
                 className="text-xl text-gray-800"
