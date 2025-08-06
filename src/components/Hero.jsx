@@ -67,10 +67,10 @@ export default function Hero() {
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
-              <img
-                src="/byonco-logo.svg"
-                alt="ByOnco"
-                className="h-[24px] sm:h-[34px] md:h-[38px] lg:h-[42px] w-auto"
+              // <img
+              //  src="/byonco-logo.svg"
+               // alt="ByOnco"
+               // className="h-[24px] sm:h-[34px] md:h-[38px] lg:h-[42px] w-auto"
               />
               <button
                 className="text-xl text-gray-800"
