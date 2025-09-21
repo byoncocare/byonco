@@ -1,7 +1,7 @@
 // src/App.js
 import './styles/globals.css';
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Sections
@@ -25,8 +25,9 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsAndConditions from './pages/TermsAndConditions';
 import Careers from './pages/Careers';
 import GetStarted from './pages/GetStarted';
-import GetMatched from './pages/GetMatched';
 import JoinWaitlist from './pages/JoinWaitlist';
+import ByOncoX from "./pages/ByOnco-x";
+import GetMatched from './pages/GetMatched'; // ✅ added
 
 function HomePage() {
   return (
@@ -62,20 +63,25 @@ function App() {
           <Route
             path="/get-started"
             element={
-              <motion.div className="min-h-screen bg-white text-gray-900"
+              <motion.div
+                className="min-h-screen bg-white text-gray-900"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}>
+                transition={{ duration: 0.4 }}
+              >
                 <GetStarted />
               </motion.div>
             }
           />
 
+          {/* ✅ Updated: /get-matched now renders the AI page instead of redirecting */}
           <Route
             path="/get-matched"
             element={
-              <motion.div className="min-h-screen"
+              <motion.div
+                className="min-h-screen"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}>
+                transition={{ duration: 0.4 }}
+              >
                 <GetMatched />
               </motion.div>
             }
@@ -84,9 +90,11 @@ function App() {
           <Route
             path="/join-waitlist"
             element={
-              <motion.div className="min-h-screen bg-[#f8f8ff]"
+              <motion.div
+                className="min-h-screen bg-[#f8f8ff]"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}>
+                transition={{ duration: 0.4 }}
+              >
                 <JoinWaitlist />
               </motion.div>
             }
@@ -95,9 +103,11 @@ function App() {
           <Route
             path="/careers"
             element={
-              <motion.div className="min-h-screen bg-[#fdfdfc]"
+              <motion.div
+                className="min-h-screen bg-[#fdfdfc]"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}>
+                transition={{ duration: 0.4 }}
+              >
                 <Careers />
               </motion.div>
             }
@@ -106,9 +116,11 @@ function App() {
           <Route
             path="/terms-and-conditions"
             element={
-              <motion.div className="min-h-screen bg-[#fdfdfc]"
+              <motion.div
+                className="min-h-screen bg-[#fdfdfc]"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}>
+                transition={{ duration: 0.4 }}
+              >
                 <TermsAndConditions />
               </motion.div>
             }
@@ -117,9 +129,11 @@ function App() {
           <Route
             path="/privacy"
             element={
-              <motion.div className="min-h-screen bg-[#fdfdfc]"
+              <motion.div
+                className="min-h-screen bg-[#fdfdfc]"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}>
+                transition={{ duration: 0.4 }}
+              >
                 <PrivacyPolicy />
               </motion.div>
             }
@@ -128,9 +142,11 @@ function App() {
           <Route
             path="/security"
             element={
-              <motion.div className="min-h-screen bg-[#fdfdfc]"
+              <motion.div
+                className="min-h-screen bg-[#fdfdfc]"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}>
+                transition={{ duration: 0.4 }}
+              >
                 <Security />
               </motion.div>
             }
@@ -139,12 +155,19 @@ function App() {
           <Route
             path="/pro-waitlist"
             element={
-              <motion.div className="min-h-screen bg-[#f8f8ff]"
+              <motion.div
+                className="min-h-screen bg-[#f8f8ff]"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}>
+                transition={{ duration: 0.4 }}
+              >
                 <ByOncoProWaitlist />
               </motion.div>
             }
+          />
+
+          <Route
+            path="/products/byonco-x"
+            element={<ByOncoX />}
           />
 
           {/* Optional fallback */}
