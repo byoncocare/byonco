@@ -8,7 +8,7 @@ export default function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleGetMatchedClick = () => {
-    navigate('/get-matched');
+    navigate("/products/byonco-x");
   };
 
   return (
