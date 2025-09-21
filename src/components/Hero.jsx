@@ -7,8 +7,9 @@ export default function Hero() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // ✅ Route fixed: send users to /get-matched
   const handleGetMatchedClick = () => {
-    navigate("/products/byonco-x");
+    navigate('/get-matched');
   };
 
   return (
@@ -17,98 +18,92 @@ export default function Hero() {
       role="main"
     >
       {/* Header */}
-  <header
-  className="relative flex items-center justify-between px-4 sm:px-6 md:px-16 py-4"
-  role="banner"
-  aria-label="Main site navigation"
->
-  {/* Logo */}
-  <img
-    src="/byonco-logo.svg"
-    alt="ByOnco logo — AI-powered cancer care platform"
-    className="h-16 sm:h-24 w-auto object-contain"
-  />
-
-  {/* Right side: Nav (desktop) + Hamburger (mobile) */}
-  <div className="flex items-center gap-4 ml-auto">
-    {/* Desktop Navigation */}
-    <nav className="hidden md:flex space-x-8 text-sm text-gray-700 font-medium items-center">
-      <a href="#how" className="hover:text-black">How it Works</a>
-      <a href="#features" className="hover:text-black">Features</a>
-      <a href="#about" className="hover:text-black">About</a>
-      <a href="#contact" className="hover:text-black">Contact</a>
-      <button
-        onClick={() => navigate('/join-waitlist')}
-        className="bg-black text-white px-6 py-2 rounded-full text-sm hover:bg-gray-900 transition"
+      <header
+        className="relative flex items-center justify-between px-4 sm:px-6 md:px-16 py-4"
+        role="banner"
+        aria-label="Main site navigation"
       >
-        Join the Waitlist
-      </button>
-    </nav>
+        {/* Logo */}
+        <img
+          src="/byonco-logo.svg"
+          alt="ByOnco logo — AI-powered cancer care platform"
+          className="h-16 sm:h-24 w-auto object-contain"
+        />
 
-    {/* Mobile Hamburger - only visible on small screens */}
-    <button
-      className="block md:hidden text-gray-800 text-2xl"
-      aria-label="Open menu"
-      onClick={() => setMenuOpen(true)}
-    >
-      ☰
-    </button>
-  </div>
-</header>
+        {/* Right side: Nav (desktop) + Hamburger (mobile) */}
+        <div className="flex items-center gap-4 ml-auto">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-8 text-sm text-gray-700 font-medium items-center">
+            <a href="#how" className="hover:text-black">How it Works</a>
+            <a href="#features" className="hover:text-black">Features</a>
+            <a href="#about" className="hover:text-black">About</a>
+            <a href="#contact" className="hover:text-black">Contact</a>
+            <button
+              onClick={() => navigate('/join-waitlist')}
+              className="bg-black text-white px-6 py-2 rounded-full text-sm hover:bg-gray-900 transition"
+            >
+              Join the Waitlist
+            </button>
+          </nav>
 
-
-
-
+          {/* Mobile Hamburger - only visible on small screens */}
+          <button
+            className="block md:hidden text-gray-800 text-2xl"
+            aria-label="Open menu"
+            onClick={() => setMenuOpen(true)}
+          >
+            ☰
+          </button>
+        </div>
+      </header>
 
       {/* Slide-In Mobile Menu */}
       <AnimatePresence>
-  {menuOpen && (
-    <motion.div
-  initial={{ x: '100%' }}
-  animate={{ x: 0 }}
-  exit={{ x: '100%' }}
-  transition={{ duration: 0.3 }}
-  className="sm:hidden fixed top-0 right-0 w-full h-full z-50 bg-white/60 backdrop-blur-md shadow-xl px-6 py-6 flex flex-col"
->
-  {/* Header (only close button now) */}
-  <div className="flex items-center justify-end mb-6">
-    <button
-      className="text-xl text-gray-800"
-      onClick={() => setMenuOpen(false)}
-    >
-      ✕
-    </button>
-  </div>
+        {menuOpen && (
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.3 }}
+            className="sm:hidden fixed top-0 right-0 w-full h-full z-50 bg-white/60 backdrop-blur-md shadow-xl px-6 py-6 flex flex-col"
+          >
+            {/* Header (only close button now) */}
+            <div className="flex items-center justify-end mb-6">
+              <button
+                className="text-xl text-gray-800"
+                onClick={() => setMenuOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
 
-  {/* Navigation Links */}
-  <nav className="flex flex-col gap-6 text-lg font-medium text-gray-900 mb-8">
-    <a href="#how" onClick={() => setMenuOpen(false)}>How it Works</a>
-    <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
-    <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-    <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-  </nav>
+            {/* Navigation Links */}
+            <nav className="flex flex-col gap-6 text-lg font-medium text-gray-900 mb-8">
+              <a href="#how" onClick={() => setMenuOpen(false)}>How it Works</a>
+              <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
+              <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+              <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
+            </nav>
 
-  {/* CTA Button */}
-  <button
-    onClick={() => {
-      navigate('/join-waitlist');
-      setMenuOpen(false);
-    }}
-    className="bg-black text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-gray-900 transition"
-  >
-    Join the Waitlist
-  </button>
+            {/* CTA Button */}
+            <button
+              onClick={() => {
+                navigate('/join-waitlist');
+                setMenuOpen(false);
+              }}
+              className="bg-black text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-gray-900 transition"
+            >
+              Join the Waitlist
+            </button>
 
-  {/* Social Links */}
-  <div className="mt-10 flex gap-6 text-sm text-gray-600 underline underline-offset-2">
-    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
-  </div>
-</motion.div>
-
-  )}
-</AnimatePresence>
-
+            {/* Social Links */}
+            <div className="mt-10 flex gap-6 text-sm text-gray-600 underline underline-offset-2">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Hero Section */}
       <section
