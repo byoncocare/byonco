@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/ask", "destination": "https://byonco-fastapi-backend.onrender.com/api/ask" }
+    { "source": "/api/ask", "destination": "https://byonco-fastapi-backend.onrender.com/api/ask" },
+    { "source": "/api/auth/dev-token", "destination": "https://byonco-fastapi-backend.onrender.com/auth/dev-token" }
   ]
 }
