@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 
 export default function Careers() {
   return (
@@ -27,16 +26,29 @@ export default function Careers() {
         </p>
 
         <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mb-8">
-          While we currently don’t have any open positions, we’re always excited to connect with passionate, talented individuals.
+          While we currently don’t have any open positions, we’re always excited
+          to connect with passionate, talented individuals.
         </p>
 
-        {/* Apply Button */}
-        <Link
-          to="/get-started"
-          className="inline-block bg-black text-white px-6 py-2 rounded-lg font-medium text-sm hover:bg-gray-800 transition"
-        >
-          Apply
-        </Link>
+        {/* Connection note instead of button */}
+        <div className="text-sm text-gray-500">
+          Stay updated on future opportunities by following us on{' '}
+          <a
+            href="https://www.linkedin.com/company/byonco"
+            target="_blank"
+            rel="noreferrer"
+            className="text-blue-600 underline hover:text-blue-800"
+          >
+            LinkedIn
+          </a>{' '}
+          or reach out at{' '}
+          <a
+            href="mailto:careers@byoncocare.com"
+            className="text-blue-600 underline hover:text-blue-800"
+          >
+            careers@byoncocare.com
+          </a>.
+        </div>
       </motion.div>
     </main>
   );
