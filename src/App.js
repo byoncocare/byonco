@@ -43,7 +43,7 @@ import ReturnsVayu from "./products/vayu/pages/ReturnsVayu";
 import ShippingInfoVayu from "./products/vayu/pages/ShippingInfoVayu";
 
 // 🔹 Lazy-load Vayu product page (smaller initial bundle)
-const VayuX = lazy(() => import("./products/vayu/pages/VayuX"));
+const VayuX = lazy(() => import("./pages/VayuX"));
 
 /* -------------------------------------------------------
    Global hash scroller: works WITHOUT editing Vayu page.
