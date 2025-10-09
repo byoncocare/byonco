@@ -43,10 +43,10 @@ export default function Careers() {
           </a>{' '}
           or reach out at{' '}
           <a
-            href="mailto:careers@byoncocare.com"
+            href="mailto:contact@byoncocare.com"
             className="text-blue-600 underline hover:text-blue-800"
           >
-            careers@byoncocare.com
+            contact@byoncocare.com
           </a>.
         </div>
       </motion.div>

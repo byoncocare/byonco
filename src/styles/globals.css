@@ -1,17 +1,132 @@
+/* ===========================
+   Global base (safe + minimal)
+   =========================== */
+
+/* Local Satoshi (kept from your file) */
 @font-face {
-  font-family: 'Satoshi';
-  src: url('../assets/fonts/Satoshi-Regular.woff2') format('woff2');
-  font-weight: normal;
+  font-family: "Satoshi";
+  src: url("../assets/fonts/Satoshi-Regular.woff2") format("woff2");
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
-/* Optional reset */
-* {
+/* Note:
+   Inter (400/500/600/700/800) is linked in public/index.html.
+   We reference it below as the first-choice family. */
+
+/* Reset (scoped, predictable) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+}
+
+/* Better font rendering + sane defaults */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  height: 100%;
 }
 
 body {
-  font-family: 'Satoshi', sans-serif;
+  /* Inter first (from index.html), then your Satoshi, then system */
+  font-family: "Inter", "Satoshi", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Let Tailwind control colors via classes; no hard background here */
+  background-color: transparent;
+  color: inherit;
+
+  min-height: 100%;
+}
+
+/* === Page shell for Vayu and other marketing pages ===
+   Add className="page-shell" to the root wrapper of a page to get a clean,
+   consistent base look (neutral bg, antialiased text). */
+.page-shell {
+  background-color: #fafafa; /* roughly Tailwind neutral-50 */
+  color: #0f172a;            /* roughly Tailwind slate-900 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Media defaults */
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  max-width: 100%;
+}
+
+/* Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Focus visibility (plays well with Tailwind ring utilities) */
+:focus-visible {
+  outline: 2px solid #3b82f6; /* Tailwind blue-500 */
+  outline-offset: 2px;
+}
+
+/* Optional selection styling (subtle, accessible) */
+::selection {
+  background: rgba(59, 130, 246, 0.18); /* blue-500 @ ~18% */
+}
+
+/* Helper container WITHOUT conflicting with Tailwind's .container */
+.site-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 72rem; /* ~1152px, similar to your layouts */
+}
+
+/* Hide visually but keep accessible to screen readers */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Auto dark-mode polish for system dark users (keeps Tailwind in control) */
+@media (prefers-color-scheme: dark) {
+  .page-shell {
+    background-color: #0b1220; /* close to slate-950 */
+    color: #e5e7eb;            /* slate-200 */
+  }
 }
