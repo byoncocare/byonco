@@ -11,7 +11,7 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
   const [prefs, setPrefs] = useState(DEFAULTS);
   const [settings, setSettings] = useState(false);
 
-  // --- init + migrate old flag ---
+  // Init + migrate old single-flag key
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(LS_KEY));
@@ -20,16 +20,14 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
         applyConsent(saved);
         return;
       }
-      // migrate legacy "cookieConsent" ('accepted' | 'declined')
-      const legacy = localStorage.getItem("cookieConsent");
-      if (legacy === "accepted") {
-        const migrated = { essential: true, analytics: true, marketing: true, time: Date.now() };
-        localStorage.setItem(LS_KEY, JSON.stringify(migrated));
-        setPrefs(migrated);
-        applyConsent(migrated);
-        setOpen(false);
-      } else if (legacy === "declined") {
-        const migrated = { essential: true, analytics: false, marketing: false, time: Date.now() };
+      const legacy = localStorage.getItem("cookieConsent"); // 'accepted' | 'declined'
+      if (legacy === "accepted" || legacy === "declined") {
+        const migrated = {
+          essential: true,
+          analytics: legacy === "accepted",
+          marketing: legacy === "accepted",
+          time: Date.now(),
+        };
         localStorage.setItem(LS_KEY, JSON.stringify(migrated));
         setPrefs(migrated);
         applyConsent(migrated);
@@ -48,12 +46,13 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
     applyConsent(payload);
   };
 
-  // Load/disable vendors based on consent (GA optional via env)
+  // Enable/disable vendors based on consent (Google Analytics optional)
   const applyConsent = (c) => {
-    const GA = import.meta.env.VITE_GA_ID_BYONCO; // set in Vercel env
+    const GA = import.meta.env.VITE_GA_ID_BYONCO; // set in Vercel
     const existing = document.getElementById("ga-script");
     if (existing) existing.remove();
 
+    // Only attach GA when analytics is allowed
     if (c.analytics && GA) {
       const s = document.createElement("script");
       s.id = "ga-script";
@@ -68,7 +67,7 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${GA}', { anonymize_ip: true });
-        `)
+        `),
       );
       document.head.appendChild(init);
     }
@@ -76,13 +75,22 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
 
   const acceptAll = () => {
     const n = { essential: true, analytics: true, marketing: true };
-    setPrefs(n); save(n); setOpen(false);
+    setPrefs(n);
+    save(n);
+    setOpen(false);
   };
+
   const rejectAll = () => {
     const n = { essential: true, analytics: false, marketing: false };
-    setPrefs(n); save(n); setOpen(false);
+    setPrefs(n);
+    save(n);
+    setOpen(false);
   };
-  const saveChoices = () => { save(prefs); setOpen(false); };
+
+  const saveChoices = () => {
+    save(prefs);
+    setOpen(false);
+  };
 
   if (!open) return null;
 
@@ -93,14 +101,22 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="fixed inset-x-0 bottom-0 z-[100] p-4 sm:p-6"
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="fixed inset-x-0 bottom-0 z-[9999] p-4 sm:p-6 pointer-events-none"
+          aria-live="polite"
         >
-          <div className={`mx-auto max-w-4xl rounded-2xl shadow-xl border border-white/10 ${brandClass}`}>
+          {/* Card */}
+          <div
+            className={`mx-auto max-w-4xl rounded-2xl shadow-xl border border-white/10 ${brandClass} pointer-events-auto`}
+            role="dialog"
+            aria-labelledby="cookie-title"
+          >
             {!settings ? (
               <div className="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:items-center">
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold">We use cookies</h3>
+                  <h3 id="cookie-title" className="text-lg font-semibold">
+                    We use cookies
+                  </h3>
                   <p className="text-sm opacity-90">
                     Essential cookies run the site. Optional analytics help us improve. Manage choices anytime in Cookie
                     Settings. See our{" "}
@@ -110,20 +126,27 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
                     and{" "}
                     <a href="/cookies" className="underline">
                       Cookie Policy
-                    </a>.
+                    </a>
+                    .
                   </p>
                 </div>
                 <div className="flex gap-2 sm:justify-end">
                   <button
+                    type="button"
                     onClick={() => setSettings(true)}
                     className="px-4 py-2 rounded-lg border border-white/20 hover:bg-white/10"
                   >
                     Settings
                   </button>
-                  <button onClick={rejectAll} className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20">
+                  <button
+                    type="button"
+                    onClick={rejectAll}
+                    className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20"
+                  >
                     Decline
                   </button>
                   <button
+                    type="button"
                     onClick={acceptAll}
                     className="px-4 py-2 rounded-lg bg-[#FFB457] text-black font-semibold hover:opacity-90"
                   >
@@ -151,12 +174,14 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
                 </div>
                 <div className="mt-6 flex gap-2 justify-end">
                   <button
+                    type="button"
                     onClick={() => setSettings(false)}
                     className="px-4 py-2 rounded-lg border border-white/20 hover:bg-white/10"
                   >
                     Back
                   </button>
                   <button
+                    type="button"
                     onClick={saveChoices}
                     className="px-4 py-2 rounded-lg bg-[#FFB457] text-black font-semibold hover:opacity-90"
                   >
