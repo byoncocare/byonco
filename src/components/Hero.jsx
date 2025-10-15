@@ -34,6 +34,14 @@ export default function Hero() {
         <div className="flex items-center gap-4 ml-auto">
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 text-sm text-gray-700 font-medium items-center">
+            {/* NEW: Products link */}
+            <button
+              onClick={() => navigate('/product/vayu')}
+              className="hover:text-black"
+            >
+              Products
+            </button>
+
             <a href="#how" className="hover:text-black">How it Works</a>
             <a href="#features" className="hover:text-black">Features</a>
             <a href="#about" className="hover:text-black">About</a>
@@ -79,6 +87,14 @@ export default function Hero() {
 
             {/* Navigation Links */}
             <nav className="flex flex-col gap-6 text-lg font-medium text-gray-900 mb-8">
+              {/* NEW: Products link */}
+              <button
+                onClick={() => { navigate('/product/vayu'); setMenuOpen(false); }}
+                className="text-left"
+              >
+                Products
+              </button>
+
               <a href="#how" onClick={() => setMenuOpen(false)}>How it Works</a>
               <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
               <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
