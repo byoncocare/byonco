@@ -1,0 +1,100 @@
+/* src/styles/marketing.css
+   Minimal, safe “site-wide polish” used by the home page (and can be used elsewhere).
+   It won’t override component styles aggressively; it just improves defaults. */
+
+/* Page shell look & feel */
+.page-shell.page-shell--marketing {
+  --mk-body-bg: #fbfbfa;
+  --mk-card-bg: #ffffff;
+  --mk-card-ring: rgba(2, 6, 23, 0.06);
+  --mk-shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 1px 1px rgba(0,0,0,.03);
+  --mk-shadow-md: 0 8px 20px rgba(2, 6, 23, 0.06);
+  --mk-accent: 37 99 235; /* blue-600 */
+  --mk-ink: 17 24 39;     /* gray-900 */
+
+  background:
+    radial-gradient(1200px 800px at 10% -10%, rgba(99,102,241,.08), transparent 50%),
+    radial-gradient(1200px 800px at 110% -10%, rgba(37,99,235,.06), transparent 50%),
+    var(--mk-body-bg);
+  color: rgb(var(--mk-ink));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Section container + rhythm — applied when you wrap blocks with .mk-section */
+.mk-section {
+  padding: clamp(3.5rem, 6vw, 6rem) 0;
+}
+
+/* Centered content container */
+.mk-container {
+  max-width: 1120px; /* ~max-w-5xl/6xl */
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/* Headings */
+.mk-eyebrow {
+  display: inline-block;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgb(75 85 99);
+}
+
+.mk-title {
+  margin-top: .5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.875rem, 2.4vw + 1rem, 3rem); /* 3xl → 5xl-ish */
+}
+
+/* Gentle subheading */
+.mk-subtitle {
+  margin-top: 1rem;
+  color: rgb(75 85 99);
+  font-size: clamp(1.05rem, 1.2vw + .8rem, 1.25rem);
+}
+
+/* Card polish (non-invasive) */
+.mk-card {
+  background: var(--mk-card-bg);
+  border-radius: 16px;
+  box-shadow: var(--mk-shadow-sm);
+  border: 1px solid rgba(2, 6, 23, 0.06);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.mk-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mk-shadow-md);
+  border-color: rgba(2, 6, 23, 0.08);
+}
+
+/* CTA button look if a plain button is present */
+.mk-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .875rem 1.25rem;
+  border-radius: .75rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgb(var(--mk-accent));
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 6px 20px rgba(37,99,235,.25);
+}
+.mk-cta:hover { transform: translateY(-1px); }
+.mk-cta:active { transform: translateY(0); }
+
+/* Reveal-on-scroll (CSS-only; toggled by a tiny hook below) */
+.mk-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.mk-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

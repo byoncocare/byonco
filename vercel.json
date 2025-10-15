@@ -1,6 +1,17 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
+
   "rewrites": [
     { "source": "/api/ask", "destination": "https://byonco-fastapi-backend.onrender.com/api/ask" },
-    { "source": "/api/auth/dev-token", "destination": "https://byonco-fastapi-backend.onrender.com/auth/dev-token" }
+    { "source": "/api/auth/dev-token", "destination": "https://byonco-fastapi-backend.onrender.com/auth/dev-token" },
+
+    { "source": "/products/vayu", "destination": "/" },
+    { "source": "/products/vayu/:path*", "destination": "/" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+
+  "redirects": [
+    { "source": "/products/byonco-x", "destination": "/products/vayu", "permanent": true }
   ]
 }

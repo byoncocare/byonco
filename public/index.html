@@ -17,16 +17,29 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <!-- Open Graph Tags (used by LinkedIn, Facebook, WhatsApp) -->
+    <!-- Open Graph (Facebook/LinkedIn/WhatsApp) -->
     <meta property="og:title" content="ByOnco — AI-Powered Cancer Care" />
-    <meta property="og:description" content="Find the best cancer hospitals in India — matched by urgency, budget, insurance, and more. Trusted by doctors, designed for families." />
+    <meta
+      property="og:description"
+      content="Find the best cancer hospitals in India — matched by urgency, budget, insurance, and more. Trusted by doctors, designed for families."
+    />
     <meta property="og:image" content="%PUBLIC_URL%/preview.png" />
     <meta property="og:url" content="https://www.byoncocare.com" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="ByOnco" />
 
-    <!-- Optional: LinkedIn-specific image fallback -->
+    <!-- Optional: generic image fallback -->
     <meta name="image" content="%PUBLIC_URL%/preview.png" />
+
+    <!-- Performance: preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Inter font (weights used by Vayu page for crisp typography) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
