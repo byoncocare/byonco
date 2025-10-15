@@ -11,26 +11,15 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
   const [prefs, setPrefs] = useState(DEFAULTS);
   const [settings, setSettings] = useState(false);
 
-  // ---- init + migrate old single-flag key ----
+  // Init + migrate old single-flag key
   useEffect(() => {
     try {
-      // guard against SSR or blocked storage
-      if (typeof window === "undefined" || !window.localStorage) {
-        setOpen(true);
-        return;
-      }
-
-      const savedRaw = localStorage.getItem(LS_KEY);
-      if (savedRaw) {
-        const saved = JSON.parse(savedRaw);
+      const saved = JSON.parse(localStorage.getItem(LS_KEY));
+      if (saved) {
         setPrefs(saved);
         applyConsent(saved);
-        // already decided -> do not reopen
-        setOpen(false);
-        return;
+        return; // already decided; no banner
       }
-
-      // migrate legacy flag if present
       const legacy = localStorage.getItem("cookieConsent"); // 'accepted' | 'declined'
       if (legacy === "accepted" || legacy === "declined") {
         const migrated = {
@@ -44,95 +33,89 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
         applyConsent(migrated);
         setOpen(false);
       } else {
-        // first visit
-        setOpen(true);
+        setOpen(true); // first visit
       }
     } catch {
-      // if anything throws, show banner so user can choose
       setOpen(true);
     }
   }, []);
 
-  const save = (next) => {
+  // ---- helper: SAFE GA env read (no reserved-word checks, works in Vite/CRA/Next) ----
+  const getGAId = () => {
+    let viteGA;
     try {
-      const payload = { ...next, time: Date.now() };
+      // Optional chaining on import.meta can still throw in some toolchains, so guard with try/catch
+      viteGA = import.meta?.env?.VITE_GA_ID_BYONCO;
+    } catch (_) {
+      viteGA = undefined;
+    }
+    const nodeGA =
+      typeof process !== "undefined" &&
+      typeof process.env !== "undefined" &&
+      process.env.VITE_GA_ID_BYONCO
+        ? process.env.VITE_GA_ID_BYONCO
+        : undefined;
+    return viteGA || nodeGA;
+  };
+
+  const save = (next) => {
+    const payload = { ...next, time: Date.now() };
+    try {
       localStorage.setItem(LS_KEY, JSON.stringify(payload));
-      // write a tiny debug marker on <html> (helps verify in DevTools)
-      document.documentElement.setAttribute(
-        "data-cookie-consent",
-        next.analytics || next.marketing ? "accepted" : "declined"
-      );
+    } catch {}
+    try {
       applyConsent(payload);
     } catch {
-      // even if storage fails, at least try to apply
-      applyConsent(next);
+      // Never let GA/script errors block closing the banner
     }
   };
 
   // Enable/disable vendors based on consent (Google Analytics optional)
   const applyConsent = (c) => {
-    try {
-      // support both Vite and non-Vite builds safely
-      const GA =
-        (typeof import !== "undefined" &&
-          typeof import.meta !== "undefined" &&
-          import.meta.env &&
-          import.meta.env.VITE_GA_ID_BYONCO) ||
-        process.env?.VITE_GA_ID_BYONCO;
+    const GA = getGAId(); // safe
+    const existing = document.getElementById("ga-script");
+    if (existing) existing.remove();
 
-      // remove any prior GA script
-      const existing = document.getElementById("ga-script");
-      if (existing?.parentNode) existing.parentNode.removeChild(existing);
+    // Only attach GA when analytics is allowed AND ID exists
+    if (c.analytics && GA) {
+      const s = document.createElement("script");
+      s.id = "ga-script";
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`;
+      document.head.appendChild(s);
 
-      // only attach GA when analytics is allowed AND id exists
-      if (c.analytics && GA) {
-        const s = document.createElement("script");
-        s.id = "ga-script";
-        s.async = true;
-        s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`;
-        document.head.appendChild(s);
-
-        const init = document.createElement("script");
-        init.type = "text/javascript";
-        init.appendChild(
-          document.createTextNode(`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA}', { anonymize_ip: true });
-          `)
-        );
-        document.head.appendChild(init);
-      }
-    } catch {
-      // swallow errors so they don't block button close behavior
+      const init = document.createElement("script");
+      init.appendChild(
+        document.createTextNode(`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA}', { anonymize_ip: true });
+        `)
+      );
+      document.head.appendChild(init);
     }
   };
 
-  // ---- actions ----
   const acceptAll = () => {
     const n = { essential: true, analytics: true, marketing: true };
     setPrefs(n);
-    save(n);
-    setSettings(false);
-    setOpen(false);
+    save(n);          // persist + (maybe) init GA
+    setOpen(false);   // close banner no matter what
   };
 
   const rejectAll = () => {
     const n = { essential: true, analytics: false, marketing: false };
     setPrefs(n);
     save(n);
-    setSettings(false);
     setOpen(false);
   };
 
   const saveChoices = () => {
     save(prefs);
-    setSettings(false);
     setOpen(false);
   };
 
-  // if already decided, render nothing
   if (!open) return null;
 
   return (
@@ -143,10 +126,10 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="fixed inset-x-0 bottom-0 z-[99999] p-4 sm:p-6 pointer-events-none"
+          className="fixed inset-x-0 bottom-0 z-[9999] p-4 sm:p-6 pointer-events-none"
           aria-live="polite"
         >
-          {/* Card (accept clicks) */}
+          {/* Card */}
           <div
             className={`mx-auto max-w-4xl rounded-2xl shadow-xl border border-white/10 ${brandClass} pointer-events-auto`}
             role="dialog"
