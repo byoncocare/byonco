@@ -18,7 +18,7 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
       if (saved) {
         setPrefs(saved);
         applyConsent(saved);
-        return;
+        return; // already decided; no banner
       }
       const legacy = localStorage.getItem("cookieConsent"); // 'accepted' | 'declined'
       if (legacy === "accepted" || legacy === "declined") {
@@ -33,26 +33,50 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
         applyConsent(migrated);
         setOpen(false);
       } else {
-        setOpen(true);
+        setOpen(true); // first visit
       }
     } catch {
       setOpen(true);
     }
   }, []);
 
+  // ---- helper: SAFE GA env read (no reserved-word checks, works in Vite/CRA/Next) ----
+  const getGAId = () => {
+    let viteGA;
+    try {
+      // Optional chaining on import.meta can still throw in some toolchains, so guard with try/catch
+      viteGA = import.meta?.env?.VITE_GA_ID_BYONCO;
+    } catch (_) {
+      viteGA = undefined;
+    }
+    const nodeGA =
+      typeof process !== "undefined" &&
+      typeof process.env !== "undefined" &&
+      process.env.VITE_GA_ID_BYONCO
+        ? process.env.VITE_GA_ID_BYONCO
+        : undefined;
+    return viteGA || nodeGA;
+  };
+
   const save = (next) => {
     const payload = { ...next, time: Date.now() };
-    localStorage.setItem(LS_KEY, JSON.stringify(payload));
-    applyConsent(payload);
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(payload));
+    } catch {}
+    try {
+      applyConsent(payload);
+    } catch {
+      // Never let GA/script errors block closing the banner
+    }
   };
 
   // Enable/disable vendors based on consent (Google Analytics optional)
   const applyConsent = (c) => {
-    const GA = import.meta.env.VITE_GA_ID_BYONCO; // set in Vercel
+    const GA = getGAId(); // safe
     const existing = document.getElementById("ga-script");
     if (existing) existing.remove();
 
-    // Only attach GA when analytics is allowed
+    // Only attach GA when analytics is allowed AND ID exists
     if (c.analytics && GA) {
       const s = document.createElement("script");
       s.id = "ga-script";
@@ -67,7 +91,7 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${GA}', { anonymize_ip: true });
-        `),
+        `)
       );
       document.head.appendChild(init);
     }
@@ -76,8 +100,8 @@ export default function CookieConsent({ brandClass = "bg-[#22242A] text-white" }
   const acceptAll = () => {
     const n = { essential: true, analytics: true, marketing: true };
     setPrefs(n);
-    save(n);
-    setOpen(false);
+    save(n);          // persist + (maybe) init GA
+    setOpen(false);   // close banner no matter what
   };
 
   const rejectAll = () => {
