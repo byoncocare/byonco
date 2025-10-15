@@ -2,7 +2,7 @@
 import "./index.css"; // single entry: tailwind + globals + marketing + vayu polish
 
 import React, { Suspense, lazy, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Sections (home page)
@@ -50,13 +50,18 @@ const VayuX = lazy(() => import("./pages/VayuX"));
    - looks for element by id (essential|medpro|legaledge)
    - if not found, falls back to heading text detection
    - adds header offset and smooth scroll
+
+   Supports both /products/vayu and /product/vayu.
 ------------------------------------------------------- */
 function HashScroller({ offset = 96 }) {
   const location = useLocation();
 
   useEffect(() => {
     const { pathname, hash } = location;
-    if (!hash || pathname !== "/products/vayu") return;
+    if (!hash) return;
+
+    const vayuPaths = ["/products/vayu", "/product/vayu"];
+    if (!vayuPaths.includes(pathname)) return;
 
     const wanted = hash.slice(1); // "essential" | "medpro" | "legaledge"
 
@@ -91,7 +96,6 @@ function HashScroller({ offset = 96 }) {
       }
     };
 
-    // Delay a tick so lazy/motion content is mounted
     const t = setTimeout(tryScroll, 80);
     return () => clearTimeout(t);
   }, [location, offset]);
@@ -265,6 +269,10 @@ export default function App() {
             {/* 🔹 Vayu product page (and preorder subroute) */}
             <Route path="/products/vayu" element={<VayuX />} />
             <Route path="/products/vayu/preorder" element={<VayuX />} />
+
+            {/* ✅ Normalize short path → full path to avoid blank page */}
+            <Route path="/product/vayu" element={<Navigate to="/products/vayu" replace />} />
+            <Route path="/product" element={<Navigate to="/products/vayu" replace />} />
 
             {/* 🔹 Vayu legal pages (separate from main ByOnco legal) */}
             <Route

@@ -36,6 +36,14 @@ export default function Footer() {
             </a>
           </div>
           <div className="text-sm text-gray-300 space-x-3">
+            {/* NEW: Products link */}
+            <a
+              href="/product/vayu"
+              className="hover:text-white underline-offset-2 hover:underline transition"
+            >
+              Products: Vayu
+            </a>
+            <span>·</span>
             <a
               href="/privacy"
               className="hover:text-white underline-offset-2 hover:underline transition"
