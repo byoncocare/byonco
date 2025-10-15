@@ -11,10 +11,14 @@
     { "source": "/products/vayu", "destination": "/" },
     { "source": "/products/vayu/:path*", "destination": "/" },
 
-      { "source": "/(.*)", "destination": "/" }
+    { "source": "/product/vayu", "destination": "/" },
+    { "source": "/product/vayu/:path*", "destination": "/" },
+
+    { "source": "/(.*)", "destination": "/" }
   ],
 
   "redirects": [
-    { "source": "/products/byonco-x", "destination": "/products/vayu", "permanent": true }
+    { "source": "/products/byonco-x", "destination": "/products/vayu", "permanent": true },
+    { "source": "/product", "destination": "/product/vayu", "permanent": true }
   ]
 }
