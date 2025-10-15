@@ -7,7 +7,8 @@
     { "source": "/api/auth/dev-token", "destination": "https://byonco-fastapi-backend.onrender.com/auth/dev-token" },
 
     { "source": "/products/vayu", "destination": "/" },
-    { "source": "/products/vayu/:path*", "destination": "/" }
+    { "source": "/products/vayu/:path*", "destination": "/" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
 
   "redirects": [
