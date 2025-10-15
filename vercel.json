@@ -1,4 +1,6 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
 
@@ -8,7 +10,8 @@
 
     { "source": "/products/vayu", "destination": "/" },
     { "source": "/products/vayu/:path*", "destination": "/" },
-    { "source": "/(.*)", "destination": "/index.html" }
+
+      { "source": "/(.*)", "destination": "/" }
   ],
 
   "redirects": [
