@@ -180,9 +180,9 @@ const Footer = () => {
               <div className="flex items-start gap-3">
                 <MapPinIcon className="w-4 h-4 mt-1" />
                 <span className="hover:text-white transition-colors">
-                  Nashik, Maharashtra
+                  ITI Layout, Somasundarapalya, Bengaluru, Karnataka
                   <br />
-                  India 422009
+                  India 560102
                 </span>
               </div>
             </div>
