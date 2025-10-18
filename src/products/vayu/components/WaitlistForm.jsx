@@ -2,13 +2,29 @@ import React, { useState } from "react";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mdkwbqoz";
 
+// Pull UTM/source params if present
+function readUTM() {
+  if (typeof window === "undefined") return {};
+  const u = new URL(window.location.href);
+  const pick = (k) => u.searchParams.get(k) || "";
+  return {
+    utm_source: pick("utm_source"),
+    utm_medium: pick("utm_medium"),
+    utm_campaign: pick("utm_campaign"),
+    utm_term: pick("utm_term"),
+    utm_content: pick("utm_content"),
+    referrer: document.referrer || "",
+  };
+}
+
+// Simple required check
+const isRequired = (v) => (typeof v === "string" ? v.trim().length > 0 : !!v);
+
 export default function WaitlistForm() {
   const [shippingDifferent, setShippingDifferent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-
-  const require = (v) => (typeof v === "string" ? v.trim().length > 0 : !!v);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -21,19 +37,38 @@ export default function WaitlistForm() {
 
     // Required fields
     const required = [
-      "firstName", "lastName", "email", "phone",
-      "addressLine1", "country", "state", "zip",
-      "edition", "profession", "reasonCategory",
+      "firstName",
+      "lastName",
+      "email",
+      "phone",
+      "addressLine1",
+      "country",
+      "state",
+      "zip",
+      "edition",
+      "profession",
+      "reasonCategory",
     ];
-    if (wantsShipDiff) required.push("s_addressLine1", "s_country", "s_state", "s_zip");
+    if (wantsShipDiff) {
+      required.push("s_addressLine1", "s_country", "s_state", "s_zip");
+    }
 
     for (const k of required) {
-      if (!require(data[k])) {
+      if (!isRequired(data[k])) {
         setSubmitting(false);
         setError("Please fill all required fields.");
         return;
       }
     }
+
+    // If "Other" selected, require a note
+    if (data.reasonCategory === "other" && !isRequired(data.reasonDetails)) {
+      setSubmitting(false);
+      setError('Please add a short note under "If Other or additional context".');
+      return;
+    }
+
+    // Email & phone format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       setSubmitting(false);
       setError("Please enter a valid email address.");
@@ -47,11 +82,13 @@ export default function WaitlistForm() {
 
     const payload = {
       _subject: "New VAYU X Waitlist submission",
+      _replyto: data.email,
       form: "vayu-x-waitlist",
       ...data,
       shippingDifferent: wantsShipDiff,
       prescription: fd.get("prescription") === "on",
       _page: typeof window !== "undefined" ? window.location.href : "",
+      ...readUTM(),
     };
 
     try {
@@ -76,7 +113,8 @@ export default function WaitlistForm() {
       <div className="rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 p-8 shadow-sm text-center">
         <h2 className="text-2xl font-semibold text-emerald-800">You’re on the list 🎉</h2>
         <p className="mt-3 text-emerald-900">
-          Thanks for your interest in <strong>Vayu X</strong>. Our team will reach out to you soon with next steps.
+          Thanks for your interest in <strong>Vayu X</strong>. Our team will reach out to you soon
+          with next steps.
         </p>
         <a
           href="/products/vayu"
@@ -98,17 +136,31 @@ export default function WaitlistForm() {
       <div className="h-2 w-full bg-gradient-to-r from-indigo-600 via-sky-500 to-cyan-500 rounded-t-2xl" />
 
       <div className="p-6 md:p-8 space-y-8">
-        {/* Hidden honeypot for spam */}
+        {/* Honeypot (spam trap) */}
         <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
 
         {/* Contact */}
         <section>
           <h2 className="text-lg font-semibold text-gray-900">Contact Details</h2>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Field label="First Name*" name="firstName" />
-            <Field label="Last Name*" name="lastName" />
-            <Field label="Email*" name="email" type="email" />
-            <Field label="Phone (with country code)*" name="phone" placeholder="+91 98XXXXXXXX" />
+            <Field label="First Name*" name="firstName" autoComplete="given-name" />
+            <Field label="Last Name*" name="lastName" autoComplete="family-name" />
+            <Field
+              label="Email*"
+              name="email"
+              type="email"
+              autoComplete="email"
+              inputMode="email"
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+            />
+            <Field
+              label="Phone (with country code)*"
+              name="phone"
+              placeholder="+91 98XXXXXXXX"
+              autoComplete="tel"
+              inputMode="tel"
+              pattern="^\+?[0-9\s\-()]{7,20}$"
+            />
           </div>
         </section>
 
@@ -116,12 +168,27 @@ export default function WaitlistForm() {
         <section>
           <h2 className="text-lg font-semibold text-gray-900">Address</h2>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Field label="Address Line 1*" name="addressLine1" className="md:col-span-2" />
-            <Field label="Address Line 2 (optional)" name="addressLine2" className="md:col-span-2" />
-            <Field label="Country*" name="country" placeholder="India" />
-            <Field label="State/Province*" name="state" placeholder="Maharashtra" />
-            <Field label="City (optional)" name="city" />
-            <Field label="ZIP / Postal Code*" name="zip" />
+            <Field
+              label="Address Line 1*"
+              name="addressLine1"
+              className="md:col-span-2"
+              autoComplete="address-line1"
+            />
+            <Field
+              label="Address Line 2 (optional)"
+              name="addressLine2"
+              className="md:col-span-2"
+              autoComplete="address-line2"
+            />
+            <Field label="Country*" name="country" placeholder="India" autoComplete="country-name" />
+            <Field
+              label="State/Province*"
+              name="state"
+              placeholder="Maharashtra"
+              autoComplete="address-level1"
+            />
+            <Field label="City (optional)" name="city" autoComplete="address-level2" />
+            <Field label="ZIP / Postal Code*" name="zip" autoComplete="postal-code" />
           </div>
 
           <div className="mt-4 flex items-center gap-3">
@@ -139,12 +206,22 @@ export default function WaitlistForm() {
 
           {shippingDifferent && (
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 rounded-xl border border-sky-100 bg-sky-50/60 p-4">
-              <Field label="Shipping Address Line 1*" name="s_addressLine1" className="md:col-span-2" />
-              <Field label="Shipping Address Line 2 (optional)" name="s_addressLine2" className="md:col-span-2" />
-              <Field label="Country*" name="s_country" />
-              <Field label="State/Province*" name="s_state" />
-              <Field label="City (optional)" name="s_city" />
-              <Field label="ZIP / Postal Code*" name="s_zip" />
+              <Field
+                label="Shipping Address Line 1*"
+                name="s_addressLine1"
+                className="md:col-span-2"
+                autoComplete="address-line1"
+              />
+              <Field
+                label="Shipping Address Line 2 (optional)"
+                name="s_addressLine2"
+                className="md:col-span-2"
+                autoComplete="address-line2"
+              />
+              <Field label="Country*" name="s_country" autoComplete="country-name" />
+              <Field label="State/Province*" name="s_state" autoComplete="address-level1" />
+              <Field label="City (optional)" name="s_city" autoComplete="address-level2" />
+              <Field label="ZIP / Postal Code*" name="s_zip" autoComplete="postal-code" />
             </div>
           )}
         </section>
@@ -164,14 +241,21 @@ export default function WaitlistForm() {
                 className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:border-indigo-600 focus:ring-indigo-600"
                 defaultValue=""
               >
-                <option value="" disabled>Select edition</option>
+                <option value="" disabled>
+                  Select edition
+                </option>
                 <option value="Essential">Vayu X Essential (available now)</option>
                 <option value="ProMed">Vayu X ProMed (waitlist)</option>
                 <option value="LegalEdge">Vayu X LegalEdge (waitlist)</option>
               </select>
             </div>
 
-            <Field label="Profession*" name="profession" placeholder="e.g., Doctor, Engineer, Lawyer" />
+            <Field
+              label="Profession*"
+              name="profession"
+              placeholder="e.g., Doctor, Engineer, Lawyer"
+              autoComplete="organization-title"
+            />
 
             <div className="flex items-center gap-3">
               <input
@@ -193,7 +277,9 @@ export default function WaitlistForm() {
                 className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:border-indigo-600 focus:ring-indigo-600"
                 defaultValue=""
               >
-                <option value="" disabled>Select one</option>
+                <option value="" disabled>
+                  Select one
+                </option>
                 <option value="future-trends">Interested in future trends</option>
                 <option value="work-purpose">Need it for work purpose</option>
                 <option value="other">Other</option>
@@ -228,7 +314,7 @@ export default function WaitlistForm() {
         {/* Submit */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <p className="text-sm text-gray-600">
-            By submitting, you agree to be contacted for order & shipping coordination.
+            By submitting, you agree to be contacted for order &amp; shipping coordination.
           </p>
           <button
             type="submit"
@@ -247,14 +333,17 @@ export default function WaitlistForm() {
 
 /** Reusable input field */
 function Field({ label, name, type = "text", className = "", ...rest }) {
+  const required = /\*/.test(label);
   return (
     <div className={className}>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">{label}</label>
+      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+        {label}
+      </label>
       <input
         id={name}
         name={name}
         type={type}
-        required={/^\*/.test(label)} // treats labels with * as required
+        required={required}
         className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2
                    focus:border-indigo-600 focus:ring-indigo-600 placeholder:text-gray-400"
         {...rest}
