@@ -4,7 +4,7 @@ import "../products/vayu/App.css";
 
 import Navbar from "../products/vayu/components/Navbar";
 import HeroSection from "../products/vayu/components/HeroSection";
-import PreOrderPage from "../products/vayu/components/PreOrderPage";
+// import PreOrderPage from "../products/vayu/components/PreOrderPage"; // ← no longer used
 import FeaturesSection from "../products/vayu/components/FeaturesSection";
 import ProductVariants from "../products/vayu/components/ProductVariants";
 import AICapabilities from "../products/vayu/components/AICapabilities";
@@ -12,13 +12,21 @@ import TestimonialsSection from "../products/vayu/components/TestimonialsSection
 import FAQSection from "../products/vayu/components/FAQSection";
 import Footer from "../products/vayu/components/Footer";
 
+// ✅ New: render your Waitlist page instead of the old preorder page
+import VayuWaitlist from "../products/vayu/pages/VayuWaitlist";
+
 export default function VayuX() {
   const [page, setPage] = useState("home");
   const [loading, setLoading] = useState(true);
 
-  // land on /products/vayu/preorder -> open preorder view
+  // land on /products/vayu/waitlist -> open waitlist view
   useEffect(() => {
-    if (typeof window !== "undefined" && window.location.pathname.endsWith("/preorder")) {
+    if (
+      typeof window !== "undefined" &&
+      (window.location.pathname.endsWith("/waitlist") ||
+        // keep backward-compat if someone hits /preorder directly
+        window.location.pathname.endsWith("/preorder"))
+    ) {
       setPage("preorder");
     }
   }, []);
@@ -29,11 +37,12 @@ export default function VayuX() {
     return () => clearTimeout(t);
   }, []);
 
-  // keep URL in sync when user switches page (home <-> preorder)
+  // keep URL in sync when user switches page (home <-> waitlist)
   useEffect(() => {
     if (typeof window === "undefined") return;
     const base = "/products/vayu";
-    const url = page === "preorder" ? `${base}/preorder` : base;
+    // 🔁 use /waitlist as the canonical subroute
+    const url = page === "preorder" ? `${base}/waitlist` : base;
     if (window.location.pathname !== url) {
       window.history.replaceState({}, "", url);
     }
@@ -53,13 +62,15 @@ export default function VayuX() {
     );
   }
 
+  // 🔄 When "preorder" is requested, show the Waitlist page instead
   if (page === "preorder") {
-    return <PreOrderPage onBack={() => setPage("home")} />;
+    return <VayuWaitlist onBack={() => setPage("home")} />;
   }
 
   return (
     <div className="page-shell">
       <Navbar />
+      {/* child components keep calling onPreOrder() the same way */}
       <HeroSection onPreOrder={() => setPage("preorder")} />
 
       {/* About + Features */}
@@ -97,13 +108,14 @@ export default function VayuX() {
               Ready to Experience the Future?
             </h2>
             <p className="text-xl mb-8 text-blue-100">
-              Join thousands of professionals who have already pre-ordered Vayu X
+              Due to overwhelming response, we’re expanding production. Join the waitlist and our team will contact you.
             </p>
             <button
               onClick={() => setPage("preorder")}
               className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+              aria-label="Join the Vayu X waitlist"
             >
-              Pre-Order Now — Starting at ₹49,999
+              Join the Waitlist — Shipping March 2026
             </button>
           </div>
         </div>
