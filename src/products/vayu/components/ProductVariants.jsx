@@ -1,4 +1,6 @@
+// src/products/vayu/components/ProductVariants.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Check, Star, ArrowRight } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
@@ -6,8 +8,19 @@ import { Badge } from './ui/badge';
 import { productVariants } from '../data/mock';
 
 const ProductVariants = ({ onPreOrder }) => {
+  const navigate = useNavigate();
+
+  // Unified handler: prefer external handler if provided, otherwise go to waitlist
+  const handlePreOrder = () => {
+    if (typeof onPreOrder === 'function') {
+      onPreOrder();
+      return;
+    }
+    navigate('/products/vayu/waitlist');
+  };
+
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gray-50" id="variants">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -40,7 +53,7 @@ const ProductVariants = ({ onPreOrder }) => {
               
               <CardHeader className="text-center pb-4">
                 <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-r ${variant.color} mb-4 flex items-center justify-center`}>
-                  <div className="w-8 h-8 bg-white rounded-lg"></div>
+                  <div className="w-8 h-8 bg-white rounded-lg" />
                 </div>
                 
                 <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
@@ -76,12 +89,13 @@ const ProductVariants = ({ onPreOrder }) => {
                 </ul>
                 
                 <Button 
-                  onClick={onPreOrder}
+                  onClick={handlePreOrder}
                   className={`w-full py-3 font-semibold transition-all duration-300 group ${
                     variant.popular 
                       ? 'bg-blue-600 hover:bg-blue-700 text-white' 
                       : 'bg-gray-900 hover:bg-gray-800 text-white'
                   }`}
+                  aria-label={`Pre-Order ${variant.name} and join the waitlist`}
                 >
                   Pre-Order {variant.name}
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

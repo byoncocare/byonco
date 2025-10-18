@@ -42,6 +42,9 @@ import WarrantyVayu from "./products/vayu/pages/WarrantyVayu";
 import ReturnsVayu from "./products/vayu/pages/ReturnsVayu";
 import ShippingInfoVayu from "./products/vayu/pages/ShippingInfoVayu";
 
+// 🔹 NEW: Vayu waitlist page
+import VayuWaitlist from "./products/vayu/pages/VayuWaitlist";
+
 // 🔹 Lazy-load Vayu product page (smaller initial bundle)
 const VayuX = lazy(() => import("./pages/VayuX"));
 
@@ -266,13 +269,33 @@ export default function App() {
               }
             />
 
-            {/* 🔹 Vayu product page (and preorder subroute) */}
+            {/* 🔹 Vayu product page */}
             <Route path="/products/vayu" element={<VayuX />} />
-            <Route path="/products/vayu/preorder" element={<VayuX />} />
+
+            {/* 🔹 NEW: Vayu waitlist page */}
+            <Route
+              path="/products/vayu/waitlist"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen bg-gradient-to-br from-[#EEE9FF] via-[#E6F1FF] to-[#E6FFF7] text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <VayuWaitlist />
+                </motion.div>
+              }
+            />
+
+            {/* 🔁 Old preorder path → waitlist */}
+            <Route
+              path="/products/vayu/preorder"
+              element={<Navigate to="/products/vayu/waitlist" replace />}
+            />
 
             {/* ✅ Normalize short path → full path to avoid blank page */}
             <Route path="/product/vayu" element={<Navigate to="/products/vayu" replace />} />
-            <Route path="/product" element={<Navigate to="/products/vayu" replace />} />
 
             {/* 🔹 Vayu legal pages (separate from main ByOnco legal) */}
             <Route

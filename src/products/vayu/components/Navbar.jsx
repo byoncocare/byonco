@@ -1,15 +1,24 @@
+// src/products/vayu/components/Navbar.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+    setIsMenuOpen(false);
+  };
+
+  // NEW: unified handler to go to the waitlist page
+  const goToWaitlist = () => {
+    navigate('/products/vayu/waitlist');
     setIsMenuOpen(false);
   };
 
@@ -54,11 +63,12 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button (Desktop) -> Waitlist */}
           <div className="hidden md:block">
-            <Button 
-              onClick={() => scrollToSection('preorder')}
+            <Button
+              onClick={goToWaitlist}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
+              aria-label="Pre-Order and join the Vayu X waitlist"
             >
               Pre-Order Now
             </Button>
@@ -69,6 +79,7 @@ const Navbar = () => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-gray-700 hover:text-blue-600"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -104,9 +115,12 @@ const Navbar = () => {
             >
               Contact
             </button>
-            <Button 
-              onClick={() => scrollToSection('preorder')}
+
+            {/* CTA (Mobile) -> Waitlist */}
+            <Button
+              onClick={goToWaitlist}
               className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white"
+              aria-label="Pre-Order"
             >
               Pre-Order Now
             </Button>

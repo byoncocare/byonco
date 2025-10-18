@@ -68,7 +68,7 @@ const FeaturesSection = () => {
                         ? process.env.PUBLIC_URL + "/vayu/ai-main.png"   // card 1
                         : index === 1
                         ? process.env.PUBLIC_URL + "/vayu/hero.webp"     // card 2
-                        : process.env.PUBLIC_URL + "/vayu/privacy.jpg"   // card 3
+                        : process.env.PUBLIC_URL + "/vayu/meeting.png"   // card 3
                     }
                     alt={feature.title}
                     className="relative w-full h-64 md:h-80 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-500"

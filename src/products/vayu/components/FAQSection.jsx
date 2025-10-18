@@ -100,7 +100,7 @@ const FAQSection = () => {
             Our team is here to help. Reach out to us for personalized support.
           </p>
           <a
-            href="mailto:team@vayu.so"
+            href="mailto:contact@byoncocare.com"
             className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300"
           >
             Contact Support
