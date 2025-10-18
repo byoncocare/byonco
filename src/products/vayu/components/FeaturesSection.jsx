@@ -84,7 +84,7 @@ const FeaturesSection = () => {
                   {index === 2 && (
                     <div className="absolute bottom-4 right-4 bg-blue-500/90 text-white text-xs px-3 py-2 rounded-lg max-w-48">
                       <div className="font-light">
-                        Meeting with Raj at 3 PM tomorrow about the new project proposal.
+                        Meeting with Raj at 3 PM tomorrow about about the ongoing litigation.
                       </div>
                     </div>
                   )}
