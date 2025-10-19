@@ -13,6 +13,22 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+// ---- iOS Safari (12.x / some webviews) MediaQueryList shim ----
+// Older iOS only has addListener/removeListener; this maps change events.
+(function () {
+  if (typeof window === 'undefined' || !window.matchMedia) return;
+  const mql = window.matchMedia('(min-width: 0px)');
+  if (mql && !mql.addEventListener && mql.addListener) {
+    const proto = Object.getPrototypeOf(mql);
+    proto.addEventListener = function (type, listener) {
+      if (type === 'change') this.addListener(listener);
+    };
+    proto.removeEventListener = function (type, listener) {
+      if (type === 'change') this.removeListener(listener);
+    };
+  }
+})();
+
 // If you ever deploy under a sub-path (e.g., /byonco/),
 // PUBLIC_URL will make BrowserRouter generate correct URLs.
 const BASENAME = process.env.PUBLIC_URL || "/";
