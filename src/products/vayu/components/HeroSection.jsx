@@ -62,7 +62,7 @@ const HeroSection = ({ onPreOrder }) => {
                   className="bg-gradient-to-r from-indigo-600 via-sky-600 to-cyan-600 hover:from-indigo-700 hover:via-sky-700 hover:to-cyan-700 text-white px-8 py-4 text-lg group shadow"
                   aria-label="Pre-Order"
                 >
-                  Pre-Order → 
+                  Pre-Order 
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
 
