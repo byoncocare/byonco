@@ -1,4 +1,11 @@
 // src/index.js
+
+// ---- Polyfills (fix blank screen on some iPhones) ----
+import 'core-js/stable';              // ES features (Promise, Array.from, etc.)
+import 'regenerator-runtime/runtime'; // async/await, generators
+import 'whatwg-fetch';                // window.fetch()
+// ------------------------------------------------------
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
