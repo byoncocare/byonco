@@ -2,9 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#6D28D9" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
 
     <title>ByOnco — AI-Powered Cancer Care</title>
     <meta
@@ -12,34 +11,61 @@
       content="ByOnco helps Indian cancer patients and families find the best hospitals based on real-time availability, cost, insurance, doctor experience, and location."
     />
 
-    <!-- Favicon & Apple Touch Icon -->
-    <link rel="icon" href="%PUBLIC_URL%/favicon-v2.ico" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!-- App / PWA -->
+    <meta name="theme-color" content="#6D28D9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="application-name" content="ByOnco" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.byoncocare.com/" />
+
+    <!-- Icons & Manifest -->
+    <!-- Use your real favicon set; avoid legacy favicon-v2.ico -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="%PUBLIC_URL%/favicon-96x96.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <!-- Open Graph (Facebook/LinkedIn/WhatsApp) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ByOnco" />
     <meta property="og:title" content="ByOnco — AI-Powered Cancer Care" />
     <meta
       property="og:description"
       content="Find the best cancer hospitals in India — matched by urgency, budget, insurance, and more. Trusted by doctors, designed for families."
     />
-    <meta property="og:image" content="%PUBLIC_URL%/preview.png" />
-    <meta property="og:url" content="https://www.byoncocare.com" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="ByOnco" />
+    <meta property="og:image" content="https://www.byoncocare.com/preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://www.byoncocare.com/" />
 
-    <!-- Optional: generic image fallback -->
-    <meta name="image" content="%PUBLIC_URL%/preview.png" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ByOnco — AI-Powered Cancer Care" />
+    <meta
+      name="twitter:description"
+      content="Find the best cancer hospitals in India — matched by urgency, budget, insurance, and more."
+    />
+    <meta name="twitter:image" content="https://www.byoncocare.com/preview.png" />
+
+    <!-- Optional generic image fallback -->
+    <meta name="image" content="https://www.byoncocare.com/preview.png" />
 
     <!-- Performance: preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Inter font (weights used by Vayu page for crisp typography) -->
+    <!-- Inter font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- SECURITY NOTE:
+         Do NOT add dev/debug scripts (react-devtools, eruda, vconsole, livereload) here. -->
   </head>
 
   <body>

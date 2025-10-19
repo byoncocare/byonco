@@ -2,12 +2,18 @@
   "name": "byoncocare",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://www.byoncocare.com/",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "tailwindcss -i ./src/tailwind.css -o ./src/index.css --minify",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:css": "tailwindcss -i ./src/tailwind.css -o ./src/index.css --watch"
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./src/index.css --watch",
+    "preview": "npx serve -s build -l 3000"
   },
   "dependencies": {
     "axios": "^1.10.0",
