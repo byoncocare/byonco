@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- add viewport-fit=cover for iOS safe areas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
     <title>ByOnco — AI-Powered Cancer Care</title>
     <meta
@@ -22,7 +23,6 @@
     <link rel="canonical" href="https://www.byoncocare.com/" />
 
     <!-- Icons & Manifest -->
-    <!-- Use your real favicon set; avoid legacy favicon-v2.ico -->
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
     <link rel="icon" type="image/png" sizes="96x96" href="%PUBLIC_URL%/favicon-96x96.png" />
@@ -63,6 +63,31 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- TEMP: iOS error capture (remove after debugging) -->
+    <script id="ios-error-capture">
+      (function () {
+        // Only run in Safari / iOS webviews (basic UA heuristic)
+        var ua = navigator.userAgent || "";
+        var isIOS = /iP(hone|od|ad)/i.test(ua);
+        if (!isIOS) return;
+
+        function show(msg) {
+          var el = document.createElement('pre');
+          el.style.cssText = 'white-space:pre-wrap;padding:16px;font:14px/1.4 ui-monospace,monospace;background:#fff;color:#111';
+          el.textContent = msg;
+          document.body.innerHTML = '';
+          document.body.appendChild(el);
+        }
+        window.addEventListener('error', function (e) {
+          show('Runtime Error: ' + e.message + '\n' + (e.error && e.error.stack || ''));
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+          var r = e.reason;
+          show('Unhandled Promise Rejection: ' + (r && (r.message || r) || '') + '');
+        });
+      })();
+    </script>
 
     <!-- SECURITY NOTE:
          Do NOT add dev/debug scripts (react-devtools, eruda, vconsole, livereload) here. -->
