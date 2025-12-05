@@ -1,0 +1,1401 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import "@/App.css";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+import {
+  Check,
+  Globe,
+  Activity,
+  Users,
+  BarChart3,
+  Clock,
+  Award,
+  Shield,
+  Zap,
+  ChevronRight,
+  ArrowRight,
+  Search,
+  FileText,
+  MapPin,
+  Building2,
+  CheckCircle2,
+  Hospital,
+  Stethoscope,
+  Calculator,
+  Menu,
+  X,
+} from "lucide-react";
+
+import axios from "axios";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const API = `${BACKEND_URL}/api`;
+
+const MedTourismLanding = () => {
+  const navigate = useNavigate();   // ✅ Added navigation hook (needed for onClick)
+
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [submitStatus, setSubmitStatus] = useState("");
+  const [cycleIndex, setCycleIndex] = useState(0);
+
+  const cyclingWords = ["Treatment.", "Hope.", "Care.", "Future."];
+
+  // rotating word in hero
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCycleIndex((prev) => (prev + 1) % cyclingWords.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // scroll-in animations
+  useEffect(() => {
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in");
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.1,
+    });
+
+    document.querySelectorAll(".fade-in-section").forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${API}/contact`, formData);
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", phone: "", message: "" });
+      setTimeout(() => {
+        setShowContactForm(false);
+        setSubmitStatus("");
+      }, 2000);
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      setSubmitStatus("error");
+    }
+  };
+
+  const patientFeatures = [
+    {
+      icon: <Activity className="w-8 h-8" />,
+      title: "Live Bed & Queue Visibility",
+      description:
+        "Real-time hospital bed availability and queue status across India with verified center profiles in US, EU, and Middle East",
+      color: "from-purple-500 via-violet-500 to-purple-600",
+    },
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: "AI-Powered Hospital Matching",
+      description:
+        "Smart matching based on disease type, budget, outcomes, insurance/scheme eligibility, visa requirements, and language preferences",
+      color: "from-cyan-500 via-blue-500 to-indigo-600",
+    },
+    {
+      icon: <Globe className="w-8 h-8" />,
+      title: "All-Inclusive Medical Packages",
+      description:
+        "Complete treatment packages with itemized costs, travel arrangements, accommodation, translators, and dedicated local care coordinators",
+      color: "from-violet-500 via-purple-500 to-fuchsia-600",
+    },
+    {
+      icon: <Clock className="w-8 h-8" />,
+      title: "Rapid Second Opinions",
+      description:
+        "Expert second opinions delivered in under 24 hours, plus clinical trial matching and subsidy discovery in a multilingual app",
+      color: "from-blue-500 via-cyan-500 to-teal-600",
+    },
+  ];
+
+  const hospitalFeatures = [
+    {
+      icon: <Users className="w-10 h-10" />,
+      title: "Qualified International Referrals",
+      description:
+        "Receive pre-screened international patients with complete case documentation and verified medical records",
+      stat: "1,000+ families connected",
+    },
+    {
+      icon: <BarChart3 className="w-10 h-10" />,
+      title: "Real-Time Queue & Bed Analytics",
+      description:
+        "Comprehensive dashboard showing occupancy rates, patient conversion metrics, and referral performance reporting",
+      stat: "14,300+ hospitals mapped",
+    },
+  ];
+
+  const stats = [
+    { value: "10,000+", label: "Monthly Active Users" },
+    { value: "1,000+", label: "Families Guided" },
+    { value: "14,300+", label: "Hospitals Mapped" },
+    { value: "<24 Hours", label: "Second Opinions" },
+  ];
+
+  const plans = [
+    {
+      name: "ByOnco PRO",
+      subtitle: "For Patients & Families",
+      price: "₹99",
+      period: "/month",
+      description: "Complete access to AI-powered oncology navigation",
+      features: [
+        "Real-time bed & queue visibility across India",
+        "AI hospital and doctor matching",
+        "Subsidy and trial matching",
+        "Fast second opinions (<24h)",
+        "Multilingual app support",
+        "Treatment cost estimates",
+        "Medical tourism packages",
+        "Dedicated care coordinator",
+      ],
+      cta: "Start Free Trial",
+      popular: true,
+      color: "from-purple-500 to-violet-600",
+    },
+    {
+      name: "Hospital SaaS",
+      subtitle: "For Cancer Centers",
+      price: "₹15,000",
+      period: "/month",
+      description: "Enterprise dashboard for qualified international referrals",
+      features: [
+        "Qualified international patient referrals",
+        "Complete case documentation packets",
+        "Real-time bed & queue analytics",
+        "Patient conversion tracking",
+        "Revenue forecasting tools",
+        "Referral performance reporting",
+        "EMR integration support",
+        "Dedicated account manager",
+      ],
+      cta: "Request Demo",
+      popular: false,
+      color: "from-cyan-500 to-blue-600",
+    },
+  ];
+
+  return (
+    <div className="landing-page">
+      {/* Navigation */}
+      <nav className="nav-bar">
+        <div className="nav-container">
+          <div className="nav-logo">
+            <span className="logo-text">
+              <span className="logo-by">by</span>
+              <span className="logo-onco"><span className="logo-o">O</span>nco</span>
+            </span>
+          </div>
+          <div className="nav-links">
+            <a href="#services" className="nav-link">
+              Services
+            </a>
+            <a href="#features" className="nav-link">
+              Features
+            </a>
+            <a href="#pricing" className="nav-link">
+              Pricing
+            </a>
+            <a href="#about" className="nav-link">
+              About
+            </a>
+            <Button
+              onClick={() => navigate("/get-started")}
+              className="cta-button"
+              data-testid="nav-contact-button"
+            >
+              Get Started <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-white p-2"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="md:hidden bg-slate-900/95 backdrop-blur-xl border-t border-purple-500/30"
+          >
+            <div className="flex flex-col p-4 space-y-4">
+              <a
+                href="#services"
+                className="nav-link-mobile text-purple-200 hover:text-white py-2"
+                onClick={() => setMenuOpen(false)}
+              >
+                Services
+              </a>
+              <a
+                href="#features"
+                className="nav-link-mobile text-purple-200 hover:text-white py-2"
+                onClick={() => setMenuOpen(false)}
+              >
+                Features
+              </a>
+              <a
+                href="#pricing"
+                className="nav-link-mobile text-purple-200 hover:text-white py-2"
+                onClick={() => setMenuOpen(false)}
+              >
+                Pricing
+              </a>
+              <a
+                href="#about"
+                className="nav-link-mobile text-purple-200 hover:text-white py-2"
+                onClick={() => setMenuOpen(false)}
+              >
+                About
+              </a>
+              <Button
+                onClick={() => {
+                  navigate("/get-started");
+                  setMenuOpen(false);
+                }}
+                className="cta-button-mobile w-full mt-2"
+              >
+                Get Started <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-glow hero-glow-1" />
+        <div className="hero-glow hero-glow-2" />
+        <motion.div
+          className="hero-content-wrapper"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div
+            className="hero-content"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            <Badge className="hero-badge" data-testid="hero-badge">
+              <Award className="w-4 h-4 mr-2" />
+              YC W25 • AI-Powered Medical Tourism
+            </Badge>
+            <h1 className="hero-title" data-testid="hero-title">
+              World's Most Powerful
+              <br />
+              <span className="gradient-text">Oncology</span>
+              <br />
+              <span className="cycling-word">{cyclingWords[cycleIndex]}</span>
+            </h1>
+            <p className="hero-subtitle" data-testid="hero-subtitle">
+              Navigate rare and ultra-rare cancers with AI-powered hospital matching,
+              real-time bed visibility, and all-inclusive treatment packages across India
+              and globally.
+            </p>
+            <div className="hero-cta">
+              <Button
+                size="lg"
+                className="primary-cta"
+                onClick={() => navigate("/find-hospitals")}
+                data-testid="hero-cta-primary"
+              >
+                Find Hospitals <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="secondary-cta"
+                onClick={() => navigate("/cost-calculator")}
+                data-testid="hero-cta-secondary"
+              >
+                Calculate Cost
+              </Button>
+            </div>
+          </motion.div>
+          <motion.div
+            className="hero-visual"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            <div className="hero-card glass-card floating">
+              <div className="hero-card-content">
+                <div className="flex items-center justify-between mb-4">
+                  <Badge className="status-badge success">Live Bed Available</Badge>
+                  <Clock className="w-5 h-5 text-gray-400" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-white">
+                  Apollo Cancer Center
+                </h3>
+                <p className="text-sm text-gray-300 mb-4">
+                  Mumbai • CAR-T Therapy
+                </p>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="stat-mini">
+                    <span className="stat-mini-label">Success Rate</span>
+                    <span className="stat-mini-value">94%</span>
+                  </div>
+                  <div className="stat-mini">
+                    <span className="stat-mini-label">Wait Time</span>
+                    <span className="stat-mini-value">3 Days</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-white">
+                    ₹12,50,000
+                  </span>
+                  <Button size="sm" className="mini-cta">
+                    View Details
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="stats-section fade-in-section">
+        <motion.div
+          className="stats-container"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          {stats.map((stat, index) => (
+            <motion.div
+              key={index}
+              className="stat-item"
+              data-testid={`stat-${index}`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="stat-value">{stat.value}</div>
+              <div className="stat-label">{stat.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* Hospital Logos Section */}
+      <section className="hospitals-logos-section fade-in-section">
+        <motion.div
+          className="hospitals-logos-container"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h3 className="hospitals-logos-title">
+            Trusted by India's Leading Cancer Hospitals
+          </h3>
+          <motion.div
+            className="hospitals-logos-grid"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            <div className="hospital-logo-item">
+              <img
+                src="https://www.byoncocare.com/logos/hospitals/tmc.png"
+                alt="Tata Memorial Centre"
+              />
+            </div>
+            <div className="hospital-logo-item">
+              <img
+                src="https://www.byoncocare.com/logos/hospitals/apollo.png"
+                alt="Apollo Hospitals"
+              />
+            </div>
+            <div className="hospital-logo-item">
+              <img
+                src="https://www.byoncocare.com/logos/hospitals/kdah.png"
+                alt="Kokilaben Dhirubhai Ambani Hospital"
+              />
+            </div>
+            <div className="hospital-logo-item">
+              <img
+                src="https://www.byoncocare.com/logos/hospitals/fortis.png"
+                alt="Fortis Hospitals"
+              />
+            </div>
+            <div className="hospital-logo-item">
+              <img
+                src="https://www.byoncocare.com/logos/hospitals/cca.png"
+                alt="Cancer Centers of America"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Services Navigation Section */}
+      <section id="services" className="services-section fade-in-section" style={{ marginTop: "4rem", marginBottom: "4rem" }}>
+        <div className="section-header">
+          <Badge className="section-badge">Our Services</Badge>
+          <h2 className="section-title">
+            Complete Cancer Care Solutions
+          </h2>
+          <p className="section-subtitle">
+            Access all our AI-powered tools and services to navigate your cancer care journey
+          </p>
+        </div>
+        <div className="services-grid" style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: "1.5rem",
+          maxWidth: "1200px",
+          margin: "3rem auto",
+          padding: "0 2rem"
+        }}>
+          {[
+            {
+              title: "Find Hospitals",
+              description: "AI-powered hospital matching based on your specific needs, budget, and location",
+              icon: <Hospital className="w-8 h-8" />,
+              color: "from-purple-500 to-violet-600",
+              route: "/find-hospitals"
+            },
+            {
+              title: "Cost Calculator",
+              description: "Get accurate cost estimates for cancer treatment across 9 countries",
+              icon: <Calculator className="w-8 h-8" />,
+              color: "from-cyan-500 to-blue-600",
+              route: "/cost-calculator"
+            },
+            {
+              title: "Rare Cancers",
+              description: "Specialized care for 45+ rare and ultra-rare cancer types",
+              icon: <Activity className="w-8 h-8" />,
+              color: "from-red-500 to-rose-600",
+              route: "/rare-cancers"
+            },
+            {
+              title: "Second Opinion",
+              description: "Expert second opinions delivered in under 24 hours",
+              icon: <FileText className="w-8 h-8" />,
+              color: "from-emerald-500 to-teal-600",
+              route: "/second-opinion"
+            },
+            {
+              title: "Teleconsultation",
+              description: "Connect with top oncologists via secure video consultations",
+              icon: <Stethoscope className="w-8 h-8" />,
+              color: "from-orange-500 to-amber-600",
+              route: "/teleconsultation"
+            }
+          ].map((service, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
+              <Card
+                className="service-card"
+                style={{
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  height: "100%",
+                  background: "rgba(30, 20, 50, 0.35)",
+                  border: "1px solid rgba(139, 92, 246, 0.25)",
+                }}
+                onClick={() => navigate(service.route)}
+              >
+                <CardContent className="feature-card-content" style={{ padding: "2rem" }}>
+                  <div
+                    className={`feature-icon bg-gradient-to-br ${service.color}`}
+                    style={{ marginBottom: "1.5rem" }}
+                  >
+                    {service.icon}
+                  </div>
+                  <h3 className="feature-title" style={{ marginBottom: "0.75rem" }}>
+                    {service.title}
+                  </h3>
+                  <p className="feature-description" style={{ marginBottom: "1.5rem" }}>
+                    {service.description}
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="service-cta"
+                    style={{
+                      width: "100%",
+                      borderColor: "rgba(139, 92, 246, 0.4)",
+                      color: "#a78bfa"
+                    }}
+                  >
+                    Get Started <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Patient Features */}
+      <section id="features" className="features-section fade-in-section">
+        <div className="section-header">
+          <Badge className="section-badge">For Patients</Badge>
+          <h2
+            className="section-title"
+            data-testid="patient-features-title"
+          >
+            Your Complete Cancer Care Companion
+          </h2>
+          <p className="section-subtitle">
+            From discovery to treatment, we guide you every step of the way with
+            AI-powered intelligence
+          </p>
+        </div>
+        <div className="features-grid">
+          {patientFeatures.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+            >
+              <Card
+                className="feature-card"
+                data-testid={`patient-feature-${index}`}
+              >
+                <CardContent className="feature-card-content">
+                  <div
+                    className={`feature-icon bg-gradient-to-br ${feature.color}`}
+                  >
+                    {feature.icon}
+                  </div>
+                  <h3 className="feature-title">{feature.title}</h3>
+                  <p className="feature-description">{feature.description}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+{/* Specialized Care – Rare & Ultra-Rare Cancer */}
+<section className="features-section fade-in-section">
+  <div className="section-header">
+    <span
+      className="section-badge"
+      style={{
+        background: "rgba(220,38,38,0.15)",
+        border: "1px solid rgba(220,38,38,0.4)",
+        color: "#ef4444",
+      }}
+    >
+      Specialized Care
+    </span>
+
+    <h2 className="section-title">Rare & Ultra-Rare Cancer Expertise</h2>
+    <p className="section-subtitle">
+      We specialize in 45+ rare cancer types, connecting you with the right global specialists.
+    </p>
+
+      <Button
+        className="primary-cta"
+        style={{
+          background: "#ef4444",
+          padding: "1rem 2rem",
+          borderRadius: "9999px",
+          fontWeight: 600,
+          marginTop: "2rem",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          fontSize: "1.05rem",
+        }}
+        onClick={() => navigate("/rare-cancers")}
+      >
+        View All Rare Cancers <ArrowRight size={20} />
+      </Button>
+  </div>
+
+  {/* CARD GRID */}
+  <div
+    style={{
+      display: "flex",
+      gap: "2rem",
+      justifyContent: "center",
+      alignItems: "stretch",
+      flexWrap: "nowrap",
+      marginTop: "3rem",
+    }}
+  >
+
+    {/* CARD 1 — ULTRA RARE */}
+    <div
+      className="hover-card"
+      style={{
+        width: "33%",
+        background: "rgba(30, 20, 50, 0.35)",
+        border: "1px solid rgba(139, 92, 246, 0.25)",
+        boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
+        borderRadius: "20px",
+        padding: "1.8rem",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <h3 className="feature-title">Ultra-Rare Cancers</h3>
+      <p className="feature-description" style={{ marginTop: "0.6rem" }}>
+        14 ultra-rare types including DIPG, ATRT, NUT carcinoma.
+        Pediatric tumors, rare carcinomas & aggressive sarcomas.
+      </p>
+
+      <div
+        className="inner-box-red"
+        style={{
+          marginTop: "1.2rem",
+          padding: "1.2rem",
+          background: "rgba(60, 40, 90, 0.45)",
+          borderRadius: "14px",
+          border: "1px solid rgba(139, 92, 246, 0.3)",
+        }}
+      >
+        <div style={{ fontSize: "0.9rem", marginBottom: "0.4rem", color: "#cbd5e1" }}>
+          Types Covered
+        </div>
+        <div style={{ fontSize: "1.9rem", fontWeight: 700, color: "#ff4747" }}>14</div>
+      </div>
+    </div>
+
+    {/* CARD 2 — VERY RARE */}
+    <div
+      className="hover-card"
+      style={{
+        width: "33%",
+        background: "rgba(30, 20, 50, 0.35)",
+        border: "1px solid rgba(139, 92, 246, 0.25)",
+        boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
+        borderRadius: "20px",
+        padding: "1.8rem",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <h3 className="feature-title">Very Rare Cancers</h3>
+      <p className="feature-description" style={{ marginTop: "0.6rem" }}>
+        12 high-risk types including Chordoma, Merkel Cell & Angiosarcoma.
+      </p>
+
+      <div
+        className="inner-box-orange"
+        style={{
+          marginTop: "1.2rem",
+          padding: "1.2rem",
+          background: "rgba(60, 40, 90, 0.45)",
+          borderRadius: "14px",
+          border: "1px solid rgba(139, 92, 246, 0.3)",
+        }}
+      >
+        <div style={{ fontSize: "0.9rem", marginBottom: "0.4rem", color: "#cbd5e1" }}>
+          Types Covered
+        </div>
+        <div style={{ fontSize: "1.9rem", fontWeight: 700, color: "#ff9f1c" }}>12</div>
+      </div>
+    </div>
+
+    {/* CARD 3 — RARE */}
+    <div
+      className="hover-card"
+      style={{
+        width: "33%",
+        background: "rgba(30, 20, 50, 0.35)",
+        border: "1px solid rgba(139, 92, 246, 0.25)",
+        boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
+        borderRadius: "20px",
+        padding: "1.8rem",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <h3 className="feature-title">Rare Cancers</h3>
+      <p className="feature-description" style={{ marginTop: "0.6rem" }}>
+        13 moderately complex types including GIST & Mesothelioma.
+      </p>
+
+      <div
+        className="inner-box-yellow"
+        style={{
+          marginTop: "1.2rem",
+          padding: "1.2rem",
+          background: "rgba(60, 40, 90, 0.45)",
+          borderRadius: "14px",
+          border: "1px solid rgba(139, 92, 246, 0.3)",
+        }}
+      >
+        <div style={{ fontSize: "0.9rem", marginBottom: "0.4rem", color: "#cbd5e1" }}>
+          Types Covered
+        </div>
+        <div style={{ fontSize: "1.9rem", fontWeight: 700, color: "#facc15" }}>13</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{/* International Care – Medical Tourism Packages */}
+<section className="features-section fade-in-section" style={{ marginTop: "6rem" }}>
+  <div className="section-header">
+    <span
+      className="section-badge"
+      style={{
+        background: "rgba(139,92,246,0.15)",
+        border: "1px solid rgba(139,92,246,0.4)",
+        color: "#a78bfa",
+      }}
+    >
+      International Care
+    </span>
+
+    <h2 className="section-title">Medical Tourism Packages</h2>
+    <p className="section-subtitle">
+      All-inclusive cancer care packages for international patients covering 31 major cities worldwide
+    </p>
+  </div>
+
+  {/* MAIN WRAPPER */}
+  <div
+    style={{
+      display: "flex",
+      gap: "2rem",
+      marginTop: "3rem",
+      flexWrap: "nowrap",
+      justifyContent: "center",
+    }}
+  >
+
+    {/* LEFT BOX – CITIES */}
+    <div
+      className="med-tourism-card"
+      style={{
+        width: "48%",
+        background: "rgba(30, 20, 50, 0.35)",
+        border: "1px solid rgba(139,92,246,0.25)",
+        boxShadow: "0 0 25px rgba(100, 50, 200, 0.25)",
+        borderRadius: "20px",
+        padding: "2.5rem",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+        <MapPin size={26} color="#a78bfa" />
+        <h3 className="feature-title" style={{ fontSize: "1.5rem" }}>31 Premium Cities Worldwide</h3>
+      </div>
+
+      <p className="feature-description" style={{ marginTop: "0.8rem" }}>
+        Access world-class cancer treatment centers across the world's top medical hubs
+      </p>
+
+      {/* CITY GRID */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "1.2rem",
+          marginTop: "2rem",
+        }}
+      >
+        {[
+          { name: "Mumbai", country: "India", facilities: "Top-tier facilities" },
+          { name: "New Delhi", country: "India", facilities: "Top-tier facilities" },
+          { name: "New York City", country: "USA", facilities: "NCI-designated centers" },
+          { name: "Houston", country: "USA", facilities: "MD Anderson Cancer Center" },
+          { name: "London", country: "UK", facilities: "Royal Marsden Hospital" },
+          { name: "Singapore", country: "Singapore", facilities: "JCI-accredited centers" },
+          { name: "Tokyo", country: "Japan", facilities: "Advanced treatment" },
+          { name: "Paris", country: "France", facilities: "Gustave Roussy" },
+        ].map((city, idx) => (
+          <div
+            key={idx}
+            className="city-card"
+            style={{
+              background: "rgba(20,20,35,0.55)",
+              border: "1px solid rgba(139,92,246,0.15)",
+              padding: "1.3rem",
+              borderRadius: "14px",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: "1.15rem", fontWeight: 600, color: "#fff" }}>
+              {city.name}
+            </div>
+            <div style={{ fontSize: "0.75rem", marginTop: "0.2rem", color: "#a78bfa", fontWeight: 500 }}>
+              {city.country}
+            </div>
+            <div style={{ fontSize: "0.85rem", marginTop: "0.3rem", color: "#cbd5e1" }}>
+              {city.facilities}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: "1rem", textAlign: "center" }}>
+        <p style={{ fontSize: "0.9rem", color: "#a78bfa", fontWeight: 500 }}>
+          + 23 more cities including Boston, Toronto, Berlin, Dubai, Bangkok, and more
+        </p>
+      </div>
+    </div>
+
+    {/* RIGHT BOX – PACKAGE INCLUSIONS */}
+    <div
+      className="med-tourism-card blue"
+      style={{
+        width: "48%",
+        background: "rgba(20, 30, 50, 0.30)",
+        border: "1px solid rgba(56,189,248,0.20)",
+        boxShadow: "0 0 25px rgba(56,189,248,0.25)",
+        borderRadius: "20px",
+        padding: "2.5rem",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
+        <Building2 size={26} color="#38bdf8" />
+        <h3 className="feature-title" style={{ fontSize: "1.5rem" }}>Package Inclusions</h3>
+      </div>
+
+      <p className="feature-description" style={{ marginTop: "0.7rem" }}>
+        Everything you need for a seamless medical journey
+      </p>
+
+      <ul style={{ marginTop: "1.6rem", paddingLeft: "0" }}>
+        {[
+          "Treatment with itemized costs",
+          "Visa assistance & documentation",
+          "Airport pickup & transfers",
+          "Accommodation for patient & family",
+          "Professional translators",
+          "Dedicated care coordinator",
+          "24/7 emergency support",
+        ].map((item, idx) => (
+          <li
+            key={idx}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.7rem",
+              marginBottom: "1rem",
+              fontSize: "1rem",
+              color: "#e2e8f0",
+            }}
+          >
+            <CheckCircle2 size={20} color="#38bdf8" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div> {/* ← FIXED: closes main wrapper */}
+
+</section>
+
+
+      {/* Hospital Features */}
+      <section className="hospitals-section fade-in-section">
+        <div className="section-header">
+          <Badge className="section-badge">For Hospitals</Badge>
+          <h2
+            className="section-title"
+            data-testid="hospital-features-title"
+          >
+            Grow Your International Patient Base
+          </h2>
+          <p className="section-subtitle">
+            Connect with qualified patients globally and optimize your care delivery
+          </p>
+        </div>
+        <div className="hospitals-grid">
+          {hospitalFeatures.map((feature, index) => (
+            <Card
+              key={index}
+              className="hospital-card"
+              data-testid={`hospital-feature-${index}`}
+            >
+              <CardHeader>
+                <div className="hospital-icon">{feature.icon}</div>
+              </CardHeader>
+              <CardContent>
+                <CardTitle className="hospital-card-title">
+                  {feature.title}
+                </CardTitle>
+                <CardDescription className="hospital-card-description">
+                  {feature.description}
+                </CardDescription>
+                <div className="hospital-stat">
+                  <Shield className="w-5 h-5 text-purple-400" />
+                  <span>{feature.stat}</span>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="pricing-section fade-in-section">
+        <div className="section-header">
+          <Badge className="section-badge">Pricing</Badge>
+          <h2 className="section-title" data-testid="pricing-title">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="section-subtitle">
+            Choose the plan that fits your needs
+          </p>
+        </div>
+        <div className="pricing-grid">
+          {plans.map((plan, index) => (
+            <Card
+              key={index}
+              className={`pricing-card ${plan.popular ? "popular" : ""}`}
+              data-testid={`pricing-plan-${index}`}
+            >
+              {plan.popular && (
+                <div className="popular-badge">Most Popular</div>
+              )}
+              <CardHeader>
+                <CardTitle className="plan-name">{plan.name}</CardTitle>
+                <CardDescription className="plan-subtitle">
+                  {plan.subtitle}
+                </CardDescription>
+                <div className="plan-price">
+                  <span className="price">{plan.price}</span>
+                  <span className="period">{plan.period}</span>
+                </div>
+                <p className="plan-description">{plan.description}</p>
+              </CardHeader>
+              <CardContent className="plan-features">
+                {plan.features.map((feature, fIndex) => (
+                  <div
+                    key={fIndex}
+                    className="feature-item"
+                    data-testid={`plan-${index}-feature-${fIndex}`}
+                  >
+                    <Check className="w-5 h-5 text-purple-400 flex-shrink-0" />
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </CardContent>
+              <CardFooter>
+                <Button
+                  className={`plan-cta ${plan.popular ? "popular" : ""}`}
+                  onClick={() => setShowContactForm(true)}
+                  data-testid={`plan-${index}-cta`}
+                >
+                  {plan.cta}
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="team-section fade-in-section">
+        <div className="team-container">
+          <h3 className="team-title">Built by a world-class team</h3>
+          <div className="team-logos">
+            <div className="team-logo-item">
+              <img
+                src="https://www.byoncocare.com/logos/meta.svg"
+                alt="Meta"
+              />
+            </div>
+            <div className="team-logo-item">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
+                alt="Amazon"
+              />
+            </div>
+            <div className="team-logo-item">
+              <img
+                src="https://www.byoncocare.com/logos/microsoft.svg"
+                alt="Microsoft"
+              />
+            </div>
+          </div>
+          <p className="team-tagline">
+            Built by people who understand your pain, powered by people who can
+            solve it
+          </p>
+        </div>
+      </section>
+
+      {/* FAQs Section */}
+      <section className="faqs-section fade-in-section">
+        <div className="faqs-container">
+          <div className="section-header">
+            <Badge className="section-badge">FAQs</Badge>
+            <h2 className="section-title">Frequently Asked Questions</h2>
+          </div>
+          <div className="faqs-grid">
+            <details className="faq-item">
+              <summary className="faq-question">
+                How does ByOnco help with rare and ultra-rare cancers?
+              </summary>
+              <div className="faq-answer">
+                ByOnco specializes in matching patients with rare and ultra-rare
+                cancers to the right treatment centers globally. Our AI analyzes
+                your specific cancer type, treatment requirements, and matches
+                you with hospitals in India, US, EU, and Middle East that have
+                expertise in treating your condition.
+              </div>
+            </details>
+
+            <details className="faq-item">
+              <summary className="faq-question">
+                What is included in the all-inclusive medical packages?
+              </summary>
+              <div className="faq-answer">
+                Our packages include treatment plan with itemized costs, travel
+                arrangements (flights, visa support), accommodation for patient
+                and family, professional translators, local care coordinator,
+                and complete medical tourism support from start to finish.
+              </div>
+            </details>
+
+            <details className="faq-item">
+              <summary className="faq-question">
+                How fast can I get a second opinion?
+              </summary>
+              <div className="faq-answer">
+                We provide expert second opinions in under 24 hours. Our network
+                includes top oncologists from India and internationally who can
+                review your case quickly and provide detailed recommendations.
+              </div>
+            </details>
+
+            <details className="faq-item">
+              <summary className="faq-question">
+                What is the ByOnco PRO subscription?
+              </summary>
+              <div className="faq-answer">
+                ByOnco PRO at ₹99/month gives you unlimited access to real-time
+                bed and queue visibility across India, AI-powered hospital
+                matching, subsidy and clinical trial matching, fast second
+                opinions, multilingual app support, and dedicated care
+                coordination.
+              </div>
+            </details>
+
+            <details className="faq-item">
+              <summary className="faq-question">
+                How does the Hospital SaaS work?
+              </summary>
+              <div className="faq-answer">
+                Our Hospital SaaS (₹15,000–25,000/month) provides cancer
+                centers with qualified international patient referrals, complete
+                case documentation, real-time bed and queue analytics, patient
+                conversion tracking, and revenue forecasting tools to grow their
+                international patient base.
+              </div>
+            </details>
+
+            <details className="faq-item">
+              <summary className="faq-question">
+                Do you help with visa and insurance?
+              </summary>
+              <div className="faq-answer">
+                Yes! We assist with visa applications for medical tourism, help
+                identify insurance coverage options, match you with government
+                schemes and NGO subsidies, and provide complete financial
+                planning for your treatment journey.
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section id="about" className="final-cta-section fade-in-section">
+        <div className="final-cta-glow" />
+        <motion.div
+          className="final-cta-content"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h2
+            className="final-cta-title"
+            data-testid="final-cta-title"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            Ready to Navigate Your Cancer Care Journey?
+          </motion.h2>
+          <motion.p
+            className="final-cta-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            Join 10,000+ families who found hope, clarity, and faster treatment
+            starts with ByOnco
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button
+              size="lg"
+              className="final-cta-button"
+              onClick={() => navigate("/get-started")}
+              data-testid="final-cta-button"
+            >
+              Get Started Today <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-section footer-main">
+            <div className="footer-logo">
+              <span className="logo-text">
+                <span className="logo-by">by</span>
+                <span className="logo-onco"><span className="logo-o">O</span>nco</span>
+              </span>
+            </div>
+            <p className="footer-description">
+              AI-powered oncology medical tourism OS helping patients find the
+              right treatment, faster.
+            </p>
+            <div className="footer-address">
+              <p className="footer-address-title">
+                PraesidioCare Private Limited
+              </p>
+              <p className="footer-address-text">Bengaluru, Karnataka, India</p>
+              <p className="footer-address-text">
+                Email: contact@byoncocare.com
+              </p>
+            </div>
+            <div className="built-in-india">
+              <span className="india-flag">🇮🇳</span>
+              <span>Built in India</span>
+            </div>
+          </div>
+
+          <div className="footer-section">
+            <h4 className="footer-heading">Services</h4>
+            <a href="/find-hospitals" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/find-hospitals"); }}>
+              Find Hospitals
+            </a>
+            <a href="/cost-calculator" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/cost-calculator"); }}>
+              Cost Calculator
+            </a>
+            <a href="/rare-cancers" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/rare-cancers"); }}>
+              Rare Cancers
+            </a>
+            <a href="/second-opinion" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/second-opinion"); }}>
+              Second Opinion
+            </a>
+            <a href="/teleconsultation" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/teleconsultation"); }}>
+              Teleconsultation
+            </a>
+          </div>
+
+          <div className="footer-section">
+            <h4 className="footer-heading">Company</h4>
+            <a href="#about" className="footer-link">
+              About
+            </a>
+            <a href="/careers" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/careers"); }}>
+              Careers
+            </a>
+            <a href="/get-started" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/get-started"); }}>
+              Get Started
+            </a>
+            <a href="/products/vayu" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/products/vayu"); }}>
+              Products
+            </a>
+          </div>
+
+          <div className="footer-section">
+            <h4 className="footer-heading">Legal</h4>
+            <a href="/privacy" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }}>
+              Privacy Policy
+            </a>
+            <a href="/terms-and-conditions" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/terms-and-conditions"); }}>
+              Terms of Service
+            </a>
+            <a href="/security" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/security"); }}>
+              Security
+            </a>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p>
+            © 2025 ByOnco by PraesidioCare Private Limited. All rights
+            reserved.
+          </p>
+        </div>
+      </footer>
+
+      {/* Contact Modal */}
+      {showContactForm && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowContactForm(false)}
+        >
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-header">
+              <h3 className="modal-title">Get Started with ByOnco</h3>
+              <button
+                className="modal-close"
+                onClick={() => setShowContactForm(false)}
+                data-testid="modal-close-button"
+              >
+                ×
+              </button>
+            </div>
+            <form
+              onSubmit={handleContactSubmit}
+              className="contact-form"
+            >
+              <div className="form-group">
+                <label htmlFor="name">Full Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  placeholder="Enter your name"
+                  data-testid="contact-name-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  placeholder="your@email.com"
+                  data-testid="contact-email-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="phone">Phone (Optional)</label>
+                <input
+                  id="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  placeholder="+91 12345 67890"
+                  data-testid="contact-phone-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  required
+                  rows="4"
+                  value={formData.message}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
+                  placeholder="Tell us about your needs..."
+                  data-testid="contact-message-input"
+                />
+              </div>
+
+              {submitStatus === "success" && (
+                <div
+                  className="alert success"
+                  data-testid="contact-success-message"
+                >
+                  Thank you! We'll be in touch soon.
+                </div>
+              )}
+
+              {submitStatus === "error" && (
+                <div
+                  className="alert error"
+                  data-testid="contact-error-message"
+                >
+                  Something went wrong. Please try again.
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                className="form-submit"
+                disabled={submitStatus === "success"}
+                data-testid="contact-submit-button"
+              >
+                Send Message
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MedTourismLanding;

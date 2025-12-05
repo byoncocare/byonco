@@ -1,11 +1,12 @@
 // src/App.js
-import "./index.css"; // single entry: tailwind + globals + marketing + vayu polish
+import "./index.css"; // Tailwind + globals (base)
+import "./App.css";   // Custom marketing + ByOnco/Vayu overrides
 
 import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Sections (home page)
+// Sections (old home page)
 import Hero from "./components/Hero";
 import TrustedBy from "./components/TrustedBy";
 import HowItWorks from "./components/HowItWorks";
@@ -31,30 +32,35 @@ import GetMatched from "./pages/GetMatched";
 import CancellationRefund from "./pages/CancellationRefund";
 import ShippingDelivery from "./pages/ShippingDelivery";
 
-// 🔹 Vayu legal pages (Vayu-specific, separate from main app)
+// Med tourism landing (new main home)
+import MedTourismLanding from "./pages/MedTourismLanding";
+import FindHospitalsPage from "./pages/FindHospitalsPage";
+import RareCancersPage from "./pages/RareCancersPage";
+import FindOncologistsPage from "./pages/FindOncologistsPage";
+import SecondOpinionPage from "./pages/SecondOpinionPage";
+import TeleconsultationPage from "./pages/TeleconsultationPage";
+import CostCalculatorPage from "./pages/CostCalculatorPage";
+import AuthPage from "./pages/AuthPage";
+
+// Vayu legal pages
 import PrivacyPolicyVayu from "./products/vayu/pages/PrivacyPolicyVayu";
 import TermsOfServiceVayu from "./products/vayu/pages/TermsOfServiceVayu";
 import CookiePolicyVayu from "./products/vayu/pages/CookiePolicyVayu";
 
-// 🔹 Vayu support pages
+// Vayu support pages
 import HelpCenterVayu from "./products/vayu/pages/HelpCenterVayu";
 import WarrantyVayu from "./products/vayu/pages/WarrantyVayu";
 import ReturnsVayu from "./products/vayu/pages/ReturnsVayu";
 import ShippingInfoVayu from "./products/vayu/pages/ShippingInfoVayu";
 
-// 🔹 NEW: Vayu waitlist page
+// Vayu waitlist page
 import VayuWaitlist from "./products/vayu/pages/VayuWaitlist";
 
-// 🔹 Lazy-load Vayu product page (smaller initial bundle)
+// Lazy-load Vayu product page
 const VayuX = lazy(() => import("./pages/VayuX"));
 
 /* -------------------------------------------------------
-   Global hash scroller: works WITHOUT editing Vayu page.
-   - looks for element by id (essential|medpro|legaledge)
-   - if not found, falls back to heading text detection
-   - adds header offset and smooth scroll
-
-   Supports both /products/vayu and /product/vayu.
+   Global hash scroller (unchanged)
 ------------------------------------------------------- */
 function HashScroller({ offset = 96 }) {
   const location = useLocation();
@@ -66,13 +72,11 @@ function HashScroller({ offset = 96 }) {
     const vayuPaths = ["/products/vayu", "/product/vayu"];
     if (!vayuPaths.includes(pathname)) return;
 
-    const wanted = hash.slice(1); // "essential" | "medpro" | "legaledge"
+    const wanted = hash.slice(1);
 
     const tryScroll = () => {
-      // 1) ID match (best if present)
       let el = document.getElementById(wanted);
 
-      // 2) Fallback: find by visible heading text
       if (!el) {
         const map = {
           essential: /vayu\s*essential/i,
@@ -87,7 +91,6 @@ function HashScroller({ offset = 96 }) {
           );
           const hit = candidates.find((n) => re.test(n.textContent || ""));
           if (hit) {
-            // scroll to the card container if available; else to heading
             el = hit.closest("section, article, div") || hit;
           }
         }
@@ -106,7 +109,9 @@ function HashScroller({ offset = 96 }) {
   return null;
 }
 
-// ---------- Home wrapper ----------
+/* -------------------------------------------------------
+   Classic old home (/classic-home)
+------------------------------------------------------- */
 function HomePage() {
   return (
     <motion.main
@@ -131,8 +136,12 @@ function HomePage() {
   );
 }
 
-// ---------- App ----------
+/* -------------------------------------------------------
+   App Component (routing)
+------------------------------------------------------- */
 export default function App() {
+  const location = useLocation();
+
   return (
     <>
       <AnimatePresence mode="wait">
@@ -146,14 +155,30 @@ export default function App() {
             </div>
           }
         >
-          {/* ⬇️ Global scroller active on every route */}
+          {/* Global Vayu hash scroller */}
           <HashScroller offset={96} />
 
-          <Routes>
-            {/* Home */}
-            <Route path="/" element={<HomePage />} />
+          <Routes location={location} key={location.pathname}>
+            {/* MAIN HOME PAGE - MedTourismLanding */}
+            <Route
+              path="/"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <MedTourismLanding />
+                </motion.div>
+              }
+            />
 
-            {/* Core flows */}
+            {/* Classic old ByOnco homepage */}
+            <Route path="/classic-home" element={<HomePage />} />
+
+            {/* ----------- Core ByOnco flows ----------- */}
             <Route
               path="/get-started"
               element={
@@ -197,7 +222,114 @@ export default function App() {
               }
             />
 
-            {/* Company & policy */}
+            {/* ----------- Authentication ----------- */}
+            <Route
+              path="/auth"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <AuthPage />
+                </motion.div>
+              }
+            />
+
+            {/* ----------- New Medical Tourism Pages ----------- */}
+            <Route
+              path="/find-hospitals"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <FindHospitalsPage />
+                </motion.div>
+              }
+            />
+
+            <Route
+              path="/find-oncologists"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <FindOncologistsPage />
+                </motion.div>
+              }
+            />
+
+            <Route
+              path="/rare-cancers"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <RareCancersPage />
+                </motion.div>
+              }
+            />
+
+            <Route
+              path="/second-opinion"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <SecondOpinionPage />
+                </motion.div>
+              }
+            />
+
+            <Route
+              path="/teleconsultation"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <TeleconsultationPage />
+                </motion.div>
+              }
+            />
+
+            <Route
+              path="/cost-calculator"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <CostCalculatorPage />
+                </motion.div>
+              }
+            />
+
+            {/* ----------- Company / Legal ----------- */}
             <Route
               path="/careers"
               element={
@@ -254,6 +386,8 @@ export default function App() {
                 </motion.div>
               }
             />
+
+            {/* ----------- ByOnco Pro Waitlist ----------- */}
             <Route
               path="/pro-waitlist"
               element={
@@ -269,10 +403,10 @@ export default function App() {
               }
             />
 
-            {/* 🔹 Vayu product page */}
+            {/* ----------- Vayu product page ----------- */}
             <Route path="/products/vayu" element={<VayuX />} />
 
-            {/* 🔹 NEW: Vayu waitlist page */}
+            {/* ----------- Vayu waitlist ----------- */}
             <Route
               path="/products/vayu/waitlist"
               element={
@@ -288,16 +422,18 @@ export default function App() {
               }
             />
 
-            {/* 🔁 Old preorder path → waitlist */}
+            {/* Old → new path */}
             <Route
               path="/products/vayu/preorder"
               element={<Navigate to="/products/vayu/waitlist" replace />}
             />
 
-            {/* ✅ Normalize short path → full path to avoid blank page */}
-            <Route path="/product/vayu" element={<Navigate to="/products/vayu" replace />} />
+            <Route
+              path="/product/vayu"
+              element={<Navigate to="/products/vayu" replace />}
+            />
 
-            {/* 🔹 Vayu legal pages (separate from main ByOnco legal) */}
+            {/* ----------- Vayu legal pages ----------- */}
             <Route
               path="/products/vayu/privacy-policy"
               element={
@@ -341,7 +477,7 @@ export default function App() {
               }
             />
 
-            {/* 🔹 Vayu support pages */}
+            {/* ----------- Vayu support ----------- */}
             <Route
               path="/products/vayu/help-center"
               element={
@@ -399,7 +535,7 @@ export default function App() {
               }
             />
 
-            {/* Razorpay-required */}
+            {/* ----------- Razorpay-required ----------- */}
             <Route
               path="/cancellation-refund"
               element={
@@ -429,15 +565,12 @@ export default function App() {
               }
             />
 
-            {/*
-            // Optional:
-            // <Route path="*" element={<NotFound />} />
-            */}
+            {/* Optional 404 - not added */}
           </Routes>
         </Suspense>
       </AnimatePresence>
 
-      {/* Visible on all routes */}
+      {/* Always visible */}
       <CookieConsent />
     </>
   );

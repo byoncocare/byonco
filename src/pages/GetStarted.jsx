@@ -1,157 +1,632 @@
-// src/pages/GetStarted.jsx
-import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert } from '@/components/ui/alert';
+import { 
+  ChevronLeft, 
+  User, 
+  Mail, 
+  Phone, 
+  MapPin, 
+  Stethoscope, 
+  Shield, 
+  Clock,
+  CheckCircle2,
+  Loader2,
+  AlertCircle
+} from 'lucide-react';
+import axios from 'axios';
 
-const languages = {
-  en: { languageLabel: "English", title: "Let’s Get You Started", subtitle: "Begin your personalized cancer care journey with ByOnco.", name: "Full Name", phone: "Phone Number", city: "City", language: "Preferred Language", disease: "Disease Type", stage: "Cancer Stage", insurance: "Insurance Provider", book: "Book Consultation", next: "Next", back: "Back" },
-  hi: { languageLabel: "हिन्दी (Hindi)", title: "चलिए शुरुआत करें", subtitle: "ByOnco के साथ अपने कैंसर उपचार की व्यक्तिगत यात्रा शुरू करें।", name: "पूरा नाम", phone: "फोन नंबर", city: "शहर", language: "भाषा चुनें", disease: "रोग का प्रकार", stage: "कैंसर की अवस्था", insurance: "बीमा प्रदाता", book: "परामर्श बुक करें", next: "आगे", back: "पीछे" },
-  mr: { languageLabel: "मराठी (Marathi)", title: "चला सुरुवात करूया", subtitle: "ByOnco सोबत तुमच्या कॅन्सर उपचाराची वैयक्तिक यात्रा सुरू करा.", name: "पूर्ण नाव", phone: "फोन नंबर", city: "शहर", language: "भाषा निवडा", disease: "रोग प्रकार", stage: "कॅन्सर टप्पा", insurance: "विमा प्रदाता", book: "सल्लामसलत बुक करा", next: "पुढे", back: "मागे" },
-  ta: { languageLabel: "தமிழ் (Tamil)", title: "வாருங்கள் ஆரம்பிக்கலாம்", subtitle: "ByOnco உடன் உங்கள் தனிப்பட்ட புற்றுநோய் பயணத்தை தொடங்குங்கள்.", name: "முழு பெயர்", phone: "தொலைபேசி எண்", city: "நகரம்", language: "மொழியைத் தேர்வுசெய்க", disease: "நோயின் வகை", stage: "புற்றுநோய் கட்டம்", insurance: "காப்பீடு வழங்குநர்", book: "ஆலோசனையை முன்பதிவு செய்க", next: "அடுத்து", back: "பின்செல்" },
-  te: { languageLabel: "తెలుగు (Telugu)", title: "ప్రారంభిద్దాం", subtitle: "ByOncoతో మీ వ్యక్తిగత క్యాన్సర్ సంరక్షణ ప్రయాణాన్ని ప్రారంభించండి.", name: "పూర్తి పేరు", phone: "ఫోన్ నంబర్", city: "నగరం", language: "భాషను ఎంచుకోండి", disease: "రోగం రకం", stage: "క్యాన్సర్ దశ", insurance: "ఇన్సూరెన్స్ ప్రొవైడర్", book: "సలహా బుక్ చేయండి", next: "తర్వాత", back: "వెనక్కి" },
-  bn: { languageLabel: "বাংলা (Bengali)", title: "চলুন শুরু করি", subtitle: "ByOnco-এর সাথে আপনার ব্যক্তিগত ক্যান্সার যত্নের যাত্রা শুরু করুন।", name: "পূর্ণ নাম", phone: "ফোন নম্বর", city: "শহর", language: "ভাষা পছন্দ করুন", disease: "রোগের ধরন", stage: "ক্যান্সারের স্তর", insurance: "বীমা প্রদানকারী", book: "পরামর্শ বুক করুন", next: "পরবর্তী", back: "পেছনে" },
-  kn: { languageLabel: "ಕನ್ನಡ (Kannada)", title: "ನೀವು ಪ್ರಾರಂಭಿಸೋಣ", subtitle: "ByOnco ನೊಂದಿಗೆ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಕ್ಯಾನ್ಸರ್ ಪರಿಚಾರ ಸೇವೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ.", name: "ಪೂರ್ಣ ಹೆಸರು", phone: "ದೂರವಾಣಿ ಸಂಖ್ಯೆ", city: "ನಗರ", language: "ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ", disease: "ರೋಗದ ಪ್ರಕಾರ", stage: "ಕ್ಯಾನ್ಸರ್ ಹಂತ", insurance: "ವಿಮೆ ಪೂರೈಕೆದಾರ", book: "ಸಲಹೆ ಬುಕ್ ಮಾಡಿ", next: "ಮುಂದೆ", back: "ಹಿಂದೆ" },
-  gu: { languageLabel: "ગુજરાતી (Gujarati)", title: "ચાલો શરૂઆત કરીએ", subtitle: "ByOnco સાથે તમારી વ્યક્તિગત કેન્સર સંભાળ યાત્રા શરૂ કરો.", name: "પૂર્ણ નામ", phone: "ફોન નંબર", city: "શહેર", language: "ભાષા પસંદ કરો", disease: "રોગનો પ્રકાર", stage: "કૅન્સરનો તબક્કો", insurance: "વિમો પ્રદાતા", book: "કન્સલ્ટેશન બુક કરો", next: "આગળ", back: "પાછળ" },
-  ml: { languageLabel: "മലയാളം (Malayalam)", title: "നമുക്ക് ആരംഭിക്കാം", subtitle: "ByOnco യുമായി നിങ്ങളുടെ വ്യക്തിഗത കാൻസർ പരിചരണ യാത്ര ആരംഭിക്കുക.", name: "പൂർണ്ണ നാമം", phone: "ഫോൺ നമ്പർ", city: "നഗരം", language: "ഭാഷ തിരഞ്ഞെടുക്കുക", disease: "രോഗത്തിന്റെ തരം", stage: "കാൻസർ ഘട്ടം", insurance: "ഇൻഷുറൻസ് ദാതാവ്", book: "കൺസൾട്ടേഷൻ ബുക്ക് ചെയ്യുക", next: "അടുത്തത്", back: "പുറത്ത്" },
-  or: { languageLabel: "ଓଡ଼ିଆ (Odia)", title: "ଆରମ୍ଭ କରିବା", subtitle: "ByOnco ସହିତ ଆପଣଙ୍କର ବ୍ୟକ୍ତିଗତ କ୍ୟାନ୍ସର ଯାତ୍ରା ଆରମ୍ଭ କରନ୍ତୁ।", name: "ପୁରା ନାମ", phone: "ଫୋନ୍ ନମ୍ବର", city: "ସହର", language: "ଭାଷା ଚୟନ କରନ୍ତୁ", disease: "ରୋଗ ପ୍ରକାର", stage: "କ୍ୟାନ୍ସର ଅବସ୍ଥା", insurance: "ବୀମା ପ୍ରଦାନକାରୀ", book: "ପରାମର୍ଶ ବୁକ୍ କରନ୍ତୁ", next: "ଆଗକୁ", back: "ପଛକୁ" },
-  pa: { languageLabel: "ਪੰਜਾਬੀ (Punjabi)", title: "ਆਓ ਸ਼ੁਰੂ ਕਰੀਏ", subtitle: "ByOnco ਨਾਲ ਆਪਣੀ ਨਿੱਜੀ ਕੈਂਸਰ ਸੰਭਾਲ ਯਾਤਰਾ ਸ਼ੁਰੂ ਕਰੋ।", name: "ਪੂਰਾ ਨਾਂ", phone: "ਫੋਨ ਨੰਬਰ", city: "ਸ਼ਹਿਰ", language: "ਭਾਸ਼ਾ ਚੁਣੋ", disease: "ਬਿਮਾਰੀ ਦੀ ਕਿਸਮ", stage: "ਕੈਂਸਰ ਦਾ ਪੜਾਅ", insurance: "ਬੀਮਾ ਪ੍ਰਦਾਤਾ", book: "ਮਸ਼ਵਰਾ ਬੁੱਕ ਕਰੋ", next: "ਅਗਲਾ", back: "ਪਿੱਛੇ" },
-  ur: { languageLabel: "اردو (Urdu)", title: "آئیے شروع کریں", subtitle: "ByOnco کے ساتھ اپنی ذاتی کینسر کی دیکھ بھال کا سفر شروع کریں۔", name: "پورا نام", phone: "فون نمبر", city: "شہر", language: "زبان منتخب کریں", disease: "بیماری کی قسم", stage: "کینسر کا مرحلہ", insurance: "انشورنس فراہم کنندہ", book: "مشورہ بُک کریں", next: "اگلا", back: "پیچھے" },
-  as: { languageLabel: "অসমীয়া (Assamese)", title: "আহক আৰম্ভ কৰোঁ", subtitle: "ByOnco ৰ সৈতে আপোনাৰ ব্যক্তিগত কেঞ্চাৰ যত্ন যাত্ৰা আৰম্ভ কৰক।", name: "সম্পূৰ্ণ নাম", phone: "ফোন নম্বৰ", city: "চহৰ", language: "ভাষা বাচনি কৰক", disease: "ৰোগৰ প্ৰকাৰ", stage: "কেঞ্চাৰৰ পৰ্যায়", insurance: "বীমা প্ৰদানকাৰী", book: "পৰামৰ্শ বুক কৰক", next: "পিছলৈ", back: "আগলৈ" },
-  ks: { languageLabel: "کٲشُر (Kashmiri)", title: "شروعات کریو", subtitle: "ByOnco سیتھ اپنا شخصی کینسر علاج شروع کریو۔", name: "پورا ناو", phone: "فون نمبر", city: "شہر", language: "زبان چنو", disease: "مرض کی قسم", stage: "کینسر مرحلہ", insurance: "انشورنس فراہم کنندہ", book: "مشورہ بُک کریو", next: "اگلا", back: "پیچھے" },
-  kok: { languageLabel: "कोंकणी (Konkani)", title: "सुरवात करूया", subtitle: "ByOnco सोबत तुमका वैयक्तिक कॅन्सर उपचार यात्रा सुरू करात.", name: "पूर नाव", phone: "फोन नंबर", city: "शहर", language: "भाषा निवडात", disease: "रोग प्रकार", stage: "कॅन्सर टप्पो", insurance: "विमा पुरवणारा", book: "सल्ला बुक करा", next: "पुढे", back: "मागे" },
-  doi: { languageLabel: "डोगरी (Dogri)", title: "शुरू करां", subtitle: "ByOnco दे नाल अपन कैंसर इलाज दी यात्रा शुरू करो।", name: "पूरा नांव", phone: "फोन नंबर", city: "शहर", language: "भाषा चुनो", disease: "बीमारी दी किस्म", stage: "कैंसर दा स्टेज", insurance: "बीमा कंपनी", book: "कंसल्टेशन बुक करो", next: "आगे", back: "पीछे" },
-  ne: { languageLabel: "नेपाली (Nepali)", title: "सुरु गरौं", subtitle: "ByOnco सँग तपाईको व्यक्तिगत क्यान्सर उपचार यात्रा सुरु गर्नुहोस्।", name: "पूरा नाम", phone: "फोन नम्बर", city: "शहर", language: "भाषा छान्नुहोस्", disease: "रोग प्रकार", stage: "क्यान्सरको चरण", insurance: "बीमा प्रदायक", book: "परामर्श बुक गर्नुहोस्", next: "अर्को", back: "पछाडि" },
-  sa: { languageLabel: "संस्कृतम् (Sanskrit)", title: "आरभामः", subtitle: "ByOnco सह आत्मनः कर्करोगचिकित्सायाः यात्रा आरभाम।", name: "पूर्णं नाम", phone: "दूरवाणी संख्या", city: "नगरं", language: "भाषा चयनं कुर्वन्तु", disease: "रोगप्रकारः", stage: "कर्करोगः चरणः", insurance: "बीमा प्रदाता", book: "परामर्शं बुक कुरुत", next: "अन्यतमः", back: "पृष्ठतः" },
-  brx: { languageLabel: "बोडो (Bodo)", title: "आओ सुरू करा", subtitle: "ByOnco निफ्राय बायोबाखाय आरो सारथि आरो लाजाय सुरू करा।", name: "फुल नाय", phone: "फोन नम्बर", city: "नगर", language: "बोली बाइ", disease: "बायोबाखाय प्रजाती", stage: "बायोबाखाय फेज", insurance: "बीमा प्राभाइडर", book: "सलाह बुक करा", next: "फिराइ", back: "घोराइ" },
-  mai: { languageLabel: "मैथिली (Maithili)", title: "चलू शुरू करी", subtitle: "ByOnco सँग अपन व्यक्तिगत कैंसर देखभाल यात्रा शुरू करी।", name: "पूरा नाम", phone: "फोन नंबर", city: "नगर", language: "भाषा चुनू", disease: "रोग प्रकार", stage: "कैंसर अवस्था", insurance: "बीमा प्रदाता", book: "परामर्श बुक करू", next: "आगू", back: "पाछाँ" }
-};
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const API = `${BACKEND_URL}/api/get-started`;
 
+const cancerStages = ['Stage 0', 'Stage I', 'Stage II', 'Stage III', 'Stage IV', 'Not Diagnosed Yet'];
+const contactMethods = ['Phone', 'Email', 'WhatsApp'];
+const timePreferences = ['Morning (9 AM - 12 PM)', 'Afternoon (12 PM - 5 PM)', 'Evening (5 PM - 8 PM)', 'Any Time'];
+
+// Common country codes
+const countryCodes = [
+  { code: '+91', country: 'India', flag: '🇮🇳' },
+  { code: '+1', country: 'USA/Canada', flag: '🇺🇸' },
+  { code: '+44', country: 'UK', flag: '🇬🇧' },
+  { code: '+61', country: 'Australia', flag: '🇦🇺' },
+  { code: '+971', country: 'UAE', flag: '🇦🇪' },
+  { code: '+65', country: 'Singapore', flag: '🇸🇬' },
+  { code: '+60', country: 'Malaysia', flag: '🇲🇾' },
+  { code: '+66', country: 'Thailand', flag: '🇹🇭' },
+  { code: '+86', country: 'China', flag: '🇨🇳' },
+  { code: '+81', country: 'Japan', flag: '🇯🇵' },
+  { code: '+82', country: 'South Korea', flag: '🇰🇷' },
+  { code: '+49', country: 'Germany', flag: '🇩🇪' },
+  { code: '+33', country: 'France', flag: '🇫🇷' },
+  { code: '+39', country: 'Italy', flag: '🇮🇹' },
+  { code: '+34', country: 'Spain', flag: '🇪🇸' },
+  { code: '+31', country: 'Netherlands', flag: '🇳🇱' },
+  { code: '+46', country: 'Sweden', flag: '🇸🇪' },
+  { code: '+47', country: 'Norway', flag: '🇳🇴' },
+  { code: '+41', country: 'Switzerland', flag: '🇨🇭' },
+  { code: '+27', country: 'South Africa', flag: '🇿🇦' },
+];
 
 export default function GetStarted() {
-  const [lang, setLang] = useState("en");
-  const [form, setForm] = useState({ name: "", phone: "", city: "", disease: "", stage: "", insurance: "" });
-  const [step, setStep] = useState(0);
-  const recognitionRef = useRef(null);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  
+  const [formData, setFormData] = useState({
+    // Personal Information
+    full_name: '',
+    email: '',
+    country_code: '+91',
+    phone: '',
+    
+    // Location
+    city: '',
+    state: '',
+    country: 'India',
+    
+    // Medical Information
+    cancer_type: '',
+    cancer_stage: '',
+    
+    // Insurance
+    has_insurance: false,
+    insurance_provider: '',
+    insurance_policy_number: '',
+    
+    // Preferences
+    preferred_language: 'en',
+    preferred_contact_method: 'phone',
+    preferred_time: '',
+    additional_notes: '',
+    
+    // Consent
+    agree_to_terms: false,
+    agree_to_contact: true
+  });
 
-  const t = languages[lang];
-  const fields = ["name", "phone", "city", "disease", "stage", "insurance"];
-  const currentField = fields[step];
+  const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'full_name':
+        return value.length < 2 ? 'Full name must be at least 2 characters' : '';
+      case 'email':
+        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'Please enter a valid email' : '';
+      case 'phone':
+        const fullPhone = `${formData.country_code || '+91'}${value}`.replace(/\s+/g, '');
+        return value.length < 10 || fullPhone.length < 12 ? 'Phone number must be at least 10 digits' : '';
+      case 'city':
+        return value.length < 2 ? 'City is required' : '';
+      case 'cancer_type':
+        return value.length < 2 ? 'Cancer type is required' : '';
+      case 'cancer_stage':
+        return !value ? 'Cancer stage is required' : '';
+      case 'insurance_provider':
+        return formData.has_insurance && !value ? 'Insurance provider is required if you have insurance' : '';
+      default:
+        return '';
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleChange = (name, value) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const handleBlur = (name) => {
+    const error = validateField(name, formData[name]);
+    if (error) {
+      setErrors(prev => ({ ...prev, [name]: error }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    let isValid = true;
+
+    // Required fields
+    const requiredFields = ['full_name', 'email', 'phone', 'city', 'cancer_type', 'cancer_stage'];
+    requiredFields.forEach(field => {
+      const error = validateField(field, formData[field]);
+      if (error) {
+        newErrors[field] = error;
+        isValid = false;
+      }
+    });
+
+    // Conditional validation
+    if (formData.has_insurance && !formData.insurance_provider) {
+      newErrors.insurance_provider = 'Insurance provider is required';
+      isValid = false;
+    }
+
+    if (!formData.agree_to_terms) {
+      newErrors.agree_to_terms = 'You must agree to terms and conditions';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", form);
-    alert(t.book + " ✅");
-  };
+    setError('');
 
-  const startListening = (field) => {
-    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert("Voice recognition is not supported in this browser.");
+    if (!validateForm()) {
+      setError('Please fill in all required fields correctly');
       return;
     }
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = lang + "-IN";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setForm((prev) => ({ ...prev, [field]: transcript }));
-    };
-    recognition.onerror = (event) => {
-      console.error("Speech recognition error", event);
-    };
-    recognition.start();
-    recognitionRef.current = recognition;
+
+    setLoading(true);
+
+    try {
+      const submitData = {
+        ...formData,
+        phone: `${formData.country_code} ${formData.phone}`.trim()
+      };
+      await axios.post(`${API}/submit`, submitData);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to submit form. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+        <div className="w-full max-w-2xl">
+          <Card className="bg-gray-800 border border-gray-700">
+            <CardContent className="p-12 text-center">
+              <div className="mb-6">
+                <CheckCircle2 className="w-20 h-20 text-green-400 mx-auto" />
+              </div>
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Thank You!
+              </h2>
+              <p className="text-xl text-gray-300 mb-8">
+                We'll contact you soon to help you with your cancer care journey.
+              </p>
+              <Button
+                onClick={() => navigate('/')}
+                className="bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                Return to Home
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f9fafc] to-[#eef2f7] px-6 py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border border-gray-200"
-      >
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
-            {t.title}
+    <div className="min-h-screen bg-gray-900 py-8 sm:py-12 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Back Button */}
+        <Button
+          variant="ghost"
+          className="text-white hover:text-purple-300 hover:bg-gray-800 mb-6"
+          onClick={() => navigate('/')}
+        >
+          <ChevronLeft className="h-4 w-4 mr-2" />
+          Back to Home
+        </Button>
+
+        {/* Header */}
+        <div className="text-center mb-8 sm:mb-12 px-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-white break-words">
+            Let's Get You Started
           </h1>
-          <p className="text-sm text-gray-500 leading-relaxed">
-            {t.subtitle}
+          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-2">
+            Begin your personalized cancer care journey with ByOnco. Fill in the details below and we'll contact you soon.
           </p>
         </div>
 
-        <div className="mb-5">
-          <label htmlFor="lang" className="block text-sm font-medium text-gray-700 mb-1">
-            {t.language}
-          </label>
-          <select
-            id="lang"
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-            className="block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm overflow-y-auto"
-          >
-            {Object.entries(languages).map(([key, val]) => (
-              <option key={key} value={key}>{val.languageLabel}</option>
-            ))}
-          </select>
-        </div>
+        {/* Form */}
+        <Card className="bg-gray-800 border border-gray-700">
+          <CardHeader className="px-4 sm:px-6 pt-4 sm:pt-6">
+            <CardTitle className="text-xl sm:text-2xl text-white font-semibold">Patient Information</CardTitle>
+            <CardDescription className="text-gray-400 text-sm sm:text-base mt-1">
+              All fields marked with * are required
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              {error && (
+                <Alert variant="destructive" className="bg-red-900/50 border-red-700 text-red-200">
+                  <AlertCircle className="h-4 w-4" />
+                  {error}
+                </Alert>
+              )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
-            <input
-              name={currentField}
-              type="text"
-              required={currentField !== "insurance"}
-              placeholder={t[currentField]}
-              value={form[currentField]}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900"
-            />
-            <button
-              type="button"
-              onClick={() => startListening(currentField)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 hover:text-blue-700"
-              title="Voice input"
-            >
-              🎙️
-            </button>
-          </div>
+              {/* Personal Information Section */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <User className="w-5 h-5 text-purple-400" />
+                  Personal Information
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <Label htmlFor="full_name" className="text-white font-medium text-sm sm:text-base">
+                      Full Name <span className="text-red-400">*</span>
+                    </Label>
+                    <Input
+                      id="full_name"
+                      type="text"
+                      placeholder="Joe Patel"
+                      value={formData.full_name}
+                      onChange={(e) => handleChange('full_name', e.target.value)}
+                      onBlur={() => handleBlur('full_name')}
+                      className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-3 sm:px-4 py-2.5 sm:py-3 h-auto text-sm sm:text-base"
+                      required
+                    />
+                    {errors.full_name && (
+                      <p className="text-sm text-red-400">{errors.full_name}</p>
+                    )}
+                  </div>
 
-          <div className="flex justify-between items-center">
-            {step > 0 && (
-              <button
-                type="button"
-                onClick={() => setStep((prev) => prev - 1)}
-                className="px-4 py-2 text-sm text-blue-600 hover:underline"
-              >
-                ⬅ {t.back}
-              </button>
-            )}
-            {step < fields.length - 1 ? (
-              <button
-                type="button"
-                onClick={() => setStep((prev) => prev + 1)}
-                className="ml-auto px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow-md"
-              >
-                {t.next} ➡
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="ml-auto px-5 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg shadow-md transition-colors duration-200"
->
-                {t.book}
-              </button>
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <Label htmlFor="email" className="text-white font-medium text-sm sm:text-base">
+                      Email <span className="text-red-400">*</span>
+                    </Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-500 z-10 pointer-events-none" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="your@email.com"
+                        value={formData.email}
+                        onChange={(e) => handleChange('email', e.target.value)}
+                        onBlur={() => handleBlur('email')}
+                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 pr-3 sm:pr-4 py-2.5 sm:py-3 h-auto text-sm sm:text-base"
+                        style={{ paddingLeft: '2.75rem' }}
+                        required
+                      />
+                    </div>
+                    {errors.email && (
+                      <p className="text-sm text-red-400">{errors.email}</p>
+                    )}
+                  </div>
 
-            )}
-          </div>
-        </form>
-      </motion.div>
-    </main>
+                  <div className="space-y-1.5 sm:space-y-2 md:col-span-2">
+                    <Label htmlFor="phone" className="text-white font-medium text-sm sm:text-base">
+                      Phone Number <span className="text-red-400">*</span>
+                    </Label>
+                    <div className="flex gap-2">
+                      <Select
+                        value={formData.country_code}
+                        onValueChange={(value) => {
+                          setFormData({...formData, country_code: value});
+                        }}
+                      >
+                        <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-3 sm:px-4 py-2.5 sm:py-3 h-auto w-24 sm:w-28 flex-shrink-0 text-sm sm:text-base">
+                          <SelectValue className="text-gray-900" />
+                        </SelectTrigger>
+                        <SelectContent 
+                          className="bg-white border-gray-300 max-h-[300px] overflow-y-scroll min-w-[var(--radix-select-trigger-width)]"
+                          position="popper"
+                          style={{ zIndex: 9999 }}
+                        >
+                          {countryCodes.map((country) => (
+                            <SelectItem 
+                              key={country.code} 
+                              value={country.code} 
+                              className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5"
+                            >
+                              <span className="flex items-center gap-2">
+                                <span>{country.flag}</span>
+                                <span>{country.code}</span>
+                              </span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <div className="relative flex-1">
+                        <Phone className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-500 z-10 pointer-events-none" />
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="98765 43210"
+                          value={formData.phone}
+                          onChange={(e) => handleChange('phone', e.target.value)}
+                          onBlur={() => handleBlur('phone')}
+                          className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 pr-3 sm:pr-4 py-2.5 sm:py-3 h-auto text-sm sm:text-base"
+                          style={{ paddingLeft: '2.75rem' }}
+                          required
+                        />
+                      </div>
+                    </div>
+                    {errors.phone && (
+                      <p className="text-sm text-red-400">{errors.phone}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="city" className="text-white font-medium">
+                      City <span className="text-red-400">*</span>
+                    </Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500 z-10 pointer-events-none" />
+                      <Input
+                        id="city"
+                        type="text"
+                        placeholder="Mumbai"
+                        value={formData.city}
+                        onChange={(e) => handleChange('city', e.target.value)}
+                        onBlur={() => handleBlur('city')}
+                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 pr-4 py-3 h-auto"
+                        style={{ paddingLeft: '3.5rem' }}
+                        required
+                      />
+                    </div>
+                    {errors.city && (
+                      <p className="text-sm text-red-400">{errors.city}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Medical Information Section */}
+              <div className="space-y-4 pt-4 border-t border-gray-700">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <Stethoscope className="w-5 h-5 text-purple-400" />
+                  Medical Information
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="cancer_type" className="text-white font-medium">
+                      Cancer Type <span className="text-red-400">*</span>
+                    </Label>
+                    <Input
+                      id="cancer_type"
+                      type="text"
+                      placeholder="e.g., Breast Cancer, Lung Cancer"
+                      value={formData.cancer_type}
+                      onChange={(e) => handleChange('cancer_type', e.target.value)}
+                      onBlur={() => handleBlur('cancer_type')}
+                      className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
+                      required
+                    />
+                    {errors.cancer_type && (
+                      <p className="text-sm text-red-400">{errors.cancer_type}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="cancer_stage" className="text-white font-medium">
+                      Cancer Stage <span className="text-red-400">*</span>
+                    </Label>
+                    <Select
+                      value={formData.cancer_stage}
+                      onValueChange={(value) => handleChange('cancer_stage', value)}
+                    >
+                      <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-4 py-3 h-auto w-full">
+                        <SelectValue placeholder="Select stage" className="text-gray-900" />
+                      </SelectTrigger>
+                      <SelectContent 
+                        className="bg-white border-gray-300 min-w-[var(--radix-select-trigger-width)]"
+                        position="popper"
+                        style={{ zIndex: 9999 }}
+                      >
+                        {cancerStages.map((stage) => (
+                          <SelectItem 
+                            key={stage} 
+                            value={stage} 
+                            className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5"
+                          >
+                            {stage}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.cancer_stage && (
+                      <p className="text-sm text-red-400">{errors.cancer_stage}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Insurance Information Section */}
+              <div className="space-y-4 pt-4 border-t border-gray-700">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-purple-400" />
+                  Insurance Information
+                </h3>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="has_insurance"
+                    checked={formData.has_insurance}
+                    onCheckedChange={(checked) => handleChange('has_insurance', checked)}
+                    className="border-gray-600"
+                  />
+                  <Label htmlFor="has_insurance" className="text-white cursor-pointer font-medium">
+                    I have health insurance
+                  </Label>
+                </div>
+
+                {formData.has_insurance && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="insurance_provider" className="text-white font-medium">
+                        Insurance Provider <span className="text-red-400">*</span>
+                      </Label>
+                      <Input
+                        id="insurance_provider"
+                        type="text"
+                        placeholder="e.g., Star Health, HDFC Ergo"
+                        value={formData.insurance_provider}
+                        onChange={(e) => handleChange('insurance_provider', e.target.value)}
+                        onBlur={() => handleBlur('insurance_provider')}
+                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
+                      />
+                      {errors.insurance_provider && (
+                        <p className="text-sm text-red-400">{errors.insurance_provider}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="insurance_policy_number" className="text-white font-medium">
+                        Policy Number
+                      </Label>
+                      <Input
+                        id="insurance_policy_number"
+                        type="text"
+                        placeholder="Policy number (optional)"
+                        value={formData.insurance_policy_number}
+                        onChange={(e) => handleChange('insurance_policy_number', e.target.value)}
+                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Preferences Section */}
+              <div className="space-y-4 pt-4 border-t border-gray-700">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-purple-400" />
+                  Contact Preferences
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="preferred_contact_method" className="text-white font-medium">
+                      Preferred Contact Method
+                    </Label>
+                    <Select
+                      value={formData.preferred_contact_method}
+                      onValueChange={(value) => handleChange('preferred_contact_method', value)}
+                    >
+                      <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-4 py-3 h-auto w-full">
+                        <SelectValue className="text-gray-900" />
+                      </SelectTrigger>
+                      <SelectContent 
+                        className="bg-white border-gray-300 min-w-[var(--radix-select-trigger-width)]"
+                        position="popper"
+                        style={{ zIndex: 9999 }}
+                      >
+                        {contactMethods.map((method) => (
+                          <SelectItem 
+                            key={method} 
+                            value={method.toLowerCase()} 
+                            className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5"
+                          >
+                            {method}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="preferred_time" className="text-white font-medium">
+                      Preferred Contact Time
+                    </Label>
+                    <Select
+                      value={formData.preferred_time}
+                      onValueChange={(value) => handleChange('preferred_time', value)}
+                    >
+                      <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-4 py-3 h-auto w-full">
+                        <SelectValue placeholder="Select time" className="text-gray-900" />
+                      </SelectTrigger>
+                      <SelectContent 
+                        className="bg-white border-gray-300 min-w-[var(--radix-select-trigger-width)]"
+                        position="popper"
+                        style={{ zIndex: 9999 }}
+                      >
+                        {timePreferences.map((time) => (
+                          <SelectItem 
+                            key={time} 
+                            value={time} 
+                            className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5"
+                          >
+                            {time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="additional_notes" className="text-white font-medium">
+                    Additional Notes (Optional)
+                  </Label>
+                  <Textarea
+                    id="additional_notes"
+                    placeholder="Any additional information you'd like to share..."
+                    value={formData.additional_notes}
+                    onChange={(e) => handleChange('additional_notes', e.target.value)}
+                    className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 min-h-[100px] px-4 py-3"
+                    rows={4}
+                  />
+                </div>
+              </div>
+
+              {/* Consent Section */}
+              <div className="space-y-4 pt-4 border-t border-gray-700">
+                <div className="flex items-start space-x-2">
+                  <Checkbox
+                    id="agree_to_terms"
+                    checked={formData.agree_to_terms}
+                    onCheckedChange={(checked) => handleChange('agree_to_terms', checked)}
+                    className="mt-1 border-gray-600"
+                    required
+                  />
+                  <Label htmlFor="agree_to_terms" className="text-white cursor-pointer text-sm font-medium">
+                    I agree to the{' '}
+                    <a href="/terms-and-conditions" target="_blank" className="text-purple-400 hover:text-purple-300 hover:underline">
+                      Terms and Conditions
+                    </a>{' '}
+                    and{' '}
+                    <a href="/privacy" target="_blank" className="text-purple-400 hover:text-purple-300 hover:underline">
+                      Privacy Policy
+                    </a>
+                    <span className="text-red-400"> *</span>
+                  </Label>
+                </div>
+                {errors.agree_to_terms && (
+                  <p className="text-sm text-red-400">{errors.agree_to_terms}</p>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-6">
+                <Button
+                  type="submit"
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-lg font-semibold"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit & Get Started'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }
