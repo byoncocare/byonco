@@ -154,7 +154,7 @@ const FindHospitals = () => {
               Find World's Top Cancer Hospitals
             </h1>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-purple-100 max-w-3xl mx-auto px-2" data-testid="page-subtitle">
-              Connect with expert oncologists and world-class cancer care centers across 25+ major cities
+              Connect with expert oncologists and world-class cancer care centers across 31+ major cities
             </p>
             
             {/* Search Bar */}

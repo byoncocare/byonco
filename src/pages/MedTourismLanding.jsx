@@ -155,8 +155,8 @@ const MedTourismLanding = () => {
   const stats = [
     { value: "10,000+", label: "Monthly Active Users" },
     { value: "1,000+", label: "Families Guided" },
-    { value: "14,300+", label: "Hospitals Mapped" },
-    { value: "<24 Hours", label: "Second Opinions" },
+    { value: "1300+", label: "Hospitals Mapped" },
+    { value: "<12 Hours", label: "Second Opinions" },
   ];
 
   const plans = [
@@ -376,7 +376,7 @@ const MedTourismLanding = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-white">
-                    ₹12,50,000
+                    ₹42,50,000
                   </span>
                   <Button size="sm" className="mini-cta">
                     View Details
@@ -657,119 +657,84 @@ const MedTourismLanding = () => {
 
   {/* CARD GRID */}
   <div
-    style={{
-      display: "flex",
-      gap: "2rem",
-      justifyContent: "center",
-      alignItems: "stretch",
-      flexWrap: "nowrap",
-      marginTop: "3rem",
-    }}
+    className="flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-stretch mt-6 md:mt-12 px-2 md:px-0"
   >
-
     {/* CARD 1 — ULTRA RARE */}
     <div
-      className="hover-card"
+      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300"
       style={{
-        width: "33%",
         background: "rgba(30, 20, 50, 0.35)",
         border: "1px solid rgba(139, 92, 246, 0.25)",
         boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
-        borderRadius: "20px",
-        padding: "1.8rem",
-        transition: "all 0.3s ease",
       }}
     >
-      <h3 className="feature-title">Ultra-Rare Cancers</h3>
-      <p className="feature-description" style={{ marginTop: "0.6rem" }}>
+      <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Ultra-Rare Cancers</h3>
+      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
         14 ultra-rare types including DIPG, ATRT, NUT carcinoma.
         Pediatric tumors, rare carcinomas & aggressive sarcomas.
       </p>
 
       <div
-        className="inner-box-red"
+        className="inner-box-red mt-3 md:mt-5 p-3 md:p-5 rounded-lg md:rounded-[14px]"
         style={{
-          marginTop: "1.2rem",
-          padding: "1.2rem",
           background: "rgba(60, 40, 90, 0.45)",
-          borderRadius: "14px",
           border: "1px solid rgba(139, 92, 246, 0.3)",
         }}
       >
-        <div style={{ fontSize: "0.9rem", marginBottom: "0.4rem", color: "#cbd5e1" }}>
-          Types Covered
-        </div>
-        <div style={{ fontSize: "1.9rem", fontWeight: 700, color: "#ff4747" }}>14</div>
+        <div className="text-xs md:text-sm mb-1 md:mb-2 text-[#cbd5e1]">Types Covered</div>
+        <div className="text-2xl md:text-3xl lg:text-[1.9rem] font-bold text-[#ff4747]">14</div>
       </div>
     </div>
 
     {/* CARD 2 — VERY RARE */}
     <div
-      className="hover-card"
+      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300"
       style={{
-        width: "33%",
         background: "rgba(30, 20, 50, 0.35)",
         border: "1px solid rgba(139, 92, 246, 0.25)",
         boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
-        borderRadius: "20px",
-        padding: "1.8rem",
-        transition: "all 0.3s ease",
       }}
     >
-      <h3 className="feature-title">Very Rare Cancers</h3>
-      <p className="feature-description" style={{ marginTop: "0.6rem" }}>
+      <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Very Rare Cancers</h3>
+      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
         12 high-risk types including Chordoma, Merkel Cell & Angiosarcoma.
       </p>
 
       <div
-        className="inner-box-orange"
+        className="inner-box-orange mt-3 md:mt-5 p-3 md:p-5 rounded-lg md:rounded-[14px]"
         style={{
-          marginTop: "1.2rem",
-          padding: "1.2rem",
           background: "rgba(60, 40, 90, 0.45)",
-          borderRadius: "14px",
           border: "1px solid rgba(139, 92, 246, 0.3)",
         }}
       >
-        <div style={{ fontSize: "0.9rem", marginBottom: "0.4rem", color: "#cbd5e1" }}>
-          Types Covered
-        </div>
-        <div style={{ fontSize: "1.9rem", fontWeight: 700, color: "#ff9f1c" }}>12</div>
+        <div className="text-xs md:text-sm mb-1 md:mb-2 text-[#cbd5e1]">Types Covered</div>
+        <div className="text-2xl md:text-3xl lg:text-[1.9rem] font-bold text-[#ff9f1c]">12</div>
       </div>
     </div>
 
     {/* CARD 3 — RARE */}
     <div
-      className="hover-card"
+      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300"
       style={{
-        width: "33%",
         background: "rgba(30, 20, 50, 0.35)",
         border: "1px solid rgba(139, 92, 246, 0.25)",
         boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
-        borderRadius: "20px",
-        padding: "1.8rem",
-        transition: "all 0.3s ease",
       }}
     >
-      <h3 className="feature-title">Rare Cancers</h3>
-      <p className="feature-description" style={{ marginTop: "0.6rem" }}>
+      <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Rare Cancers</h3>
+      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
         13 moderately complex types including GIST & Mesothelioma.
       </p>
 
       <div
-        className="inner-box-yellow"
+        className="inner-box-yellow mt-3 md:mt-5 p-3 md:p-5 rounded-lg md:rounded-[14px]"
         style={{
-          marginTop: "1.2rem",
-          padding: "1.2rem",
           background: "rgba(60, 40, 90, 0.45)",
-          borderRadius: "14px",
           border: "1px solid rgba(139, 92, 246, 0.3)",
         }}
       >
-        <div style={{ fontSize: "0.9rem", marginBottom: "0.4rem", color: "#cbd5e1" }}>
-          Types Covered
-        </div>
-        <div style={{ fontSize: "1.9rem", fontWeight: 700, color: "#facc15" }}>13</div>
+        <div className="text-xs md:text-sm mb-1 md:mb-2 text-[#cbd5e1]">Types Covered</div>
+        <div className="text-2xl md:text-3xl lg:text-[1.9rem] font-bold text-[#facc15]">13</div>
       </div>
     </div>
 
@@ -797,46 +762,27 @@ const MedTourismLanding = () => {
   </div>
 
   {/* MAIN WRAPPER */}
-  <div
-    style={{
-      display: "flex",
-      gap: "2rem",
-      marginTop: "3rem",
-      flexWrap: "nowrap",
-      justifyContent: "center",
-    }}
-  >
-
+  <div className="flex flex-col md:flex-row gap-4 md:gap-8 mt-6 md:mt-12 px-2 md:px-0 justify-center">
     {/* LEFT BOX – CITIES */}
     <div
-      className="med-tourism-card"
+      className="med-tourism-card w-full md:w-[48%] rounded-xl md:rounded-[20px] p-4 md:p-6 lg:p-10"
       style={{
-        width: "48%",
         background: "rgba(30, 20, 50, 0.35)",
         border: "1px solid rgba(139,92,246,0.25)",
         boxShadow: "0 0 25px rgba(100, 50, 200, 0.25)",
-        borderRadius: "20px",
-        padding: "2.5rem",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-        <MapPin size={26} color="#a78bfa" />
-        <h3 className="feature-title" style={{ fontSize: "1.5rem" }}>31 Premium Cities Worldwide</h3>
+      <div className="flex items-center gap-2 md:gap-3 flex-wrap">
+        <MapPin size={22} className="md:w-6 md:h-6 flex-shrink-0" color="#a78bfa" />
+        <h3 className="feature-title text-base md:text-lg lg:text-xl xl:text-[1.5rem] break-words">31 Premium Cities Worldwide</h3>
       </div>
 
-      <p className="feature-description" style={{ marginTop: "0.8rem" }}>
+      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words">
         Access world-class cancer treatment centers across the world's top medical hubs
       </p>
 
       {/* CITY GRID */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "1.2rem",
-          marginTop: "2rem",
-        }}
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 lg:gap-5 mt-4 md:mt-6 lg:mt-8">
         {[
           { name: "Mumbai", country: "India", facilities: "Top-tier facilities" },
           { name: "New Delhi", country: "India", facilities: "Top-tier facilities" },
@@ -849,29 +795,26 @@ const MedTourismLanding = () => {
         ].map((city, idx) => (
           <div
             key={idx}
-            className="city-card"
+            className="city-card p-2 md:p-3 lg:p-5 rounded-lg md:rounded-[14px] text-center"
             style={{
               background: "rgba(20,20,35,0.55)",
               border: "1px solid rgba(139,92,246,0.15)",
-              padding: "1.3rem",
-              borderRadius: "14px",
-              textAlign: "center",
             }}
           >
-            <div style={{ fontSize: "1.15rem", fontWeight: 600, color: "#fff" }}>
+            <div className="text-sm md:text-base lg:text-lg font-semibold text-white break-words">
               {city.name}
             </div>
-            <div style={{ fontSize: "0.75rem", marginTop: "0.2rem", color: "#a78bfa", fontWeight: 500 }}>
+            <div className="text-xs md:text-sm mt-1 md:mt-2 text-[#a78bfa] font-medium break-words">
               {city.country}
             </div>
-            <div style={{ fontSize: "0.85rem", marginTop: "0.3rem", color: "#cbd5e1" }}>
+            <div className="text-xs md:text-sm lg:text-base mt-1 md:mt-2 text-[#cbd5e1] break-words">
               {city.facilities}
             </div>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: "1rem", textAlign: "center" }}>
-        <p style={{ fontSize: "0.9rem", color: "#a78bfa", fontWeight: 500 }}>
+      <div className="mt-3 md:mt-4 lg:mt-6 text-center">
+        <p className="text-xs md:text-sm lg:text-base text-[#a78bfa] font-medium break-words px-2">
           + 23 more cities including Boston, Toronto, Berlin, Dubai, Bangkok, and more
         </p>
       </div>
@@ -879,26 +822,23 @@ const MedTourismLanding = () => {
 
     {/* RIGHT BOX – PACKAGE INCLUSIONS */}
     <div
-      className="med-tourism-card blue"
+      className="med-tourism-card blue w-full md:w-[48%] rounded-xl md:rounded-[20px] p-4 md:p-6 lg:p-10"
       style={{
-        width: "48%",
         background: "rgba(20, 30, 50, 0.30)",
         border: "1px solid rgba(56,189,248,0.20)",
         boxShadow: "0 0 25px rgba(56,189,248,0.25)",
-        borderRadius: "20px",
-        padding: "2.5rem",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
-        <Building2 size={26} color="#38bdf8" />
-        <h3 className="feature-title" style={{ fontSize: "1.5rem" }}>Package Inclusions</h3>
+      <div className="flex items-center gap-2 md:gap-3 flex-wrap">
+        <Building2 size={22} className="md:w-6 md:h-6 flex-shrink-0" color="#38bdf8" />
+        <h3 className="feature-title text-base md:text-lg lg:text-xl xl:text-[1.5rem] break-words">Package Inclusions</h3>
       </div>
 
-      <p className="feature-description" style={{ marginTop: "0.7rem" }}>
+      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words">
         Everything you need for a seamless medical journey
       </p>
 
-      <ul style={{ marginTop: "1.6rem", paddingLeft: "0" }}>
+      <ul className="mt-4 md:mt-6 lg:mt-8 pl-0 space-y-2 md:space-y-3 lg:space-y-4">
         {[
           "Treatment with itemized costs",
           "Visa assistance & documentation",
@@ -910,17 +850,10 @@ const MedTourismLanding = () => {
         ].map((item, idx) => (
           <li
             key={idx}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.7rem",
-              marginBottom: "1rem",
-              fontSize: "1rem",
-              color: "#e2e8f0",
-            }}
+            className="flex items-start md:items-center gap-2 md:gap-3 text-sm md:text-base lg:text-lg text-[#e2e8f0] break-words"
           >
-            <CheckCircle2 size={20} color="#38bdf8" />
-            {item}
+            <CheckCircle2 size={18} className="md:w-5 md:h-5 flex-shrink-0 mt-0.5 md:mt-0" color="#38bdf8" />
+            <span>{item}</span>
           </li>
         ))}
       </ul>
