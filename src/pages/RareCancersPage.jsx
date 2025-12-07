@@ -12,10 +12,10 @@ import axios from 'axios';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
 
-// Debug: Log the backend URL being used
-if (process.env.NODE_ENV === 'development') {
-  console.log('🔗 Backend URL configured as:', BACKEND_URL);
-}
+// Debug: Log the backend URL being used (always log in production too for debugging)
+console.log('🔗 Backend URL configured as:', BACKEND_URL);
+console.log('🔗 API base URL:', API);
+console.log('🔗 Environment variable REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL || 'NOT SET (using default)');
 
 export default function RareCancersPage() {
   const navigate = useNavigate();
@@ -38,11 +38,30 @@ export default function RareCancersPage() {
       setLoading(true);
       setError('');
 
+      // First, test if backend is accessible (with longer timeout for free tier wake-up)
+      try {
+        console.log('Testing backend connection:', BACKEND_URL);
+        console.log('⏳ Backend may be sleeping (free tier). This may take 30-60 seconds...');
+        await axios.get(`${BACKEND_URL}/`, {
+          timeout: 60000, // 60 seconds to allow backend to wake up
+        });
+        console.log('✅ Backend is accessible');
+      } catch (testError) {
+        console.error('❌ Backend connection test failed:', testError);
+        if (testError.code === 'ECONNREFUSED' || testError.message?.includes('Network Error') || testError.code === 'ERR_NETWORK') {
+          throw new Error('BACKEND_UNREACHABLE');
+        }
+        // Don't throw on timeout - backend might just be slow to wake up
+        if (testError.code === 'ECONNABORTED') {
+          console.warn('⚠️ Backend connection timed out, but continuing to try API calls...');
+        }
+      }
+
       // Try /api/cancer-types first (has both rare and common)
       try {
         console.log('Fetching from:', `${API}/cancer-types`);
         const response = await axios.get(`${API}/cancer-types`, {
-          timeout: 10000,
+          timeout: 60000, // Increased to 60 seconds to allow backend to wake up (free tier)
           headers: {
             'Content-Type': 'application/json',
           }
@@ -87,7 +106,7 @@ export default function RareCancersPage() {
       try {
         console.log('Fetching from fallback:', `${API}/rare-cancers`);
         const rareResponse = await axios.get(`${API}/rare-cancers`, {
-          timeout: 10000,
+          timeout: 60000, // Increased to 60 seconds to allow backend to wake up (free tier)
         });
         
         const rareData = Array.isArray(rareResponse.data) ? rareResponse.data : [];
@@ -123,13 +142,19 @@ export default function RareCancersPage() {
         url: err.config?.url
       });
       
-      const errorMessage = err.response?.status === 404 
-        ? 'Backend endpoint not found. Please ensure the server is running on port 8000.'
-        : err.response?.status === 500
-        ? 'Server error. Please check backend logs.'
-        : err.code === 'ECONNREFUSED' || err.message?.includes('Network Error')
-        ? 'Cannot connect to backend. Please ensure the server is running on https://byonco-fastapi-backend.onrender.com'
-        : `Failed to load cancer types: ${err.message}`;
+      let errorMessage = '';
+      
+      if (err.message === 'BACKEND_UNREACHABLE' || err.code === 'ECONNREFUSED' || err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
+        errorMessage = `Cannot connect to backend at ${BACKEND_URL}. The server may be sleeping (Render free tier) or not deployed. Please check: 1) Backend is deployed on Render, 2) Backend service is running, 3) URL is correct.`;
+      } else if (err.response?.status === 404) {
+        errorMessage = 'Backend endpoint not found. The API route may have changed.';
+      } else if (err.response?.status === 500) {
+        errorMessage = 'Server error. Please check backend logs on Render.';
+      } else if (err.response?.status === 0 || !err.response) {
+        errorMessage = `Network error: Unable to reach ${BACKEND_URL}. Check your internet connection and verify the backend is deployed.`;
+      } else {
+        errorMessage = `Failed to load cancer types: ${err.message || 'Unknown error'}`;
+      }
       
       setError(errorMessage);
       setRareCancers([]);
@@ -156,7 +181,7 @@ export default function RareCancersPage() {
       console.log('Fetching specialists from:', url);
       
       const res = await axios.get(url, {
-        timeout: 10000,
+        timeout: 60000, // Increased to 60 seconds to allow backend to wake up (free tier)
       });
       
       console.log('Specialists response:', res.data);
