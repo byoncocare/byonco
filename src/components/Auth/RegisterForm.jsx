@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Loader2, Mail, Lock, User, Phone } from 'lucide-react';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api/auth`;
 
 export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
@@ -222,6 +222,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
     </Card>
   );
 }
+
 
 
 

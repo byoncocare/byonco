@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChevronLeft, Search, Filter } from 'lucide-react';
 
-const BACKEND_URL = 'http://127.0.0.1:8000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
 
 export default function FindOncologistsPage() {

@@ -11,11 +11,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Star, MapPin, Phone, Mail, Building2, Stethoscope, Award, Calendar, ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-// Explicitly use port 8000 - ensure .env has REACT_APP_BACKEND_URL=http://localhost:8000
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
-
-// Force port 8000 if somehow 5000 is still being used (safety check)
-const finalBackendUrl = BACKEND_URL.includes('5000') ? 'http://localhost:8000' : BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
+const finalBackendUrl = BACKEND_URL;
 const finalApi = `${finalBackendUrl}/api`;
 
 // Log the backend URL for debugging

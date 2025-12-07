@@ -9,8 +9,7 @@ import { ChevronLeft, Search, Activity, ArrowRight, Loader2, AlertCircle } from 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// Force port 8000 to match backend server (backend runs on 127.0.0.1:8000)
-const BACKEND_URL = 'http://127.0.0.1:8000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
 
 // Debug: Log the backend URL being used
@@ -129,7 +128,7 @@ export default function RareCancersPage() {
         : err.response?.status === 500
         ? 'Server error. Please check backend logs.'
         : err.code === 'ECONNREFUSED' || err.message?.includes('Network Error')
-        ? 'Cannot connect to backend. Please ensure the server is running on http://localhost:8000'
+        ? 'Cannot connect to backend. Please ensure the server is running on https://byonco-fastapi-backend.onrender.com'
         : `Failed to load cancer types: ${err.message}`;
       
       setError(errorMessage);

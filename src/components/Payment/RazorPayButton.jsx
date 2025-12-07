@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react';
 import axios from 'axios';
 import { getAuthToken } from '@/utils/auth';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api/payments`;
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || '';
 

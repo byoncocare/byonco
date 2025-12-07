@@ -20,7 +20,7 @@ import {
 import { countriesData, insurersData, cancerTypes, stages, hospitalTiers } from '@/lib/costCalculatorData';
 import Spline from '@splinetool/react-spline';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API_BASE = `${BACKEND_URL}/api`;
 const INPUT_STEPS = 6; // 1–6 = form, 7 = results
 

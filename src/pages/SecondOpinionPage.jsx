@@ -10,7 +10,7 @@ import { ChevronLeft, FileText, Loader2, CheckCircle2, Sparkles, Clock, Shield, 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
 
 export default function SecondOpinionPage() {

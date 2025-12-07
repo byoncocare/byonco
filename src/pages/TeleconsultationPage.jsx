@@ -14,11 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { format } from 'date-fns';
 
-// Force port 8000 - ensure .env has REACT_APP_BACKEND_URL=http://localhost:8000
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
-
-// Force port 8000 if somehow 5000 is still being used (safety check)
-const finalBackendUrl = BACKEND_URL.includes('5000') ? 'http://localhost:8000' : BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
+const finalBackendUrl = BACKEND_URL;
 const API = `${finalBackendUrl}/api`;
 
 // Log the backend URL for debugging
