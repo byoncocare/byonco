@@ -199,12 +199,12 @@ export default function GetStarted() {
               <p className="text-xl text-gray-300 mb-8">
                 We'll contact you soon to help you with your cancer care journey.
               </p>
-              <Button
-                onClick={() => navigate('/')}
+                <Button
+                  onClick={() => navigate('/')}
                 className="bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                Return to Home
-              </Button>
+                >
+                  Return to Home
+                </Button>
             </CardContent>
           </Card>
         </div>
@@ -216,14 +216,14 @@ export default function GetStarted() {
     <div className="min-h-screen bg-gray-900 py-8 sm:py-12 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
-        <Button
-          variant="ghost"
+          <Button
+            variant="ghost"
           className="text-white hover:text-purple-300 hover:bg-gray-800 mb-6"
-          onClick={() => navigate('/')}
-        >
-          <ChevronLeft className="h-4 w-4 mr-2" />
-          Back to Home
-        </Button>
+            onClick={() => navigate('/')}
+          >
+            <ChevronLeft className="h-4 w-4 mr-2" />
+            Back to Home
+          </Button>
 
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12 px-2">
@@ -240,72 +240,72 @@ export default function GetStarted() {
           <CardHeader className="px-4 sm:px-6 pt-4 sm:pt-6">
             <CardTitle className="text-xl sm:text-2xl text-white font-semibold">Patient Information</CardTitle>
             <CardDescription className="text-gray-400 text-sm sm:text-base mt-1">
-              All fields marked with * are required
-            </CardDescription>
-          </CardHeader>
+                All fields marked with * are required
+              </CardDescription>
+            </CardHeader>
           <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-              {error && (
+                {error && (
                 <Alert variant="destructive" className="bg-red-900/50 border-red-700 text-red-200">
-                  <AlertCircle className="h-4 w-4" />
-                  {error}
-                </Alert>
-              )}
+                    <AlertCircle className="h-4 w-4" />
+                    {error}
+                  </Alert>
+                )}
 
-              {/* Personal Information Section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <User className="w-5 h-5 text-purple-400" />
-                  Personal Information
-                </h3>
-                
+                {/* Personal Information Section */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <User className="w-5 h-5 text-purple-400" />
+                    Personal Information
+                  </h3>
+                  
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div className="space-y-1.5 sm:space-y-2">
                     <Label htmlFor="full_name" className="text-white font-medium text-sm sm:text-base">
-                      Full Name <span className="text-red-400">*</span>
-                    </Label>
-                    <Input
-                      id="full_name"
-                      type="text"
-                      placeholder="Joe Patel"
-                      value={formData.full_name}
-                      onChange={(e) => handleChange('full_name', e.target.value)}
-                      onBlur={() => handleBlur('full_name')}
+                        Full Name <span className="text-red-400">*</span>
+                      </Label>
+                      <Input
+                        id="full_name"
+                        type="text"
+                        placeholder="Joe Patel"
+                        value={formData.full_name}
+                        onChange={(e) => handleChange('full_name', e.target.value)}
+                        onBlur={() => handleBlur('full_name')}
                       className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-3 sm:px-4 py-2.5 sm:py-3 h-auto text-sm sm:text-base"
-                      required
-                    />
-                    {errors.full_name && (
-                      <p className="text-sm text-red-400">{errors.full_name}</p>
-                    )}
-                  </div>
+                        required
+                      />
+                      {errors.full_name && (
+                        <p className="text-sm text-red-400">{errors.full_name}</p>
+                      )}
+                    </div>
 
                   <div className="space-y-1.5 sm:space-y-2">
                     <Label htmlFor="email" className="text-white font-medium text-sm sm:text-base">
-                      Email <span className="text-red-400">*</span>
-                    </Label>
-                    <div className="relative">
+                        Email <span className="text-red-400">*</span>
+                      </Label>
+                      <div className="relative">
                       <Mail className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-500 z-10 pointer-events-none" />
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="your@email.com"
-                        value={formData.email}
-                        onChange={(e) => handleChange('email', e.target.value)}
-                        onBlur={() => handleBlur('email')}
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={(e) => handleChange('email', e.target.value)}
+                          onBlur={() => handleBlur('email')}
                         className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 pr-3 sm:pr-4 py-2.5 sm:py-3 h-auto text-sm sm:text-base"
                         style={{ paddingLeft: '2.75rem' }}
-                        required
-                      />
+                          required
+                        />
+                      </div>
+                      {errors.email && (
+                        <p className="text-sm text-red-400">{errors.email}</p>
+                      )}
                     </div>
-                    {errors.email && (
-                      <p className="text-sm text-red-400">{errors.email}</p>
-                    )}
-                  </div>
 
                   <div className="space-y-1.5 sm:space-y-2 md:col-span-2">
                     <Label htmlFor="phone" className="text-white font-medium text-sm sm:text-base">
-                      Phone Number <span className="text-red-400">*</span>
-                    </Label>
+                        Phone Number <span className="text-red-400">*</span>
+                      </Label>
                     <div className="flex gap-2">
                       <Select
                         value={formData.country_code}
@@ -349,283 +349,283 @@ export default function GetStarted() {
                           required
                         />
                       </div>
+                      </div>
+                      {errors.phone && (
+                        <p className="text-sm text-red-400">{errors.phone}</p>
+                      )}
                     </div>
-                    {errors.phone && (
-                      <p className="text-sm text-red-400">{errors.phone}</p>
-                    )}
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="city" className="text-white font-medium">
-                      City <span className="text-red-400">*</span>
-                    </Label>
-                    <div className="relative">
+                    <div className="space-y-2">
+                      <Label htmlFor="city" className="text-white font-medium">
+                        City <span className="text-red-400">*</span>
+                      </Label>
+                      <div className="relative">
                       <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500 z-10 pointer-events-none" />
-                      <Input
-                        id="city"
-                        type="text"
-                        placeholder="Mumbai"
-                        value={formData.city}
-                        onChange={(e) => handleChange('city', e.target.value)}
-                        onBlur={() => handleBlur('city')}
+                        <Input
+                          id="city"
+                          type="text"
+                          placeholder="Mumbai"
+                          value={formData.city}
+                          onChange={(e) => handleChange('city', e.target.value)}
+                          onBlur={() => handleBlur('city')}
                         className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 pr-4 py-3 h-auto"
                         style={{ paddingLeft: '3.5rem' }}
-                        required
-                      />
+                          required
+                        />
+                      </div>
+                      {errors.city && (
+                        <p className="text-sm text-red-400">{errors.city}</p>
+                      )}
                     </div>
-                    {errors.city && (
-                      <p className="text-sm text-red-400">{errors.city}</p>
-                    )}
                   </div>
                 </div>
-              </div>
 
-              {/* Medical Information Section */}
+                {/* Medical Information Section */}
               <div className="space-y-4 pt-4 border-t border-gray-700">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <Stethoscope className="w-5 h-5 text-purple-400" />
-                  Medical Information
-                </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="cancer_type" className="text-white font-medium">
-                      Cancer Type <span className="text-red-400">*</span>
-                    </Label>
-                    <Input
-                      id="cancer_type"
-                      type="text"
-                      placeholder="e.g., Breast Cancer, Lung Cancer"
-                      value={formData.cancer_type}
-                      onChange={(e) => handleChange('cancer_type', e.target.value)}
-                      onBlur={() => handleBlur('cancer_type')}
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Stethoscope className="w-5 h-5 text-purple-400" />
+                    Medical Information
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="cancer_type" className="text-white font-medium">
+                        Cancer Type <span className="text-red-400">*</span>
+                      </Label>
+                      <Input
+                        id="cancer_type"
+                        type="text"
+                        placeholder="e.g., Breast Cancer, Lung Cancer"
+                        value={formData.cancer_type}
+                        onChange={(e) => handleChange('cancer_type', e.target.value)}
+                        onBlur={() => handleBlur('cancer_type')}
                       className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
-                      required
-                    />
-                    {errors.cancer_type && (
-                      <p className="text-sm text-red-400">{errors.cancer_type}</p>
-                    )}
-                  </div>
+                        required
+                      />
+                      {errors.cancer_type && (
+                        <p className="text-sm text-red-400">{errors.cancer_type}</p>
+                      )}
+                    </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="cancer_stage" className="text-white font-medium">
-                      Cancer Stage <span className="text-red-400">*</span>
-                    </Label>
-                    <Select
-                      value={formData.cancer_stage}
-                      onValueChange={(value) => handleChange('cancer_stage', value)}
-                    >
+                    <div className="space-y-2">
+                      <Label htmlFor="cancer_stage" className="text-white font-medium">
+                        Cancer Stage <span className="text-red-400">*</span>
+                      </Label>
+                      <Select
+                        value={formData.cancer_stage}
+                        onValueChange={(value) => handleChange('cancer_stage', value)}
+                      >
                       <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-4 py-3 h-auto w-full">
                         <SelectValue placeholder="Select stage" className="text-gray-900" />
-                      </SelectTrigger>
+                        </SelectTrigger>
                       <SelectContent 
                         className="bg-white border-gray-300 min-w-[var(--radix-select-trigger-width)]"
                         position="popper"
                         style={{ zIndex: 9999 }}
                       >
-                        {cancerStages.map((stage) => (
+                          {cancerStages.map((stage) => (
                           <SelectItem 
                             key={stage} 
                             value={stage} 
                             className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5"
                           >
-                            {stage}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {errors.cancer_stage && (
-                      <p className="text-sm text-red-400">{errors.cancer_stage}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Insurance Information Section */}
-              <div className="space-y-4 pt-4 border-t border-gray-700">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-purple-400" />
-                  Insurance Information
-                </h3>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="has_insurance"
-                    checked={formData.has_insurance}
-                    onCheckedChange={(checked) => handleChange('has_insurance', checked)}
-                    className="border-gray-600"
-                  />
-                  <Label htmlFor="has_insurance" className="text-white cursor-pointer font-medium">
-                    I have health insurance
-                  </Label>
-                </div>
-
-                {formData.has_insurance && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="insurance_provider" className="text-white font-medium">
-                        Insurance Provider <span className="text-red-400">*</span>
-                      </Label>
-                      <Input
-                        id="insurance_provider"
-                        type="text"
-                        placeholder="e.g., Star Health, HDFC Ergo"
-                        value={formData.insurance_provider}
-                        onChange={(e) => handleChange('insurance_provider', e.target.value)}
-                        onBlur={() => handleBlur('insurance_provider')}
-                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
-                      />
-                      {errors.insurance_provider && (
-                        <p className="text-sm text-red-400">{errors.insurance_provider}</p>
+                              {stage}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.cancer_stage && (
+                        <p className="text-sm text-red-400">{errors.cancer_stage}</p>
                       )}
                     </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="insurance_policy_number" className="text-white font-medium">
-                        Policy Number
-                      </Label>
-                      <Input
-                        id="insurance_policy_number"
-                        type="text"
-                        placeholder="Policy number (optional)"
-                        value={formData.insurance_policy_number}
-                        onChange={(e) => handleChange('insurance_policy_number', e.target.value)}
-                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
-                      />
-                    </div>
                   </div>
-                )}
-              </div>
+                </div>
 
-              {/* Preferences Section */}
+                {/* Insurance Information Section */}
               <div className="space-y-4 pt-4 border-t border-gray-700">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-purple-400" />
-                  Contact Preferences
-                </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="preferred_contact_method" className="text-white font-medium">
-                      Preferred Contact Method
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-purple-400" />
+                    Insurance Information
+                  </h3>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="has_insurance"
+                      checked={formData.has_insurance}
+                      onCheckedChange={(checked) => handleChange('has_insurance', checked)}
+                    className="border-gray-600"
+                    />
+                    <Label htmlFor="has_insurance" className="text-white cursor-pointer font-medium">
+                      I have health insurance
                     </Label>
-                    <Select
-                      value={formData.preferred_contact_method}
-                      onValueChange={(value) => handleChange('preferred_contact_method', value)}
-                    >
+                  </div>
+
+                  {formData.has_insurance && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="insurance_provider" className="text-white font-medium">
+                          Insurance Provider <span className="text-red-400">*</span>
+                        </Label>
+                        <Input
+                          id="insurance_provider"
+                          type="text"
+                          placeholder="e.g., Star Health, HDFC Ergo"
+                          value={formData.insurance_provider}
+                          onChange={(e) => handleChange('insurance_provider', e.target.value)}
+                          onBlur={() => handleBlur('insurance_provider')}
+                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
+                        />
+                        {errors.insurance_provider && (
+                          <p className="text-sm text-red-400">{errors.insurance_provider}</p>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="insurance_policy_number" className="text-white font-medium">
+                          Policy Number
+                        </Label>
+                        <Input
+                          id="insurance_policy_number"
+                          type="text"
+                          placeholder="Policy number (optional)"
+                          value={formData.insurance_policy_number}
+                          onChange={(e) => handleChange('insurance_policy_number', e.target.value)}
+                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Preferences Section */}
+              <div className="space-y-4 pt-4 border-t border-gray-700">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-purple-400" />
+                    Contact Preferences
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="preferred_contact_method" className="text-white font-medium">
+                        Preferred Contact Method
+                      </Label>
+                      <Select
+                        value={formData.preferred_contact_method}
+                        onValueChange={(value) => handleChange('preferred_contact_method', value)}
+                      >
                       <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-4 py-3 h-auto w-full">
                         <SelectValue className="text-gray-900" />
-                      </SelectTrigger>
+                        </SelectTrigger>
                       <SelectContent 
                         className="bg-white border-gray-300 min-w-[var(--radix-select-trigger-width)]"
                         position="popper"
                         style={{ zIndex: 9999 }}
                       >
-                        {contactMethods.map((method) => (
+                          {contactMethods.map((method) => (
                           <SelectItem 
                             key={method} 
                             value={method.toLowerCase()} 
                             className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5"
                           >
-                            {method}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                              {method}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="preferred_time" className="text-white font-medium">
-                      Preferred Contact Time
-                    </Label>
-                    <Select
-                      value={formData.preferred_time}
-                      onValueChange={(value) => handleChange('preferred_time', value)}
-                    >
+                    <div className="space-y-2">
+                      <Label htmlFor="preferred_time" className="text-white font-medium">
+                        Preferred Contact Time
+                      </Label>
+                      <Select
+                        value={formData.preferred_time}
+                        onValueChange={(value) => handleChange('preferred_time', value)}
+                      >
                       <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-4 py-3 h-auto w-full">
                         <SelectValue placeholder="Select time" className="text-gray-900" />
-                      </SelectTrigger>
+                        </SelectTrigger>
                       <SelectContent 
                         className="bg-white border-gray-300 min-w-[var(--radix-select-trigger-width)]"
                         position="popper"
                         style={{ zIndex: 9999 }}
                       >
-                        {timePreferences.map((time) => (
+                          {timePreferences.map((time) => (
                           <SelectItem 
                             key={time} 
                             value={time} 
                             className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5"
                           >
-                            {time}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                              {time}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="additional_notes" className="text-white font-medium">
+                      Additional Notes (Optional)
+                    </Label>
+                    <Textarea
+                      id="additional_notes"
+                      placeholder="Any additional information you'd like to share..."
+                      value={formData.additional_notes}
+                      onChange={(e) => handleChange('additional_notes', e.target.value)}
+                    className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 min-h-[100px] px-4 py-3"
+                      rows={4}
+                    />
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="additional_notes" className="text-white font-medium">
-                    Additional Notes (Optional)
-                  </Label>
-                  <Textarea
-                    id="additional_notes"
-                    placeholder="Any additional information you'd like to share..."
-                    value={formData.additional_notes}
-                    onChange={(e) => handleChange('additional_notes', e.target.value)}
-                    className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 min-h-[100px] px-4 py-3"
-                    rows={4}
-                  />
-                </div>
-              </div>
-
-              {/* Consent Section */}
+                {/* Consent Section */}
               <div className="space-y-4 pt-4 border-t border-gray-700">
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="agree_to_terms"
-                    checked={formData.agree_to_terms}
-                    onCheckedChange={(checked) => handleChange('agree_to_terms', checked)}
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="agree_to_terms"
+                      checked={formData.agree_to_terms}
+                      onCheckedChange={(checked) => handleChange('agree_to_terms', checked)}
                     className="mt-1 border-gray-600"
-                    required
-                  />
-                  <Label htmlFor="agree_to_terms" className="text-white cursor-pointer text-sm font-medium">
-                    I agree to the{' '}
-                    <a href="/terms-and-conditions" target="_blank" className="text-purple-400 hover:text-purple-300 hover:underline">
-                      Terms and Conditions
-                    </a>{' '}
-                    and{' '}
-                    <a href="/privacy" target="_blank" className="text-purple-400 hover:text-purple-300 hover:underline">
-                      Privacy Policy
-                    </a>
-                    <span className="text-red-400"> *</span>
-                  </Label>
-                </div>
-                {errors.agree_to_terms && (
-                  <p className="text-sm text-red-400">{errors.agree_to_terms}</p>
-                )}
-              </div>
-
-              {/* Submit Button */}
-              <div className="pt-6">
-                <Button
-                  type="submit"
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-lg font-semibold"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    'Submit & Get Started'
+                      required
+                    />
+                    <Label htmlFor="agree_to_terms" className="text-white cursor-pointer text-sm font-medium">
+                      I agree to the{' '}
+                      <a href="/terms-and-conditions" target="_blank" className="text-purple-400 hover:text-purple-300 hover:underline">
+                        Terms and Conditions
+                      </a>{' '}
+                      and{' '}
+                      <a href="/privacy" target="_blank" className="text-purple-400 hover:text-purple-300 hover:underline">
+                        Privacy Policy
+                      </a>
+                      <span className="text-red-400"> *</span>
+                    </Label>
+                  </div>
+                  {errors.agree_to_terms && (
+                    <p className="text-sm text-red-400">{errors.agree_to_terms}</p>
                   )}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-6">
+                  <Button
+                    type="submit"
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-lg font-semibold"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      'Submit & Get Started'
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
       </div>
     </div>
   );

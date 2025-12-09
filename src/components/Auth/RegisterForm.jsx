@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -7,11 +8,58 @@ import { Alert } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Loader2, Mail, Lock, User, Phone } from 'lucide-react';
 import axios from 'axios';
+import { useAuth } from '@/contexts/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api/auth`;
 
+// Valid routes that can be redirected to (security measure)
+const VALID_REDIRECT_PATHS = [
+  '/',
+  '/find-hospitals',
+  '/rare-cancers',
+  '/second-opinion',
+  '/teleconsultation',
+  '/cost-calculator',
+  '/find-oncologists',
+  '/get-started',
+];
+
+/**
+ * Validates and sanitizes redirect URL
+ * Returns safe redirect path or null if invalid
+ */
+const getValidRedirectPath = (redirectParam) => {
+  if (!redirectParam) return null;
+  
+  try {
+    const decoded = decodeURIComponent(redirectParam);
+    // Only allow relative paths (no external URLs)
+    if (decoded.startsWith('http://') || decoded.startsWith('https://')) {
+      return null;
+    }
+    
+    // Check if it's a valid route
+    const path = decoded.split('?')[0]; // Remove query params for validation
+    if (VALID_REDIRECT_PATHS.includes(path)) {
+      return decoded;
+    }
+    
+    // Allow paths that start with valid routes (for query params)
+    if (VALID_REDIRECT_PATHS.some(valid => decoded.startsWith(valid))) {
+      return decoded;
+    }
+    
+    return null;
+  } catch (e) {
+    return null;
+  }
+};
+
 export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -32,10 +80,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
       setError('Passwords do not match');
       return false;
     }
-    if (formData.full_name.length < 2) {
-      setError('Full name must be at least 2 characters');
-      return false;
-    }
+    // Full name is optional for now
     if (formData.phone.length < 10) {
       setError('Phone number must be at least 10 digits');
       return false;
@@ -61,19 +106,23 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
       const response = await axios.post(`${API}/register`, {
         email: formData.email,
         password: formData.password,
-        full_name: formData.full_name,
+        full_name: formData.full_name || '', // Optional
         phone: formData.phone,
         agree_to_terms: formData.agree_to_terms
       });
       
       const { access_token, user } = response.data;
       
-      // Store token
-      localStorage.setItem('byonco_jwt', access_token);
-      localStorage.setItem('byonco_user', JSON.stringify(user));
+      // Update auth context (this will fetch profile and check profile_completed)
+      await login(user, access_token);
       
       if (onSuccess) {
         onSuccess(user);
+      } else {
+        // New users always need to complete profile
+        const redirectParam = searchParams.get('redirect');
+        const redirectPath = redirectParam ? `/profile?redirect=${encodeURIComponent(redirectParam)}` : '/profile';
+        navigate(redirectPath, { replace: true });
       }
     } catch (err) {
       setError(err.response?.data?.detail || 'Registration failed. Please try again.');
@@ -83,143 +132,173 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl">Create Account</CardTitle>
-        <CardDescription>Sign up to get started with ByOnco</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <Alert variant="destructive" className="text-sm">
-              {error}
-            </Alert>
-          )}
-          
+    <div className="max-w-lg w-full bg-[#0b0f1f]/95 border border-white/30 rounded-2xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 text-white shadow-xl shadow-black/40 backdrop-blur">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-2">Create your ByOnco account</h2>
+        <p className="text-sm sm:text-base text-white/90">Join thousands of families navigating their cancer care journey</p>
+      </div>
+      
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+        {error && (
+          <div className="text-sm bg-red-500/30 border border-red-500/60 text-white px-4 py-3 rounded-lg">
+            {error}
+          </div>
+        )}
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="space-y-2">
-            <Label htmlFor="full_name">Full Name *</Label>
+            <label htmlFor="full_name" className="block text-sm font-medium text-white">
+              Full Name
+            </label>
             <div className="relative">
-              <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
+              <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-white/70">
+                <User className="h-4 w-4 sm:h-5 sm:w-5" />
+              </span>
+              <input
                 id="full_name"
                 type="text"
-                placeholder="John Doe"
+                placeholder="John Doe (optional)"
                 value={formData.full_name}
                 onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                className="pl-10"
-                required
+                className="w-full rounded-lg border border-white/30 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email *</Label>
+            <label htmlFor="email" className="block text-sm font-medium text-white">
+              Email *
+            </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
+              <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-white/70">
+                <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
+              </span>
+              <input
                 id="email"
                 type="email"
                 placeholder="your@email.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="pl-10"
+                className="w-full rounded-lg border border-white/30 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
                 required
               />
             </div>
           </div>
+        </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number *</Label>
-            <div className="relative">
-              <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="+91 1234567890"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="pl-10"
-                required
-              />
-            </div>
+        <div className="space-y-2">
+          <label htmlFor="phone" className="block text-sm font-medium text-white">
+            Phone Number *
+          </label>
+          <div className="relative">
+            <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-white/70">
+              <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
+            </span>
+            <input
+              id="phone"
+              type="tel"
+              placeholder="+91 1234567890"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="w-full rounded-lg border border-white/30 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+              required
+            />
           </div>
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="space-y-2">
-            <Label htmlFor="password">Password *</Label>
+            <label htmlFor="password" className="block text-sm font-medium text-white">
+              Password *
+            </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
+              <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-white/70">
+                <Lock className="h-4 w-4 sm:h-5 sm:w-5" />
+              </span>
+              <input
                 id="password"
                 type="password"
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="pl-10"
+                className="w-full rounded-lg border border-white/30 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
                 required
                 minLength={8}
               />
             </div>
-            <p className="text-xs text-gray-500">Must be at least 8 characters</p>
+            <p className="text-xs text-white/70">Must be at least 8 characters</p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password *</Label>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-white">
+              Confirm Password *
+            </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
+              <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-white/70">
+                <Lock className="h-4 w-4 sm:h-5 sm:w-5" />
+              </span>
+              <input
                 id="confirmPassword"
                 type="password"
                 placeholder="••••••••"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className="pl-10"
+                className="w-full rounded-lg border border-white/30 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
                 required
               />
             </div>
           </div>
+        </div>
 
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="terms"
-              checked={formData.agree_to_terms}
-              onCheckedChange={(checked) => setFormData({ ...formData, agree_to_terms: checked })}
-              required
-            />
-            <Label htmlFor="terms" className="text-sm">
-              I agree to the{' '}
-              <a href="/terms-and-conditions" target="_blank" className="text-purple-600 hover:underline">
-                Terms and Conditions
-              </a>{' '}
-              and{' '}
-              <a href="/privacy" target="_blank" className="text-purple-600 hover:underline">
-                Privacy Policy
-              </a>
-            </Label>
-          </div>
+        <div className="flex items-start space-x-3 pt-2">
+          <Checkbox
+            id="terms"
+            checked={formData.agree_to_terms}
+            onCheckedChange={(checked) => setFormData({ ...formData, agree_to_terms: checked })}
+            required
+            className="mt-1"
+          />
+          <label htmlFor="terms" className="text-sm text-white/90 leading-relaxed cursor-pointer">
+            I agree to the{' '}
+            <a href="/terms-and-conditions" target="_blank" className="text-white hover:text-purple-300 underline underline-offset-2 transition">
+              Terms and Conditions
+            </a>{' '}
+            and{' '}
+            <a href="/privacy" target="_blank" className="text-white hover:text-purple-300 underline underline-offset-2 transition">
+              Privacy Policy
+            </a>
+          </label>
+        </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating account...
-              </>
-            ) : (
-              'Create Account'
-            )}
-          </Button>
+        <button
+          type="submit"
+          className="w-full inline-flex items-center justify-center rounded-full px-4 py-3 sm:px-6 sm:py-3.5 text-sm sm:text-base font-semibold bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-600 border-2 border-purple-300/90 text-white font-bold shadow-[0_0_30px_rgba(139,92,246,0.7),0_0_60px_rgba(139,92,246,0.4)] hover:shadow-[0_0_40px_rgba(139,92,246,0.9),0_0_80px_rgba(139,92,246,0.6)] hover:from-purple-400 hover:via-purple-500 hover:to-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 mt-4"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              Creating account...
+            </>
+          ) : (
+            'Create Account'
+          )}
+        </button>
 
-          <div className="text-center text-sm">
+        <div className="text-center pt-2">
+          <p className="text-sm text-white/90">
+            Already have an account?{' '}
             <button
               type="button"
               onClick={onSwitchToLogin}
-              className="text-purple-600 hover:underline"
+              className="text-base font-medium text-white hover:text-purple-300 underline underline-offset-2 transition"
             >
-              Already have an account? Sign in
+              Sign in
             </button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 }
 

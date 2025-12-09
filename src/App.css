@@ -6,11 +6,18 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   color: #e2e8f0;
   background: #0a0a0f;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -798,6 +805,22 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 20px 60px rgba(139, 92, 246, 0.7);
 }
 
+/* Infinite Scroll Animation */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-infinite-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+/* Gradient Mask for Ticker */
+.mask-gradient-x {
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
 /* Hospital Logos Section */
 .hospitals-logos-section {
   padding: 4rem 2rem;
@@ -820,35 +843,44 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Space Grotesk', sans-serif;
 }
 
-.hospitals-logos-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 3rem;
+.hospitals-logos-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 120px;
+  display: flex;
   align-items: center;
-  justify-items: center;
+}
+
+.hospitals-logos-scroll {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  white-space: nowrap;
+  will-change: transform;
 }
 
 .hospital-logo-item {
-  width: 100%;
-  max-width: 180px;
+  flex-shrink: 0;
+  width: 180px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  background: rgba(30, 20, 50, 0.3);
-  border-radius: 16px;
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 0;
+  background: transparent;
+  border: none;
+  transition: transform 0.3s ease;
 }
 
 .hospital-logo-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
 }
 
 .hospital-logo-item img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   filter: brightness(0) invert(1);
   opacity: 0.8;
@@ -1089,6 +1121,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Modal */
+/* Smooth scrolling for entire app */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1101,31 +1144,59 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   z-index: 100;
-  padding: 2rem;
+  padding: 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .modal-content {
   background: rgba(20, 15, 35, 0.95);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(139, 92, 246, 0.3);
-  border-radius: 24px;
+  border-radius: 16px;
   max-width: 500px;
   width: 100%;
-  max-height: 90vh;
+  max-height: calc(100vh - 2rem);
   overflow-y: auto;
   box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.5);
+  margin: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.5) transparent;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.5);
+  border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.7);
 }
 
 .modal-header {
-  padding: 2rem 2rem 1rem;
+  padding: 1.5rem 1.5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+  position: sticky;
+  top: 0;
+  background: rgba(20, 15, 35, 0.95);
+  z-index: 10;
 }
 
 .modal-title {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #ffffff;
 }
@@ -1151,10 +1222,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .contact-form {
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .form-group {
@@ -1171,14 +1242,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .form-group input,
 .form-group textarea {
-  padding: 0.875rem 1rem;
+  padding: 0.75rem 0.875rem;
   border: 2px solid rgba(139, 92, 246, 0.2);
   border-radius: 12px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-family: 'Inter', sans-serif;
   background: rgba(30, 20, 50, 0.5);
   color: #ffffff;
   transition: border-color 0.3s ease;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-group input:focus,
@@ -1190,19 +1264,24 @@ h1, h2, h3, h4, h5, h6 {
 .form-group textarea {
   resize: vertical;
   min-height: 100px;
+  max-height: 200px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .form-submit {
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: white;
-  padding: 1rem 2rem;
+  padding: 0.875rem 1.5rem;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+  width: 100%;
+  touch-action: manipulation;
 }
 
 .form-submit:hover:not(:disabled) {
@@ -1279,6 +1358,52 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
+  .modal-overlay {
+    padding: 0.5rem;
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+
+  .modal-content {
+    max-height: calc(100vh - 1rem);
+    border-radius: 12px;
+    margin: 0;
+  }
+
+  .modal-header {
+    padding: 1rem 1rem 0.75rem;
+  }
+
+  .modal-title {
+    font-size: 1.125rem;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 1.5rem;
+  }
+
+  .contact-form {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.875rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .form-submit {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
   .nav-container {
     padding: 1rem 1.25rem;
   }
@@ -1372,6 +1497,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 640px) {
+  .modal-overlay {
+    padding: 0.25rem;
+    padding-top: 0.5rem;
+  }
+
+  .modal-content {
+    max-height: calc(100vh - 0.5rem);
+    border-radius: 8px;
+  }
+
+  .modal-header {
+    padding: 0.875rem 0.875rem 0.625rem;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+  }
+
+  .contact-form {
+    padding: 0.875rem;
+    gap: 0.875rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.5rem 0.625rem;
+    font-size: 0.875rem;
+  }
+
   .hero-title {
     font-size: 1.75rem;
   }
@@ -1394,6 +1548,30 @@ h1, h2, h3, h4, h5, h6 {
 
   .hospitals-logos-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Ensure dropdown menus are visible on mobile */
+  [data-radix-dropdown-menu-content] {
+    max-width: calc(100vw - 2rem);
+    z-index: 9999;
+  }
+
+  /* Improve touch targets on mobile */
+  button, a, input, textarea, select {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(139, 92, 246, 0.2);
+  }
+
+  /* Prevent horizontal scroll */
+  .landing-page {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Smooth scrolling for sections */
+  section {
+    scroll-margin-top: 80px;
   }
 }
 

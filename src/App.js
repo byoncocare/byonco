@@ -41,6 +41,9 @@ import SecondOpinionPage from "./pages/SecondOpinionPage";
 import TeleconsultationPage from "./pages/TeleconsultationPage";
 import CostCalculatorPage from "./pages/CostCalculatorPage";
 import AuthPage from "./pages/AuthPage";
+import ProfilePage from "./pages/ProfilePage";
+import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Vayu legal pages
 import PrivacyPolicyVayu from "./products/vayu/pages/PrivacyPolicyVayu";
@@ -182,15 +185,17 @@ export default function App() {
             <Route
               path="/get-started"
               element={
-                <motion.div
-                  className="page-shell min-h-screen bg-white text-gray-900"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <GetStarted />
-                </motion.div>
+                <ProtectedRoute>
+                  <motion.div
+                    className="page-shell min-h-screen bg-white text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <GetStarted />
+                  </motion.div>
+                </ProtectedRoute>
               }
             />
             <Route
@@ -238,9 +243,9 @@ export default function App() {
               }
             />
 
-            {/* ----------- New Medical Tourism Pages ----------- */}
+            {/* ----------- Profile ----------- */}
             <Route
-              path="/find-hospitals"
+              path="/profile"
               element={
                 <motion.div
                   className="page-shell min-h-screen text-gray-900"
@@ -249,8 +254,44 @@ export default function App() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <FindHospitalsPage />
+                  <ProfilePage />
                 </motion.div>
+              }
+            />
+
+            {/* ----------- Waitlist ----------- */}
+            <Route
+              path="/waitlist/medical-tourism"
+              element={
+                <ProtectedRoute>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <MedicalTourismWaitlistPage />
+                  </motion.div>
+                </ProtectedRoute>
+              }
+            />
+
+            {/* ----------- New Medical Tourism Pages ----------- */}
+            <Route
+              path="/find-hospitals"
+              element={
+                <ProtectedRoute>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <FindHospitalsPage />
+                  </motion.div>
+                </ProtectedRoute>
               }
             />
 
@@ -272,60 +313,68 @@ export default function App() {
             <Route
               path="/rare-cancers"
               element={
-                <motion.div
-                  className="page-shell min-h-screen text-gray-900"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <RareCancersPage />
-                </motion.div>
+                <ProtectedRoute>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <RareCancersPage />
+                  </motion.div>
+                </ProtectedRoute>
               }
             />
 
             <Route
               path="/second-opinion"
               element={
-                <motion.div
-                  className="page-shell min-h-screen text-gray-900"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <SecondOpinionPage />
-                </motion.div>
+                <ProtectedRoute>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <SecondOpinionPage />
+                  </motion.div>
+                </ProtectedRoute>
               }
             />
 
             <Route
               path="/teleconsultation"
               element={
-                <motion.div
-                  className="page-shell min-h-screen text-gray-900"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <TeleconsultationPage />
-                </motion.div>
+                <ProtectedRoute>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <TeleconsultationPage />
+                  </motion.div>
+                </ProtectedRoute>
               }
             />
 
             <Route
               path="/cost-calculator"
               element={
-                <motion.div
-                  className="page-shell min-h-screen text-gray-900"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <CostCalculatorPage />
-                </motion.div>
+                <ProtectedRoute>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <CostCalculatorPage />
+                  </motion.div>
+                </ProtectedRoute>
               }
             />
 

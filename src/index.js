@@ -11,6 +11,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
+import { AuthProvider } from "./contexts/AuthContext";
 import reportWebVitals from "./reportWebVitals";
 
 // ---- iOS Safari (12.x / some webviews) MediaQueryList shim ----
@@ -40,7 +41,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <BrowserRouter basename={BASENAME}>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -13,7 +13,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi
 const API = `${BACKEND_URL}/api`;
 
 // Debug: Log the backend URL being used (always log in production too for debugging)
-console.log('🔗 Backend URL configured as:', BACKEND_URL);
+  console.log('🔗 Backend URL configured as:', BACKEND_URL);
 console.log('🔗 API base URL:', API);
 console.log('🔗 Environment variable REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL || 'NOT SET (using default)');
 

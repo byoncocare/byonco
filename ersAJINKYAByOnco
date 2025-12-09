@@ -1,0 +1,50 @@
+warning: in the working copy of 'DEPLOYMENT_CHECKLIST.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'backend/auth/api_routes.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'backend/auth/models.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'backend/auth/service.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/App.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/App.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Auth/LoginForm.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Auth/RegisterForm.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/index.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/AuthPage.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/GetStarted.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/MedTourismLanding.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/RareCancersPage.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/TeleconsultationPage.jsx', LF will be replaced by CRLF the next time Git touches it
+.env
+COMPLETE_ALL_TODOS.md
+DEPLOYMENT_CHECKLIST.md
+GET_STARTED_IMPLEMENTATION.md
+PROJECT_SUMMARY.md
+backend/README_MODULES.md
+backend/__pycache__/server.cpython-313.pyc
+backend/auth/__init__.py
+backend/auth/__pycache__/__init__.cpython-313.pyc
+backend/auth/__pycache__/api_routes.cpython-313.pyc
+backend/auth/__pycache__/models.cpython-313.pyc
+backend/auth/__pycache__/service.cpython-313.pyc
+backend/auth/api_routes.py
+backend/auth/models.py
+backend/auth/service.py
+backend/get_started/__init__.py
+backend/get_started/models.py
+backend/hospitals/models.py
+backend/hospitals/seed_data.py
+backend/payments/__init__.py
+backend/payments/models.py
+backend/test_new_modules.py
+backend/test_server.py
+package-lock.json
+package.json
+src/App.css
+src/App.js
+src/components/Auth/LoginForm.jsx
+src/components/Auth/RegisterForm.jsx
+src/index.js
+src/pages/AuthPage.jsx
+src/pages/GetStarted.jsx
+src/pages/MedTourismLanding.jsx
+src/pages/RareCancersPage.jsx
+src/pages/TeleconsultationPage.jsx
+src/utils/auth.js

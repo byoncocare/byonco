@@ -117,7 +117,7 @@ export default function TeleconsultationPage() {
           if (data.all_cancers && Array.isArray(data.all_cancers) && data.all_cancers.length > 0) {
             allCancers = [...data.all_cancers];
             console.log('Using all_cancers:', allCancers.length);
-          } else {
+        } else {
             // Combine rare and common cancers
             const rare = Array.isArray(data.rare_cancers) ? data.rare_cancers : [];
             const common = Array.isArray(data.common_cancers) ? data.common_cancers : [];
@@ -474,17 +474,17 @@ export default function TeleconsultationPage() {
                           ))}
                         </SelectContent>
                       </Select>
-                      <Input
-                        required
-                        type="tel"
+                    <Input
+                      required
+                      type="tel"
                         placeholder="98765 43210"
                         className="bg-slate-800/60 border-purple-500/30 text-white placeholder:text-purple-300/50 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 px-3 sm:px-4 py-2.5 sm:py-3 h-auto flex-1 text-sm sm:text-base"
-                        value={formData.patient_phone}
-                        onChange={(e) => {
-                          setFormData({...formData, patient_phone: e.target.value});
-                          if (errors.patient_phone) setErrors({...errors, patient_phone: ''});
-                        }}
-                      />
+                      value={formData.patient_phone}
+                      onChange={(e) => {
+                        setFormData({...formData, patient_phone: e.target.value});
+                        if (errors.patient_phone) setErrors({...errors, patient_phone: ''});
+                      }}
+                    />
                     </div>
                     {errors.patient_phone && (
                       <p className="text-xs sm:text-sm text-red-400 mt-1">{errors.patient_phone}</p>

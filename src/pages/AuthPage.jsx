@@ -9,13 +9,12 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
 
   const handleAuthSuccess = (user) => {
-    // Redirect to home or previous page
+    // Redirect to home (context will handle state update)
     navigate('/');
-    window.location.reload(); // Refresh to update auth state
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-indigo-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-indigo-950 flex items-center justify-center p-4 sm:p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -37,6 +36,9 @@ export default function AuthPage() {
     </div>
   );
 }
+
+
+
 
 
 

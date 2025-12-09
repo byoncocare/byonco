@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "@/App.css";
+import { useAuth } from "@/contexts/AuthContext";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,15 +37,43 @@ import {
   Calculator,
   Menu,
   X,
+  User,
+  LogOut,
 } from "lucide-react";
 
 import axios from "axios";
+import TypesCovered from "@/components/TypesCovered";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
 
 const MedTourismLanding = () => {
   const navigate = useNavigate();   // ✅ Added navigation hook (needed for onClick)
+  const { isAuthenticated, user, logout } = useAuth();
+
+  // Helper function to get user initials
+  const getUserInitials = (userData) => {
+    if (!userData) return 'U';
+    const name = userData.full_name || userData.email || 'User';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return name[0].toUpperCase();
+  };
+
+  // Handle logout with redirect
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const [showContactForm, setShowContactForm] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,6 +84,7 @@ const MedTourismLanding = () => {
     message: "",
   });
   const [submitStatus, setSubmitStatus] = useState("");
+  const [formErrors, setFormErrors] = useState({});
   const [cycleIndex, setCycleIndex] = useState(0);
 
   const cyclingWords = ["Treatment.", "Hope.", "Care.", "Future."];
@@ -90,17 +120,88 @@ const MedTourismLanding = () => {
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate all fields
+    const errors = {};
+    if (!formData.name.trim()) {
+      errors.name = "This field is required.";
+    }
+    if (!formData.email.trim()) {
+      errors.email = "This field is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Please enter a valid email address.";
+    }
+    if (!formData.phone.trim()) {
+      errors.phone = "This field is required.";
+    }
+    if (!formData.message.trim()) {
+      errors.message = "This field is required.";
+    }
+    
+    setFormErrors(errors);
+    
+    // If there are errors, don't submit
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+    
+    setSubmitStatus("loading");
+    
     try {
-      await axios.post(`${API}/contact`, formData);
-      setSubmitStatus("success");
-      setFormData({ name: "", email: "", phone: "", message: "" });
-      setTimeout(() => {
-        setShowContactForm(false);
-        setSubmitStatus("");
-      }, 2000);
+      const response = await axios.post(`${API}/contact`, {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        message: formData.message.trim()
+      }, {
+        timeout: 10000,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.data && response.data.status === "success") {
+        setSubmitStatus("success");
+        setFormErrors({});
+        // Don't clear form or close modal immediately - show success message
+      } else {
+        throw new Error("Unexpected response from server");
+      }
     } catch (error) {
       console.error("Error submitting contact form:", error);
-      setSubmitStatus("error");
+      console.error("Error response:", error.response);
+      console.error("Error status:", error.response?.status);
+      console.error("Error data:", error.response?.data);
+      
+      if (error.response) {
+        // Server responded with error
+        const status = error.response.status;
+        const detail = error.response.data?.detail || error.response.data?.message;
+        
+        if (status === 404) {
+          setSubmitStatus("error");
+          setFormErrors({ 
+            submit: "Contact endpoint not found. The backend may need to be updated. Please contact support." 
+          });
+        } else {
+          setSubmitStatus("error");
+          setFormErrors({ 
+            submit: detail || `Server error (${status}). Please try again.` 
+          });
+        }
+      } else if (error.request) {
+        // Request was made but no response received
+        setSubmitStatus("error");
+        setFormErrors({ 
+          submit: "Unable to connect to server. Please check your internet connection." 
+        });
+      } else {
+        // Error setting up request
+        setSubmitStatus("error");
+        setFormErrors({ 
+          submit: error.message || "Something went wrong. Please try again." 
+        });
+      }
     }
   };
 
@@ -226,13 +327,78 @@ const MedTourismLanding = () => {
             <a href="#about" className="nav-link">
               About
             </a>
-            <Button
-              onClick={() => navigate("/get-started")}
-              className="cta-button"
-              data-testid="nav-contact-button"
-            >
-              Get Started <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 rounded-full transition-all"
+                    aria-label="User menu"
+                  >
+                    {user?.photo_url ? (
+                      <img
+                        src={user.photo_url}
+                        alt={user.full_name || user.email || 'User'}
+                        className="w-8 h-8 rounded-full object-cover border-2 border-purple-500/30"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-sm font-semibold border-2 border-purple-500/30">
+                        {getUserInitials(user)}
+                      </div>
+                    )}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 bg-slate-800 border-purple-500/30 text-white shadow-xl">
+                  <div className="px-2 py-1.5">
+                    <p className="text-sm font-medium text-white">
+                      {user?.full_name || 'User'}
+                    </p>
+                    <p className="text-xs text-gray-400 truncate">
+                      {user?.email}
+                    </p>
+                  </div>
+                  <DropdownMenuSeparator className="bg-purple-500/30" />
+                  <DropdownMenuItem
+                    onClick={() => {
+                      navigate("/profile");
+                    }}
+                    className="cursor-pointer text-purple-200 focus:text-white focus:bg-purple-500/10"
+                  >
+                    <User className="mr-2 h-4 w-4" />
+                    My Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-purple-500/30" />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer text-red-400 focus:text-red-300 focus:bg-red-500/10"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate("/auth")}
+                  className="px-4 py-2 rounded-full text-sm font-medium border border-violet-400/60 text-white hover:border-purple-400 hover:bg-white/5 transition"
+                >
+                  Login
+                </button>
+                <Button
+                  onClick={() => {
+                    if (isAuthenticated) {
+                      navigate("/get-started");
+                    } else {
+                      navigate("/auth?redirect=/get-started");
+                    }
+                  }}
+                  className="cta-button"
+                  data-testid="nav-contact-button"
+                >
+                  Get Started <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+              </>
+            )}
           </div>
           {/* Mobile Menu Button */}
           <button
@@ -280,15 +446,76 @@ const MedTourismLanding = () => {
               >
                 About
               </a>
-              <Button
-                onClick={() => {
-                  navigate("/get-started");
-                  setMenuOpen(false);
-                }}
-                className="cta-button-mobile w-full mt-2"
-              >
-                Get Started <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
+              {isAuthenticated ? (
+                <>
+                  <div className="flex items-center gap-3 py-3 border-t border-purple-500/20 mt-2">
+                    {user?.photo_url ? (
+                      <img
+                        src={user.photo_url}
+                        alt={user.full_name || user.email || 'User'}
+                        className="w-10 h-10 rounded-full object-cover border-2 border-purple-500/30"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-sm font-semibold border-2 border-purple-500/30">
+                        {getUserInitials(user)}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-white truncate">
+                        {user?.full_name || 'User'}
+                      </p>
+                      <p className="text-xs text-purple-200 truncate">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      navigate("/profile");
+                      setMenuOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm text-purple-200 hover:text-white hover:bg-purple-500/10 rounded-md transition-colors flex items-center gap-2"
+                  >
+                    <User className="w-4 h-4" />
+                    My Profile
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setMenuOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-md transition-colors flex items-center gap-2"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      navigate("/auth");
+                      setMenuOpen(false);
+                    }}
+                    className="w-full mt-2 px-4 py-2 rounded-full text-sm font-medium border border-violet-400/60 text-white hover:border-purple-400 hover:bg-white/5 transition"
+                  >
+                    Login
+                  </button>
+                  <Button
+                    onClick={() => {
+                      if (isAuthenticated) {
+                        navigate("/get-started");
+                      } else {
+                        navigate("/auth?redirect=/get-started");
+                      }
+                      setMenuOpen(false);
+                    }}
+                    className="cta-button-mobile w-full mt-2"
+                  >
+                    Get Started <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </>
+              )}
             </div>
           </motion.div>
         )}
@@ -378,7 +605,17 @@ const MedTourismLanding = () => {
                   <span className="text-sm font-medium text-white">
                     ₹42,50,000
                   </span>
-                  <Button size="sm" className="mini-cta">
+                  <Button 
+                    size="sm" 
+                    className="mini-cta"
+                    onClick={() => {
+                      if (isAuthenticated) {
+                        navigate("/find-hospitals?hospital=apollo");
+                      } else {
+                        navigate("/auth?redirect=/find-hospitals?hospital=apollo");
+                      }
+                    }}
+                  >
                     View Details
                   </Button>
                 </div>
@@ -427,44 +664,72 @@ const MedTourismLanding = () => {
           <h3 className="hospitals-logos-title">
             Trusted by India's Leading Cancer Hospitals
           </h3>
-          <motion.div
-            className="hospitals-logos-grid"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            <div className="hospital-logo-item">
-              <img
-                src="https://www.byoncocare.com/logos/hospitals/tmc.png"
-                alt="Tata Memorial Centre"
-              />
+          <div className="hospitals-logos-wrapper mask-gradient-x">
+            <div className="hospitals-logos-scroll animate-infinite-scroll">
+              {/* Set 1 */}
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/tmc.png"
+                  alt="Tata Memorial Centre"
+                />
+              </div>
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/apollo.png"
+                  alt="Apollo Hospitals"
+                />
+              </div>
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/kdah.png"
+                  alt="Kokilaben Dhirubhai Ambani Hospital"
+                />
+              </div>
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/fortis.png"
+                  alt="Fortis Hospitals"
+                />
+              </div>
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/cca.png"
+                  alt="Cancer Centers of America"
+                />
+              </div>
+              {/* Set 2 (Duplicate for seamless loop) */}
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/tmc.png"
+                  alt="Tata Memorial Centre"
+                />
+              </div>
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/apollo.png"
+                  alt="Apollo Hospitals"
+                />
+              </div>
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/kdah.png"
+                  alt="Kokilaben Dhirubhai Ambani Hospital"
+                />
+              </div>
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/fortis.png"
+                  alt="Fortis Hospitals"
+                />
+              </div>
+              <div className="hospital-logo-item">
+                <img
+                  src="https://www.byoncocare.com/logos/hospitals/cca.png"
+                  alt="Cancer Centers of America"
+                />
+              </div>
             </div>
-            <div className="hospital-logo-item">
-              <img
-                src="https://www.byoncocare.com/logos/hospitals/apollo.png"
-                alt="Apollo Hospitals"
-              />
-            </div>
-            <div className="hospital-logo-item">
-              <img
-                src="https://www.byoncocare.com/logos/hospitals/kdah.png"
-                alt="Kokilaben Dhirubhai Ambani Hospital"
-              />
-            </div>
-            <div className="hospital-logo-item">
-              <img
-                src="https://www.byoncocare.com/logos/hospitals/fortis.png"
-                alt="Fortis Hospitals"
-              />
-            </div>
-            <div className="hospital-logo-item">
-              <img
-                src="https://www.byoncocare.com/logos/hospitals/cca.png"
-                alt="Cancer Centers of America"
-              />
-            </div>
-          </motion.div>
+          </div>
         </motion.div>
       </section>
 
@@ -522,6 +787,14 @@ const MedTourismLanding = () => {
               icon: <Stethoscope className="w-8 h-8" />,
               color: "from-orange-500 to-amber-600",
               route: "/teleconsultation"
+            },
+            {
+              title: "AI Medical Tourism for Oncology",
+              description: "Discover oncology centers across the world by wait time, budget, and treatment needs",
+              icon: <Globe className="w-8 h-8" />,
+              color: "from-indigo-500 to-purple-600",
+              route: "/waitlist/medical-tourism",
+              isWaitlist: true
             }
           ].map((service, index) => (
             <motion.div
@@ -565,7 +838,7 @@ const MedTourismLanding = () => {
                       color: "#a78bfa"
                     }}
                   >
-                    Get Started <ChevronRight className="w-4 h-4 ml-2" />
+                    {service.isWaitlist ? "Join Waitlist" : "Get Started"} <ChevronRight className="w-4 h-4 ml-2" />
                   </Button>
                 </CardContent>
               </Card>
@@ -674,16 +947,11 @@ const MedTourismLanding = () => {
         Pediatric tumors, rare carcinomas & aggressive sarcomas.
       </p>
 
-      <div
-        className="inner-box-red mt-3 md:mt-5 p-3 md:p-5 rounded-lg md:rounded-[14px]"
-        style={{
-          background: "rgba(60, 40, 90, 0.45)",
-          border: "1px solid rgba(139, 92, 246, 0.3)",
-        }}
-      >
-        <div className="text-xs md:text-sm mb-1 md:mb-2 text-[#cbd5e1]">Types Covered</div>
-        <div className="text-2xl md:text-3xl lg:text-[1.9rem] font-bold text-[#ff4747]">14</div>
-      </div>
+      <TypesCovered 
+        count={14} 
+        numberColor="text-[#ff4747]" 
+        glowClass="shadow-[0_0_35px_rgba(255,74,74,0.45)]"
+      />
     </div>
 
     {/* CARD 2 — VERY RARE */}
@@ -700,16 +968,11 @@ const MedTourismLanding = () => {
         12 high-risk types including Chordoma, Merkel Cell & Angiosarcoma.
       </p>
 
-      <div
-        className="inner-box-orange mt-3 md:mt-5 p-3 md:p-5 rounded-lg md:rounded-[14px]"
-        style={{
-          background: "rgba(60, 40, 90, 0.45)",
-          border: "1px solid rgba(139, 92, 246, 0.3)",
-        }}
-      >
-        <div className="text-xs md:text-sm mb-1 md:mb-2 text-[#cbd5e1]">Types Covered</div>
-        <div className="text-2xl md:text-3xl lg:text-[1.9rem] font-bold text-[#ff9f1c]">12</div>
-      </div>
+      <TypesCovered 
+        count={12} 
+        numberColor="text-[#ff9f1c]" 
+        glowClass="shadow-[0_0_35px_rgba(255,165,0,0.45)]"
+      />
     </div>
 
     {/* CARD 3 — RARE */}
@@ -726,16 +989,11 @@ const MedTourismLanding = () => {
         13 moderately complex types including GIST & Mesothelioma.
       </p>
 
-      <div
-        className="inner-box-yellow mt-3 md:mt-5 p-3 md:p-5 rounded-lg md:rounded-[14px]"
-        style={{
-          background: "rgba(60, 40, 90, 0.45)",
-          border: "1px solid rgba(139, 92, 246, 0.3)",
-        }}
-      >
-        <div className="text-xs md:text-sm mb-1 md:mb-2 text-[#cbd5e1]">Types Covered</div>
-        <div className="text-2xl md:text-3xl lg:text-[1.9rem] font-bold text-[#facc15]">13</div>
-      </div>
+      <TypesCovered 
+        count={13} 
+        numberColor="text-[#facc15]" 
+        glowClass="shadow-[0_0_35px_rgba(255,215,0,0.45)]"
+      />
     </div>
 
   </div>
@@ -774,10 +1032,10 @@ const MedTourismLanding = () => {
     >
       <div className="flex items-center gap-2 md:gap-3 flex-wrap">
         <MapPin size={22} className="md:w-6 md:h-6 flex-shrink-0" color="#a78bfa" />
-        <h3 className="feature-title text-base md:text-lg lg:text-xl xl:text-[1.5rem] break-words">31 Premium Cities Worldwide</h3>
+        <h3 className="feature-title text-base md:text-lg lg:text-xl xl:text-[1.5rem] break-words text-white font-semibold">31 Premium Cities Worldwide</h3>
       </div>
 
-      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words">
+      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words text-gray-300">
         Access world-class cancer treatment centers across the world's top medical hubs
       </p>
 
@@ -804,17 +1062,17 @@ const MedTourismLanding = () => {
             <div className="text-sm md:text-base lg:text-lg font-semibold text-white break-words">
               {city.name}
             </div>
-            <div className="text-xs md:text-sm mt-1 md:mt-2 text-[#a78bfa] font-medium break-words">
+            <div className="text-xs md:text-sm mt-1 md:mt-2 text-gray-300 font-medium break-words">
               {city.country}
             </div>
-            <div className="text-xs md:text-sm lg:text-base mt-1 md:mt-2 text-[#cbd5e1] break-words">
+            <div className="text-xs md:text-sm lg:text-base mt-1 md:mt-2 text-gray-400 break-words">
               {city.facilities}
             </div>
           </div>
         ))}
       </div>
       <div className="mt-3 md:mt-4 lg:mt-6 text-center">
-        <p className="text-xs md:text-sm lg:text-base text-[#a78bfa] font-medium break-words px-2">
+        <p className="text-xs md:text-sm lg:text-base text-gray-300 font-medium break-words px-2">
           + 23 more cities including Boston, Toronto, Berlin, Dubai, Bangkok, and more
         </p>
       </div>
@@ -831,10 +1089,10 @@ const MedTourismLanding = () => {
     >
       <div className="flex items-center gap-2 md:gap-3 flex-wrap">
         <Building2 size={22} className="md:w-6 md:h-6 flex-shrink-0" color="#38bdf8" />
-        <h3 className="feature-title text-base md:text-lg lg:text-xl xl:text-[1.5rem] break-words">Package Inclusions</h3>
+        <h3 className="feature-title text-base md:text-lg lg:text-xl xl:text-[1.5rem] break-words text-white font-semibold">Package Inclusions</h3>
       </div>
 
-      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words">
+      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words text-gray-300">
         Everything you need for a seamless medical journey
       </p>
 
@@ -850,7 +1108,7 @@ const MedTourismLanding = () => {
         ].map((item, idx) => (
           <li
             key={idx}
-            className="flex items-start md:items-center gap-2 md:gap-3 text-sm md:text-base lg:text-lg text-[#e2e8f0] break-words"
+            className="flex items-start md:items-center gap-2 md:gap-3 text-sm md:text-base lg:text-lg text-white break-words"
           >
             <CheckCircle2 size={18} className="md:w-5 md:h-5 flex-shrink-0 mt-0.5 md:mt-0" color="#38bdf8" />
             <span>{item}</span>
@@ -1119,7 +1377,13 @@ const MedTourismLanding = () => {
             <Button
               size="lg"
               className="final-cta-button"
-              onClick={() => navigate("/get-started")}
+              onClick={() => {
+                if (isAuthenticated) {
+                  navigate("/get-started");
+                } else {
+                  navigate("/auth?redirect=/get-started");
+                }
+              }}
               data-testid="final-cta-button"
             >
               Get Started Today <ArrowRight className="w-5 h-5 ml-2" />
@@ -1238,91 +1502,139 @@ const MedTourismLanding = () => {
               onSubmit={handleContactSubmit}
               className="contact-form"
             >
-              <div className="form-group">
-                <label htmlFor="name">Full Name</label>
-                <input
-                  id="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  placeholder="Enter your name"
-                  data-testid="contact-name-input"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  placeholder="your@email.com"
-                  data-testid="contact-email-input"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="phone">Phone (Optional)</label>
-                <input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                  placeholder="+91 12345 67890"
-                  data-testid="contact-phone-input"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea
-                  id="message"
-                  required
-                  rows="4"
-                  value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
-                  placeholder="Tell us about your needs..."
-                  data-testid="contact-message-input"
-                />
-              </div>
-
-              {submitStatus === "success" && (
-                <div
-                  className="alert success"
-                  data-testid="contact-success-message"
-                >
-                  Thank you! We'll be in touch soon.
+              {submitStatus === "success" ? (
+                <div className="text-center py-6 sm:py-8">
+                  <CheckCircle2 className="w-12 h-12 sm:w-16 sm:h-16 text-green-500 mx-auto mb-3 sm:mb-4" />
+                  <p className="text-base sm:text-lg font-semibold text-white mb-2">
+                    You've joined the waitlist.
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-300 mb-4 sm:mb-6 px-2">
+                    Our team will contact you soon. Please make sure you've entered the correct details.
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setShowContactForm(false);
+                      setSubmitStatus("");
+                      setFormData({ name: "", email: "", phone: "", message: "" });
+                      setFormErrors({});
+                    }}
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base"
+                  >
+                    Close
+                  </Button>
                 </div>
-              )}
+              ) : (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="name">Full Name</label>
+                    <input
+                      id="name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => {
+                        setFormData({ ...formData, name: e.target.value });
+                        if (formErrors.name) {
+                          setFormErrors({ ...formErrors, name: "" });
+                        }
+                      }}
+                      placeholder="Enter your name"
+                      data-testid="contact-name-input"
+                    />
+                    {formErrors.name && (
+                      <p className="mt-1 text-xs text-red-400">{formErrors.name}</p>
+                    )}
+                  </div>
 
-              {submitStatus === "error" && (
-                <div
-                  className="alert error"
-                  data-testid="contact-error-message"
-                >
-                  Something went wrong. Please try again.
-                </div>
-              )}
+                  <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      id="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => {
+                        setFormData({ ...formData, email: e.target.value });
+                        if (formErrors.email) {
+                          setFormErrors({ ...formErrors, email: "" });
+                        }
+                      }}
+                      placeholder="your@email.com"
+                      data-testid="contact-email-input"
+                    />
+                    {formErrors.email && (
+                      <p className="mt-1 text-xs text-red-400">{formErrors.email}</p>
+                    )}
+                  </div>
 
-              <Button
-                type="submit"
-                className="form-submit"
-                disabled={submitStatus === "success"}
-                data-testid="contact-submit-button"
-              >
-                Send Message
-              </Button>
+                  <div className="form-group">
+                    <label htmlFor="phone">Phone</label>
+                    <input
+                      id="phone"
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => {
+                        setFormData({ ...formData, phone: e.target.value });
+                        if (formErrors.phone) {
+                          setFormErrors({ ...formErrors, phone: "" });
+                        }
+                      }}
+                      placeholder="+91 12345 67890"
+                      data-testid="contact-phone-input"
+                    />
+                    {formErrors.phone && (
+                      <p className="mt-1 text-xs text-red-400">{formErrors.phone}</p>
+                    )}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="message">Message</label>
+                    <textarea
+                      id="message"
+                      required
+                      rows="4"
+                      value={formData.message}
+                      onChange={(e) => {
+                        setFormData({ ...formData, message: e.target.value });
+                        if (formErrors.message) {
+                          setFormErrors({ ...formErrors, message: "" });
+                        }
+                      }}
+                      placeholder="Tell us about your needs..."
+                      data-testid="contact-message-input"
+                    />
+                    {formErrors.message && (
+                      <p className="mt-1 text-xs text-red-400">{formErrors.message}</p>
+                    )}
+                  </div>
+
+                  {submitStatus === "error" && formErrors.submit && (
+                    <div
+                      className="alert error"
+                      data-testid="contact-error-message"
+                    >
+                      {formErrors.submit}
+                    </div>
+                  )}
+                  
+                  {submitStatus === "loading" && (
+                    <div className="text-center py-4">
+                      <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-purple-400 border-r-transparent"></div>
+                      <p className="text-white/70 mt-2">Submitting...</p>
+                    </div>
+                  )}
+
+                  <Button
+                    type="submit"
+                    className="form-submit"
+                    disabled={submitStatus === "success" || submitStatus === "loading"}
+                    data-testid="contact-submit-button"
+                  >
+                    {submitStatus === "loading" ? "Sending..." : "Send Message"}
+                  </Button>
+                </>
+              )}
             </form>
           </div>
         </div>
