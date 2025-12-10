@@ -209,11 +209,11 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
       } else if (err.request) {
         // Request was made but no response received
         console.error('📡 No response received from server');
-        errorMessage = `Unable to connect to server at ${BACKEND_URL}. Please check your internet connection or try again later.`;
+        errorMessage = `Unable to connect to server. The backend service may be starting up (this can take 30-60 seconds). Please wait a moment and try again.`;
       } else if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
         // Timeout error
         console.error('⏱️ Request timeout');
-        errorMessage = 'Request timed out. The server may be slow. Please try again.';
+        errorMessage = 'Request timed out. The backend service may be starting up (Render free tier services sleep after inactivity). Please wait 30-60 seconds and try again.';
       } else {
         // Error setting up request
         console.error('🔧 Request setup error:', err.message);
