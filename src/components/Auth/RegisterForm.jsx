@@ -92,6 +92,18 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
     return true;
   };
 
+  // Helper function to wake up Render backend (free tier services sleep)
+  const wakeUpBackend = async () => {
+    try {
+      console.log('🌙 Backend might be sleeping, attempting to wake it up...');
+      await axios.get(`${BACKEND_URL}/`, { timeout: 10000 });
+      console.log('✅ Backend is awake');
+    } catch (wakeError) {
+      console.warn('⚠️ Wake-up request failed (non-fatal):', wakeError.message);
+      // Continue anyway - the actual request might still work
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -108,6 +120,9 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
       console.log('🌐 Backend URL:', BACKEND_URL);
       console.log('🔗 API Endpoint:', `${API}/register`);
       
+      // Wake up backend if it's sleeping (Render free tier)
+      await wakeUpBackend();
+      
       // Normalize email to lowercase
       const normalizedEmail = formData.email.toLowerCase().trim();
       
@@ -121,7 +136,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
           agree_to_terms: formData.agree_to_terms
         },
         {
-          timeout: 30000, // 30 second timeout
+          timeout: 60000, // 60 second timeout (Render free tier can take 30-60s to wake up)
           headers: {
             'Content-Type': 'application/json'
           }
@@ -189,11 +204,11 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
       } else if (err.request) {
         // Request was made but no response received
         console.error('📡 No response received from server');
-        errorMessage = `Unable to connect to server at ${BACKEND_URL}. Please check your internet connection or try again later.`;
+        errorMessage = `Unable to connect to server. The backend service may be starting up (this can take 30-60 seconds). Please wait a moment and try again.`;
       } else if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
         // Timeout error
         console.error('⏱️ Request timeout');
-        errorMessage = 'Request timed out. The server may be slow. Please try again.';
+        errorMessage = 'Request timed out. The backend service may be starting up (Render free tier services sleep after inactivity). Please wait 30-60 seconds and try again.';
       } else {
         // Error setting up request
         console.error('🔧 Request setup error:', err.message);

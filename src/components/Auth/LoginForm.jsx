@@ -79,6 +79,18 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
     testConnection();
   }, []);
 
+  // Helper function to wake up Render backend (free tier services sleep)
+  const wakeUpBackend = async () => {
+    try {
+      console.log('🌙 Backend might be sleeping, attempting to wake it up...');
+      await axios.get(`${BACKEND_URL}/`, { timeout: 10000 });
+      console.log('✅ Backend is awake');
+    } catch (wakeError) {
+      console.warn('⚠️ Wake-up request failed (non-fatal):', wakeError.message);
+      // Continue anyway - the actual request might still work
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -90,6 +102,9 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
       console.log('🌐 Backend URL:', BACKEND_URL);
       console.log('🔗 API Endpoint:', `${API}/login`);
       
+      // Wake up backend if it's sleeping (Render free tier)
+      await wakeUpBackend();
+      
       // Normalize email to lowercase (backend expects lowercase)
       const normalizedEmail = formData.email.toLowerCase().trim();
       
@@ -100,7 +115,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
           password: formData.password
         },
         {
-          timeout: 30000, // 30 second timeout
+          timeout: 60000, // 60 second timeout (Render free tier can take 30-60s to wake up)
           headers: {
             'Content-Type': 'application/json'
           }
