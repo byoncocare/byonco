@@ -103,30 +103,108 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API}/register`, {
-        email: formData.email,
-        password: formData.password,
-        full_name: formData.full_name || '', // Optional
-        phone: formData.phone,
-        agree_to_terms: formData.agree_to_terms
-      });
+      console.log('📝 REGISTER REQUEST START');
+      console.log('📧 Email:', formData.email);
+      console.log('🌐 Backend URL:', BACKEND_URL);
+      console.log('🔗 API Endpoint:', `${API}/register`);
+      
+      // Normalize email to lowercase
+      const normalizedEmail = formData.email.toLowerCase().trim();
+      
+      const response = await axios.post(
+        `${API}/register`,
+        {
+          email: normalizedEmail,
+          password: formData.password,
+          full_name: formData.full_name?.trim() || '', // Optional, send empty string if not provided
+          phone: formData.phone.trim(),
+          agree_to_terms: formData.agree_to_terms
+        },
+        {
+          timeout: 30000, // 30 second timeout
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      console.log('✅ REGISTER SUCCESS');
+      console.log('📦 Response:', response.data);
+      console.log('📊 Status:', response.status);
       
       const { access_token, user } = response.data;
       
+      if (!access_token || !user) {
+        console.error('❌ Invalid response structure:', response.data);
+        throw new Error('Invalid response from server: missing token or user data');
+      }
+      
+      console.log('🔑 Token received:', access_token.substring(0, 20) + '...');
+      console.log('👤 User data:', user);
+      
       // Update auth context (this will fetch profile and check profile_completed)
-      await login(user, access_token);
+      try {
+        console.log('🔄 Updating auth context...');
+        await login(user, access_token);
+        console.log('✅ Auth context updated');
+      } catch (loginError) {
+        console.error('⚠️ Error in login context (non-fatal):', loginError);
+        // Continue anyway - token is valid, profile fetch can fail gracefully
+      }
       
       if (onSuccess) {
+        console.log('🎯 Calling onSuccess callback');
         onSuccess(user);
       } else {
         // New users always need to complete profile
         const redirectParam = searchParams.get('redirect');
         const redirectPath = redirectParam ? `/profile?redirect=${encodeURIComponent(redirectParam)}` : '/profile';
+        console.log('➡️ Redirecting to profile:', redirectPath);
         navigate(redirectPath, { replace: true });
       }
     } catch (err) {
-      setError(err.response?.data?.detail || 'Registration failed. Please try again.');
+      console.error('❌ REGISTER ERROR');
+      console.error('Error object:', err);
+      console.error('Error message:', err.message);
+      console.error('Error response:', err.response);
+      console.error('Error request:', err.request);
+      
+      let errorMessage = 'Registration failed. Please try again.';
+      
+      if (err.response) {
+        // Server responded with error
+        console.error('📡 Server error response:', err.response.status, err.response.data);
+        const status = err.response.status;
+        const data = err.response.data;
+        
+        if (status === 400) {
+          errorMessage = data?.detail || 'Invalid request. Please check your input.';
+        } else if (status === 409 || status === 422) {
+          errorMessage = data?.detail || 'This email is already registered. Please use a different email or sign in.';
+        } else if (status === 500) {
+          errorMessage = 'Server error. Please try again later.';
+        } else {
+          errorMessage = data?.detail || data?.message || `Server error (${status}). Please try again.`;
+        }
+      } else if (err.request) {
+        // Request was made but no response received
+        console.error('📡 No response received from server');
+        errorMessage = `Unable to connect to server at ${BACKEND_URL}. Please check your internet connection or try again later.`;
+      } else if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+        // Timeout error
+        console.error('⏱️ Request timeout');
+        errorMessage = 'Request timed out. The server may be slow. Please try again.';
+      } else {
+        // Error setting up request
+        console.error('🔧 Request setup error:', err.message);
+        errorMessage = err.message || 'An unexpected error occurred. Please try again.';
+      }
+      
+      console.error('💬 Final error message:', errorMessage);
+      setError(errorMessage);
     } finally {
+      // Always reset loading state
+      console.log('🔄 Resetting loading state');
       setLoading(false);
     }
   };
