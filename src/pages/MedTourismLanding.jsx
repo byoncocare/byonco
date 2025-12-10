@@ -54,6 +54,37 @@ import {
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
 
+// Trusted Hospitals Data
+const trustedHospitals = [
+  // India
+  { name: "Tata Memorial Centre", city: "Mumbai", country: "India", region: "India" },
+  { name: "AIIMS Delhi – Dr. B.R.A. IRCH", city: "New Delhi", country: "India", region: "India" },
+  { name: "Apollo Cancer Centres", city: "Chennai", country: "India", region: "India" },
+  { name: "Fortis Healthcare", city: "Mulund", country: "India", region: "India" },
+  { name: "HCG Cancer Centre", city: "Bengaluru", country: "India", region: "India" },
+  { name: "Kokilaben Dhirubhai Ambani Hospital", city: "Mumbai", country: "India", region: "India" },
+  
+  // USA
+  { name: "Memorial Sloan Kettering Cancer Center", city: "New York", country: "USA", region: "USA" },
+  { name: "MD Anderson Cancer Center", city: "Houston", country: "USA", region: "USA" },
+  { name: "Mayo Clinic Cancer Center", city: "Rochester", country: "USA", region: "USA" },
+  { name: "Dana-Farber Cancer Institute", city: "Boston", country: "USA", region: "USA" },
+  { name: "Johns Hopkins Sidney Kimmel Cancer Center", city: "Baltimore", country: "USA", region: "USA" },
+  { name: "Cedars-Sinai Cancer Center", city: "Los Angeles", country: "USA", region: "USA" },
+  
+  // Europe / Canada
+  { name: "The Royal Marsden Hospital", city: "London", country: "UK", region: "Europe" },
+  { name: "Gustave Roussy Cancer Campus", city: "Paris", country: "France", region: "Europe" },
+  { name: "Charité – Universitätsmedizin Berlin", city: "Berlin", country: "Germany", region: "Europe" },
+  { name: "Princess Margaret Cancer Centre", city: "Toronto", country: "Canada", region: "Europe" },
+  
+  // Asia-Pacific / Middle East
+  { name: "National Cancer Centre Singapore", city: "Singapore", country: "Singapore", region: "Asia-Pacific / Middle East" },
+  { name: "National Cancer Center Hospital", city: "Tokyo", country: "Japan", region: "Asia-Pacific / Middle East" },
+  { name: "Bumrungrad International Hospital", city: "Bangkok", country: "Thailand", region: "Asia-Pacific / Middle East" },
+  { name: "Mediclinic City Hospital", city: "Dubai", country: "UAE", region: "Asia-Pacific / Middle East" },
+];
+
 const MedTourismLanding = () => {
   const navigate = useNavigate();   // ✅ Added navigation hook (needed for onClick)
   const { isAuthenticated, user, logout } = useAuth();
@@ -652,8 +683,8 @@ const MedTourismLanding = () => {
         </motion.div>
       </section>
 
-      {/* Hospital Logos Section */}
-      <section className="hospitals-logos-section fade-in-section">
+      {/* Trusted Hospitals Section */}
+      <section className="hospitals-logos-section fade-in-section py-12 md:py-16">
         <motion.div
           className="hospitals-logos-container"
           initial={{ opacity: 0, y: 20 }}
@@ -661,75 +692,23 @@ const MedTourismLanding = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className="hospitals-logos-title">
-            Trusted by India's Leading Cancer Hospitals
-          </h3>
-          <div className="hospitals-logos-wrapper mask-gradient-x">
-            <div className="hospitals-logos-scroll animate-infinite-scroll">
-              {/* Set 1 */}
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/tmc.png"
-                  alt="Tata Memorial Centre"
-                />
-              </div>
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/apollo.png"
-                  alt="Apollo Hospitals"
-                />
-              </div>
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/kdah.png"
-                  alt="Kokilaben Dhirubhai Ambani Hospital"
-                />
-              </div>
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/fortis.png"
-                  alt="Fortis Hospitals"
-                />
-              </div>
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/cca.png"
-                  alt="Cancer Centers of America"
-                />
-              </div>
-              {/* Set 2 (Duplicate for seamless loop) */}
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/tmc.png"
-                  alt="Tata Memorial Centre"
-                />
-              </div>
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/apollo.png"
-                  alt="Apollo Hospitals"
-                />
-              </div>
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/kdah.png"
-                  alt="Kokilaben Dhirubhai Ambani Hospital"
-                />
-              </div>
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/fortis.png"
-                  alt="Fortis Hospitals"
-                />
-              </div>
-              <div className="hospital-logo-item">
-                <img
-                  src="https://www.byoncocare.com/logos/hospitals/cca.png"
-                  alt="Cancer Centers of America"
-                />
-              </div>
-            </div>
-          </div>
+          <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
+            Trusted by the World's Leading Cancer Hospitals
+          </h2>
+          
+          <p
+            className="mt-4 max-w-3xl mx-auto text-center text-base md:text-lg"
+            style={{
+              fontFamily: "'Newsreader', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              background: "linear-gradient(to right, #a855f7, #fb7185, #38bdf8)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              filter: "drop-shadow(0 0 18px rgba(168, 85, 247, 0.45))",
+            }}
+          >
+            From Tata Memorial and AIIMS to MD Anderson, Mayo Clinic, Royal Marsden, Gustave Roussy and other global leaders, ByOnco works across the world's leading cancer centers and connects your cancer journey with the best treatment and care.
+          </p>
         </motion.div>
       </section>
 
@@ -934,66 +913,78 @@ const MedTourismLanding = () => {
   >
     {/* CARD 1 — ULTRA RARE */}
     <div
-      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300"
+      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300 flex flex-col md:h-full md:justify-between"
       style={{
         background: "rgba(30, 20, 50, 0.35)",
         border: "1px solid rgba(139, 92, 246, 0.25)",
         boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
       }}
     >
-      <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Ultra-Rare Cancers</h3>
-      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
-        14 ultra-rare types including DIPG, ATRT, NUT carcinoma.
-        Pediatric tumors, rare carcinomas & aggressive sarcomas.
-      </p>
+      <div>
+        <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Ultra-Rare Cancers</h3>
+        <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
+          14 ultra-rare types including DIPG, ATRT, NUT carcinoma.
+          Pediatric tumors, rare carcinomas & aggressive sarcomas.
+        </p>
+      </div>
 
-      <TypesCovered 
-        count={14} 
-        numberColor="text-[#ff4747]" 
-        glowClass="shadow-[0_0_35px_rgba(255,74,74,0.45)]"
-      />
+      <div className="mt-6 md:mt-auto">
+        <TypesCovered 
+          count={14} 
+          numberColor="text-[#ff4747]" 
+          glowClass="shadow-[0_0_35px_rgba(255,74,74,0.45)]"
+        />
+      </div>
     </div>
 
     {/* CARD 2 — VERY RARE */}
     <div
-      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300"
+      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300 flex flex-col md:h-full md:justify-between"
       style={{
         background: "rgba(30, 20, 50, 0.35)",
         border: "1px solid rgba(139, 92, 246, 0.25)",
         boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
       }}
     >
-      <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Very Rare Cancers</h3>
-      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
-        12 high-risk types including Chordoma, Merkel Cell & Angiosarcoma.
-      </p>
+      <div>
+        <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Very Rare Cancers</h3>
+        <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
+          12 high-risk types including Chordoma, Merkel Cell & Angiosarcoma.
+        </p>
+      </div>
 
-      <TypesCovered 
-        count={12} 
-        numberColor="text-[#ff9f1c]" 
-        glowClass="shadow-[0_0_35px_rgba(255,165,0,0.45)]"
-      />
+      <div className="mt-6 md:mt-auto">
+        <TypesCovered 
+          count={12} 
+          numberColor="text-[#ff9f1c]" 
+          glowClass="shadow-[0_0_35px_rgba(255,165,0,0.45)]"
+        />
+      </div>
     </div>
 
     {/* CARD 3 — RARE */}
     <div
-      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300"
+      className="hover-card w-full md:w-[33%] rounded-xl md:rounded-[20px] p-4 md:p-7 transition-all duration-300 flex flex-col md:h-full md:justify-between"
       style={{
         background: "rgba(30, 20, 50, 0.35)",
         border: "1px solid rgba(139, 92, 246, 0.25)",
         boxShadow: "0 0 18px rgba(100, 50, 200, 0.25)",
       }}
     >
-      <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Rare Cancers</h3>
-      <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
-        13 moderately complex types including GIST & Mesothelioma.
-      </p>
+      <div>
+        <h3 className="feature-title text-lg md:text-xl lg:text-2xl break-words">Rare Cancers</h3>
+        <p className="feature-description text-sm md:text-base mt-2 md:mt-3 break-words leading-relaxed">
+          13 moderately complex types including GIST & Mesothelioma.
+        </p>
+      </div>
 
-      <TypesCovered 
-        count={13} 
-        numberColor="text-[#facc15]" 
-        glowClass="shadow-[0_0_35px_rgba(255,215,0,0.45)]"
-      />
+      <div className="mt-6 md:mt-auto">
+        <TypesCovered 
+          count={13} 
+          numberColor="text-[#facc15]" 
+          glowClass="shadow-[0_0_35px_rgba(255,215,0,0.45)]"
+        />
+      </div>
     </div>
 
   </div>

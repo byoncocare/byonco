@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Nunito+Sans:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Nunito+Sans:wght@400;600;700;800;900&family=Newsreader:wght@400;500;600&display=swap');
 
 * {
   margin: 0;
@@ -925,7 +925,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .team-logo-item img {
-  max-width: 150px;
+  max-width: 130px; /* Reduced by ~13% for desktop */
   height: auto;
   filter: grayscale(100%) brightness(2);
   opacity: 0.6;
@@ -1406,6 +1406,7 @@ body {
 
   .nav-container {
     padding: 1rem 1.25rem;
+    gap: 1.5rem; /* Add spacing between logo and login button on mobile */
   }
 
   .nav-links {
@@ -1497,6 +1498,14 @@ body {
 }
 
 @media (max-width: 640px) {
+  .nav-container {
+    gap: 2rem; /* Extra spacing between logo and login button on mobile */
+  }
+
+  .team-logo-item img {
+    max-width: 110px; /* Reduced by ~27% for mobile (from 150px) */
+  }
+
   .modal-overlay {
     padding: 0.25rem;
     padding-top: 0.5rem;
