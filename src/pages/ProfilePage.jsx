@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert } from '@/components/ui/alert';
-import { Loader2, User, Calendar, MapPin, Phone, UserCircle, Heart, ChevronLeft } from 'lucide-react';
+import { Loader2, User, Calendar, MapPin, Phone, UserCircle, Heart, ChevronLeft, Upload, Image as ImageIcon } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -30,6 +30,8 @@ export default function ProfilePage() {
     country: '',
     phone: '',
     photo_url: '',
+    photo_file: null,
+    photo_preview: null,
     emergency_contact_name: '',
     emergency_contact_relationship: '',
     emergency_contact_phone: '',
@@ -60,6 +62,8 @@ export default function ProfilePage() {
           country: userData.country || '',
           phone: userData.phone || '',
           photo_url: userData.photo_url || '',
+          photo_file: null,
+          photo_preview: userData.photo_url || null,
           emergency_contact_name: userData.emergency_contact_name || '',
           emergency_contact_relationship: userData.emergency_contact_relationship || '',
           emergency_contact_phone: userData.emergency_contact_phone || '',
@@ -126,6 +130,34 @@ export default function ProfilePage() {
       return false;
     }
     return true;
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError('Please select an image file');
+        return;
+      }
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Image size must be less than 5MB');
+        return;
+      }
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          photo_file: file,
+          photo_preview: reader.result,
+          photo_url: reader.result, // Use base64 for now, can be uploaded to cloud storage later
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -197,72 +229,72 @@ export default function ProfilePage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-2xl"
       >
-        <Card className="w-full">
+        <Card className="w-full bg-[#0b0f1f]/95 border border-white/30">
           <CardHeader>
             <div className="flex items-center gap-3 mb-2">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/')}
-                className="text-gray-600"
+                className="text-white hover:text-white/80 hover:bg-white/10"
               >
                 <ChevronLeft className="w-4 h-4 mr-1" />
                 Back
               </Button>
             </div>
-            <CardTitle className="text-2xl">Complete your ByOnco profile</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-2xl text-white">Complete your ByOnco profile</CardTitle>
+            <CardDescription className="text-white/80">
               Please fill in all required information to access our services
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <Alert variant="destructive" className="text-sm">
+                <Alert variant="destructive" className="text-sm bg-red-500/20 border-red-500/50 text-white">
                   {error}
                 </Alert>
               )}
 
               {success && (
-                <Alert className="bg-green-50 text-green-800 border-green-200">
+                <Alert className="bg-green-500/20 border-green-500/50 text-white">
                   Profile saved successfully! Redirecting...
                 </Alert>
               )}
 
               {/* Basic Details Section */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <UserCircle className="w-5 h-5 text-purple-600" />
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <UserCircle className="w-5 h-5 text-purple-400" />
                   Basic Details
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="full_name">Full Name *</Label>
+                    <Label htmlFor="full_name" className="text-white">Full Name *</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <User className="absolute left-3 top-3 h-4 w-4 text-white/60" />
                       <Input
                         id="full_name"
                         type="text"
                         placeholder="John Doe"
                         value={formData.full_name}
                         onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                        className="pl-10"
+                        className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-purple-400"
                         required
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="date_of_birth">Date of Birth *</Label>
+                    <Label htmlFor="date_of_birth" className="text-white">Date of Birth *</Label>
                     <div className="relative">
-                      <Calendar className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Calendar className="absolute left-3 top-3 h-4 w-4 text-white/60" />
                       <Input
                         id="date_of_birth"
                         type="date"
                         value={formData.date_of_birth}
                         onChange={handleDateChange}
-                        className="pl-10"
+                        className="pl-10 bg-white/10 border-white/20 text-white focus:border-purple-400 [&::-webkit-calendar-picker-indicator]:invert"
                         required
                         max={new Date().toISOString().split('T')[0]}
                       />
@@ -270,73 +302,106 @@ export default function ProfilePage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="age">Age</Label>
+                    <Label htmlFor="age" className="text-white">Age</Label>
                     <Input
                       id="age"
                       type="number"
                       placeholder="Auto-calculated"
                       value={formData.age}
                       readOnly
-                      className="bg-gray-50"
+                      className="bg-white/5 border-white/20 text-white/70"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="photo_url">Photo URL (Optional)</Label>
-                    <Input
-                      id="photo_url"
-                      type="url"
-                      placeholder="https://example.com/photo.jpg"
-                      value={formData.photo_url}
-                      onChange={(e) => setFormData({ ...formData, photo_url: e.target.value })}
-                    />
+                    <Label htmlFor="photo_file" className="text-white">Profile Photo (Optional)</Label>
+                    <div className="space-y-2">
+                      {formData.photo_preview ? (
+                        <div className="relative">
+                          <img
+                            src={formData.photo_preview}
+                            alt="Profile preview"
+                            className="w-20 h-20 rounded-full object-cover border-2 border-purple-400"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setFormData({ ...formData, photo_file: null, photo_preview: null, photo_url: '' })}
+                            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ) : (
+                        <label
+                          htmlFor="photo_file"
+                          className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-white/30 rounded-lg cursor-pointer bg-white/5 hover:bg-white/10 transition-colors"
+                        >
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <Upload className="w-8 h-8 mb-2 text-white/60" />
+                            <p className="mb-2 text-sm text-white/80">
+                              <span className="font-semibold">Click to upload</span> or drag and drop
+                            </p>
+                            <p className="text-xs text-white/60">PNG, JPG, GIF up to 5MB</p>
+                          </div>
+                          <input
+                            id="photo_file"
+                            type="file"
+                            accept="image/*"
+                            onChange={handlePhotoChange}
+                            className="hidden"
+                          />
+                        </label>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Location & Contact Section */}
-              <div className="space-y-4 pt-4 border-t">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-purple-600" />
+              <div className="space-y-4 pt-4 border-t border-white/20">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-purple-400" />
                   Location & Contact
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="city">City *</Label>
+                    <Label htmlFor="city" className="text-white">City *</Label>
                     <Input
                       id="city"
                       type="text"
                       placeholder="Mumbai"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-purple-400"
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="country">Country *</Label>
+                    <Label htmlFor="country" className="text-white">Country *</Label>
                     <Input
                       id="country"
                       type="text"
                       placeholder="India"
                       value={formData.country}
                       onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-purple-400"
                       required
                     />
                   </div>
 
                   <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="phone">Phone Number *</Label>
+                    <Label htmlFor="phone" className="text-white">Phone Number *</Label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Phone className="absolute left-3 top-3 h-4 w-4 text-white/60" />
                       <Input
                         id="phone"
                         type="tel"
                         placeholder="+91 1234567890"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="pl-10"
+                        className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-purple-400"
                         required
                       />
                     </div>
@@ -345,48 +410,50 @@ export default function ProfilePage() {
               </div>
 
               {/* Emergency Contact Section */}
-              <div className="space-y-4 pt-4 border-t">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <Heart className="w-5 h-5 text-purple-600" />
+              <div className="space-y-4 pt-4 border-t border-white/20">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <Heart className="w-5 h-5 text-purple-400" />
                   Emergency Contact
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="emergency_contact_name">Contact Name *</Label>
+                    <Label htmlFor="emergency_contact_name" className="text-white">Contact Name *</Label>
                     <Input
                       id="emergency_contact_name"
                       type="text"
                       placeholder="Jane Doe"
                       value={formData.emergency_contact_name}
                       onChange={(e) => setFormData({ ...formData, emergency_contact_name: e.target.value })}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-purple-400"
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="emergency_contact_relationship">Relationship *</Label>
+                    <Label htmlFor="emergency_contact_relationship" className="text-white">Relationship *</Label>
                     <Input
                       id="emergency_contact_relationship"
                       type="text"
                       placeholder="Spouse, Parent, Sibling, etc."
                       value={formData.emergency_contact_relationship}
                       onChange={(e) => setFormData({ ...formData, emergency_contact_relationship: e.target.value })}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-purple-400"
                       required
                     />
                   </div>
 
                   <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="emergency_contact_phone">Contact Phone *</Label>
+                    <Label htmlFor="emergency_contact_phone" className="text-white">Contact Phone *</Label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Phone className="absolute left-3 top-3 h-4 w-4 text-white/60" />
                       <Input
                         id="emergency_contact_phone"
                         type="tel"
                         placeholder="+91 1234567890"
                         value={formData.emergency_contact_phone}
                         onChange={(e) => setFormData({ ...formData, emergency_contact_phone: e.target.value })}
-                        className="pl-10"
+                        className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-purple-400"
                         required
                       />
                     </div>
@@ -395,7 +462,7 @@ export default function ProfilePage() {
               </div>
 
               <div className="pt-4">
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white" disabled={loading}>
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
