@@ -15,6 +15,7 @@ export const PatientProfile = {
   preferredCities: [], // string[]
   budgetCurrency: "", // "USD", "INR", etc.
   budgetRangeLabel: "", // human-readable like "$50K–$200K USD"
+  urgency: null, // "immediately" | "within_week" | "two_to_three_weeks" | "within_month"
 };
 
 /**
@@ -102,5 +103,34 @@ export function isPatientProfileComplete(profile) {
     profile.preferredCities?.length > 0 &&
     profile.budgetRangeLabel
   );
+}
+
+/**
+ * Get initials from a name
+ * Examples: "John Doe" -> "JD", "Ajinkya Jadhav" -> "AJ", "Mary" -> "M"
+ */
+export function getInitials(name) {
+  if (!name) return "PT";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return parts[0][0]?.toUpperCase() ?? "P";
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+/**
+ * Get display name from patient profile or auth user
+ */
+export function getDisplayName(patientProfile, authUser) {
+  if (patientProfile?.patientName) {
+    return patientProfile.patientName;
+  }
+  if (authUser?.full_name) {
+    return authUser.full_name;
+  }
+  if (authUser?.name) {
+    return authUser.name;
+  }
+  return "Patient";
 }
 

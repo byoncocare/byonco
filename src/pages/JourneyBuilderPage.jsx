@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getPatientProfile, buildDefaultJourneyPrompt, isPatientProfileComplete } from '@/utils/patientProfile';
+import { getPatientProfile, buildDefaultJourneyPrompt, isPatientProfileComplete, getInitials, getDisplayName } from '@/utils/patientProfile';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Default example data (matching the static HTML)
 const defaultProfile = {
@@ -154,6 +155,7 @@ function PlanCard({ plan, navigate }) {
 // Main Component
 export default function JourneyBuilderPage() {
   const navigate = useNavigate();
+  const { user: authUser } = useAuth(); // Get auth user for fallback
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -165,6 +167,10 @@ export default function JourneyBuilderPage() {
   const [patientProfile, setPatientProfile] = useState(null);
   const [profileComplete, setProfileComplete] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+
+  // Get display name and initials for sidebar
+  const displayName = getDisplayName(patientProfile, authUser);
+  const initials = getInitials(displayName);
 
   // Load patient profile on mount
   useEffect(() => {
@@ -325,11 +331,13 @@ export default function JourneyBuilderPage() {
         <div className="p-4 border-t border-slate-100">
           <div className="flex items-center gap-3 px-3 py-2">
             <div className="size-8 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-medium text-xs">
-              JD
+              {initials}
             </div>
             <div className="flex flex-col">
-              <span className="text-xs font-medium text-slate-900">John Doe</span>
-              <span className="text-[10px] text-slate-500">Patient Account</span>
+              <span className="text-xs font-medium text-slate-900">{displayName}</span>
+              <span className="text-[10px] text-slate-500">
+                Patient Account{patientProfile?.relationToPatient && patientProfile.relationToPatient !== "Self" ? ` • ${patientProfile.relationToPatient}` : ''}
+              </span>
             </div>
           </div>
         </div>
@@ -437,6 +445,18 @@ export default function JourneyBuilderPage() {
                         <div>
                           <span className="block text-[10px] text-slate-400 font-medium uppercase">Est. Budget</span>
                           <span className="block text-sm font-medium text-slate-900">{profile.estBudget}</span>
+                        </div>
+                      )}
+                      {patientProfile?.urgency && (
+                        <div>
+                          <span className="block text-[10px] text-slate-400 font-medium uppercase">Urgency</span>
+                          <span className="block text-sm font-medium text-slate-900">
+                            {patientProfile.urgency === 'immediately' ? 'Immediately' :
+                             patientProfile.urgency === 'within_week' ? 'Within a week' :
+                             patientProfile.urgency === 'two_to_three_weeks' ? '2–3 weeks' :
+                             patientProfile.urgency === 'within_month' ? 'Within a month' :
+                             patientProfile.urgency}
+                          </span>
                         </div>
                       )}
                     </div>

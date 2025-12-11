@@ -93,6 +93,7 @@ export default function GetStarted() {
     budget_range: '',
     budget_currency: '',
     preferred_cities: '',
+    urgency: '',
     
     // Consent
     agree_to_terms: false,
@@ -122,6 +123,8 @@ export default function GetStarted() {
         return !value ? 'Budget range is required' : '';
       case 'preferred_cities':
         return !value || value.trim().length < 2 ? 'Please enter at least one preferred city' : '';
+      case 'urgency':
+        return !value ? 'Urgency of treatment is required' : '';
       default:
         return '';
     }
@@ -146,7 +149,7 @@ export default function GetStarted() {
     let isValid = true;
 
     // Required fields
-    const requiredFields = ['full_name', 'email', 'phone', 'city', 'cancer_type', 'cancer_stage', 'budget_range', 'preferred_cities'];
+    const requiredFields = ['full_name', 'email', 'phone', 'city', 'cancer_type', 'cancer_stage', 'budget_range', 'preferred_cities', 'urgency'];
     requiredFields.forEach(field => {
       const error = validateField(field, formData[field]);
       if (error) {
@@ -197,7 +200,8 @@ export default function GetStarted() {
         phone: `${formData.country_code} ${formData.phone}`.trim(),
         preferred_cities: preferredCitiesArray,
         budget_currency: budgetInfo.currency,
-        budget_range_label: formData.budget_range
+        budget_range_label: formData.budget_range,
+        urgency: formData.urgency
       };
       
       await axios.post(`${API}/submit`, submitData);
@@ -213,7 +217,8 @@ export default function GetStarted() {
         country: formData.country,
         preferredCities: preferredCitiesArray,
         budgetCurrency: budgetInfo.currency,
-        budgetRangeLabel: formData.budget_range
+        budgetRangeLabel: formData.budget_range,
+        urgency: formData.urgency
       };
       savePatientProfile(patientProfile);
       
@@ -545,6 +550,41 @@ export default function GetStarted() {
                       </p>
                       {errors.preferred_cities && (
                         <p className="text-sm text-red-400">{errors.preferred_cities}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="urgency" className="text-white font-medium">
+                        Urgency of treatment <span className="text-red-400">*</span>
+                      </Label>
+                      <Select
+                        value={formData.urgency}
+                        onValueChange={(value) => handleChange('urgency', value)}
+                      >
+                        <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-4 py-3 h-auto w-full">
+                          <SelectValue placeholder="Select urgency" className="text-gray-900" />
+                        </SelectTrigger>
+                        <SelectContent 
+                          className="bg-white border-gray-300 min-w-[var(--radix-select-trigger-width)]"
+                          position="popper"
+                          style={{ zIndex: 9999 }}
+                        >
+                          <SelectItem value="immediately" className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5">
+                            Immediately
+                          </SelectItem>
+                          <SelectItem value="within_week" className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5">
+                            Within a week
+                          </SelectItem>
+                          <SelectItem value="two_to_three_weeks" className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5">
+                            2–3 weeks
+                          </SelectItem>
+                          <SelectItem value="within_month" className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5">
+                            Within a month
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {errors.urgency && (
+                        <p className="text-sm text-red-400">{errors.urgency}</p>
                       )}
                     </div>
                   </div>
