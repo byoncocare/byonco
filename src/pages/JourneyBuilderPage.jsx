@@ -82,7 +82,7 @@ const defaultUserMessage = "My father has been diagnosed with Stage 3 Lung Cance
 const defaultAIMessage = "I'm sorry to hear about your father's diagnosis. Based on your request, I have structured a journey plan focusing on **Stage III Lung Cancer** treatment in **Mumbai or Delhi**, keeping within the **₹15–20 Lakhs** budget range.";
 
 // Plan Card Subcomponent
-function PlanCard({ plan }) {
+function PlanCard({ plan, navigate }) {
   const isBalanced = plan.planType === "Balanced";
   const planColors = {
     Value: { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-200/50" },
@@ -454,7 +454,7 @@ export default function JourneyBuilderPage() {
 
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {plans.map((plan, idx) => (
-                      <PlanCard key={idx} plan={plan} />
+                      <PlanCard key={idx} plan={plan} navigate={navigate} />
                     ))}
                   </div>
                 </div>
