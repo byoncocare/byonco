@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getPatientProfile, buildDefaultJourneyPrompt, isPatientProfileComplete } from '@/utils/patientProfile';
 
 // Default example data (matching the static HTML)
 const defaultProfile = {
@@ -138,8 +140,11 @@ function PlanCard({ plan }) {
         </div>
       </div>
       <div className="p-4 pt-0 mt-auto">
-        <button className={`w-full py-2 ${isBalanced ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm shadow-indigo-200' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300'} text-xs font-medium rounded-lg transition-colors`}>
-          {isBalanced ? 'Select Plan' : 'View Details'}
+        <button 
+          onClick={() => navigate(`/journey-builder/plan/${plan.planType.toLowerCase()}`, { state: { plan } })}
+          className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm shadow-indigo-200 text-xs font-medium rounded-lg transition-colors"
+        >
+          Select Plan
         </button>
       </div>
     </div>
@@ -148,14 +153,88 @@ function PlanCard({ plan }) {
 
 // Main Component
 export default function JourneyBuilderPage() {
+  const navigate = useNavigate();
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [profile, setProfile] = useState(defaultProfile);
-  const [plans, setPlans] = useState(defaultPlans);
-  const [suggestions, setSuggestions] = useState(defaultSuggestions);
-  const [userMessage, setUserMessage] = useState(defaultUserMessage);
-  const [aiMessage, setAiMessage] = useState(defaultAIMessage);
+  const [profile, setProfile] = useState(null);
+  const [plans, setPlans] = useState([]);
+  const [suggestions, setSuggestions] = useState(null);
+  const [userMessage, setUserMessage] = useState("");
+  const [aiMessage, setAiMessage] = useState("");
+  const [patientProfile, setPatientProfile] = useState(null);
+  const [profileComplete, setProfileComplete] = useState(false);
+  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+
+  // Load patient profile on mount
+  useEffect(() => {
+    const savedProfile = getPatientProfile();
+    setPatientProfile(savedProfile);
+    
+    if (savedProfile && isPatientProfileComplete(savedProfile)) {
+      setProfileComplete(true);
+      const defaultPrompt = buildDefaultJourneyPrompt(savedProfile);
+      if (defaultPrompt) {
+        setInputText(defaultPrompt);
+        setUserMessage(defaultPrompt);
+        // Auto-submit on mount
+        handleAutoSubmit(defaultPrompt);
+      } else {
+        // Show default example data if prompt can't be built
+        setProfile(defaultProfile);
+        setPlans(defaultPlans);
+        setSuggestions(defaultSuggestions);
+        setUserMessage(defaultUserMessage);
+        setAiMessage(defaultAIMessage);
+      }
+    } else {
+      setProfileComplete(false);
+      // Show default example data
+      setProfile(defaultProfile);
+      setPlans(defaultPlans);
+      setSuggestions(defaultSuggestions);
+      setUserMessage(defaultUserMessage);
+      setAiMessage(defaultAIMessage);
+    }
+  }, []);
+
+  const handleAutoSubmit = async (promptText) => {
+    if (!promptText || loading) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
+      const apiUrl = `${BACKEND_URL}/api/journey-builder`;
+      
+      const res = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: promptText }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status} ${res.statusText}`);
+      }
+
+      const data = await res.json();
+      
+      setProfile(data.profile);
+      setPlans(data.plans);
+      setSuggestions(data.suggestions || null);
+      setAiMessage(data.disclaimer || "I've generated a personalized journey plan for you.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch journey plan. Please try again.");
+      console.error("Journey builder error:", err);
+      // Fallback to default data on error
+      setProfile(defaultProfile);
+      setPlans(defaultPlans);
+      setSuggestions(defaultSuggestions);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -207,40 +286,40 @@ export default function JourneyBuilderPage() {
       <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-200 h-full flex-shrink-0 z-20">
         <div className="p-6 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <div className="size-8 bg-slate-900 rounded-lg flex items-center justify-center text-white">
-              <span className="iconify" data-icon="lucide:activity" data-width="20" data-stroke-width="1.5"></span>
-            </div>
-            <h1 className="font-semibold text-lg tracking-tight">ByOnco</h1>
+            <span className="logo-text">
+              <span className="logo-by">by</span>
+              <span className="logo-onco"><span className="logo-o">O</span>nco</span>
+            </span>
           </div>
         </div>
         
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           <div className="px-2 py-1.5 text-xs font-medium text-slate-400 uppercase tracking-wider">Platform</div>
           
-          <a href="#" className="flex items-center gap-3 px-3 py-2 text-sm text-slate-600 rounded-md hover:bg-slate-50 group transition-colors">
+          <button onClick={() => navigate('/find-hospitals')} className="flex items-center gap-3 px-3 py-2 text-sm text-slate-600 rounded-md hover:bg-slate-50 group transition-colors w-full text-left">
             <span className="iconify text-slate-400 group-hover:text-slate-600" data-icon="lucide:building-2" data-width="18" data-stroke-width="1.5"></span>
             Find Hospitals
-          </a>
-          <a href="#" className="flex items-center gap-3 px-3 py-2 text-sm text-slate-600 rounded-md hover:bg-slate-50 group transition-colors">
+          </button>
+          <button onClick={() => navigate('/cost-calculator')} className="flex items-center gap-3 px-3 py-2 text-sm text-slate-600 rounded-md hover:bg-slate-50 group transition-colors w-full text-left">
             <span className="iconify text-slate-400 group-hover:text-slate-600" data-icon="lucide:calculator" data-width="18" data-stroke-width="1.5"></span>
             Cost Calculator
-          </a>
-          <a href="#" className="flex items-center gap-3 px-3 py-2 text-sm text-slate-600 rounded-md hover:bg-slate-50 group transition-colors">
+          </button>
+          <button onClick={() => navigate('/rare-cancers')} className="flex items-center gap-3 px-3 py-2 text-sm text-slate-600 rounded-md hover:bg-slate-50 group transition-colors w-full text-left">
             <span className="iconify text-slate-400 group-hover:text-slate-600" data-icon="lucide:microscope" data-width="18" data-stroke-width="1.5"></span>
             Rare Cancers
-          </a>
+          </button>
 
           <div className="mt-6 px-2 py-1.5 text-xs font-medium text-slate-400 uppercase tracking-wider">Planning</div>
           
-          <a href="#" className="flex items-center gap-3 px-3 py-2 text-sm bg-slate-100 text-slate-900 font-medium rounded-md shadow-sm ring-1 ring-slate-900/5">
+          <button className="flex items-center gap-3 px-3 py-2 text-sm bg-slate-100 text-slate-900 font-medium rounded-md shadow-sm ring-1 ring-slate-900/5 w-full text-left">
             <span className="iconify text-indigo-600" data-icon="lucide:map" data-width="18" data-stroke-width="1.5"></span>
             Journey Builder
             <span className="ml-auto text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full font-semibold">AI</span>
-          </a>
-          <a href="#" className="flex items-center gap-3 px-3 py-2 text-sm text-slate-600 rounded-md hover:bg-slate-50 group transition-colors">
+          </button>
+          <button onClick={() => navigate('/teleconsultation')} className="flex items-center gap-3 px-3 py-2 text-sm text-slate-600 rounded-md hover:bg-slate-50 group transition-colors w-full text-left">
             <span className="iconify text-slate-400 group-hover:text-slate-600" data-icon="lucide:video" data-width="18" data-stroke-width="1.5"></span>
             Teleconsultation
-          </a>
+          </button>
         </nav>
 
         <div className="p-4 border-t border-slate-100">
@@ -261,8 +340,10 @@ export default function JourneyBuilderPage() {
         {/* Header (Mobile only) */}
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 flex items-center px-4 justify-between flex-shrink-0">
           <div className="flex items-center gap-2">
-            <span className="iconify text-indigo-600" data-icon="lucide:activity" data-width="20"></span>
-            <span className="font-semibold tracking-tight text-slate-900">ByOnco</span>
+            <span className="logo-text">
+              <span className="logo-by">by</span>
+              <span className="logo-onco"><span className="logo-o">O</span>nco</span>
+            </span>
           </div>
           <button className="text-slate-500">
             <span className="iconify" data-icon="lucide:menu" data-width="24"></span>
@@ -271,6 +352,21 @@ export default function JourneyBuilderPage() {
 
         {/* Chat Area */}
         <div className="flex-1 overflow-y-auto p-4 lg:p-8 space-y-8 scroll-smooth">
+          {/* Profile Incomplete Message - Only show if no data at all */}
+          {!profileComplete && !userMessage && (
+            <div className="flex justify-center items-center min-h-[400px]">
+              <div className="max-w-md text-center space-y-4">
+                <p className="text-slate-600">Please complete the Get Started form to generate a personalized journey plan.</p>
+                <button
+                  onClick={() => navigate('/get-started')}
+                  className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+                >
+                  Go to Get Started
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* User Message */}
           {userMessage && (
             <div className="flex justify-end">
@@ -296,10 +392,28 @@ export default function JourneyBuilderPage() {
                 {/* Profile Card */}
                 {profile && (
                   <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
-                    <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <span className="iconify" data-icon="lucide:user-check" data-width="14"></span>
-                      Extracted Journey Profile
-                    </h3>
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <span className="iconify" data-icon="lucide:user-check" data-width="14"></span>
+                        Extracted Journey Profile
+                      </h3>
+                      {/* Tools Section */}
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => setShowCurrencyModal(true)}
+                          className="px-3 py-1 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100 transition-colors"
+                        >
+                          Currency Converter
+                        </button>
+                        <button 
+                          disabled
+                          className="px-3 py-1 text-xs font-medium text-slate-400 bg-slate-50 border border-slate-200 rounded-full opacity-60 cursor-not-allowed"
+                          title="We'll soon help you check what your insurance really covers."
+                        >
+                          Insurance Analyzer <span className="text-[10px]">(Coming Soon)</span>
+                        </button>
+                      </div>
+                    </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-8">
                       {profile.cancerType && (
                         <div>
@@ -415,10 +529,57 @@ export default function JourneyBuilderPage() {
             {error && (
               <p className="text-xs text-red-500 text-center mb-1">{error}</p>
             )}
-            <p className="text-[10px] text-slate-400 text-center">ByOnco Journey AI can make mistakes. Please verify important info.</p>
+            <p className="text-[10px] text-slate-400 text-center">
+              ByOnco Journey AI can make mistakes. The estimated costs are not final and can vary based on clinical decisions, hospital policies, and travel changes. However, our goal is to keep your final bill as close as possible to these estimates, based on ByOnco's ongoing market research. Please verify important information with your oncologist and our team.
+            </p>
           </div>
         </div>
       </main>
+
+      {/* Currency Converter Modal */}
+      {showCurrencyModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowCurrencyModal(false)}>
+          <div className="bg-white rounded-xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Currency Converter</h3>
+            {patientProfile?.budgetRangeLabel ? (
+              <div className="space-y-3">
+                <div className="p-3 bg-slate-50 rounded-lg">
+                  <p className="text-xs text-slate-500 mb-1">Your Budget</p>
+                  <p className="text-lg font-semibold text-slate-900">{patientProfile.budgetRangeLabel}</p>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">USD:</span>
+                    <span className="font-medium text-slate-900">
+                      {/* TODO: plug real FX API - using approximate rates: 1 USD = 83 INR */}
+                      {patientProfile.budgetCurrency === 'USD' 
+                        ? patientProfile.budgetRangeLabel 
+                        : '~$' + (parseFloat(patientProfile.budgetRangeLabel.replace(/[^0-9.]/g, '')) * 0.012).toFixed(0) + 'K'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">INR:</span>
+                    <span className="font-medium text-slate-900">
+                      {patientProfile.budgetCurrency === 'INR' 
+                        ? patientProfile.budgetRangeLabel 
+                        : '~₹' + (parseFloat(patientProfile.budgetRangeLabel.replace(/[^0-9.]/g, '')) * 83).toFixed(0) + 'L'}
+                    </span>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-500 mt-4">Note: Rates are approximate. Actual conversion may vary.</p>
+              </div>
+            ) : (
+              <p className="text-sm text-slate-600">Please complete your profile to see currency conversions.</p>
+            )}
+            <button
+              onClick={() => setShowCurrencyModal(false)}
+              className="mt-4 w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

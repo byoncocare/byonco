@@ -22,6 +22,8 @@ import {
   AlertCircle
 } from 'lucide-react';
 import axios from 'axios';
+import { savePatientProfile } from '@/utils/patientProfile';
+import { getBudgetRangesForCountry } from '@/utils/budgetRanges';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api/get-started`;
@@ -87,6 +89,11 @@ export default function GetStarted() {
     preferred_time: '',
     additional_notes: '',
     
+    // Journey Builder fields
+    budget_range: '',
+    budget_currency: '',
+    preferred_cities: '',
+    
     // Consent
     agree_to_terms: false,
     agree_to_contact: true
@@ -111,6 +118,10 @@ export default function GetStarted() {
         return !value ? 'Cancer stage is required' : '';
       case 'insurance_provider':
         return formData.has_insurance && !value ? 'Insurance provider is required if you have insurance' : '';
+      case 'budget_range':
+        return !value ? 'Budget range is required' : '';
+      case 'preferred_cities':
+        return !value || value.trim().length < 2 ? 'Please enter at least one preferred city' : '';
       default:
         return '';
     }
@@ -135,7 +146,7 @@ export default function GetStarted() {
     let isValid = true;
 
     // Required fields
-    const requiredFields = ['full_name', 'email', 'phone', 'city', 'cancer_type', 'cancer_stage'];
+    const requiredFields = ['full_name', 'email', 'phone', 'city', 'cancer_type', 'cancer_stage', 'budget_range', 'preferred_cities'];
     requiredFields.forEach(field => {
       const error = validateField(field, formData[field]);
       if (error) {
@@ -171,11 +182,41 @@ export default function GetStarted() {
     setLoading(true);
 
     try {
+      // Parse preferred cities
+      const preferredCitiesArray = formData.preferred_cities
+        .split(',')
+        .map(city => city.trim())
+        .filter(city => city.length > 0);
+
+      // Get budget info
+      const budgetInfo = getBudgetRangesForCountry(formData.country);
+      const selectedRange = budgetInfo.ranges.find(r => r.value === formData.budget_range);
+
       const submitData = {
         ...formData,
-        phone: `${formData.country_code} ${formData.phone}`.trim()
+        phone: `${formData.country_code} ${formData.phone}`.trim(),
+        preferred_cities: preferredCitiesArray,
+        budget_currency: budgetInfo.currency,
+        budget_range_label: formData.budget_range
       };
+      
       await axios.post(`${API}/submit`, submitData);
+      
+      // Save patient profile for Journey Builder
+      const patientProfile = {
+        patientName: formData.full_name,
+        isSelfPatient: false, // TODO: Add field to form if needed
+        relationToPatient: "Self", // TODO: Add field to form if needed
+        cancerType: formData.cancer_type,
+        cancerStage: formData.cancer_stage,
+        city: formData.city,
+        country: formData.country,
+        preferredCities: preferredCitiesArray,
+        budgetCurrency: budgetInfo.currency,
+        budgetRangeLabel: formData.budget_range
+      };
+      savePatientProfile(patientProfile);
+      
       setSubmitted(true);
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to submit form. Please try again.');
@@ -436,6 +477,74 @@ export default function GetStarted() {
                       </Select>
                       {errors.cancer_stage && (
                         <p className="text-sm text-red-400">{errors.cancer_stage}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Journey Planning Section */}
+                <div className="space-y-4 pt-4 border-t border-gray-700">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-purple-400" />
+                    Journey Planning
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="budget_range" className="text-white font-medium">
+                        Budget Range <span className="text-red-400">*</span>
+                      </Label>
+                      <Select
+                        value={formData.budget_range}
+                        onValueChange={(value) => {
+                          const budgetInfo = getBudgetRangesForCountry(formData.country);
+                          handleChange('budget_range', value);
+                          handleChange('budget_currency', budgetInfo.currency);
+                        }}
+                      >
+                        <SelectTrigger className="bg-white text-gray-900 border-gray-300 px-4 py-3 h-auto w-full">
+                          <SelectValue placeholder="Select budget range" className="text-gray-900" />
+                        </SelectTrigger>
+                        <SelectContent 
+                          className="bg-white border-gray-300 min-w-[var(--radix-select-trigger-width)]"
+                          position="popper"
+                          style={{ zIndex: 9999 }}
+                        >
+                          {getBudgetRangesForCountry(formData.country).ranges.map((range) => (
+                            <SelectItem 
+                              key={range.value} 
+                              value={range.value} 
+                              className="text-gray-900 hover:bg-gray-100 cursor-pointer px-4 py-2.5"
+                            >
+                              {range.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.budget_range && (
+                        <p className="text-sm text-red-400">{errors.budget_range}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="preferred_cities" className="text-white font-medium">
+                        Preferred Treatment Cities <span className="text-red-400">*</span>
+                      </Label>
+                      <Input
+                        id="preferred_cities"
+                        type="text"
+                        placeholder="e.g., Houston, Boston, Mumbai"
+                        value={formData.preferred_cities}
+                        onChange={(e) => handleChange('preferred_cities', e.target.value)}
+                        onBlur={() => handleBlur('preferred_cities')}
+                        className="bg-white text-gray-900 border-gray-300 placeholder:text-gray-500 px-4 py-3 h-auto"
+                        required
+                      />
+                      <p className="text-xs text-gray-400">
+                        Mention 1–3 cities where you'd like to explore treatment options (comma-separated)
+                      </p>
+                      {errors.preferred_cities && (
+                        <p className="text-sm text-red-400">{errors.preferred_cities}</p>
                       )}
                     </div>
                   </div>

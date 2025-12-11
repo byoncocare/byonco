@@ -41,6 +41,7 @@ import SecondOpinionPage from "./pages/SecondOpinionPage";
 import TeleconsultationPage from "./pages/TeleconsultationPage";
 import CostCalculatorPage from "./pages/CostCalculatorPage";
 import JourneyBuilderPage from "./pages/JourneyBuilderPage";
+import JourneyPlanDetails from "./pages/JourneyPlanDetails";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
 import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
@@ -391,6 +392,23 @@ export default function App() {
                     transition={{ duration: 0.4 }}
                   >
                     <JourneyBuilderPage />
+                  </motion.div>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/journey-builder/plan/:planId"
+              element={
+                <ProtectedRoute>
+                  <motion.div
+                    className="min-h-screen"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <JourneyPlanDetails />
                   </motion.div>
                 </ProtectedRoute>
               }
