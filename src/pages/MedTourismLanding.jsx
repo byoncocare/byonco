@@ -772,8 +772,8 @@ const MedTourismLanding = () => {
               description: "Discover oncology centers across the world by wait time, budget, and treatment needs",
               icon: <Globe className="w-8 h-8" />,
               color: "from-indigo-500 to-purple-600",
-              route: "/waitlist/medical-tourism",
-              isWaitlist: true
+              route: "/journey-builder",
+              isWaitlist: false
             }
           ].map((service, index) => (
             <motion.div
