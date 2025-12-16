@@ -359,7 +359,7 @@ export default function JourneyBuilderPage() {
         </header>
 
         {/* Chat Area */}
-        <div className="flex-1 overflow-y-auto p-4 lg:p-8 space-y-8 scroll-smooth">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 scroll-smooth">
           {/* Profile Incomplete Message - Only show if no data at all */}
           {!profileComplete && !userMessage && (
             <div className="flex justify-center items-center min-h-[400px]">
@@ -422,7 +422,7 @@ export default function JourneyBuilderPage() {
                         </button>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-4 gap-x-4 sm:gap-x-6 md:gap-x-8">
                       {profile.cancerType && (
                         <div>
                           <span className="block text-[10px] text-slate-400 font-medium uppercase">Cancer Type</span>
@@ -472,7 +472,7 @@ export default function JourneyBuilderPage() {
                     <span className="text-xs text-slate-400">Estimates include medical + travel + stay</span>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {plans.map((plan, idx) => (
                       <PlanCard key={idx} plan={plan} navigate={navigate} />
                     ))}

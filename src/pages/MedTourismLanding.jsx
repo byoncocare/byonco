@@ -723,14 +723,7 @@ const MedTourismLanding = () => {
             Access all our AI-powered tools and services to navigate your cancer care journey
           </p>
         </div>
-        <div className="services-grid" style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "1.5rem",
-          maxWidth: "1200px",
-          margin: "3rem auto",
-          padding: "0 2rem"
-        }}>
+        <div className="services-grid">
           {[
             {
               title: "Find Hospitals",
