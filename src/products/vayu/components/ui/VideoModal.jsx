@@ -102,9 +102,10 @@ export default function VideoModal({
       }
 
       try {
-        setYtReady(true);
         ytPlayerRef.current = new window.YT.Player(ytDivRef.current, {
           videoId: youTubeId,
+          width: '100%',
+          height: '100%',
           playerVars: {
             autoplay: 1,
             controls: 1,
@@ -116,6 +117,7 @@ export default function VideoModal({
           },
           events: {
             onReady: (e) => {
+              setYtReady(true);
               try { 
                 e.target.playVideo(); 
               } catch (err) {
@@ -124,6 +126,7 @@ export default function VideoModal({
             },
             onError: (e) => {
               console.error("YouTube player error:", e.data);
+              setYtReady(false);
             },
             onStateChange: (e) => {
               // 0 = ended
