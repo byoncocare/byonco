@@ -175,7 +175,7 @@ const HeroSection = ({ onPreOrder }) => {
                   />
 
                   {/* Floating AI assistant text overlay - Below the face */}
-                  <div className="absolute bottom-6 left-6 right-6 md:bottom-6 md:left-auto md:right-6 md:max-w-[80%] glass-panel-sm bg-black/60 backdrop-blur-md border border-white/20 text-xs px-3 py-2 rounded-lg animate-fade-in">
+                  <div className="absolute bottom-6 left-6 right-6 md:bottom-6 md:left-auto md:right-6 md:max-w-[80%] glass-panel-sm bg-black/30 md:bg-black/60 backdrop-blur-md border border-white/20 text-xs px-3 py-2 rounded-lg animate-fade-in">
                     <div className="font-mono font-bold text-[#1E5BFF]">14:32</div>
                     <div className="font-bold text-[#1E5BFF]">
                       Good afternoon! Ready for your presentation?
