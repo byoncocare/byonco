@@ -60,10 +60,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold mb-4">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4">
               Vayu<span className="text-[#1E5BFF]"> X</span>
             </h3>
-            <p className="text-white/60 mb-6 leading-relaxed">
+            <p className="text-sm sm:text-base text-white/60 mb-4 md:mb-6 leading-relaxed">
               Built in India. AI-powered smart glasses designed for professionals.
               Experience augmented intelligence with Vayu X ByOnco.
             </p>
@@ -105,30 +105,58 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Products */}
-          <div>
-            <h4 className="font-semibold text-lg mb-4 text-white">Products</h4>
-            <ul className="space-y-3 text-white/60">
-              <li>
-                <Link to="/products/vayu#essential" className="hover:text-white transition-colors">
-                  Vayu Essential
-                </Link>
-              </li>
-              <li>
-                <Link to="/products/vayu#medpro" className="hover:text-white transition-colors">
-                  Vayu MedPro
-                </Link>
-              </li>
-              <li>
-                <Link to="/products/vayu#legaledge" className="hover:text-white transition-colors">
-                  Vayu LegalEdge
-                </Link>
-              </li>
-            </ul>
+          {/* Products and Support - Combined on mobile, separate on desktop */}
+          <div className="sm:col-span-1">
+            <div className="md:block">
+              <h4 className="font-semibold text-base sm:text-lg mb-3 md:mb-4 text-white">Products</h4>
+              <ul className="space-y-2 md:space-y-3 text-sm sm:text-base text-white/60 mb-4 md:mb-0">
+                <li>
+                  <Link to="/products/vayu#essential" className="hover:text-white transition-colors">
+                    Vayu Essential
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/products/vayu#medpro" className="hover:text-white transition-colors">
+                    Vayu MedPro
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/products/vayu#legaledge" className="hover:text-white transition-colors">
+                    Vayu LegalEdge
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            {/* Support - Show beside Products on mobile */}
+            <div className="md:hidden mt-4">
+              <h4 className="font-semibold text-base mb-3 text-white">Support</h4>
+              <ul className="space-y-2 text-sm text-white/60">
+                <li>
+                  <Link to="/products/vayu/help-center" className="hover:text-white transition-colors">
+                    Help Center
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/products/vayu/warranty" className="hover:text-white transition-colors">
+                    Warranty
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/products/vayu/refund-policy" className="hover:text-white transition-colors">
+                    Returns
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/products/vayu/shipping-info" className="hover:text-white transition-colors">
+                    Shipping Info
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          {/* Support */}
-          <div>
+          {/* Support - Desktop only */}
+          <div className="hidden md:block">
             <h4 className="font-semibold text-base sm:text-lg mb-3 md:mb-4 text-white">Support</h4>
             <ul className="space-y-2 md:space-y-3 text-sm sm:text-base text-white/60">
               <li>
@@ -158,26 +186,29 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-base sm:text-lg mb-3 md:mb-4 text-white">Contact</h4>
             <div className="space-y-2 md:space-y-3 text-sm sm:text-base text-white/60">
-              <div className="flex items-center gap-3">
-                <MailIcon className="w-4 h-4" />
-                <a
-                  href="mailto:contact@byoncocare.com"
-                  className="hover:text-white transition-colors"
-                >
-                  contact@byoncocare.com
-                </a>
+              {/* Mobile: Email and Phone in horizontal line */}
+              <div className="flex flex-col md:block gap-2 md:gap-0">
+                <div className="flex items-center gap-2 md:gap-3">
+                  <MailIcon className="w-4 h-4 flex-shrink-0" />
+                  <a
+                    href="mailto:contact@byoncocare.com"
+                    className="hover:text-white transition-colors"
+                  >
+                    contact@byoncocare.com
+                  </a>
+                </div>
+                <div className="flex items-center gap-2 md:gap-3 md:mt-2">
+                  <PhoneIcon className="w-4 h-4 flex-shrink-0" />
+                  <a
+                    href="tel:+919022792824"
+                    className="hover:text-white transition-colors"
+                  >
+                    +91-902-2792-824
+                  </a>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <PhoneIcon className="w-4 h-4" />
-                <a
-                  href="tel:+919022792824"
-                  className="hover:text-white transition-colors"
-                >
-                  +91-902-2792-824
-                </a>
-              </div>
-              <div className="flex items-start gap-3">
-                <MapPinIcon className="w-4 h-4 mt-1" />
+              <div className="flex items-start gap-3 mt-2 md:mt-0">
+                <MapPinIcon className="w-4 h-4 mt-1 flex-shrink-0" />
                 <span className="hover:text-white transition-colors">
                   ITI Layout, Somasundarapalya, Bengaluru, Karnataka
                   <br />
@@ -214,8 +245,8 @@ const Footer = () => {
               </p>
             </div>
 
-            {/* Legal links */}
-            <div className="flex flex-wrap gap-6 text-sm text-white/60 justify-center">
+            {/* Legal links - Reduced spacing on mobile */}
+            <div className="flex flex-wrap gap-3 md:gap-6 text-sm text-white/60 justify-center">
               <Link to="/products/vayu/privacy-policy" className="hover:text-white transition-colors">
                 Privacy policy
               </Link>

@@ -120,7 +120,35 @@ const TestimonialsSection = () => {
           ))}
         </div>
 
-        {/* CTA Section - Metrics Strip - Hidden on mobile to prevent constant updates */}
+        {/* CTA Section - Metrics Strip - Mobile version with static 2257 */}
+        <div className="mt-16 text-center md:hidden">
+          <div className="glass-panel rounded-3xl p-8 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-semibold tracking-tighter text-white mb-4">
+              Join the Future of Professional Productivity
+            </h3>
+            <p className="text-gray-400 mb-6 font-light">
+              Over {preOrdersCount} professionals have already signed up for and pre-ordered their Vayu X. 
+              Don't miss out on the early bird pricing.
+            </p>
+            
+            <div className="flex flex-col gap-4 justify-center items-center">
+              <div className="text-center px-6 py-4 glass-panel-sm rounded-xl border border-[#1E5BFF]/20">
+                <div className="text-3xl font-bold text-[#1E5BFF]">{preOrdersCount}</div>
+                <div className="text-sm text-gray-500">Pre-orders</div>
+              </div>
+              <div className="text-center px-6 py-4 glass-panel-sm rounded-xl border border-green-500/20">
+                <div className="text-3xl font-semibold tracking-tighter text-green-400">2,257</div>
+                <div className="text-sm text-gray-500">Waitlisted Forms</div>
+              </div>
+              <div className="text-center px-6 py-4 glass-panel-sm rounded-xl border border-[#8B5CF6]/20">
+                <div className="text-3xl font-semibold tracking-tighter text-[#8B5CF6]">March 2026</div>
+                <div className="text-sm text-gray-500">Shipping Starts</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section - Metrics Strip - Desktop version with dynamic counter */}
         <div className="mt-16 text-center hidden md:block">
           <div className="glass-panel rounded-3xl p-8 max-w-4xl mx-auto">
             <h3 className="text-2xl font-semibold tracking-tighter text-white mb-4">
