@@ -97,7 +97,7 @@ export const useDynamicCounter = ({
 
 /**
  * Hook specifically for waitlist counter
- * Starts from 450, grows at ~3-5 per day
+ * Starts from 2257, grows at ~3-5 per day
  */
 export const useWaitlistCounter = () => {
   // Use a stable start date - only create once
@@ -105,11 +105,11 @@ export const useWaitlistCounter = () => {
   
   return useDynamicCounter({
     startDate, // Start from today (stable reference)
-    baseValue: 450,
+    baseValue: 2257,
     growthRate: 4, // ~4 signups per day on average
     updateInterval: 60000, // Update every minute
     showPlus: false,
-    animateOnMount: true, // Animate from 0 to 450 on mount
+    animateOnMount: true, // Animate from 0 to 2257 on mount
   });
 };
 
