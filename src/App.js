@@ -64,8 +64,8 @@ import AboutVayu from "./products/vayu/pages/AboutVayu";
 // Vayu waitlist page
 import VayuWaitlist from "./products/vayu/pages/VayuWaitlist";
 
-// Lazy-load Vayu product page
-const VayuX = lazy(() => import("./pages/VayuX"));
+// Import Vayu product page directly (no lazy loading to avoid cache issues)
+import VayuX from "./pages/VayuX";
 
 /* -------------------------------------------------------
    Global hash scroller (unchanged)
@@ -492,7 +492,7 @@ export default function App() {
             />
 
             {/* ----------- Vayu product page ----------- */}
-            <Route path="/products/vayu" element={<VayuX />} />
+            <Route path="/products/vayu" element={<VayuX />} exact />
 
             {/* ----------- Vayu About page ----------- */}
             <Route
