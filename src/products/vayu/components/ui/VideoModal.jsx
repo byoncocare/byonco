@@ -215,39 +215,41 @@ export default function VideoModal({
           role="dialog"
         >
           <motion.div
-            className="relative w-full max-w-5xl rounded-2xl bg-black shadow-xl overflow-visible"
-            style={{ aspectRatio: '16 / 9', minHeight: '400px', position: 'relative' }}
+            className="relative w-full max-w-5xl rounded-2xl bg-black shadow-xl overflow-hidden"
+            style={{ position: 'relative' }}
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             onMouseDown={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
-            <button
-              aria-label="Close video"
-              className="absolute -top-12 right-0 h-10 w-10 rounded-full bg-white/20 hover:bg-white/30 text-white text-2xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white transition-colors"
-              onClick={onClose}
-              style={{ zIndex: 100000 }}
-            >
-              ×
-            </button>
+            {/* Aspect ratio container using padding-bottom trick */}
+            <div style={{ position: 'relative', width: '100%', paddingBottom: '56.25%', height: 0 }}>
+              {/* Close button */}
+              <button
+                aria-label="Close video"
+                className="absolute -top-12 right-0 h-10 w-10 rounded-full bg-white/20 hover:bg-white/30 text-white text-2xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white transition-colors z-[100000]"
+                onClick={onClose}
+              >
+                ×
+              </button>
 
-            {/* YouTube or MP4 */}
-            {isYouTube ? (
-              <div className="w-full h-full" style={{ position: 'relative', width: '100%', height: '100%', minHeight: '400px' }}>
-                {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
-                <div 
-                  ref={ytDivRef} 
-                  style={{ width: '100%', height: '100%', minHeight: '400px', position: 'relative' }}
-                />
-                {!ytReady && (
-                  <div className="absolute inset-0 flex items-center justify-center text-white text-lg bg-black/70 pointer-events-none" style={{ zIndex: 100001 }}>
-                    Loading video…
-                  </div>
-                )}
-              </div>
-            ) : (
+              {/* YouTube or MP4 */}
+              {isYouTube ? (
+                <div className="absolute top-0 left-0 w-full h-full">
+                  {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
+                  <div 
+                    ref={ytDivRef} 
+                    className="w-full h-full"
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                  {!ytReady && (
+                    <div className="absolute inset-0 flex items-center justify-center text-white text-lg bg-black/70 pointer-events-none z-[100001]">
+                      Loading video…
+                    </div>
+                  )}
+                </div>
+              ) : (
               <video
                 src={src}
                 poster={poster}
