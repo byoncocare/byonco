@@ -54,7 +54,7 @@ const FeatureItem = ({ feature, index }) => {
                             ? process.env.PUBLIC_URL + "/vayu/ai-main.png"   // card 1
                             : index === 1
                             ? process.env.PUBLIC_URL + "/vayu/hero.webp"     // card 2
-                            : process.env.PUBLIC_URL + "/vayu/meeting.png"   // card 3
+                            : process.env.PUBLIC_URL + "/vayu/meeting.png?v=2"   // card 3 - cache bust
                         }
                         alt={feature.title}
                         className="relative w-full h-64 md:h-80 object-cover rounded-xl"
