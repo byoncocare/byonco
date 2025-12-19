@@ -120,11 +120,11 @@ const TestimonialsSection = () => {
           ))}
         </div>
 
-        {/* CTA Section - Metrics Strip */}
-        <div className="mt-16 text-center">
+        {/* CTA Section - Metrics Strip - Hidden on mobile to prevent constant updates */}
+        <div className="mt-16 text-center hidden md:block">
           <div className="glass-panel rounded-3xl p-8 max-w-4xl mx-auto">
             <h3 className="text-2xl font-semibold tracking-tighter text-white mb-4">
-              Join the Future of Professional Productivity
+Join the Future of Professional Productivity
             </h3>
             <p className="text-gray-400 mb-6 font-light">
               Over {preOrdersCount} professionals have already signed up for and pre-ordered their Vayu X. 
