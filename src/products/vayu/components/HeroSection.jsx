@@ -55,7 +55,7 @@ const HeroSection = ({ onPreOrder }) => {
               <div className="mb-12">
                 <span className="pill-shimmer-beam inline-flex items-center gap-3 border border-white/20 bg-black rounded-full px-6 py-2.5 backdrop-blur-sm relative z-10">
                   <span className="w-2 h-2 rounded-full bg-[#1E5BFF] animate-pulse"></span>
-                  <span className="text-xs md:text-sm font-semibold tracking-widest uppercase text-[#003dd4]">Made in India, Built for the Future</span>
+                  <span className="text-xs md:text-sm font-semibold tracking-widest uppercase text-white">Made in India, Built for the Future</span>
                 </span>
               </div>
 
@@ -114,7 +114,7 @@ const HeroSection = ({ onPreOrder }) => {
                 </div>
               </h1>
 
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#003dd4] mb-6 md:mb-8 tracking-tight">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-6 md:mb-8 tracking-tight">
                 Designed to stay out of your way.
               </h2>
 

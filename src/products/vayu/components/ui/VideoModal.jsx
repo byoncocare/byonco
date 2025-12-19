@@ -88,35 +88,70 @@ export default function VideoModal({
 
   // Initialize YouTube IFrame API when needed
   useEffect(() => {
-    if (!open || !isYouTube) return;
+    if (!open || !isYouTube || !youTubeId) return;
 
     function makePlayer() {
-      if (!window.YT || !window.YT.Player) return;
-      setYtReady(true);
-      ytPlayerRef.current = new window.YT.Player(ytDivRef.current, {
-        videoId: youTubeId,
-        playerVars: {
-          autoplay: 1,
-          controls: 1,
-          rel: 0,
-          modestbranding: 1,
-          playsinline: 1,
-          origin: window.location.origin,
-        },
-        events: {
-          onReady: (e) => {
-            try { e.target.playVideo(); } catch {}
+      if (!window.YT || !window.YT.Player) {
+        console.warn("YouTube API not ready yet");
+        return;
+      }
+      
+      if (!ytDivRef.current) {
+        console.warn("Video container not found");
+        return;
+      }
+
+      try {
+        setYtReady(true);
+        ytPlayerRef.current = new window.YT.Player(ytDivRef.current, {
+          videoId: youTubeId,
+          playerVars: {
+            autoplay: 1,
+            controls: 1,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1,
+            origin: window.location.origin,
+            enablejsapi: 1,
           },
-          onStateChange: (e) => {
-            // 0 = ended
-            if (e.data === window.YT.PlayerState.ENDED) onClose?.();
+          events: {
+            onReady: (e) => {
+              try { 
+                e.target.playVideo(); 
+              } catch (err) {
+                console.warn("Could not autoplay video:", err);
+              }
+            },
+            onError: (e) => {
+              console.error("YouTube player error:", e.data);
+            },
+            onStateChange: (e) => {
+              // 0 = ended
+              if (e.data === window.YT.PlayerState.ENDED) onClose?.();
+            },
           },
-        },
-      });
+        });
+      } catch (err) {
+        console.error("Error creating YouTube player:", err);
+        setYtReady(false);
+      }
     }
 
     // Load API once
     if (!window.YT || !window.YT.Player) {
+      // Check if script is already being loaded
+      if (document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+        // Script is loading, wait for it
+        const checkReady = setInterval(() => {
+          if (window.YT && window.YT.Player) {
+            clearInterval(checkReady);
+            makePlayer();
+          }
+        }, 100);
+        
+        return () => clearInterval(checkReady);
+      }
+
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
       tag.async = true;
@@ -125,17 +160,22 @@ export default function VideoModal({
 
       const prev = window.onYouTubeIframeAPIReady;
       window.onYouTubeIframeAPIReady = () => {
-        prev && prev();
+        if (prev) prev();
         makePlayer();
       };
     } else {
+      // API already loaded, create player immediately
       makePlayer();
     }
 
     return () => {
       try {
-        ytPlayerRef.current?.destroy?.();
-      } catch {}
+        if (ytPlayerRef.current && typeof ytPlayerRef.current.destroy === 'function') {
+          ytPlayerRef.current.destroy();
+        }
+      } catch (err) {
+        console.warn("Error destroying YouTube player:", err);
+      }
       ytPlayerRef.current = null;
       setYtReady(false);
     };

@@ -78,7 +78,7 @@ const Navbar = () => {
               onClick={() => navigate('/products/vayu')}
               className="text-2xl font-bold tracking-tighter hover:opacity-80 transition-opacity"
             >
-              <span className="text-[#1E5BFF]">Vayu</span><span className="text-[#1E5BFF]"> X</span>
+              <span className="text-white">Vayu</span><span className="text-[#1E5BFF]"> X</span>
             </button>
           </div>
 
