@@ -201,7 +201,8 @@ export default function VideoModal({
           role="dialog"
         >
           <motion.div
-            className="relative w-full max-w-5xl aspect-video rounded-2xl bg-black shadow-xl overflow-hidden"
+            className="relative w-full max-w-5xl rounded-2xl bg-black shadow-xl overflow-hidden"
+            style={{ aspectRatio: '16 / 9' }}
             initial={{ scale: 0.98, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.98, opacity: 0 }}
