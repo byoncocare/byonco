@@ -70,7 +70,7 @@ const FeatureItem = ({ feature, index }) => {
                       {index === 2 && (
                         <div className="absolute bottom-6 right-6 glass-panel-sm bg-blue-500/20 border-blue-500/30 text-xs px-3 py-2 rounded-lg max-w-48 backdrop-blur-sm">
                           <div className="font-bold text-[#1E5BFF]">
-                            Meeting with Raj at 3 PM tomorrow about about the ongoing litigation.
+                            Meeting with Aishwarya at 3 PM tomorrow about about the ongoing litigation.
                           </div>
                         </div>
                       )}
