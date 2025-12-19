@@ -219,18 +219,19 @@ export default function VideoModal({
 
             {/* YouTube or MP4 */}
             {isYouTube ? (
-              <>
+              <div className="relative w-full h-full" style={{ paddingBottom: '56.25%', height: 0 }}>
                 {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
                 <div 
                   ref={ytDivRef} 
-                  className="absolute inset-0 w-full h-full"
+                  className="absolute top-0 left-0 w-full h-full"
+                  style={{ width: '100%', height: '100%' }}
                 />
                 {!ytReady && (
-                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm bg-black/50 z-10">
+                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm bg-black/50 z-20">
                     Loading video…
                   </div>
                 )}
-              </>
+              </div>
             ) : (
               <video
                 src={src}
