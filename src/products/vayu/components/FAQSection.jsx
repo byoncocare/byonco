@@ -26,7 +26,7 @@ const FAQSection = () => {
           {faqData.map((faq, index) => (
             <details
               key={index}
-              className="group glass-panel rounded-2xl overflow-hidden"
+              className="group glass-panel rounded-2xl"
             >
               <summary className="p-4 md:p-6 flex justify-between items-center cursor-pointer list-none hover:bg-white/5 transition-colors">
                 <span className="font-semibold text-sm sm:text-base text-white pr-4">{faq.question}</span>
