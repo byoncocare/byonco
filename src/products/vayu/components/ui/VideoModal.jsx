@@ -250,16 +250,17 @@ export default function VideoModal({
                   )}
                 </div>
               ) : (
-              <video
-                src={src}
-                poster={poster}
-                className="w-full h-full object-contain bg-black"
-                controls
-                autoPlay
-                playsInline
-                onEnded={onClose}
-              />
-            )}
+                <video
+                  src={src}
+                  poster={poster}
+                  className="absolute top-0 left-0 w-full h-full object-contain bg-black"
+                  controls
+                  autoPlay
+                  playsInline
+                  onEnded={onClose}
+                />
+              )}
+            </div>
           </motion.div>
         </motion.div>
       )}
