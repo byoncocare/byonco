@@ -43,28 +43,28 @@ const AICapabilities = () => {
                     className="w-full h-auto rounded-2xl object-cover"
                   />
 
-                  {/* Overlay chips */}
+                  {/* Overlay chips - Smaller and transparent on mobile */}
                   {/* Top-left chip */}
-                  <div className="absolute top-6 left-6 max-w-[72%]">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-white shadow-lg backdrop-blur bg-emerald-500/90">
-                      <span className="text-lg">📊</span>
-                      <span>NSE Sensex up 2.3% today</span>
+                  <div className="absolute top-2 left-2 md:top-6 md:left-6 max-w-[60%] md:max-w-[72%]">
+                    <div className="inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs lg:text-sm font-medium text-white shadow-lg backdrop-blur bg-emerald-500/40 md:bg-emerald-500/70 lg:bg-emerald-500/90">
+                      <span className="text-xs md:text-base lg:text-lg">📊</span>
+                      <span className="leading-tight">NSE Sensex up 2.3% today</span>
                     </div>
                   </div>
 
                   {/* Mid-right chip */}
-                  <div className="absolute top-1/2 -translate-y-1/2 right-6 max-w-[72%]">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-white shadow-lg backdrop-blur bg-[#2563EB]/90">
-                      <span>🌐</span>
-                      <span>\"नमस्ते\" → \"Hello\" (Hindi)</span>
+                  <div className="absolute top-1/3 md:top-1/2 -translate-y-1/2 right-2 md:right-6 max-w-[55%] md:max-w-[72%]">
+                    <div className="inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs lg:text-sm font-medium text-white shadow-lg backdrop-blur bg-[#2563EB]/40 md:bg-[#2563EB]/70 lg:bg-[#2563EB]/90">
+                      <span className="text-xs">🌐</span>
+                      <span className="leading-tight">\"नमस्ते\" → \"Hello\" (Hindi)</span>
                     </div>
                   </div>
 
                   {/* Bottom-left chip */}
-                  <div className="absolute bottom-6 left-6 max-w-[72%]">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-white shadow-lg backdrop-blur bg-[#7C3AED]/90">
-                      <span>🔢</span>
-                      <span>√(144 × 25) = 60</span>
+                  <div className="absolute bottom-2 left-2 md:bottom-6 md:left-6 max-w-[60%] md:max-w-[72%]">
+                    <div className="inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs lg:text-sm font-medium text-white shadow-lg backdrop-blur bg-[#7C3AED]/40 md:bg-[#7C3AED]/70 lg:bg-[#7C3AED]/90">
+                      <span className="text-xs">🔢</span>
+                      <span className="leading-tight">√(144 × 25) = 60</span>
                     </div>
                   </div>
                 </div>
