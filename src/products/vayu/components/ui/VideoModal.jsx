@@ -1,5 +1,6 @@
 // src/products/vayu/components/ui/VideoModal.jsx
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
 /** Parse a YouTube ID from common URL shapes */
