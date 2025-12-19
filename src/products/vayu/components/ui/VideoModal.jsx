@@ -220,15 +220,14 @@ export default function VideoModal({
 
             {/* YouTube or MP4 */}
             {isYouTube ? (
-              <div className="relative w-full h-full" style={{ paddingBottom: '56.25%', height: 0 }}>
+              <div className="w-full h-full">
                 {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
                 <div 
                   ref={ytDivRef} 
-                  className="absolute top-0 left-0 w-full h-full"
-                  style={{ width: '100%', height: '100%' }}
+                  className="w-full h-full"
                 />
                 {!ytReady && (
-                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm bg-black/50 z-20">
+                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm bg-black/50 z-20 pointer-events-none">
                     Loading video…
                   </div>
                 )}
