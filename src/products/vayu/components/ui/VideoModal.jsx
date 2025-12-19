@@ -205,7 +205,7 @@ export default function VideoModal({
         >
           <motion.div
             className="relative w-full max-w-5xl rounded-2xl bg-black shadow-xl overflow-hidden"
-            style={{ aspectRatio: '16 / 9' }}
+            style={{ aspectRatio: '16 / 9', minHeight: '400px' }}
             initial={{ scale: 0.98, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.98, opacity: 0 }}
@@ -215,7 +215,7 @@ export default function VideoModal({
             {/* Close button */}
             <button
               aria-label="Close video"
-              className="absolute top-3 right-3 z-10 h-9 w-9 rounded-full bg-black/60 text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white"
+              className="absolute top-3 right-3 z-[1010] h-9 w-9 rounded-full bg-black/60 text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white"
               onClick={onClose}
             >
               ×
@@ -223,14 +223,15 @@ export default function VideoModal({
 
             {/* YouTube or MP4 */}
             {isYouTube ? (
-              <div className="w-full h-full">
+              <div className="absolute inset-0 w-full h-full">
                 {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
                 <div 
                   ref={ytDivRef} 
                   className="w-full h-full"
+                  style={{ width: '100%', height: '100%', minHeight: '400px' }}
                 />
                 {!ytReady && (
-                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm bg-black/50 z-20 pointer-events-none">
+                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm bg-black/50 z-[1020] pointer-events-none">
                     Loading video…
                   </div>
                 )}
