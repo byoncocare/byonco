@@ -129,20 +129,20 @@ export default function WaitlistForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-2xl bg-white/90 backdrop-blur ring-1 ring-indigo-100 shadow-md"
+      className="rounded-2xl glass-panel"
       noValidate
     >
       {/* Header stripe */}
-      <div className="h-2 w-full bg-gradient-to-r from-indigo-600 via-sky-500 to-cyan-500 rounded-t-2xl" />
+      <div className="h-2 w-full bg-gradient-to-r from-[#1E5BFF] via-[#2F6BFF] to-[#1E5BFF] rounded-t-2xl" />
 
-      <div className="p-6 md:p-8 space-y-8">
+      <div className="p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8">
         {/* Honeypot (spam trap) */}
         <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
 
         {/* Contact */}
         <section>
-          <h2 className="text-lg font-semibold text-gray-900">Contact Details</h2>
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h2 className="text-base sm:text-lg font-semibold text-white">Contact Details</h2>
+          <div className="mt-3 md:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
             <Field label="First Name*" name="firstName" autoComplete="given-name" />
             <Field label="Last Name*" name="lastName" autoComplete="family-name" />
             <Field
@@ -166,7 +166,7 @@ export default function WaitlistForm() {
 
         {/* Address */}
         <section>
-          <h2 className="text-lg font-semibold text-gray-900">Address</h2>
+          <h2 className="text-lg font-semibold text-white">Address</h2>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <Field
               label="Address Line 1*"
@@ -199,7 +199,7 @@ export default function WaitlistForm() {
               onChange={(e) => setShippingDifferent(e.target.checked)}
               className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
             />
-            <label htmlFor="shippingDifferent" className="text-sm text-gray-700">
+            <label htmlFor="shippingDifferent" className="text-sm text-white/70">
               Shipping address is different
             </label>
           </div>
@@ -228,25 +228,25 @@ export default function WaitlistForm() {
 
         {/* Product & Intent */}
         <section>
-          <h2 className="text-lg font-semibold text-gray-900">Your Selection</h2>
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h2 className="text-base sm:text-lg font-semibold text-white">Your Selection</h2>
+          <div className="mt-3 md:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-white/70">
                 Which edition do you need?*{" "}
-                <span className="text-xs text-gray-500">(Shipping now: Essential only)</span>
+                <span className="text-xs text-white/50">(Shipping now: Essential only)</span>
               </label>
               <select
                 name="edition"
                 required
-                className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:border-indigo-600 focus:ring-indigo-600"
+                className="mt-1 w-full rounded-lg border border-white/20 bg-white/10 text-white px-3 py-2 focus:border-[#1E5BFF] focus:ring-[#1E5BFF] backdrop-blur-sm [&>option]:bg-[#1a1a2e] [&>option]:text-white"
                 defaultValue=""
               >
-                <option value="" disabled>
+                <option value="" disabled className="bg-[#1a1a2e] text-white">
                   Select edition
                 </option>
-                <option value="Essential">Vayu X Essential (available now)</option>
-                <option value="ProMed">Vayu X ProMed (waitlist)</option>
-                <option value="LegalEdge">Vayu X LegalEdge (waitlist)</option>
+                <option value="Essential" className="bg-[#1a1a2e] text-white">Vayu X Essential (available now)</option>
+                <option value="ProMed" className="bg-[#1a1a2e] text-white">Vayu X ProMed (waitlist)</option>
+                <option value="LegalEdge" className="bg-[#1a1a2e] text-white">Vayu X LegalEdge (waitlist)</option>
               </select>
             </div>
 
@@ -264,30 +264,30 @@ export default function WaitlistForm() {
                 type="checkbox"
                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
               />
-              <label htmlFor="prescription" className="text-sm text-gray-700">
+              <label htmlFor="prescription" className="text-sm text-white/70">
                 Glasses with prescription lenses
               </label>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Reason for purchase*</label>
+              <label className="block text-sm font-medium text-white/70">Reason for purchase*</label>
               <select
                 name="reasonCategory"
                 required
-                className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:border-indigo-600 focus:ring-indigo-600"
+                className="mt-1 w-full rounded-lg border border-white/20 bg-white/10 text-white px-3 py-2 focus:border-[#1E5BFF] focus:ring-[#1E5BFF] backdrop-blur-sm [&>option]:bg-[#1a1a2e] [&>option]:text-white"
                 defaultValue=""
               >
-                <option value="" disabled>
+                <option value="" disabled className="bg-[#1a1a2e] text-white">
                   Select one
                 </option>
-                <option value="future-trends">Interested in future trends</option>
-                <option value="work-purpose">Need it for work purpose</option>
-                <option value="other">Other</option>
+                <option value="future-trends" className="bg-[#1a1a2e] text-white">Interested in future trends</option>
+                <option value="work-purpose" className="bg-[#1a1a2e] text-white">Need it for work purpose</option>
+                <option value="other" className="bg-[#1a1a2e] text-white">Other</option>
               </select>
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-white/70">
                 If “Other” or additional context (optional)
               </label>
               <textarea
@@ -312,18 +312,19 @@ export default function WaitlistForm() {
         )}
 
         {/* Submit */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <p className="text-sm text-gray-600">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+          <p className="text-xs sm:text-sm text-white/60">
             By submitting, you agree to be contacted for order &amp; shipping coordination.
           </p>
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-white
-                       bg-gradient-to-r from-indigo-600 via-sky-600 to-cyan-600 hover:from-indigo-700 hover:via-sky-700 hover:to-cyan-700
-                       shadow transition disabled:opacity-60"
+            className="btn-shimmer-wrapper btn-glow-hover relative group inline-flex items-center justify-center p-[1px] rounded-full overflow-hidden shadow-[0_0_20px_rgba(30,91,255,0.3)] disabled:opacity-60 w-full md:w-auto"
           >
-            {submitting ? "Submitting…" : "Join the Waitlist"}
+            <span className="absolute inset-0 bg-gradient-to-r from-[#1E5BFF] to-[#2F6BFF] opacity-100 rounded-full"></span>
+            <span className="relative bg-[#1E5BFF] group-hover:bg-[#2F6BFF] text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-colors z-10 w-full md:w-auto">
+              {submitting ? "Submitting…" : "Join the Waitlist"}
+            </span>
           </button>
         </div>
       </div>
@@ -336,7 +337,7 @@ function Field({ label, name, type = "text", className = "", ...rest }) {
   const required = /\*/.test(label);
   return (
     <div className={className}>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+      <label htmlFor={name} className="block text-sm font-medium text-white/70">
         {label}
       </label>
       <input
@@ -344,8 +345,8 @@ function Field({ label, name, type = "text", className = "", ...rest }) {
         name={name}
         type={type}
         required={required}
-        className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2
-                   focus:border-indigo-600 focus:ring-indigo-600 placeholder:text-gray-400"
+        className="mt-1 w-full rounded-lg border border-white/20 bg-white/10 text-white px-3 py-2
+                   focus:border-[#1E5BFF] focus:ring-[#1E5BFF] placeholder:text-white/40 backdrop-blur-sm"
         {...rest}
       />
     </div>

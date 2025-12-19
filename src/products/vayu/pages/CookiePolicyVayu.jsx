@@ -1,120 +1,58 @@
-// ByOnco/src/products/vayu/pages/CookiePolicyVayu.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function CookiePolicyVayu() {
   return (
-    <main
-      className="min-h-screen bg-background pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
-      aria-labelledby="cookies-title"
-    >
-      {/* Hero (Praesidio-style visual) */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-16">
-          <h1
-            id="cookies-title"
-            className="text-4xl md:text-6xl font-serif font-bold text-foreground leading-tight"
-          >
-            Cookies
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-3xl">
-            We use limited, privacy-respecting cookies to run the site and
-            understand usage.
-          </p>
-        </div>
-      </section>
+    <main className="min-h-screen bg-white text-gray-900">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h1 className="text-4xl font-bold mb-2">Cookie policy</h1>
+        <p className="text-sm text-gray-500 mb-12">Last updated: July 7, 2025</p>
 
-      {/* Body */}
-      <section className="py-12 md:py-14">
-        <div className="max-w-3xl mx-auto px-4 md:px-6 space-y-6 text-muted-foreground">
-          {/* What & why */}
-          <p>
-            Cookies are small text files stored on your device. We use them on
-            the Vayu X website/portal to operate core features, remember basic
-            preferences, and measure usage so we can improve the product.
+        <div className="prose prose-lg max-w-none space-y-8">
+          <p className="text-gray-700 leading-relaxed">
+            Cookies are small text files stored on your device. We use them on the Vayu X website/portal to operate core features, remember basic preferences, and measure usage so we can improve the product.
           </p>
 
-          {/* Types */}
-          <section aria-labelledby="cookie-types">
-            <h2
-              id="cookie-types"
-              className="text-xl font-semibold text-foreground"
-            >
-              Types of Cookies We Use
-            </h2>
-            <ul className="list-disc pl-6 space-y-2">
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">Types of Cookies We Use</h2>
+            <ul className="list-disc pl-6 space-y-3 text-gray-700">
               <li>
-                <span className="font-medium text-foreground">Essential:</span>{" "}
-                Required for sign-in, security, and basic functionality.
+                <strong>Essential:</strong> Required for sign-in, security, and basic functionality. These cookies are necessary for the website to function and cannot be switched off in our systems.
               </li>
               <li>
-                <span className="font-medium text-foreground">Analytics:</span>{" "}
-                Anonymous usage analytics that help us understand performance and
-                improve features.
+                <strong>Analytics:</strong> Anonymous usage analytics that help us understand performance and improve features. These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.
               </li>
               <li>
-                <span className="font-medium text-foreground">Marketing:</span>{" "}
-                Measurement/remarketing cookies (used only if you consent).
+                <strong>Marketing:</strong> Measurement/remarketing cookies (used only if you consent). These cookies may be set through our site by our advertising partners and may be used by those companies to build a profile of your interests and show you relevant adverts on other sites.
               </li>
             </ul>
           </section>
 
-          {/* Managing */}
-          <section aria-labelledby="manage-cookies">
-            <h2
-              id="manage-cookies"
-              className="text-xl font-semibold text-foreground"
-            >
-              Managing Your Preferences
-            </h2>
-            <p>
-              Use the cookie banner to accept, decline, or adjust non-essential
-              cookies in <span className="font-medium">Cookie Settings</span>.
-              You can also control or clear cookies in your browser settings.
-              Disabling some cookies may affect certain features.
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">Managing Your Preferences</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              You can control or clear cookies in your browser settings at any time. Most browsers allow you to refuse to accept cookies and to delete cookies. The methods for doing so vary from browser to browser, and from version to version.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              Please note that if you delete or refuse to accept cookies, you might not be able to use all of the features we offer, you may not be able to store your preferences, and some of our pages might not display properly.
             </p>
           </section>
 
-          {/* Third party */}
-          <section aria-labelledby="third-party">
-            <h2
-              id="third-party"
-              className="text-xl font-semibold text-foreground"
-            >
-              Third-Party Cookies
-            </h2>
-            <p>
-              Third parties (for example, analytics providers or payment
-              gateways) may set cookies according to their own privacy policies.
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">Third-Party Cookies</h2>
+            <p className="text-gray-700 leading-relaxed">
+              Third parties (for example, analytics providers, payment gateways, or advertising networks) may set cookies according to their own privacy policies. These cookies enable third-party features or functionality to be provided on or through the website.
             </p>
           </section>
 
-          {/* Contact + links */}
-          <section aria-labelledby="contact-links">
-            <h2
-              id="contact-links"
-              className="text-xl font-semibold text-foreground"
-            >
-              Questions & Links
-            </h2>
-            <p>
-              Questions? Write to{" "}
-              <a className="underline" href="mailto:contact@byoncocare.com">
-                contact@byoncocare.com
-              </a>
-              . See also our{" "}
-              <a
-                className="underline"
-                href="/products/vayu/privacy-policy"
-              >
-                Privacy Policy
-              </a>
-              .
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">Questions & Links</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Questions about our use of cookies? Write to <a href="mailto:contact@byoncocare.com" className="text-blue-600 underline">contact@byoncocare.com</a>. See also our <Link to="/products/vayu/privacy-policy" className="text-blue-600 underline">Privacy Policy</Link> for more information about how we collect, use, and disclose your personal information.
             </p>
-            <p className="text-sm opacity-70">Last updated: 02 Oct 2025</p>
           </section>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

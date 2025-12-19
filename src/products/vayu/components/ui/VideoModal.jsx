@@ -4,16 +4,40 @@ import { AnimatePresence, motion } from "framer-motion";
 
 /** Parse a YouTube ID from common URL shapes */
 function getYouTubeId(url = "") {
+  if (!url) return null;
+  
   try {
+    // Handle plain video ID (11 characters)
+    if (/^[\w-]{11}$/.test(url.trim())) {
+      return url.trim();
+    }
+    
     const u = new URL(url);
-    if (u.hostname.includes("youtu.be")) return u.pathname.slice(1);
-    if (u.searchParams.get("v")) return u.searchParams.get("v");
-    if (u.pathname.startsWith("/embed/")) return u.pathname.split("/embed/")[1];
-  } catch {
-    // noop
+    
+    // youtu.be short links: https://youtu.be/VIDEO_ID
+    if (u.hostname.includes("youtu.be")) {
+      const id = u.pathname.slice(1).split('?')[0];
+      return /^[\w-]{11}$/.test(id) ? id : null;
+    }
+    
+    // youtube.com/watch?v=VIDEO_ID
+    if (u.hostname.includes("youtube.com") || u.hostname.includes("youtube-nocookie.com")) {
+      const videoId = u.searchParams.get("v");
+      if (videoId && /^[\w-]{11}$/.test(videoId)) {
+        return videoId;
+      }
+      
+      // youtube.com/embed/VIDEO_ID
+      if (u.pathname.startsWith("/embed/")) {
+        const id = u.pathname.split("/embed/")[1].split('?')[0];
+        return /^[\w-]{11}$/.test(id) ? id : null;
+      }
+    }
+  } catch (error) {
+    console.warn("Failed to parse YouTube URL:", url, error);
   }
-  // plain ID fallback
-  return /^[\w-]{11}$/.test(url) ? url : null;
+  
+  return null;
 }
 
 function lockScroll(lock, saved) {

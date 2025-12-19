@@ -1,109 +1,60 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { faqData } from "../data/mock";
-
-/**
- * Lightweight, dependency-free accordion item
- * - A11y: aria-expanded/controls, button semantics
- * - Smooth height animation using measured scrollHeight
- * - Rotating chevron, same Tailwind look as your previous version
- */
-function Item({ id, question, answer, isOpen, onToggle }) {
-  const panelRef = useRef(null);
-  const maxH = isOpen ? `${panelRef.current?.scrollHeight ?? 0}px` : "0px";
-
-  return (
-    <div className="bg-white rounded-lg shadow-sm border-0">
-      <button
-        type="button"
-        className="w-full text-left px-6 py-4 hover:bg-gray-50 rounded-lg font-semibold text-gray-900 flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-        aria-expanded={isOpen}
-        aria-controls={`faq-panel-${id}`}
-        onClick={onToggle}
-        id={`faq-trigger-${id}`}
-      >
-        <span>{question}</span>
-        {/* Chevron */}
-        <svg
-          className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
-
-      {/* Collapsible content */}
-      <div
-        id={`faq-panel-${id}`}
-        role="region"
-        aria-labelledby={`faq-trigger-${id}`}
-        ref={panelRef}
-        style={{ maxHeight: maxH }}
-        className="overflow-hidden transition-[max-height] duration-300 ease-in-out"
-      >
-        <div className="px-6 pb-4 pt-0 text-gray-600 leading-relaxed border-t border-gray-100">
-          {answer}
-        </div>
-      </div>
-    </div>
-  );
-}
+import { useRevealOnScroll } from "./hooks/useRevealOnScroll";
+import { ChevronDown } from "lucide-react";
 
 const FAQSection = () => {
-  // Single-open accordion (collapsible). -1 = all closed.
-  const [openIndex, setOpenIndex] = useState(0);
+  const [sectionRef, sectionRevealed] = useRevealOnScroll({ threshold: 0.1 });
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-padding relative bg-transparent">
+      {/* Ambient glow behind section - removed to allow global background through */}
+
+      <div className="relative max-w-4xl mx-auto px-6">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <div className={`text-center mb-16 ${sectionRevealed ? 'revealed' : 'reveal-on-scroll'}`} ref={sectionRef}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-newreader font-semibold tracking-tighter text-white mb-3 md:mb-4 px-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 font-light px-4">
             Get answers to common questions about Vayu X smart glasses
           </p>
         </div>
 
-        {/* FAQ Accordion */}
-        <div className="bg-gray-50 rounded-2xl p-8">
-          <div className="w-full space-y-4">
-            {faqData.map((faq, index) => (
-              <Item
-                key={index}
-                id={index}
-                question={faq.question}
-                answer={faq.answer}
-                isOpen={openIndex === index}
-                onToggle={() =>
-                  setOpenIndex(openIndex === index ? -1 : index)
-                }
-              />
-            ))}
-          </div>
+        {/* FAQ Accordion - details/summary based */}
+        <div className="w-full space-y-4 mb-12">
+          {faqData.map((faq, index) => (
+            <details
+              key={index}
+              className="group glass-panel rounded-2xl overflow-hidden"
+            >
+              <summary className="p-4 md:p-6 flex justify-between items-center cursor-pointer list-none hover:bg-white/5 transition-colors">
+                <span className="font-semibold text-sm sm:text-base text-white pr-4">{faq.question}</span>
+                <ChevronDown className="h-5 w-5 text-white/60 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" />
+              </summary>
+              <div className="px-4 md:px-6 pb-8 md:pb-12 text-gray-400 text-sm leading-relaxed font-light">
+                {faq.answer}
+              </div>
+            </details>
+          ))}
         </div>
 
         {/* Contact CTA */}
-        <div className="mt-12 text-center">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="text-center">
+          <h3 className="text-xl font-semibold text-white mb-4 tracking-tight">
             Still have questions?
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-400 mb-6 font-light">
             Our team is here to help. Reach out to us for personalized support.
           </p>
           <a
             href="mailto:contact@byoncocare.com"
-            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300"
+            className="btn-shimmer-wrapper btn-glow-hover relative group inline-flex items-center justify-center p-[1px] rounded-full"
           >
-            Contact Support
+            <span className="absolute inset-0 bg-[#1E5BFF] rounded-full opacity-100"></span>
+            <span className="relative bg-[#1E5BFF] group-hover:bg-[#2F6BFF] text-white px-6 py-3 rounded-full text-sm font-semibold tracking-wide transition-colors z-10">
+              Contact Support
+            </span>
           </a>
         </div>
       </div>

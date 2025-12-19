@@ -50,13 +50,13 @@ export default function VayuX() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50" style={{ color: '#1f2937' }}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold">
+          <div className="animate-spin rounded-full h-12 w-12 border-2 border-gray-300 border-t-blue-600 mx-auto mb-4"></div>
+          <h2 className="text-2xl font-bold text-gray-800">
             Vayu<span className="text-blue-600"> X</span>
           </h2>
-          <p className="text-gray-600">Loading…</p>
+          <p className="text-gray-600 mt-2">Loading…</p>
         </div>
       </div>
     );
@@ -101,22 +101,28 @@ export default function VayuX() {
       </section>
 
       {/* CTA section to satisfy Navbar's scrollTo('preorder') */}
-      <section id="preorder">
-        <div className="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center">
-          <div className="max-w-4xl mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Experience the Future?
-            </h2>
-            <p className="text-xl mb-8 text-blue-100">
-              Due to overwhelming response, we’re expanding production. Join the waitlist and our team will contact you.
-            </p>
-            <button
-              onClick={() => setPage("preorder")}
-              className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg"
-              aria-label="Join the Vayu X waitlist"
-            >
-              Join the Waitlist — Shipping March 2026
-            </button>
+      <section id="preorder" className="bg-transparent section-padding">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="glass-panel rounded-3xl p-8 md:p-12 text-center hover-lift relative">
+            {/* Content */}
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-4xl font-newreader font-semibold tracking-tighter text-white mb-4">
+                Ready to Experience the Future?
+              </h2>
+              <p className="text-xl mb-8 text-white/70 font-light">
+                Due to overwhelming response, we're expanding production. Join the waitlist and our team will contact you.
+              </p>
+              <button
+                onClick={() => setPage("preorder")}
+                className="btn-shimmer-wrapper btn-glow-hover relative group inline-flex items-center justify-center p-[1px] rounded-full"
+                aria-label="Join the Vayu X waitlist"
+              >
+                <span className="absolute inset-0 bg-[#1E5BFF] rounded-full opacity-100"></span>
+                <span className="relative bg-[#1E5BFF] group-hover:bg-[#2F6BFF] text-white px-8 py-3.5 rounded-full text-sm font-semibold tracking-wide transition-colors z-10">
+                  Join the Waitlist — Shipping March 2026
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </section>

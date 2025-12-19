@@ -235,7 +235,7 @@ const PreOrderPage = ({ onBack }) => {
                   </div>
                   <div className="flex flex-col items-center">
                     <Truck className="w-6 h-6 text-blue-600 mb-1" />
-                    <span className="text-xs text-gray-600">Free Shipping</span>
+                    <span className="text-xs text-gray-600">Prescription Compatible</span>
                   </div>
                   <div className="flex flex-col items-center">
                     <RefreshCw className="w-6 h-6 text-purple-600 mb-1" />

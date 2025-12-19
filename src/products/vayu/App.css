@@ -1,17 +1,122 @@
 /* ===========================
+   FREQ Design Token System
+   =========================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Colors - FREQ exact palette */
+  --freq-blue: #1E5BFF;
+  --freq-blue-glow: rgba(30, 91, 255, 0.4);
+  --bg-primary: #050608;
+  --bg-secondary: #0A1020;
+  --bg-glow-blue: rgba(47, 107, 255, 0.35);
+  --card-glass: rgba(255, 255, 255, 0.02);
+  --card-glass-hover: rgba(255, 255, 255, 0.05);
+  --border-glass: rgba(255, 255, 255, 0.06);
+  --border-glass-hover: rgba(255, 255, 255, 0.1);
+  --text-primary: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --text-muted-dark: rgba(255, 255, 255, 0.4);
+  
+  /* Glass effects */
+  --backdrop-blur: 12px;
+  --backdrop-blur-sm: 12px;
+  
+  /* Shadows & glows */
+  --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --shadow-glow-blue: 0 0 25px var(--freq-blue-glow);
+}
+
+/* ===========================
    Vayu page shell & polish
    =========================== */
+
+/* Global styles */
+body {
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* Newreader font for major headings */
+.font-newreader {
+  font-family: 'Newsreader', serif;
+  font-feature-settings: 'liga' 1, 'kern' 1;
+}
+
+/* Custom scrollbar - FREQ style */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #020205;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e1e24;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a35;
+}
 
 /* Use either .page-shell (current) or .vayu-page (backward compatible) on the root */
 .page-shell,
 .vayu-page {
-  /* soft background like the preview */
-  background: linear-gradient(180deg, #fffdfa 0%, #f3f6ff 100%);
-  color: #0f172a; /* slate-900 */
+  /* Base layer - Premium near-black */
+  background: #050608;
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
+  position: relative;
+  z-index: 0;
 }
+
+/* Background layers - fixed positioning for continuous effect */
+/* Layer 1: Secondary depth layer - Dark navy gradient */
+.page-shell::before,
+.vayu-page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(180deg, #050608 0%, #0A1020 100%);
+}
+
+/* Layer 2: Premium blue glow - Subtle radial from center/top-center */
+.page-shell::after,
+.vayu-page::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(47, 107, 255, 0.35),
+    rgba(47, 107, 255, 0.12) 35%,
+    rgba(5, 6, 8, 0.95) 70%
+  );
+}
+
+/* Content wrapper - must be above background layers */
+.page-shell > *,
+.vayu-page > * {
+  position: relative;
+  z-index: 10;
+}
+
+/* Background grid overlay - separate fixed div (handled in VayuPage component) */
+/* Edge vignette - separate fixed div (handled in VayuPage component) */
 
 /* Section padding helpers (if you want to wrap blocks with .section) */
 .section {
@@ -111,47 +216,300 @@
    UI polish & utilities (kept)
    =========================== */
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Glass morphism effect */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+/* ===========================
+   FREQ Glass Panel Utilities
+   =========================== */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-/* Gradient text */
+/* Dark theme select dropdown styling */
+select {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+select option {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 8px;
+}
+
+select:focus option:checked {
+  background-color: #1E5BFF;
+  color: white;
+}
+
+.glass-panel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.glass-panel-sm {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-header {
+  background: rgba(2, 2, 5, 0.6);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Legacy glass effect (for compatibility) */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ===========================
+   FREQ Gradient Text & Glow
+   =========================== */
 .gradient-text {
-  background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, var(--freq-blue), #2F6BFF);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Hover lift */
+.gradient-text-accent {
+  color: var(--freq-blue);
+  text-shadow: 0 0 20px rgba(30, 91, 255, 0.5);
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(30, 91, 255, 0.5);
+}
+
+/* ===========================
+   Premium Animations & Effects
+   =========================== */
 .hover-lift {
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
 }
 .hover-lift:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glass), 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* FREQ Scroll reveal animation - fade, slide, blur in (Limited-style) */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(8px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
+}
+
+.reveal-on-scroll.revealed,
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Letter-by-letter slide down animation */
+.char-wrapper {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.1;
+}
+
+.char {
+  display: inline-block;
+  transform: translateY(-110%);
+  opacity: 0;
+}
+
+.char.animate-in {
+  animation: charSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes charSlideDown {
+  0% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Made in India pill shimmer beam - continuous traveling beam effect */
+.pill-shimmer-beam {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.pill-shimmer-beam::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(59, 130, 246, 0.4) 45%,
+    rgba(96, 165, 250, 0.8) 48%,
+    rgba(59, 130, 246, 1) 50%,
+    rgba(96, 165, 250, 0.8) 52%,
+    rgba(59, 130, 246, 0.4) 55%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  padding: 2px;
+  pointer-events: none;
+  z-index: -1;
+  animation: shimmerTravel 3s linear infinite;
+}
+
+@keyframes shimmerTravel {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Carousel card animations */
+.carousel-card {
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateX(50px) scale(0.95);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.carousel-card.active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.carousel-card.prev {
+  transform: translateX(-50px) scale(0.95);
+  z-index: 0;
+}
+
+/* FREQ Shimmer button effect with 1px rotating beam */
+.btn-shimmer-wrapper {
+  position: relative;
+  isolation: isolate;
+}
+
+.btn-shimmer-wrapper::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent,
+    transparent 28%,
+    rgba(255, 255, 255, 1) 47%,
+    rgba(255, 255, 255, 1) 53%,
+    transparent 72%,
+    transparent 100%
+  );
+  animation: rotateBeam 3s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+}
+
+.btn-shimmer-wrapper:hover::after {
+  opacity: 1;
+}
+
+/* Clip the beam to just the border area using a mask */
+.btn-shimmer-wrapper {
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+}
+
+.btn-shimmer-wrapper > span:first-of-type,
+.btn-shimmer-wrapper > *:first-child {
+  position: relative;
+  z-index: 2;
+  background: inherit;
+  border-radius: inherit;
+}
+
+@keyframes rotateBeam {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.btn-glow-hover {
+  transition: box-shadow 0.3s ease;
+}
+.btn-glow-hover:hover {
+  box-shadow: 0 0 25px var(--freq-blue-glow);
+}
+
+/* FREQ Flashlight cursor overlay (desktop only) - Enhanced with mouse follow */
+.flashlight-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 3;
+  background: radial-gradient(
+    600px circle at var(--mx, 50%) var(--my, 50%), 
+    rgba(47, 107, 255, 0.15), 
+    transparent 60%
+  );
+  mix-blend-mode: screen;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+@media (hover: none) {
+  .flashlight-overlay {
+    display: none;
+  }
 }
 
 /* Focus styles */
@@ -194,14 +552,33 @@ a:focus-visible {
   }
 }
 
+/* ===========================
+   FREQ Section Spacing - Reduced for tighter premium feel
+   =========================== */
+.section-padding {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+}
+
 /* Responsive utilities */
 @media (max-width: 768px) {
   .hero-text-large {
     font-size: 2.5rem;
     line-height: 1.2;
-  }
-  .section-padding {
-    padding: 3rem 0;
   }
 }
 

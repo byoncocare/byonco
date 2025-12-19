@@ -50,6 +50,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // Vayu legal pages
 import PrivacyPolicyVayu from "./products/vayu/pages/PrivacyPolicyVayu";
 import TermsOfServiceVayu from "./products/vayu/pages/TermsOfServiceVayu";
+import RefundPolicyVayu from "./products/vayu/pages/RefundPolicyVayu";
+import ContactInformationVayu from "./products/vayu/pages/ContactInformationVayu";
 import CookiePolicyVayu from "./products/vayu/pages/CookiePolicyVayu";
 
 // Vayu support pages
@@ -57,6 +59,7 @@ import HelpCenterVayu from "./products/vayu/pages/HelpCenterVayu";
 import WarrantyVayu from "./products/vayu/pages/WarrantyVayu";
 import ReturnsVayu from "./products/vayu/pages/ReturnsVayu";
 import ShippingInfoVayu from "./products/vayu/pages/ShippingInfoVayu";
+import AboutVayu from "./products/vayu/pages/AboutVayu";
 
 // Vayu waitlist page
 import VayuWaitlist from "./products/vayu/pages/VayuWaitlist";
@@ -491,6 +494,12 @@ export default function App() {
             {/* ----------- Vayu product page ----------- */}
             <Route path="/products/vayu" element={<VayuX />} />
 
+            {/* ----------- Vayu About page ----------- */}
+            <Route
+              path="/products/vayu/about"
+              element={<AboutVayu />}
+            />
+
             {/* ----------- Vayu waitlist ----------- */}
             <Route
               path="/products/vayu/waitlist"
@@ -533,22 +542,30 @@ export default function App() {
                 </motion.div>
               }
             />
-            <Route
-              path="/products/vayu/terms-of-service"
-              element={
-                <motion.div
-                  className="page-shell min-h-screen bg-[#fdfdfc]"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <TermsOfServiceVayu />
-                </motion.div>
-              }
-            />
-            <Route
-              path="/products/vayu/cookie-policy"
+              <Route
+                path="/products/vayu/terms-of-service"
+                element={
+                  <motion.div
+                    className="page-shell min-h-screen bg-[#fdfdfc]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <TermsOfServiceVayu />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="/products/vayu/refund-policy"
+                element={<RefundPolicyVayu />}
+              />
+              <Route
+                path="/products/vayu/contact-information"
+                element={<ContactInformationVayu />}
+              />
+              <Route
+                path="/products/vayu/cookie-policy"
               element={
                 <motion.div
                   className="page-shell min-h-screen bg-[#fdfdfc]"
@@ -579,17 +596,7 @@ export default function App() {
             />
             <Route
               path="/products/vayu/warranty"
-              element={
-                <motion.div
-                  className="page-shell min-h-screen bg-[#fdfdfc]"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <WarrantyVayu />
-                </motion.div>
-              }
+              element={<WarrantyVayu />}
             />
             <Route
               path="/products/vayu/returns"

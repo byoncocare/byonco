@@ -2,32 +2,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import WaitlistForm from "../components/WaitlistForm";
+import "../App.css";
 
 export default function VayuWaitlist() {
   return (
     <main
-      className="min-h-screen bg-gradient-to-br from-[#EEE9FF] via-[#E6F1FF] to-[#E6FFF7] text-gray-900"
+      className="min-h-screen page-shell text-white"
       role="main"
       aria-labelledby="vayu-waitlist-title"
     >
       {/* Top Banner / Header */}
-      <header className="w-full border-b border-white/60 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/50">
+      <header className="w-full border-b border-white/10 bg-[#070C0B]/80 backdrop-blur supports-[backdrop-filter]:bg-[#070C0B]/60">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           {/* Brand (text-only; image removed) */}
-          <Link to="/" className="flex items-center gap-2 group" aria-label="ByOncoCare home">
-            <span className="text-lg font-semibold tracking-tight group-hover:text-indigo-700 transition-colors">
-              ByOnco<span className="text-indigo-700">Care</span>
+          <Link to="/products/vayu" className="flex items-center gap-2 group" aria-label="Vayu X home">
+            <span className="text-lg font-semibold tracking-tight text-white group-hover:text-[#1E5BFF] transition-colors">
+              Vayu<span className="text-[#1E5BFF]"> X</span>
             </span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <Link to="/products/vayu" className="hover:text-indigo-700">
-              Vayu X
-            </Link>
-            <Link to="/products/vayu/help-center" className="hover:text-indigo-700">
+            <Link to="/products/vayu/help-center" className="text-white/70 hover:text-white transition-colors">
               Help Center
             </Link>
-            <Link to="/products/vayu/shipping-info" className="hover:text-indigo-700">
+            <Link to="/products/vayu/shipping-info" className="text-white/70 hover:text-white transition-colors">
               Shipping
             </Link>
           </nav>
@@ -43,24 +41,24 @@ export default function VayuWaitlist() {
 
           <h1
             id="vayu-waitlist-title"
-            className="mt-4 text-3xl md:text-5xl font-semibold leading-tight"
+            className="mt-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-white"
           >
             Be first in line for{" "}
-            <span className="bg-gradient-to-r from-indigo-700 via-sky-600 to-cyan-600 bg-clip-text text-transparent">
+            <span className="text-[#1E5BFF]">
               Vayu X
             </span>
           </h1>
 
-          <p className="mt-4 text-base md:text-lg text-gray-700">
-            Due to overwhelming response, we’re building more units. Share your details and our
+          <p className="mt-4 text-sm sm:text-base md:text-lg text-white/70">
+            Due to overwhelming response, we're building more units. Share your details and our
             team will reach out.
           </p>
 
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center rounded-full bg-yellow-100 text-yellow-900 px-3 py-1 text-sm font-medium">
+          <div className="mt-4 flex flex-wrap items-center gap-2 sm:gap-3">
+            <span className="inline-flex items-center rounded-full bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium backdrop-blur-sm">
               🚚 Shipping starts <strong className="ml-1">March 2026</strong>
             </span>
-            <span className="inline-flex items-center rounded-full bg-fuchsia-100 text-fuchsia-900 px-3 py-1 text-sm font-medium">
+            <span className="inline-flex items-center rounded-full bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30 px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium backdrop-blur-sm">
               📦 Currently shipping: <strong className="ml-1">Vayu X Essential</strong>
             </span>
           </div>
@@ -71,20 +69,20 @@ export default function VayuWaitlist() {
           <WaitlistForm />
         </div>
 
-        <p className="mt-8 text-xs text-gray-600">
-          “Built by people who understand your pain. Powered by people who can solve it.”
+        <p className="mt-8 text-xs text-white/60">
+          "Built by people who understand your pain. Powered by people who can solve it."
         </p>
       </section>
 
       {/* Footer Hint */}
-      <footer className="mt-8 border-t border-white/60 bg-white/50 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-600">
+      <footer className="mt-8 border-t border-white/10 bg-[#070C0B]/80 backdrop-blur">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 text-sm text-white/60">
           By continuing, you agree to our{" "}
-          <Link to="/products/vayu/terms-of-service" className="text-indigo-700 hover:underline">
+          <Link to="/products/vayu/terms-of-service" className="text-[#1E5BFF] hover:text-[#2F6BFF] hover:underline transition-colors">
             Terms
           </Link>{" "}
           and{" "}
-          <Link to="/products/vayu/privacy-policy" className="text-indigo-700 hover:underline">
+          <Link to="/products/vayu/privacy-policy" className="text-[#1E5BFF] hover:text-[#2F6BFF] hover:underline transition-colors">
             Privacy Policy
           </Link>
           .

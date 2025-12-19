@@ -55,17 +55,17 @@ const FacebookIcon = (props) => (
 /* ---- Footer ---- */
 const Footer = () => {
   return (
-    <footer id="contact" className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
-          {/* Company Info */}
+    <footer id="contact" className="border-t border-white/10 text-white relative bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
+          {/* Brand */}
           <div className="lg:col-span-1">
             <h3 className="text-2xl font-bold mb-4">
-              Vayu<span className="text-blue-400"> X</span>
+              Vayu<span className="text-[#1E5BFF]"> X</span>
             </h3>
-            <p className="text-gray-400 mb-6 leading-relaxed">
-              India's first AI-powered smart glasses designed for professionals.
-              Experience the future of augmented intelligence with Vayu X ByOnco.
+            <p className="text-white/60 mb-6 leading-relaxed">
+              Built in India. AI-powered smart glasses designed for professionals.
+              Experience augmented intelligence with Vayu X ByOnco.
             </p>
 
             {/* Social Links */}
@@ -73,7 +73,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Twitter"
-                className="text-gray-400 hover:text-blue-400 transition-colors"
+                className="text-white/60 hover:text-white transition-colors"
                 rel="noreferrer"
               >
                 <TwitterIcon className="w-5 h-5" />
@@ -81,7 +81,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="LinkedIn"
-                className="text-gray-400 hover:text-blue-400 transition-colors"
+                className="text-white/60 hover:text-white transition-colors"
                 rel="noreferrer"
               >
                 <LinkedinIcon className="w-5 h-5" />
@@ -89,7 +89,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Instagram"
-                className="text-gray-400 hover:text-blue-400 transition-colors"
+                className="text-white/60 hover:text-white transition-colors"
                 rel="noreferrer"
               >
                 <InstagramIcon className="w-5 h-5" />
@@ -97,7 +97,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Facebook"
-                className="text-gray-400 hover:text-blue-400 transition-colors"
+                className="text-white/60 hover:text-white transition-colors"
                 rel="noreferrer"
               >
                 <FacebookIcon className="w-5 h-5" />
@@ -107,8 +107,8 @@ const Footer = () => {
 
           {/* Products */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Products</h4>
-            <ul className="space-y-3 text-gray-400">
+            <h4 className="font-semibold text-lg mb-4 text-white">Products</h4>
+            <ul className="space-y-3 text-white/60">
               <li>
                 <Link to="/products/vayu#essential" className="hover:text-white transition-colors">
                   Vayu Essential
@@ -124,14 +124,13 @@ const Footer = () => {
                   Vayu LegalEdge
                 </Link>
               </li>
-              {/* Accessories removed intentionally */}
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Support</h4>
-            <ul className="space-y-3 text-gray-400">
+            <h4 className="font-semibold text-base sm:text-lg mb-3 md:mb-4 text-white">Support</h4>
+            <ul className="space-y-2 md:space-y-3 text-sm sm:text-base text-white/60">
               <li>
                 <Link to="/products/vayu/help-center" className="hover:text-white transition-colors">
                   Help Center
@@ -143,7 +142,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/products/vayu/returns" className="hover:text-white transition-colors">
+                <Link to="/products/vayu/refund-policy" className="hover:text-white transition-colors">
                   Returns
                 </Link>
               </li>
@@ -157,8 +156,8 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Contact</h4>
-            <div className="space-y-3 text-gray-400">
+            <h4 className="font-semibold text-base sm:text-lg mb-3 md:mb-4 text-white">Contact</h4>
+            <div className="space-y-2 md:space-y-3 text-sm sm:text-base text-white/60">
               <div className="flex items-center gap-3">
                 <MailIcon className="w-4 h-4" />
                 <a
@@ -187,35 +186,57 @@ const Footer = () => {
               </div>
             </div>
           </div>
+
+          {/* Press */}
+          <div>
+            <h4 className="font-semibold text-base sm:text-lg mb-3 md:mb-4 text-white">Press</h4>
+            <div className="space-y-2 md:space-y-3 text-sm sm:text-base text-white/60">
+              <p className="leading-relaxed">
+                For media inquiries, please contact us at{" "}
+                <a
+                  href="mailto:contact@byoncocare.com"
+                  className="font-bold hover:text-white transition-colors"
+                >
+                  contact@byoncocare.com
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-gray-400 text-sm">
-            <p>
-              &copy; {new Date().getFullYear()} Praesidio Care Private Limited. All rights reserved.
-            </p>
-          </div>
+        <div className="border-t border-white/10 mt-12 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            {/* Copyright */}
+            <div className="text-white/60 text-sm">
+              <p>
+                &copy; {new Date().getFullYear()} Praesidio Care Private Limited. All rights reserved.
+              </p>
+            </div>
 
-          {/* Vayu-specific legal links */}
-          <div className="flex gap-6 text-sm text-gray-400">
-            <Link to="/products/vayu/privacy-policy" className="hover:text-white transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/products/vayu/terms-of-service" className="hover:text-white transition-colors">
-              Terms of Service
-            </Link>
-            <Link to="/products/vayu/cookie-policy" className="hover:text-white transition-colors">
-              Cookie Policy
-            </Link>
+            {/* Legal links */}
+            <div className="flex flex-wrap gap-6 text-sm text-white/60 justify-center">
+              <Link to="/products/vayu/privacy-policy" className="hover:text-white transition-colors">
+                Privacy policy
+              </Link>
+              <Link to="/products/vayu/refund-policy" className="hover:text-white transition-colors">
+                Refund policy
+              </Link>
+              <Link to="/products/vayu/terms-of-service" className="hover:text-white transition-colors">
+                Terms of service
+              </Link>
+              <Link to="/products/vayu/contact-information" className="hover:text-white transition-colors">
+                Contact information
+              </Link>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Made in India Badge */}
-        <div className="mt-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-green-500 rounded-full text-white text-sm font-semibold">
-            🇮🇳 Proudly Made in India
-          </div>
+      {/* Made in India Badge - Centered at bottom */}
+      <div className="text-center mt-12 pb-16">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-green-500 rounded-full text-white text-sm font-semibold shadow-lg">
+          🇮🇳 Proudly Made in India
         </div>
       </div>
     </footer>
