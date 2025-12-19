@@ -219,15 +219,18 @@ export default function VideoModal({
 
             {/* YouTube or MP4 */}
             {isYouTube ? (
-              <div className="w-full h-full">
+              <>
                 {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
-                <div ref={ytDivRef} className="w-full h-full" />
+                <div 
+                  ref={ytDivRef} 
+                  className="absolute inset-0 w-full h-full"
+                />
                 {!ytReady && (
-                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm">
-                    Loading…
+                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm bg-black/50 z-10">
+                    Loading video…
                   </div>
                 )}
-              </div>
+              </>
             ) : (
               <video
                 src={src}
