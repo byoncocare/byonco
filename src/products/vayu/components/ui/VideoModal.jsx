@@ -72,6 +72,13 @@ export default function VideoModal({
   const ytDivRef = useRef(null);
   const ytPlayerRef = useRef(null);
   const [ytReady, setYtReady] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Mount check for portal
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   // Lock background scroll while open
   useEffect(() => {
@@ -191,13 +198,15 @@ export default function VideoModal({
     if (e.target === containerRef.current) onClose?.();
   };
 
-  return (
+  if (!mounted) return null;
+
+  const modalContent = (
     <AnimatePresence>
       {open && (
         <motion.div
           ref={containerRef}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-          style={{ zIndex: 9999 }}
+          className="fixed inset-0 bg-black flex items-center justify-center p-4"
+          style={{ zIndex: 99999, position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -206,34 +215,34 @@ export default function VideoModal({
           role="dialog"
         >
           <motion.div
-            className="relative w-full max-w-5xl rounded-2xl bg-black shadow-xl overflow-hidden"
-            style={{ aspectRatio: '16 / 9', minHeight: '400px' }}
-            initial={{ scale: 0.98, opacity: 0 }}
+            className="relative w-full max-w-5xl rounded-2xl bg-black shadow-xl overflow-visible"
+            style={{ aspectRatio: '16 / 9', minHeight: '400px', position: 'relative' }}
+            initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.98, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 260, damping: 24 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             onMouseDown={(e) => e.stopPropagation()}
           >
             {/* Close button */}
             <button
               aria-label="Close video"
-              className="absolute top-3 right-3 z-[1010] h-9 w-9 rounded-full bg-black/60 text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white"
+              className="absolute -top-12 right-0 h-10 w-10 rounded-full bg-white/20 hover:bg-white/30 text-white text-2xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white transition-colors"
               onClick={onClose}
+              style={{ zIndex: 100000 }}
             >
               ×
             </button>
 
             {/* YouTube or MP4 */}
             {isYouTube ? (
-              <div className="absolute inset-0 w-full h-full">
+              <div className="w-full h-full" style={{ position: 'relative', width: '100%', height: '100%', minHeight: '400px' }}>
                 {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
                 <div 
                   ref={ytDivRef} 
-                  className="w-full h-full"
-                  style={{ width: '100%', height: '100%', minHeight: '400px' }}
+                  style={{ width: '100%', height: '100%', minHeight: '400px', position: 'relative' }}
                 />
                 {!ytReady && (
-                  <div className="absolute inset-0 flex items-center justify-center text-white/80 text-sm bg-black/50 z-[1020] pointer-events-none">
+                  <div className="absolute inset-0 flex items-center justify-center text-white text-lg bg-black/70 pointer-events-none" style={{ zIndex: 100001 }}>
                     Loading video…
                   </div>
                 )}
@@ -254,4 +263,6 @@ export default function VideoModal({
       )}
     </AnimatePresence>
   );
+
+  return createPortal(modalContent, document.body);
 }
