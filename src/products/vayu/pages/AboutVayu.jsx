@@ -56,7 +56,7 @@ export default function AboutVayu() {
       </section>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 md:pb-32 mb-12 md:mb-40">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 md:pb-16 mb-8 md:mb-16">
         
         {/* Opening Story */}
         <section 
@@ -156,7 +156,7 @@ export default function AboutVayu() {
         </section>
 
         {/* Built Here. Moving Forward. */}
-        <section className="mb-12 md:mb-40">
+        <section className="mb-8 md:mb-16">
           <div className="glass-panel p-8 md:p-12 rounded-2xl border border-white/10">
             <h2 className="text-2xl md:text-3xl font-newreader font-semibold text-white mb-6">Built Here. Moving Forward.</h2>
             <div className="space-y-6 text-lg font-newreader text-gray-300 leading-relaxed">
