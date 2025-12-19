@@ -43,7 +43,7 @@ export default function AboutVayu() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative flex items-center justify-center pt-32 pb-16 section-padding overflow-hidden bg-transparent"
+        className="relative flex items-center justify-center pt-20 md:pt-32 pb-8 md:pb-16 section-padding overflow-hidden bg-transparent"
       >
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className={`text-center ${heroRevealed ? 'revealed' : 'reveal-on-scroll'}`}>
@@ -56,12 +56,12 @@ export default function AboutVayu() {
       </section>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-32 mb-40">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 md:pb-32 mb-12 md:mb-40">
         
         {/* Opening Story */}
         <section 
           ref={section1Ref}
-          className={`mb-24 ${section1Revealed ? 'revealed' : 'reveal-on-scroll'}`}
+          className={`mb-12 md:mb-24 ${section1Revealed ? 'revealed' : 'reveal-on-scroll'}`}
         >
           <div className="glass-panel p-8 md:p-12 rounded-2xl border border-white/10">
             <p className="text-2xl md:text-3xl font-newreader font-light text-white/90 leading-relaxed mb-8 italic">
@@ -79,7 +79,7 @@ export default function AboutVayu() {
         {/* Journey Section */}
         <section 
           ref={section2Ref}
-          className={`mb-24 ${section2Revealed ? 'revealed' : 'reveal-on-scroll'}`}
+          className={`mb-12 md:mb-24 ${section2Revealed ? 'revealed' : 'reveal-on-scroll'}`}
         >
           <div className="glass-panel p-8 md:p-12 rounded-2xl border border-white/10">
             <h2 className="text-2xl md:text-3xl font-newreader font-semibold text-white mb-6">From there, Vayu grew across India.</h2>
@@ -103,7 +103,7 @@ export default function AboutVayu() {
         {/* Designed for Professionals */}
         <section 
           ref={section3Ref}
-          className={`mb-24 ${section3Revealed ? 'revealed' : 'reveal-on-scroll'}`}
+          className={`mb-12 md:mb-24 ${section3Revealed ? 'revealed' : 'reveal-on-scroll'}`}
         >
           <div className="glass-panel p-8 md:p-12 rounded-2xl border border-white/10">
             <h2 className="text-2xl md:text-3xl font-newreader font-semibold text-white mb-6">Designed for Professionals</h2>
@@ -129,7 +129,7 @@ export default function AboutVayu() {
         {/* A Different Way */}
         <section 
           ref={section4Ref}
-          className={`mb-24 ${section4Revealed ? 'revealed' : 'reveal-on-scroll'}`}
+          className={`mb-12 md:mb-24 ${section4Revealed ? 'revealed' : 'reveal-on-scroll'}`}
         >
           <div className="glass-panel p-8 md:p-12 rounded-2xl border border-white/10">
             <h2 className="text-2xl md:text-3xl font-newreader font-semibold text-white mb-6">A Different Way to Think About Glasses</h2>
@@ -156,7 +156,7 @@ export default function AboutVayu() {
         </section>
 
         {/* Built Here. Moving Forward. */}
-        <section className="mb-40">
+        <section className="mb-12 md:mb-40">
           <div className="glass-panel p-8 md:p-12 rounded-2xl border border-white/10">
             <h2 className="text-2xl md:text-3xl font-newreader font-semibold text-white mb-6">Built Here. Moving Forward.</h2>
             <div className="space-y-6 text-lg font-newreader text-gray-300 leading-relaxed">
