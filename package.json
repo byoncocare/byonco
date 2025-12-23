@@ -13,7 +13,10 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "build:css": "tailwindcss -i ./src/tailwind.css -o ./src/index.css --watch",
-    "preview": "npx serve -s build -l 3000"
+    "preview": "npx serve -s build -l 3000",
+    "scrape": "node scripts/scrape_zenonco.js",
+    "scrape:headful": "node scripts/scrape_zenonco.js --headful",
+    "scrape:verify": "node scripts/verify-setup.js"
   },
   "dependencies": {
     "@craco/craco": "^7.1.0",
@@ -52,10 +55,13 @@
     "autoprefixer": "^10.4.21",
     "babel-plugin-module-resolver": "^5.0.2",
     "customize-cra": "^1.0.0",
+    "p-limit": "^7.2.0",
+    "playwright": "^1.57.0",
     "postcss": "^8.5.6",
     "postcss-loader": "^7.3.4",
     "react-app-rewired": "^2.2.1",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "zod": "^4.1.13"
   },
   "browserslist": {
     "production": [

@@ -1,0 +1,5 @@
+# Add these lines to your existing requirements.txt
+
+razorpay>=1.4.0
+python-dotenv>=1.0.0
+

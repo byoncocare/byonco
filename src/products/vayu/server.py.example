@@ -1,0 +1,56 @@
+"""
+Example server.py modifications
+================================
+
+Add these imports and router registration to your existing server.py file.
+
+IMPORTS (add near top with other imports):
+"""
+# Add this import
+from payments import razorpay
+
+"""
+ROUTER REGISTRATION (add after creating FastAPI app instance):
+"""
+# Example:
+# app = FastAPI()
+# app.include_router(razorpay.router)
+
+"""
+FULL EXAMPLE (if starting fresh):
+"""
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import os
+from payments import razorpay as payments_router
+
+app = FastAPI(title="ByOnco API")
+
+# CORS configuration (adjust origins for production)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",  # React dev server
+        "https://your-frontend-domain.com",  # Production frontend
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Register Razorpay router
+app.include_router(payments_router.router)
+
+@app.get("/")
+async def root():
+    return {"message": "ByOnco API"}
+
+@app.get("/health")
+async def health():
+    """Health check endpoint - confirms env vars are loaded without exposing secrets"""
+    razorpay_configured = bool(os.getenv("RAZORPAY_KEY_ID") and os.getenv("RAZORPAY_KEY_SECRET"))
+    return {
+        "status": "ok",
+        "razorpay_configured": razorpay_configured  # True/False, no secrets exposed
+    }
+

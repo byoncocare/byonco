@@ -1,0 +1,24 @@
+{
+  "name": "zenonco-scraper",
+  "version": "1.0.0",
+  "description": "Production-ready scraper for ZenOnco oncologist data",
+  "type": "module",
+  "main": "scrape_zenonco.js",
+  "scripts": {
+    "scrape": "node scripts/scrape_zenonco.js",
+    "scrape:headful": "node scripts/scrape_zenonco.js --headful"
+  },
+  "keywords": ["scraper", "web-scraping", "playwright"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.48.0",
+    "p-limit": "^5.0.0",
+    "zod": "^3.23.8",
+    "csv-writer": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+

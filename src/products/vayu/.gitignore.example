@@ -1,0 +1,23 @@
+# Add these patterns to your .gitignore if not already present
+
+# Environment variables - CRITICAL: Never commit secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+
+# Secrets and keys - NEVER commit these
+*.pem
+*.key
+*.secret
+secrets/
+*.env
+.envrc
+
+# Razorpay keys (if accidentally created as files)
+razorpay_key.txt
+razorpay_secret.txt
+razorpay_keys.txt
+
