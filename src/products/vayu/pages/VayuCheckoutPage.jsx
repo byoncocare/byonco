@@ -2,7 +2,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import CheckoutForm from "../components/order/CheckoutForm";
 import OrderSummary from "../components/order/OrderSummary";
 import { loadCart, clearCart } from "../utils/cart";
@@ -305,7 +304,6 @@ export default function VayuCheckoutPage() {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
