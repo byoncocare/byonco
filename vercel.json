@@ -1,41 +1,27 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
-  "cleanUrls": true,
-  "trailingSlash": false,
-
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
+      "config": {
+        "distDir": "build"
+      }
     }
   ],
-
-  "rewrites": [
-    { "source": "/api/ask", "destination": "https://byonco-fastapi-backend.onrender.com/api/ask" },
-    { "source": "/api/auth/dev-token", "destination": "https://byonco-fastapi-backend.onrender.com/auth/dev-token" },
-
-    { "source": "/products/vayu", "destination": "/" },
-    { "source": "/products/vayu/:path*", "destination": "/" },
-
-    { "source": "/product/vayu", "destination": "/" },
-    { "source": "/product/vayu/:path*", "destination": "/" },
-
-    { "source": "/(.*)", "destination": "/" }
-  ],
-
-  "redirects": [
-    { "source": "/products/byonco-x", "destination": "/products/vayu", "permanent": true },
-    { "source": "/product", "destination": "/product/vayu", "permanent": true }
-  ],
-
-  "headers": [
+  "routes": [
     {
-      "source": "/(.*)\\.(js|css|png|jpg|jpeg|gif|svg|webp|ico|woff2)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
+      "src": "/static/(.*)",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  ]
+  ],
+  "env": {
+    "REACT_APP_BACKEND_URL": "@react_app_backend_url"
+  }
 }
