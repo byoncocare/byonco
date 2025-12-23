@@ -60,6 +60,9 @@ import WarrantyVayu from "./products/vayu/pages/WarrantyVayu";
 import ReturnsVayu from "./products/vayu/pages/ReturnsVayu";
 import ShippingInfoVayu from "./products/vayu/pages/ShippingInfoVayu";
 import AboutVayu from "./products/vayu/pages/AboutVayu";
+import VayuOrderPage from "./products/vayu/pages/VayuOrderPage";
+import VayuCheckoutPage from "./products/vayu/pages/VayuCheckoutPage";
+import VayuCheckoutSuccess from "./products/vayu/pages/VayuCheckoutSuccess";
 
 // Vayu waitlist page
 import VayuWaitlist from "./products/vayu/pages/VayuWaitlist";
@@ -493,6 +496,20 @@ export default function App() {
 
             {/* ----------- Vayu product page ----------- */}
             <Route path="/products/vayu" element={<VayuX />} exact />
+
+            {/* ----------- Vayu order / checkout ----------- */}
+            <Route
+              path="/products/vayu/order"
+              element={<VayuOrderPage />}
+            />
+            <Route
+              path="/products/vayu/checkout"
+              element={<VayuCheckoutPage />}
+            />
+            <Route
+              path="/products/vayu/checkout/success"
+              element={<VayuCheckoutSuccess />}
+            />
 
             {/* ----------- Vayu About page ----------- */}
             <Route
