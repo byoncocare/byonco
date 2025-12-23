@@ -120,7 +120,19 @@ export default function VayuCheckoutPage() {
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to create order. Please try again.");
+      if (!res.ok) {
+        // Try to get error details from response
+        let errorMessage = "Failed to create order. Please try again.";
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.detail || errorData.message || errorMessage;
+        } catch (e) {
+          // If response is not JSON, use status text
+          errorMessage = res.statusText || errorMessage;
+        }
+        console.error("Create order failed:", res.status, errorMessage);
+        throw new Error(errorMessage);
+      }
       const order = await res.json();
 
       // 2) Ensure Razorpay SDK is loaded
@@ -203,7 +215,22 @@ export default function VayuCheckoutPage() {
       });
       rzp.open();
     } catch (err) {
-      console.error(err);
+      console.error("Payment submission error:", err);
+      console.error("Backend URL:", BACKEND_URL);
+      console.error("Request body:", {
+        cart,
+        contact: { email: values.email, phone: values.phone },
+        shippingAddress: {
+          country: values.country,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          address1: values.address1,
+          city: values.city,
+          state: values.state,
+          pin: values.pin,
+        },
+        couponCode,
+      });
       setSubmitting(false);
       setSuccessState({
         status: "error",
