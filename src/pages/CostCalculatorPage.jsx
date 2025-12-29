@@ -242,8 +242,25 @@ const CostCalculator = () => {
       });
 
       if (!response.ok) {
+        // Log the full error for debugging
+        const status = response.status;
         const errorBody = await response.json().catch(() => ({}));
-        throw new Error(errorBody.detail || 'Failed to calculate cost.');
+        const errorMessage = errorBody.detail || errorBody.message || `HTTP ${status}: Failed to calculate cost.`;
+        
+        // Log to console for debugging
+        console.error('Cost calculator API error:', {
+          status,
+          statusText: response.statusText,
+          url: `${API_BASE}/calculate-cost`,
+          error: errorBody,
+          payload: payload
+        });
+        
+        if (status === 404) {
+          throw new Error(`Backend endpoint not found. Please check: 1) Backend is deployed on Render, 2) Service is running, 3) URL is correct: ${BACKEND_URL}`);
+        }
+        
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
