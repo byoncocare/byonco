@@ -248,27 +248,52 @@ const CostCalculator = () => {
 
       const data = await response.json();
 
-      // Map backend snake_case fields into camelCase for UI
+      // Map backend snake_case fields into camelCase for UI with safe fallbacks
+      const safeNumber = (val) => {
+        const num = typeof val === 'number' ? val : parseFloat(val) || 0;
+        return isNaN(num) ? 0 : Math.max(0, num);
+      };
+
+      const safeBreakdown = data.breakdown || {};
+      const safeBreakdownUSD = data.breakdown_usd || {};
       const mappedResult = {
-        totalCostLocal: data.total_cost_local,
-        totalCostINR: data.total_cost_inr,
-        clinicalCost: data.clinical_cost,
-        nonClinicalCost: data.non_clinical_cost,
-        insurancePays: data.insurance_pays,
-        patientOutOfPocket: data.patient_out_of_pocket,
+        totalCostLocal: safeNumber(data.total_cost_local),
+        totalCostUSD: safeNumber(data.total_cost_usd),
+        totalCostINR: safeNumber(data.total_cost_inr),
+        clinicalCost: safeNumber(data.clinical_cost),
+        clinicalCostUSD: safeNumber(data.clinical_cost_usd),
+        nonClinicalCost: safeNumber(data.non_clinical_cost),
+        nonClinicalCostUSD: safeNumber(data.non_clinical_cost_usd),
+        insurancePays: safeNumber(data.insurance_pays),
+        insurancePaysUSD: safeNumber(data.insurance_pays_usd),
+        patientOutOfPocket: safeNumber(data.patient_out_of_pocket),
+        patientOutOfPocketUSD: safeNumber(data.patient_out_of_pocket_usd),
         breakdown: {
-          surgery: data.breakdown.surgery,
-          chemotherapy: data.breakdown.chemotherapy,
-          radiation: data.breakdown.radiation,
-          transplant: data.breakdown.transplant,
-          diagnostics: data.breakdown.diagnostics,
-          accommodation: data.breakdown.accommodation,
-          travel: data.breakdown.travel,
-          localTransport: data.breakdown.local_transport,
-          food: data.breakdown.food,
+          surgery: safeNumber(safeBreakdown.surgery),
+          chemotherapy: safeNumber(safeBreakdown.chemotherapy),
+          radiation: safeNumber(safeBreakdown.radiation),
+          transplant: safeNumber(safeBreakdown.transplant),
+          diagnostics: safeNumber(safeBreakdown.diagnostics),
+          accommodation: safeNumber(safeBreakdown.accommodation),
+          travel: safeNumber(safeBreakdown.travel),
+          localTransport: safeNumber(safeBreakdown.local_transport),
+          food: safeNumber(safeBreakdown.food),
         },
-        currency: data.currency,
-        assumptions: data.assumptions || [],
+        breakdownUSD: {
+          surgery: safeNumber(safeBreakdownUSD.surgery),
+          chemotherapy: safeNumber(safeBreakdownUSD.chemotherapy),
+          radiation: safeNumber(safeBreakdownUSD.radiation),
+          transplant: safeNumber(safeBreakdownUSD.transplant),
+          diagnostics: safeNumber(safeBreakdownUSD.diagnostics),
+          accommodation: safeNumber(safeBreakdownUSD.accommodation),
+          travel: safeNumber(safeBreakdownUSD.travel),
+          localTransport: safeNumber(safeBreakdownUSD.local_transport),
+          food: safeNumber(safeBreakdownUSD.food),
+        },
+        currencyCode: data.currency_code || data.currency || formData.currency || 'USD',
+        currencySymbol: data.currency_symbol || '$',
+        exchangeRateToUSD: safeNumber(data.exchange_rate_to_usd),
+        assumptions: Array.isArray(data.assumptions) ? data.assumptions : [],
       };
 
       setCostResult(mappedResult);
@@ -290,8 +315,14 @@ const CostCalculator = () => {
     setStep(1);
   };
 
-  const displayCurrency =
-    costResult?.currency || selectedCountryData?.currency || formData.currency;
+  const displayCurrency = costResult?.currencyCode || costResult?.currency || selectedCountryData?.currency || formData.currency;
+  const displayCurrencySymbol = costResult?.currencySymbol || (displayCurrency === 'INR' ? '₹' : displayCurrency === 'USD' ? '$' : displayCurrency === 'EUR' ? '€' : displayCurrency === 'SGD' ? 'S$' : displayCurrency === 'JPY' ? '¥' : displayCurrency === 'TRY' ? '₺' : displayCurrency === 'THB' ? '฿' : displayCurrency === 'CAD' ? 'C$' : displayCurrency === 'NOK' ? 'kr' : '$');
+
+  // Helper function to safely convert values to numbers
+  const safeNumber = (val) => {
+    const num = typeof val === 'number' ? val : parseFloat(val) || 0;
+    return isNaN(num) ? 0 : Math.max(0, num);
+  };
 
   const renderStep1 = () => (
     <div className="space-y-4 sm:space-y-6">
@@ -1172,7 +1203,7 @@ const CostCalculator = () => {
         </h2>
       </div>
 
-      {costResult && (
+      {costResult ? (
         <motion.div
           className="space-y-4"
           initial={{ opacity: 0, y: 30 }}
@@ -1187,11 +1218,17 @@ const CostCalculator = () => {
             </CardHeader>
             <CardContent>
               <div className="text-5xl font-bold text-emerald-400 mb-2">
-                {displayCurrency} {costResult.totalCostLocal.toLocaleString()}
+                {displayCurrencySymbol} {safeNumber(costResult.totalCostLocal).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                <span className="text-2xl text-purple-300 ml-2">({displayCurrency})</span>
               </div>
               <div className="text-lg text-purple-300">
-                ≈ INR {costResult.totalCostINR.toLocaleString()}
+                ≈ USD ${safeNumber(costResult.totalCostUSD).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
+              {costResult.exchangeRateToUSD && costResult.exchangeRateToUSD !== 1.0 && (
+                <div className="text-sm text-purple-400 mt-2">
+                  Exchange rate: 1 USD = {costResult.exchangeRateToUSD} {displayCurrency} (reference rate)
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -1202,29 +1239,49 @@ const CostCalculator = () => {
             <CardContent className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-purple-100">Clinical Cost</span>
-                <span className="text-slate-100 font-semibold">
-                  {displayCurrency} {costResult.clinicalCost.toLocaleString()}
-                </span>
+                <div className="text-right">
+                  <div className="text-slate-100 font-semibold">
+                    {displayCurrencySymbol} {safeNumber(costResult.clinicalCost).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                  <div className="text-xs text-purple-300">
+                    ≈ USD ${safeNumber(costResult.clinicalCostUSD).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                </div>
               </div>
               <div className="flex justify-between">
                 <span className="text-purple-100">Non-clinical Cost</span>
-                <span className="text-slate-100 font-semibold">
-                  {displayCurrency} {costResult.nonClinicalCost.toLocaleString()}
-                </span>
+                <div className="text-right">
+                  <div className="text-slate-100 font-semibold">
+                    {displayCurrencySymbol} {safeNumber(costResult.nonClinicalCost).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                  <div className="text-xs text-purple-300">
+                    ≈ USD ${safeNumber(costResult.nonClinicalCostUSD).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                </div>
               </div>
               <Separator className="bg-purple-500/30" />
               <div className="flex justify-between font-semibold">
                 <span className="text-cyan-400">Insurance Pays</span>
-                <span className="text-cyan-400">
-                  -{displayCurrency} {costResult.insurancePays.toLocaleString()}
-                </span>
+                <div className="text-right">
+                  <div className="text-cyan-400">
+                    -{displayCurrencySymbol} {safeNumber(costResult.insurancePays).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                  <div className="text-xs text-cyan-300">
+                    ≈ -USD ${safeNumber(costResult.insurancePaysUSD).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                </div>
               </div>
               <Separator className="bg-purple-500/30" />
               <div className="flex justify-between text-xl font-bold">
                 <span className="text-white">Your Out-of-Pocket</span>
-                <span className="text-emerald-400">
-                  {displayCurrency} {costResult.patientOutOfPocket.toLocaleString()}
-                </span>
+                <div className="text-right">
+                  <div className="text-emerald-400">
+                    {displayCurrencySymbol} {safeNumber(costResult.patientOutOfPocket).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                  <div className="text-sm text-emerald-300">
+                    ≈ USD ${safeNumber(costResult.patientOutOfPocketUSD).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -1234,27 +1291,43 @@ const CostCalculator = () => {
               <CardTitle className="text-slate-100" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Detailed Breakdown</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              {Object.entries(costResult.breakdown).map(([key, value]) => (
-                <div key={key} className="flex justify-between">
-                  <span className="text-purple-100 capitalize">
-                    {key.replace('_', ' ')}
-                  </span>
-                  <span className="text-slate-100 font-semibold">
-                    {displayCurrency} {value.toLocaleString()}
-                  </span>
-                </div>
-              ))}
+              {costResult.breakdown && typeof costResult.breakdown === 'object' ? (
+                Object.entries(costResult.breakdown)
+                  .filter(([key, value]) => safeNumber(value) > 0) // Only show non-zero items
+                  .map(([key, value]) => {
+                    const usdValue = costResult.breakdownUSD?.[key] || 0;
+                    return (
+                      <div key={key} className="flex justify-between items-center">
+                        <span className="text-purple-100 capitalize">
+                          {key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim()}
+                        </span>
+                        <div className="text-right">
+                          <div className="text-slate-100 font-semibold">
+                            {displayCurrencySymbol} {safeNumber(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                          {usdValue > 0 && (
+                            <div className="text-xs text-purple-300">
+                              ≈ USD ${safeNumber(usdValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })
+              ) : (
+                <p className="text-purple-300 text-sm">No detailed breakdown available</p>
+              )}
             </CardContent>
           </Card>
 
-          {costResult.assumptions?.length > 0 && (
+          {costResult.assumptions && costResult.assumptions.length > 0 && (
             <Card className="bg-gradient-to-br from-slate-900/60 via-purple-900/20 to-slate-900/60 border-purple-500/30">
               <CardHeader>
                 <CardTitle className="text-slate-100" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Key Assumptions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 text-sm">
                 {costResult.assumptions.map((a, idx) => (
-                  <p key={idx} className="text-purple-100">
+                  <p key={idx} className={`text-purple-100 ${a.includes('⚠️') ? 'text-yellow-400 font-medium' : ''}`}>
                     • {a}
                   </p>
                 ))}
@@ -1262,6 +1335,12 @@ const CostCalculator = () => {
             </Card>
           )}
         </motion.div>
+      ) : (
+        <Card className="bg-gradient-to-br from-slate-900/60 via-purple-900/20 to-slate-900/60 border-purple-500/30">
+          <CardContent className="p-6 text-center">
+            <p className="text-purple-300">No cost estimate available. Please calculate to see results.</p>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
