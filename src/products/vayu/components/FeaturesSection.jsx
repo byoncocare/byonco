@@ -45,9 +45,9 @@ const FeatureItem = ({ feature, index }) => {
 
                 {/* Image */}
                 <div className={`${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-[#2F6BFF] rounded-2xl blur-2xl opacity-10"></div>
-                    <div className="glass-panel rounded-2xl p-2 relative hover-lift">
+                  <div className="relative isolate">
+                    <div className="absolute inset-0 bg-[#2F6BFF] rounded-2xl blur-2xl opacity-10 z-0 pointer-events-none"></div>
+                    <div className="glass-panel rounded-2xl p-2 relative z-10 hover-lift">
                       <img
                         src={
                           index === 0
@@ -57,7 +57,7 @@ const FeatureItem = ({ feature, index }) => {
                             : "/vayu/meeting.png"   // card 3
                         }
                         alt={feature.title}
-                        className="relative w-full h-64 md:h-80 object-cover rounded-xl"
+                        className="relative w-full h-64 md:h-80 object-cover rounded-xl block opacity-100 mix-blend-normal"
                       />
 
                       {/* Floating UI elements */}

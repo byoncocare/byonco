@@ -34,13 +34,13 @@ const AICapabilities = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-8 md:gap-12 mt-12 md:mt-16 lg:mt-20">
           {/* Right column on desktop – Image, but first on mobile */}
           <div className="order-1 lg:order-2">
-            <div className="relative w-full max-w-xl ml-auto">
-              <div className="relative rounded-3xl overflow-hidden glass-panel p-3">
-                <div className="relative">
+            <div className="relative isolate w-full max-w-xl ml-auto">
+              <div className="relative rounded-3xl overflow-hidden glass-panel p-3 z-10">
+                <div className="relative z-10">
                   <img
                     src="/vayu/ai-main.png"
                     alt="Professional using Vayu smart glasses"
-                    className="w-full h-auto rounded-2xl object-cover"
+                    className="w-full h-auto rounded-2xl object-cover block opacity-100 mix-blend-normal"
                   />
 
                   {/* Overlay chips - Smaller and transparent on mobile */}
@@ -65,11 +65,11 @@ const AICapabilities = () => {
           </div>
 
           {/* Left column on desktop – feature cards and note */}
-          <div className="order-2 lg:order-1 relative">
+          <div className="order-2 lg:order-1 relative isolate">
             {/* Soft blue glow background behind cards (like reference) */}
-            <div className="pointer-events-none absolute inset-x-0 -top-10 h-80 bg-[radial-gradient(circle_at_top,rgba(37,99,235,0.25)_0%,transparent_60%)] opacity-60 blur-3xl" />
+            <div className="pointer-events-none absolute inset-x-0 -top-10 h-80 bg-[radial-gradient(circle_at_top,rgba(37,99,235,0.25)_0%,transparent_60%)] opacity-60 blur-3xl z-0" />
 
-            <div className="relative">
+            <div className="relative z-10">
               {/* Feature descriptions as text */}
               <div className="space-y-6 md:space-y-8">
                 <div className="flex items-start gap-4 md:gap-6">
@@ -123,12 +123,12 @@ const AICapabilities = () => {
 
         {/* Privacy Section */}
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-            <div className="glass-panel rounded-3xl p-4 hover-lift">
+          <div className="relative isolate">
+            <div className="glass-panel rounded-3xl p-4 hover-lift relative z-10">
               <img
                 src="/vayu/privacy.jpg"
                 alt="Privacy and security focused design"
-                className="w-full h-80 object-cover rounded-2xl"
+                className="w-full h-80 object-cover rounded-2xl block opacity-100 mix-blend-normal"
               />
               
               {/* Privacy indicators */}
