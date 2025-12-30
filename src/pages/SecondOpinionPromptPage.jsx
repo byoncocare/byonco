@@ -304,9 +304,12 @@ export default function SecondOpinionPromptPage() {
       <aside className="hidden md:flex flex-col justify-between items-center w-20 py-6 border-r border-white/5 bg-black/20 backdrop-blur-xl z-20">
         <div className="flex flex-col items-center gap-8">
           {/* Brand Logo Mark */}
-          <div className="size-10 rounded-xl bg-gradient-to-br from-teal-900 to-black border border-white/10 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(20,184,166,0.3)]">
+          <button 
+            onClick={() => window.location.href = 'https://www.byoncocare.com/'}
+            className="size-10 rounded-xl bg-gradient-to-br from-teal-900 to-black border border-white/10 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(20,184,166,0.3)] hover:opacity-80 transition-opacity cursor-pointer"
+          >
             <Activity className="text-teal-400 size-6" />
-          </div>
+          </button>
 
           {/* Nav Items */}
           <nav className="flex flex-col gap-6">
@@ -335,7 +338,10 @@ export default function SecondOpinionPromptPage() {
         </div>
 
         <div className="flex flex-col items-center gap-6">
-          <button className="p-3 rounded-lg text-zinc-500 hover:text-zinc-200 transition-colors">
+          <button 
+            onClick={() => window.location.href = 'https://www.byoncocare.com/'}
+            className="p-3 rounded-lg text-zinc-500 hover:text-zinc-200 transition-colors cursor-pointer"
+          >
             <LogIn className="size-6" />
           </button>
         </div>
@@ -354,10 +360,13 @@ export default function SecondOpinionPromptPage() {
 
         {/* Top Navigation (Mobile/Desktop) */}
         <header className="flex items-center justify-between px-6 py-4 z-10 md:hidden">
-          <div className="flex items-center gap-2">
+          <button 
+            onClick={() => window.location.href = 'https://www.byoncocare.com/'}
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
+          >
             <Activity className="text-teal-400 size-6" />
             <span className="font-serif font-medium text-xl text-zinc-100 tracking-tight" style={{ fontFamily: "'Newsreader', serif" }}>byOnco</span>
-          </div>
+          </button>
           <button className="text-zinc-400"><Menu className="size-6" /></button>
         </header>
 
