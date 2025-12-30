@@ -6,10 +6,10 @@ export const VAYU_PRODUCT = {
   name: "Vayu AI Glasses",
   shortDescription: "Glasses that answer what matters.",
   images: [
-    `${process.env.PUBLIC_URL || ''}/vayu/hero.webp`,
-    `${process.env.PUBLIC_URL || ''}/vayu/ai-main.png`,
-    `${process.env.PUBLIC_URL || ''}/vayu/meeting.png`,
-    `${process.env.PUBLIC_URL || ''}/vayu/privacy.jpg`,
+    "/vayu/hero.webp",
+    "/vayu/ai-main.png",
+    "/vayu/meeting.png",
+    "/vayu/privacy.jpg",
   ],
   basePrice: 59999, // INR - Non-prescription base price
   compareAtPrice: 69999, // Default compare-at for non-prescription

@@ -51,10 +51,10 @@ const FeatureItem = ({ feature, index }) => {
                       <img
                         src={
                           index === 0
-                            ? `${process.env.PUBLIC_URL || ''}/vayu/ai-main.png`   // card 1
+                            ? "/vayu/ai-main.png"   // card 1
                             : index === 1
-                            ? `${process.env.PUBLIC_URL || ''}/vayu/hero.webp`     // card 2
-                            : `${process.env.PUBLIC_URL || ''}/vayu/meeting.png`   // card 3
+                            ? "/vayu/hero.webp"     // card 2
+                            : "/vayu/meeting.png"   // card 3
                         }
                         alt={feature.title}
                         className="relative w-full h-64 md:h-80 object-cover rounded-xl block opacity-100 mix-blend-normal"

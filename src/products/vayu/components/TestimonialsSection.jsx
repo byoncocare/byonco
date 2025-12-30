@@ -8,13 +8,13 @@ import { useWaitlistCounter, usePreOrdersCounter } from './hooks/useDynamicCount
 
 // Map names -> your public/vayu/testimonials/* files
 const AVATAR_MAP = {
-  'Dr. Priya Sharma': `${process.env.PUBLIC_URL || ''}/vayu/testimonials/priya-sharma.png`,
-  'Rajesh Kumar': `${process.env.PUBLIC_URL || ''}/vayu/testimonials/rajesh-kumar.png`,
-  'Anita Desai': `${process.env.PUBLIC_URL || ''}/vayu/testimonials/anita-desai.png`,
+  'Dr. Priya Sharma': '/vayu/testimonials/priya-sharma.png',
+  'Rajesh Kumar': '/vayu/testimonials/rajesh-kumar.png',
+  'Anita Desai': '/vayu/testimonials/anita-desai.png',
 };
 
 // Optional fallback (if a name isn't in the map)
-const FALLBACK_AVATAR = `${process.env.PUBLIC_URL || ''}/vayu/ai-main.png`;
+const FALLBACK_AVATAR = '/vayu/ai-main.png';
 
 const TestimonialCard = ({ testimonial, index }) => {
   const [testimonialRef, testimonialRevealed] = useRevealOnScroll({ threshold: 0.2 });
