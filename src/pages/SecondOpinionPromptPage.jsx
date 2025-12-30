@@ -141,15 +141,23 @@ export default function SecondOpinionPromptPage() {
             {
               headers: {
                 'Content-Type': 'multipart/form-data'
-              }
+              },
+              timeout: 60000 // 60 second timeout
             }
           );
           
           fileContent = uploadResponse.data.extracted_text;
         } catch (uploadError) {
           console.error('Error uploading file:', uploadError);
-          // Fallback to placeholder if upload fails
-          fileContent = `[Medical Report: ${uploadedFiles[0].name} - file content extraction failed]`;
+          // Show user-friendly error and return early
+          const uploadErrorMessage = {
+            role: 'assistant',
+            content: "We're having trouble processing your file right now. Please try again in a moment, or contact support if the issue persists.",
+            error: true
+          };
+          setChatHistory(prev => [...prev, uploadErrorMessage]);
+          setLoading(false);
+          return;
         }
       }
 
@@ -161,7 +169,7 @@ export default function SecondOpinionPromptPage() {
       };
       setChatHistory(prev => [...prev, userMessage]);
 
-      // Call AI endpoint
+      // Call AI endpoint with timeout
       const response = await axios.post(
         `${API}/second-opinion-ai/chat`,
         {
@@ -171,7 +179,8 @@ export default function SecondOpinionPromptPage() {
         {
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          timeout: 60000 // 60 second timeout
         }
       );
 
@@ -201,9 +210,25 @@ export default function SecondOpinionPromptPage() {
 
     } catch (error) {
       console.error('Error sending message:', error);
+      
+      // Determine user-friendly error message based on error type
+      let userFriendlyMessage = "We're having trouble connecting right now. Please try again in a moment.";
+      
+      if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error') || error.message?.includes('fetch')) {
+        userFriendlyMessage = "We cannot reach our servers at the moment. Please check your internet connection and try again.";
+      } else if (error.response?.status === 500) {
+        userFriendlyMessage = "Our service is temporarily unavailable. Please try again in a few moments.";
+      } else if (error.response?.status === 503 || error.response?.status === 504) {
+        userFriendlyMessage = "Our servers are currently processing requests. Please try again shortly.";
+      } else if (error.response?.status === 400 || error.response?.status === 422) {
+        userFriendlyMessage = "We're currently only accessible in India. We're working on expanding our services to more regions soon.";
+      } else if (error.response?.status === 404) {
+        userFriendlyMessage = "This feature is currently being updated. We're adding improvements to serve you better. Please try again later.";
+      }
+      
       const errorMessage = {
         role: 'assistant',
-        content: 'Sorry, I encountered an error processing your request. Please try again or contact support if the issue persists.',
+        content: userFriendlyMessage,
         error: true
       };
       setChatHistory(prev => [...prev, errorMessage]);
@@ -286,14 +311,14 @@ export default function SecondOpinionPromptPage() {
           {/* Nav Items */}
           <nav className="flex flex-col gap-6">
             <button 
-              onClick={() => navigate('/find-hospitals')}
+              onClick={() => navigate('/')}
               className="p-3 rounded-lg text-teal-400 bg-teal-400/10 transition-all duration-300 group relative"
             >
               <Search className="size-6" />
               <span className="absolute left-14 bg-zinc-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity border border-white/10 whitespace-nowrap text-zinc-300">New Thread</span>
             </button>
             <button 
-              onClick={() => navigate('/classic-home')}
+              onClick={() => navigate('/teleconsultation')}
               className="p-3 rounded-lg text-zinc-500 hover:text-zinc-200 transition-colors group relative"
             >
               <Library className="size-6" />

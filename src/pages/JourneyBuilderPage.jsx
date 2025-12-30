@@ -214,11 +214,17 @@ export default function JourneyBuilderPage() {
       const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
       const apiUrl = `${BACKEND_URL}/api/journey-builder`;
       
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+      
       const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: promptText }),
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
 
       if (!res.ok) {
         throw new Error(`API error: ${res.status} ${res.statusText}`);
@@ -231,7 +237,24 @@ export default function JourneyBuilderPage() {
       setSuggestions(data.suggestions || null);
       setAiMessage(data.disclaimer || "I've generated a personalized journey plan for you.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch journey plan. Please try again.");
+      // Determine user-friendly error message
+      let userFriendlyMessage = "We're having trouble connecting right now. Please try again in a moment.";
+      
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      
+      if (errorMessage.includes('NetworkError') || errorMessage.includes('fetch') || errorMessage.includes('Failed to fetch')) {
+        userFriendlyMessage = "We cannot reach our servers at the moment. Please check your internet connection and try again.";
+      } else if (errorMessage.includes('500') || errorMessage.includes('Internal Server Error')) {
+        userFriendlyMessage = "Our service is temporarily unavailable. Please try again in a few moments.";
+      } else if (errorMessage.includes('503') || errorMessage.includes('504') || errorMessage.includes('timeout')) {
+        userFriendlyMessage = "Our servers are currently processing requests. Please try again shortly.";
+      } else if (errorMessage.includes('400') || errorMessage.includes('422')) {
+        userFriendlyMessage = "We're currently only accessible in India. We're working on expanding our services to more regions soon.";
+      } else if (errorMessage.includes('404')) {
+        userFriendlyMessage = "This feature is currently being updated. We're adding improvements to serve you better. Please try again later.";
+      }
+      
+      setError(userFriendlyMessage);
       console.error("Journey builder error:", err);
       // Fallback to default data on error
       setProfile(defaultProfile);
@@ -253,11 +276,17 @@ export default function JourneyBuilderPage() {
       const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
       const apiUrl = `${BACKEND_URL}/api/journey-builder`;
       
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+      
       const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: inputText }),
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
 
       if (!res.ok) {
         throw new Error(`API error: ${res.status} ${res.statusText}`);
@@ -272,7 +301,24 @@ export default function JourneyBuilderPage() {
       setAiMessage(data.disclaimer || "I've updated your journey plan based on your request.");
       setInputText("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch journey plan. Please try again.");
+      // Determine user-friendly error message
+      let userFriendlyMessage = "We're having trouble connecting right now. Please try again in a moment.";
+      
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      
+      if (errorMessage.includes('NetworkError') || errorMessage.includes('fetch') || errorMessage.includes('Failed to fetch')) {
+        userFriendlyMessage = "We cannot reach our servers at the moment. Please check your internet connection and try again.";
+      } else if (errorMessage.includes('500') || errorMessage.includes('Internal Server Error')) {
+        userFriendlyMessage = "Our service is temporarily unavailable. Please try again in a few moments.";
+      } else if (errorMessage.includes('503') || errorMessage.includes('504') || errorMessage.includes('timeout')) {
+        userFriendlyMessage = "Our servers are currently processing requests. Please try again shortly.";
+      } else if (errorMessage.includes('400') || errorMessage.includes('422')) {
+        userFriendlyMessage = "We're currently only accessible in India. We're working on expanding our services to more regions soon.";
+      } else if (errorMessage.includes('404')) {
+        userFriendlyMessage = "This feature is currently being updated. We're adding improvements to serve you better. Please try again later.";
+      }
+      
+      setError(userFriendlyMessage);
       console.error("Journey builder error:", err);
     } finally {
       setLoading(false);
