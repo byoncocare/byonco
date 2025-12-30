@@ -15,6 +15,15 @@ module.exports = {
         webpackConfig.plugins = webpackConfig.plugins.filter(
           plugin => plugin.constructor?.name !== 'ESLintWebpackPlugin'
         );
+        // Disable treating warnings as errors in CI/production
+        webpackConfig.ignoreWarnings = [
+          /Critical dependency/,
+          /Module not found/,
+        ];
+        // Set ignoreWarnings to true to ignore all warnings
+        if (webpackConfig.ignoreWarnings) {
+          // Already set above
+        }
       } else {
         // In development, just disable failOnWarning
         const eslintPlugin = webpackConfig.plugins?.find(

@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://www.byoncocare.com/",
   "engines": {
-    "node": ">=18"
+    "node": "22.x"
   },
   "scripts": {
     "start": "craco start",
