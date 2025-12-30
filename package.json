@@ -80,6 +80,13 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+      "jsx-a11y/anchor-is-valid": "warn",
+      "jsx-a11y/heading-has-content": "warn",
+      "jsx-a11y/no-redundant-roles": "warn",
+      "react-hooks/exhaustive-deps": "warn"
+    }
   }
 }
