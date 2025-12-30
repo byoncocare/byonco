@@ -12,7 +12,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi
 const API = `${BACKEND_URL}/api/payments`;
 
 // Second Opinion service pricing (in INR)
-const SECOND_OPINION_PRICE = 2000; // ₹2000
+const SECOND_OPINION_PRICE = 99; // ₹99
 const SECOND_OPINION_CURRENCY = 'INR';
 
 export default function SecondOpinionPaywallModal({ 

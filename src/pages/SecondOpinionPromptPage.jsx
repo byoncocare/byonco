@@ -190,12 +190,6 @@ export default function SecondOpinionPromptPage() {
         }
         // Update usage state
         setUsage(getUsage());
-        
-        // Check if limits reached after this use
-        if (!canAskQuestion() || (uploadedFiles.length > 0 && !canAttach())) {
-          setPaywallReason('limit');
-          setShowPaywall(true);
-        }
       }
 
       // Clear input
@@ -291,15 +285,24 @@ export default function SecondOpinionPromptPage() {
 
           {/* Nav Items */}
           <nav className="flex flex-col gap-6">
-            <button className="p-3 rounded-lg text-teal-400 bg-teal-400/10 transition-all duration-300 group relative">
+            <button 
+              onClick={() => navigate('/find-hospitals')}
+              className="p-3 rounded-lg text-teal-400 bg-teal-400/10 transition-all duration-300 group relative"
+            >
               <Search className="size-6" />
               <span className="absolute left-14 bg-zinc-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity border border-white/10 whitespace-nowrap text-zinc-300">New Thread</span>
             </button>
-            <button className="p-3 rounded-lg text-zinc-500 hover:text-zinc-200 transition-colors group relative">
+            <button 
+              onClick={() => navigate('/classic-home')}
+              className="p-3 rounded-lg text-zinc-500 hover:text-zinc-200 transition-colors group relative"
+            >
               <Library className="size-6" />
               <span className="absolute left-14 bg-zinc-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity border border-white/10 text-zinc-300">Library</span>
             </button>
-            <button className="p-3 rounded-lg text-zinc-500 hover:text-zinc-200 transition-colors group relative">
+            <button 
+              onClick={() => navigate('/journey-builder')}
+              className="p-3 rounded-lg text-zinc-500 hover:text-zinc-200 transition-colors group relative"
+            >
               <Compass className="size-6" />
               <span className="absolute left-14 bg-zinc-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity border border-white/10 text-zinc-300">Discover</span>
             </button>
@@ -553,7 +556,7 @@ export default function SecondOpinionPromptPage() {
             <a href="#" className="hover:text-zinc-400 transition-colors">Download</a>
           </div>
           <div className="flex items-center gap-4">
-            <span>© 2024 byOnco Labs</span>
+            <span>© 2026 byOnco Labs</span>
             <div className="flex gap-3">
               <Twitter className="size-3 hover:text-zinc-400 cursor-pointer" />
               <Linkedin className="size-3 hover:text-zinc-400 cursor-pointer" />
