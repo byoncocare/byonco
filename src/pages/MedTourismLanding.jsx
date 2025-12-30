@@ -185,13 +185,13 @@ const MedTourismLanding = () => {
         phone: formData.phone.trim(),
         message: formData.message.trim()
       }, {
-        timeout: 10000,
+        timeout: 60000, // 60 second timeout
         headers: {
           'Content-Type': 'application/json'
         }
       });
       
-      if (response.data && response.data.status === "success") {
+      if (response.data && (response.data.status === "success" || response.data.message)) {
         setSubmitStatus("success");
         setFormErrors({});
         // Don't clear form or close modal immediately - show success message
@@ -212,25 +212,30 @@ const MedTourismLanding = () => {
         if (status === 404) {
           setSubmitStatus("error");
           setFormErrors({ 
-            submit: "Contact endpoint not found. The backend may need to be updated. Please contact support." 
+            submit: "This feature is currently being updated. We're adding improvements to serve you better. Please try again later." 
+          });
+        } else if (status === 500) {
+          setSubmitStatus("error");
+          setFormErrors({ 
+            submit: "Our service is temporarily unavailable. Please try again in a few moments." 
           });
         } else {
           setSubmitStatus("error");
           setFormErrors({ 
-            submit: detail || `Server error (${status}). Please try again.` 
+            submit: "We're having trouble processing your request. Please try again in a moment." 
           });
         }
       } else if (error.request) {
         // Request was made but no response received
         setSubmitStatus("error");
         setFormErrors({ 
-          submit: "Unable to connect to server. Please check your internet connection." 
+          submit: "We cannot reach our servers at the moment. Please check your internet connection and try again." 
         });
       } else {
         // Error setting up request
         setSubmitStatus("error");
         setFormErrors({ 
-          submit: error.message || "Something went wrong. Please try again." 
+          submit: "We're having trouble connecting right now. Please try again in a moment." 
         });
       }
     }
@@ -1490,10 +1495,10 @@ const MedTourismLanding = () => {
                 <div className="text-center py-6 sm:py-8">
                   <CheckCircle2 className="w-12 h-12 sm:w-16 sm:h-16 text-green-500 mx-auto mb-3 sm:mb-4" />
                   <p className="text-base sm:text-lg font-semibold text-white mb-2">
-                    You've joined the waitlist.
+                    Thank you for connecting with us!
                   </p>
                   <p className="text-xs sm:text-sm text-gray-300 mb-4 sm:mb-6 px-2">
-                    Our team will contact you soon. Please make sure you've entered the correct details.
+                    Our team will contact you soon. Thanks for connecting with ByOnco.
                   </p>
                   <Button
                     onClick={() => {
