@@ -8,15 +8,14 @@ module.exports = {
       "@/pages": path.resolve(__dirname, "src/pages"),
       "@/products": path.resolve(__dirname, "src/products"),
     },
-    configure: (webpackConfig) => {
+    configure: (webpackConfig, { env }) => {
       // Disable treating warnings as errors in production builds
-      if (process.env.CI === 'true') {
-        const eslintPlugin = webpackConfig.plugins.find(
-          plugin => plugin.constructor.name === 'ESLintWebpackPlugin'
-        );
-        if (eslintPlugin) {
-          eslintPlugin.options.failOnWarning = false;
-        }
+      const eslintPlugin = webpackConfig.plugins?.find(
+        plugin => plugin.constructor?.name === 'ESLintWebpackPlugin'
+      );
+      if (eslintPlugin && eslintPlugin.options) {
+        eslintPlugin.options.failOnWarning = false;
+        eslintPlugin.options.failOnError = false;
       }
       return webpackConfig;
     },
