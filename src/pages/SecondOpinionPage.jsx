@@ -124,7 +124,7 @@ export default function SecondOpinionPage() {
                   Second Opinion Request Submitted!
                 </CardTitle>
                 <CardDescription className="text-purple-200 text-sm sm:text-base md:text-lg font-medium px-2">
-                  Your request has been received and is being reviewed by our expert team
+                  Your request is being processed. We will reach out quickly.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6 pb-4 sm:pb-6">

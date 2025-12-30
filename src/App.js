@@ -39,6 +39,7 @@ import RareCancersPage from "./pages/RareCancersPage";
 import FindOncologistsPage from "./pages/FindOncologistsPage";
 import SecondOpinionPage from "./pages/SecondOpinionPage";
 import SecondOpinionPromptPage from "./pages/SecondOpinionPromptPage";
+import RequireSecondOpinionEntitlement from "./components/RequireSecondOpinionEntitlement";
 import TeleconsultationPage from "./pages/TeleconsultationPage";
 import CostCalculatorPage from "./pages/CostCalculatorPage";
 import JourneyBuilderPage from "./pages/JourneyBuilderPage";
@@ -344,9 +345,9 @@ export default function App() {
             />
 
             <Route
-              path="/second-opinion/consult"
+              path="/second-opinion/form"
               element={
-                <ProtectedRoute>
+                <RequireSecondOpinionEntitlement>
                   <motion.div
                     className="page-shell min-h-screen text-gray-900"
                     initial={{ opacity: 0 }}
@@ -356,7 +357,7 @@ export default function App() {
                   >
                     <SecondOpinionPage />
                   </motion.div>
-                </ProtectedRoute>
+                </RequireSecondOpinionEntitlement>
               }
             />
 
