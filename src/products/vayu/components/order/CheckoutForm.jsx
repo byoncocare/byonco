@@ -1,6 +1,6 @@
 // src/products/vayu/components/order/CheckoutForm.jsx
-import React from "react";
-import { isValidEmail, isValidPhone, isValidPin, isNonEmpty } from "../../utils/validators";
+// import React from "react";
+import { isValidPin, isNonEmpty } from "../../utils/validators";
 
 export default function CheckoutForm({ values, errors, onChange, onSubmit, submitting, canSubmit }) {
   const handleChange = (field) => (e) => {

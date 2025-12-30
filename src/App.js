@@ -21,20 +21,14 @@ import TeamSection from "./components/TeamSection";
 import FAQ from "./components/FAQ";
 import CookieConsent from "./components/CookieConsent";
 
-// Pages - Lazy load legal pages for performance
+// Pages - Regular imports
 import ByOncoProWaitlist from "./pages/ByOncoProWaitlist";
-const Security = lazy(() => import("./pages/Security"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
 import Careers from "./pages/Careers";
 import GetStarted from "./pages/GetStarted";
 import JoinWaitlist from "./pages/JoinWaitlist";
 import GetMatched from "./pages/GetMatched";
 import CancellationRefund from "./pages/CancellationRefund";
 import ShippingDelivery from "./pages/ShippingDelivery";
-
-// Med tourism landing (new main home)
 import MedTourismLanding from "./pages/MedTourismLanding";
 import FindHospitalsPage from "./pages/FindHospitalsPage";
 import RareCancersPage from "./pages/RareCancersPage";
@@ -50,15 +44,11 @@ import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
 import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-// Vayu legal pages
 import PrivacyPolicyVayu from "./products/vayu/pages/PrivacyPolicyVayu";
 import TermsOfServiceVayu from "./products/vayu/pages/TermsOfServiceVayu";
 import RefundPolicyVayu from "./products/vayu/pages/RefundPolicyVayu";
 import ContactInformationVayu from "./products/vayu/pages/ContactInformationVayu";
 import CookiePolicyVayu from "./products/vayu/pages/CookiePolicyVayu";
-
-// Vayu support pages
 import HelpCenterVayu from "./products/vayu/pages/HelpCenterVayu";
 import WarrantyVayu from "./products/vayu/pages/WarrantyVayu";
 import ReturnsVayu from "./products/vayu/pages/ReturnsVayu";
@@ -67,12 +57,18 @@ import AboutVayu from "./products/vayu/pages/AboutVayu";
 import VayuOrderPage from "./products/vayu/pages/VayuOrderPage";
 import VayuCheckoutPage from "./products/vayu/pages/VayuCheckoutPage";
 import VayuCheckoutSuccess from "./products/vayu/pages/VayuCheckoutSuccess";
-
-// Vayu waitlist page
 import VayuWaitlist from "./products/vayu/pages/VayuWaitlist";
-
-// Import Vayu product page directly (no lazy loading to avoid cache issues)
 import VayuX from "./pages/VayuX";
+
+// Pages - Lazy load legal pages for performance
+// eslint-disable-next-line import/first
+const Security = lazy(() => import("./pages/Security"));
+// eslint-disable-next-line import/first
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+// eslint-disable-next-line import/first
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
+// eslint-disable-next-line import/first
+const AboutPage = lazy(() => import("./pages/AboutPage"));
 
 /* -------------------------------------------------------
    Global hash scroller (unchanged)

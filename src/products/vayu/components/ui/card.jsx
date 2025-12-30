@@ -16,8 +16,10 @@ export const CardContent = ({ className = "", ...props }) => (
   <div className={`p-6 ${className}`} {...props} />
 );
 
-export const CardTitle = ({ className = "", ...props }) => (
-  <h3 className={`text-xl font-semibold ${className}`} {...props} />
+export const CardTitle = ({ className = "", children, ...props }) => (
+  <h3 className={`text-xl font-semibold ${className}`} {...props}>
+    {children || <span className="sr-only">Card Title</span>}
+  </h3>
 );
 
 export default Card;

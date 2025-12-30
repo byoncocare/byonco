@@ -31,7 +31,7 @@ export default function ProductGallery({ images, activeIndex, onChange }) {
               }`}
               role="listitem"
               aria-label={`View image ${index + 1}`}
-              aria-pressed={isActive}
+              data-pressed={isActive}
             >
               <img
                 src={src}

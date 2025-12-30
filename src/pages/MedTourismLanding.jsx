@@ -352,48 +352,6 @@ const MedTourismLanding = () => {
     cta: plan.id === 'byonco-pro' ? 'Subscribe Now' : 'Request Demo'
   }));
 
-  // Handle subscription payment
-  const handleSubscribe = async (planId) => {
-    const plan = SUBSCRIPTION_PLANS.find(p => p.id === planId);
-    if (!plan) return;
-
-    try {
-      await initiatePayment({
-        amount: plan.amount,
-        currency: plan.currency,
-        description: `${plan.name} - ${plan.subtitle}`,
-        serviceType: plan.serviceType,
-        metadata: {
-          plan_id: plan.id,
-          plan_name: plan.name
-        },
-        onSuccess: (result) => {
-          // Store subscription status
-          localStorage.setItem('subscription_status', JSON.stringify({
-            planId: plan.id,
-            planName: plan.name,
-            subscribedAt: new Date().toISOString(),
-            paymentId: result.payment_id,
-            orderId: result.order_id
-          }));
-          
-          // Show success message
-          alert('Payment successful! Your subscription is now active.');
-          
-          // Optionally redirect or refresh
-          window.location.reload();
-        },
-        onError: (error) => {
-          console.error('Payment error:', error);
-          alert(error.message || 'Payment failed. Please try again.');
-        }
-      });
-    } catch (error) {
-      console.error('Subscription error:', error);
-      alert('Failed to initiate payment. Please try again.');
-    }
-  };
-
   return (
     <div className="landing-page">
       {/* Navigation */}

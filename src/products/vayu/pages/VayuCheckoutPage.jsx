@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import CheckoutForm from "../components/order/CheckoutForm";
 import OrderSummary from "../components/order/OrderSummary";
 import { loadCart, clearCart } from "../utils/cart";
-import { applyCoupon, VAYU_PRODUCT } from "../utils/pricing";
+import { applyCoupon } from "../utils/pricing";
 import { isValidEmail, isValidPhone, isValidPin, isNonEmpty } from "../utils/validators";
 
 const BACKEND_URL =

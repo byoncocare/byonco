@@ -1,5 +1,5 @@
 // src/products/vayu/components/hooks/useDynamicCounter.js
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 /**
  * Custom hook for dynamic counters that increment based on time elapsed
