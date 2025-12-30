@@ -30,6 +30,10 @@ module.exports = {
           'Noto Sans',
           'sans-serif',
         ],
+        newsreader: [
+          'Newsreader',
+          'serif',
+        ],
       },
       animation: {
         blink: 'blink 1.2s steps(1) infinite',

@@ -31,7 +31,7 @@ export default function Security() {
             Security at ByOnco
           </h1>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Last Updated: July 15, 2025
+            Last Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>
 
@@ -115,9 +115,10 @@ export default function Security() {
             </h2>
             <ul className="list-disc ml-6 text-base leading-7 mb-8 text-gray-300 space-y-2">
               <li>Complying with India's DPDP Act and other relevant medical privacy regulations</li>
-              <li>Never sharing your data with hospitals or labs without explicit user consent</li>
+              <li>Never sharing your data with hospitals, labs, or partners without explicit user consent</li>
               <li>Ensuring all hospital-side integrations follow secure API and sandboxed architectures</li>
               <li>Training our team regularly in HIPAA-equivalent data security best practices</li>
+              <li>Working with trusted third-party processors (e.g., Razorpay for payments) that meet our security standards</li>
             </ul>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center gap-2 mt-8">
@@ -130,9 +131,28 @@ export default function Security() {
               <li>Internal audits and forensic analysis will be triggered immediately</li>
             </ul>
 
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">Third-Party Processors</h2>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              We work with trusted third-party service providers to deliver our Services, including payment processors (Razorpay), 
+              cloud infrastructure providers, and analytics services. All third-party processors are required to meet our security 
+              standards and comply with applicable data protection laws. Payment information is handled directly by our payment 
+              gateway partner and is not stored on our servers.
+            </p>
+
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">Best Practices for Users</h2>
+            <ul className="list-disc ml-6 text-base leading-7 mb-8 text-gray-300 space-y-2">
+              <li>Use a strong, unique password for your ByOnco account</li>
+              <li>Enable two-factor authentication when available</li>
+              <li>Do not share your account credentials with others</li>
+              <li>Log out from shared or public devices</li>
+              <li>Keep your device software and browser updated</li>
+              <li>Be cautious of phishing attempts—ByOnco will never ask for your password via email or phone</li>
+            </ul>
+
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">Transparency and Trust</h2>
             <p className="text-lg leading-7 mb-8 text-gray-300">
-              We believe security is not a feature—it's a promise. We continuously invest in improving our infrastructure and uphold best practices across engineering, design, and operations.
+              We believe security is not a feature—it's a promise. We continuously invest in improving our infrastructure and 
+              uphold best practices across engineering, design, and operations.
             </p>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center gap-2 mt-8">

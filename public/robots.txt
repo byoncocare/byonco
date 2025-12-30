@@ -1,3 +1,17 @@
-# https://www.robotstxt.org/robotstxt.html
+# robots.txt for ByOnco
+# https://www.byoncocare.com/robots.txt
+
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /profile
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /static/
+
+# Sitemap
+Sitemap: https://www.byoncocare.com/sitemap.xml
+
+# Crawl-delay (optional, be respectful)
+Crawl-delay: 1

@@ -50,6 +50,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SUBSCRIPTION_PLANS } from "@/utils/payments/subscriptionPlans";
+import { initiatePayment } from "@/utils/payments/razorpayClient";
+import PriceTag from "@/components/ui/PriceTag";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
@@ -117,8 +120,54 @@ const MedTourismLanding = () => {
   const [submitStatus, setSubmitStatus] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [cycleIndex, setCycleIndex] = useState(0);
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const cyclingWords = ["Treatment.", "Hope.", "Care.", "Future."];
+
+  // Handle subscription payment
+  const handleSubscribe = async (planId) => {
+    const plan = SUBSCRIPTION_PLANS.find(p => p.id === planId);
+    if (!plan) return;
+
+    setPaymentLoading(true);
+    try {
+      await initiatePayment({
+        amount: plan.amount,
+        currency: plan.currency,
+        description: `${plan.name} - ${plan.subtitle}`,
+        serviceType: plan.serviceType,
+        metadata: {
+          plan_id: plan.id,
+          plan_name: plan.name
+        },
+        onSuccess: (result) => {
+          // Store subscription status
+          localStorage.setItem('subscription_status', JSON.stringify({
+            planId: plan.id,
+            planName: plan.name,
+            subscribedAt: new Date().toISOString(),
+            paymentId: result.payment_id,
+            orderId: result.order_id
+          }));
+          
+          // Show success message
+          alert('Payment successful! Your subscription is now active.');
+          
+          // Optionally redirect or refresh
+          window.location.reload();
+        },
+        onError: (error) => {
+          console.error('Payment error:', error);
+          alert(error.message || 'Payment failed. Please try again.');
+        }
+      });
+    } catch (error) {
+      console.error('Subscription error:', error);
+      alert('Failed to initiate payment. Please try again.');
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
 
   // rotating word in hero
   useEffect(() => {
@@ -296,48 +345,54 @@ const MedTourismLanding = () => {
     { value: "<12 Hours", label: "Second Opinions" },
   ];
 
-  const plans = [
-    {
-      name: "ByOnco PRO",
-      subtitle: "For Patients & Families",
-      price: "₹99",
-      period: "/month",
-      description: "Complete access to AI-powered oncology navigation",
-      features: [
-        "Real-time bed & queue visibility across India",
-        "AI hospital and doctor matching",
-        "Subsidy and trial matching",
-        "Fast second opinions (<24h)",
-        "Multilingual app support",
-        "Treatment cost estimates",
-        "Medical tourism packages",
-        "Dedicated care coordinator",
-      ],
-      cta: "Start Free Trial",
-      popular: true,
-      color: "from-purple-500 to-violet-600",
-    },
-    {
-      name: "Hospital SaaS",
-      subtitle: "For Cancer Centers",
-      price: "₹15,000",
-      period: "/month",
-      description: "Enterprise dashboard for qualified international referrals",
-      features: [
-        "Qualified international patient referrals",
-        "Complete case documentation packets",
-        "Real-time bed & queue analytics",
-        "Patient conversion tracking",
-        "Revenue forecasting tools",
-        "Referral performance reporting",
-        "EMR integration support",
-        "Dedicated account manager",
-      ],
-      cta: "Request Demo",
-      popular: false,
-      color: "from-cyan-500 to-blue-600",
-    },
-  ];
+  // Use subscription plans from source of truth
+  const plans = SUBSCRIPTION_PLANS.map(plan => ({
+    ...plan,
+    price: `₹${plan.amount.toLocaleString('en-IN')}`,
+    cta: plan.id === 'byonco-pro' ? 'Subscribe Now' : 'Request Demo'
+  }));
+
+  // Handle subscription payment
+  const handleSubscribe = async (planId) => {
+    const plan = SUBSCRIPTION_PLANS.find(p => p.id === planId);
+    if (!plan) return;
+
+    try {
+      await initiatePayment({
+        amount: plan.amount,
+        currency: plan.currency,
+        description: `${plan.name} - ${plan.subtitle}`,
+        serviceType: plan.serviceType,
+        metadata: {
+          plan_id: plan.id,
+          plan_name: plan.name
+        },
+        onSuccess: (result) => {
+          // Store subscription status
+          localStorage.setItem('subscription_status', JSON.stringify({
+            planId: plan.id,
+            planName: plan.name,
+            subscribedAt: new Date().toISOString(),
+            paymentId: result.payment_id,
+            orderId: result.order_id
+          }));
+          
+          // Show success message
+          alert('Payment successful! Your subscription is now active.');
+          
+          // Optionally redirect or refresh
+          window.location.reload();
+        },
+        onError: (error) => {
+          console.error('Payment error:', error);
+          alert(error.message || 'Payment failed. Please try again.');
+        }
+      });
+    } catch (error) {
+      console.error('Subscription error:', error);
+      alert('Failed to initiate payment. Please try again.');
+    }
+  };
 
   return (
     <div className="landing-page">
@@ -360,7 +415,7 @@ const MedTourismLanding = () => {
             <a href="#pricing" className="nav-link">
               Pricing
             </a>
-            <a href="#about" className="nav-link">
+            <a href="/about" className="nav-link" onClick={(e) => { e.preventDefault(); navigate('/about'); }}>
               About
             </a>
             {isAuthenticated ? (
@@ -1178,8 +1233,11 @@ const MedTourismLanding = () => {
                   {plan.subtitle}
                 </CardDescription>
                 <div className="plan-price">
-                  <span className="price">{plan.price}</span>
-                  <span className="period">{plan.period}</span>
+                  <PriceTag 
+                    currencySymbol="₹" 
+                    amount={plan.amount} 
+                    periodText={plan.period}
+                  />
                 </div>
                 <p className="plan-description">{plan.description}</p>
               </CardHeader>
@@ -1198,7 +1256,13 @@ const MedTourismLanding = () => {
               <CardFooter>
                 <Button
                   className={`plan-cta ${plan.popular ? "popular" : ""}`}
-                  onClick={() => setShowContactForm(true)}
+                  onClick={() => {
+                    if (plan.id === 'byonco-pro') {
+                      handleSubscribe(plan.id);
+                    } else {
+                      setShowContactForm(true);
+                    }
+                  }}
                   data-testid={`plan-${index}-cta`}
                 >
                   {plan.cta}
@@ -1431,7 +1495,7 @@ const MedTourismLanding = () => {
 
           <div className="footer-section">
             <h4 className="footer-heading">Company</h4>
-            <a href="#about" className="footer-link">
+            <a href="/about" className="footer-link" onClick={(e) => { e.preventDefault(); navigate('/about'); }}>
               About
             </a>
             <a href="/careers" className="footer-link" onClick={(e) => { e.preventDefault(); navigate("/careers"); }}>

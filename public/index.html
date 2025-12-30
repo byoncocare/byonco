@@ -53,6 +53,52 @@
 
     <!-- Optional generic image fallback -->
     <meta name="image" content="https://www.byoncocare.com/preview.png" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ByOnco",
+      "url": "https://www.byoncocare.com",
+      "logo": "https://www.byoncocare.com/logo.png",
+      "description": "AI-powered cancer care navigation platform helping patients find the best hospitals, doctors, and treatment options globally.",
+      "foundingDate": "2024",
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "PraesidioCare Private Limited"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/byonco",
+        "https://twitter.com/byoncocare"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "contact@byoncocare.com",
+        "contactType": "Customer Service"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressRegion": "Maharashtra",
+        "addressLocality": "Nashik"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "ByOnco",
+      "url": "https://www.byoncocare.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.byoncocare.com/find-hospitals?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
     <!-- Performance: preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -61,6 +107,11 @@
     <!-- Inter font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Newsreader font for pricing numbers -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
 

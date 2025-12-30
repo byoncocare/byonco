@@ -31,7 +31,7 @@ export default function TermsAndConditions() {
             Terms and Conditions
           </h1>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Last Updated: July 15, 2025
+            Last Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>
 
@@ -80,19 +80,33 @@ export default function TermsAndConditions() {
             </p>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">3. Description of Services</h2>
-            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">3.1 Scope</h3>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">3.1 Service Scope</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              ByOnco provides oncology navigation and AI-powered assistance services, including but not limited to:
+            </p>
             <ul className="list-disc pl-5 mb-4 text-gray-300 space-y-2">
-              <li>Real-time cancer hospital recommendations based on multiple parameters</li>
-              <li>Bed and queue availability updates (where available)</li>
-              <li>Cost comparisons and support for patients under schemes like PMJAY, MPJAY, etc.</li>
-              <li>Lab test bookings and appointment scheduling</li>
-              <li>Cancer data tracking across India</li>
+              <li>AI-powered hospital and doctor matching based on disease type, budget, outcomes, insurance eligibility, and preferences</li>
+              <li>Real-time bed and queue visibility across India</li>
+              <li>Second opinion consultations from board-certified oncologists</li>
+              <li>Cost estimates and financial planning assistance</li>
+              <li>Subsidy and clinical trial matching</li>
+              <li>Medical tourism coordination and care packages (see Section 6.4)</li>
+              <li>Treatment journey planning and support</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-300 mb-2">3.2 Technology and Human Support</h3>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">3.2 AI-Built Care Packages</h3>
             <p className="text-gray-300 mb-4 leading-relaxed">
-              We use AI algorithms to assist in matching and recommendations. Human intervention may occur to improve accuracy
-              or handle special cases. Final responsibility for healthcare decisions lies with the patient and care provider.
+              Our AI-powered system may recommend comprehensive care packages tailored to your treatment journey. These packages 
+              are similar to travel packages—they may include coordination services, optional third-party services (travel, 
+              accommodation, translation), and facilitation support. ByOnco is a coordination platform, not a medical provider. 
+              All medical decisions and treatments are between you and your chosen healthcare providers.
+            </p>
+
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">3.3 Technology and Human Support</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              We use AI algorithms to assist in matching, recommendations, and care package creation. Human care coordinators 
+              may intervene to improve accuracy or handle special cases. Final responsibility for healthcare decisions lies with 
+              the patient and their chosen medical providers.
             </p>
 
             <h3 className="text-xl font-semibold text-gray-300 mb-2">3.3 Availability</h3>
@@ -120,24 +134,58 @@ export default function TermsAndConditions() {
               breach, we will notify you as required by law.
             </p>
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">5. User Responsibilities</h2>
-            <ul className="list-disc pl-5 mb-6 text-gray-300 space-y-2">
-              <li>Submit only accurate and lawful information</li>
-              <li>Do not attempt to breach security or misuse the platform</li>
-              <li>Do not impersonate others or use the platform for unauthorized purposes</li>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">5. User Responsibilities & Acceptable Use</h2>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">5.1 Patient Responsibility</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              ByOnco provides information, recommendations, and coordination services. We are not a medical provider. You are 
+              responsible for:
+            </p>
+            <ul className="list-disc pl-5 mb-4 text-gray-300 space-y-2">
+              <li>Consulting with qualified medical professionals for all medical decisions</li>
+              <li>Verifying the accuracy of information provided by hospitals, doctors, or partners</li>
+              <li>Making informed decisions about your treatment based on professional medical advice</li>
+              <li>Submitting only accurate and lawful information to our platform</li>
+            </ul>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">5.2 Acceptable Use</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              You agree to use ByOnco only for legitimate medical and healthcare-related purposes. You must not:
+            </p>
+            <ul className="list-disc pl-5 mb-4 text-gray-300 space-y-2">
+              <li>Use the platform for non-medical purposes or commercial exploitation</li>
+              <li>Attempt to breach security, misuse the platform, or access unauthorized areas</li>
+              <li>Impersonate others or use the platform for fraudulent purposes</li>
+              <li>Upload malicious content, spam, or inappropriate material</li>
             </ul>
             <p className="text-gray-300 mb-6 leading-relaxed">
               We reserve the right to suspend or terminate your access if misuse is detected.
             </p>
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">6. Payment Terms (If Applicable)</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">6. Payment Terms & Billing</h2>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">6.1 Subscriptions</h3>
             <p className="text-gray-300 mb-4 leading-relaxed">
-              Certain features or subscription tiers may be subject to fees. You agree to the pricing and payment terms
-              displayed at the time of purchase. All payments are processed securely via third-party gateways such as Razorpay
-              or Stripe.
+              ByOnco offers subscription plans (e.g., ByOnco PRO) and one-time payment services (e.g., Second Opinion consultations). 
+              You agree to the pricing and payment terms displayed at the time of purchase. All payments are processed securely via 
+              our payment gateway partner Razorpay.
             </p>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">6.2 Billing & Renewal</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              Subscription fees are billed monthly in advance. Your subscription will automatically renew unless cancelled before 
+              the renewal date. You can cancel your subscription at any time through your account settings or by contacting us.
+            </p>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">6.3 Refunds</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              Subscription fees are generally non-refundable. However, we may provide refunds in exceptional circumstances, 
+              such as technical issues preventing service access, or as required by applicable law. Refund requests must be 
+              submitted within 7 days of the transaction. One-time service payments (e.g., Second Opinion) may be refunded if 
+              the service has not been delivered, subject to our review.
+            </p>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">6.4 Care Packages</h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              Subscription fees are non-refundable unless required by law or explicitly mentioned during the transaction.
+              ByOnco may offer comprehensive "Care Packages" that include coordination services, travel arrangements, accommodation 
+              assistance, translation services, and optional third-party partner services. These packages are designed to provide 
+              a complete medical tourism experience. ByOnco acts as a coordinator and facilitator—we are not a hospital or medical 
+              provider. Package costs may include coordination fees, partner service fees, and optional add-ons. All costs are 
+              itemized and disclosed before purchase. You may opt into specific package components based on your needs.
             </p>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">7. Intellectual Property</h2>
@@ -150,13 +198,28 @@ export default function TermsAndConditions() {
               Services.
             </p>
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">8. Limitation of Liability</h2>
-            <p className="text-gray-300 mb-4 leading-relaxed">ByOnco provides recommendations and tools for informational purposes only. We do not provide medical advice or treatment.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">8. Medical Disclaimer & Limitation of Liability</h2>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">8.1 Medical Disclaimer</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              <strong className="text-white">ByOnco is not a medical provider and does not provide medical advice, diagnosis, or treatment.</strong> 
+              Our Services are designed to assist you in finding healthcare providers, understanding costs, and coordinating care. 
+              All medical decisions must be made in consultation with qualified healthcare professionals. ByOnco's recommendations, 
+              AI-generated insights, and care packages are informational tools only and do not constitute medical advice.
+            </p>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">8.2 Limitation of Liability</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              To the maximum extent permitted by law, ByOnco and PraesidioCare Private Limited shall not be liable for:
+            </p>
             <ul className="list-disc pl-5 mb-6 text-gray-300 space-y-2">
-              <li>Medical outcomes or decisions made using our data</li>
-              <li>Inaccuracies in hospital availability or cost information</li>
-              <li>Indirect, incidental, or consequential damages arising from use of our platform</li>
+              <li>Medical outcomes, treatment results, or decisions made based on our recommendations</li>
+              <li>Inaccuracies in hospital availability, cost information, or third-party service details</li>
+              <li>Delays, cancellations, or issues with third-party services (hospitals, travel, accommodation)</li>
+              <li>Indirect, incidental, consequential, or punitive damages arising from use of our platform</li>
+              <li>Loss of data, revenue, or business opportunities</li>
             </ul>
+            <p className="text-gray-300 mb-6 leading-relaxed">
+              Our total liability, if any, shall not exceed the amount you paid to ByOnco in the 12 months preceding the claim.
+            </p>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">9. Termination</h2>
             <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">9.1 By You</h3>

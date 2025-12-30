@@ -5,6 +5,7 @@ import "./App.css";   // Custom marketing + ByOnco/Vayu overrides
 import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { Loader2 } from "lucide-react";
 
 // Sections (old home page)
 import Hero from "./components/Hero";
@@ -20,11 +21,12 @@ import TeamSection from "./components/TeamSection";
 import FAQ from "./components/FAQ";
 import CookieConsent from "./components/CookieConsent";
 
-// Pages
+// Pages - Lazy load legal pages for performance
 import ByOncoProWaitlist from "./pages/ByOncoProWaitlist";
-import Security from "./pages/Security";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsAndConditions from "./pages/TermsAndConditions";
+const Security = lazy(() => import("./pages/Security"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
 import Careers from "./pages/Careers";
 import GetStarted from "./pages/GetStarted";
 import JoinWaitlist from "./pages/JoinWaitlist";
@@ -447,43 +449,65 @@ export default function App() {
             <Route
               path="/terms-and-conditions"
               element={
-                <motion.div
-                  className="page-shell min-h-screen bg-[#fdfdfc]"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <TermsAndConditions />
-                </motion.div>
+                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
+                  <motion.div
+                    className="page-shell min-h-screen bg-[#fdfdfc]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <TermsAndConditions />
+                  </motion.div>
+                </Suspense>
               }
             />
             <Route
               path="/privacy"
               element={
-                <motion.div
-                  className="page-shell min-h-screen bg-[#fdfdfc]"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <PrivacyPolicy />
-                </motion.div>
+                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
+                  <motion.div
+                    className="page-shell min-h-screen bg-[#fdfdfc]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <PrivacyPolicy />
+                  </motion.div>
+                </Suspense>
               }
             />
             <Route
               path="/security"
               element={
-                <motion.div
-                  className="page-shell min-h-screen bg-[#fdfdfc]"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <Security />
-                </motion.div>
+                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
+                  <motion.div
+                    className="page-shell min-h-screen bg-[#fdfdfc]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <Security />
+                  </motion.div>
+                </Suspense>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
+                  <motion.div
+                    className="min-h-screen"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <AboutPage />
+                  </motion.div>
+                </Suspense>
               }
             />
 
