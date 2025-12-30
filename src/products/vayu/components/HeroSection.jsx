@@ -169,7 +169,7 @@ const HeroSection = ({ onPreOrder }) => {
                 <div className="absolute inset-0 bg-[#2F6BFF] rounded-3xl blur-3xl opacity-15 animate-pulse z-0 pointer-events-none" />
                 <div className="glass-panel rounded-3xl p-4 relative z-10 hover-lift">
                   <img
-                    src="/vayu/hero.webp"
+                    src={`${process.env.PUBLIC_URL || ''}/vayu/hero.webp`}
                     alt="Person wearing Vayu X smart glasses"
                     className="relative w-full h-auto rounded-2xl block opacity-100 object-contain mix-blend-normal"
                   />
