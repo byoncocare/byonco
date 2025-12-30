@@ -55,12 +55,12 @@ const PreOrderPage = ({ onBack }) => {
               <CardContent className="p-6">
                 <div className="grid grid-cols-2 gap-4">
                   <img
-                    src={process.env.PUBLIC_URL + "/vayu/preorder-front.jpg"}
+                    src="/vayu/preorder-front.jpg"
                     alt="Vayu glasses front view"
                     className="w-full rounded-lg"
                   />
                   <img
-                    src={process.env.PUBLIC_URL + "/vayu/preorder-side.jpg"}
+                    src="/vayu/preorder-side.jpg"
                     alt="Vayu glasses side view"
                     className="w-full rounded-lg"
                   />

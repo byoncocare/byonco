@@ -38,7 +38,7 @@ const AICapabilities = () => {
               <div className="relative rounded-3xl overflow-hidden glass-panel p-3">
                 <div className="relative">
                   <img
-                    src={process.env.PUBLIC_URL + "/vayu/ai-main.png"}
+                    src="/vayu/ai-main.png"
                     alt="Professional using Vayu smart glasses"
                     className="w-full h-auto rounded-2xl object-cover"
                   />
@@ -126,7 +126,7 @@ const AICapabilities = () => {
           <div className="relative">
             <div className="glass-panel rounded-3xl p-4 hover-lift">
               <img
-                src={process.env.PUBLIC_URL + "/vayu/privacy.jpg"}
+                src="/vayu/privacy.jpg"
                 alt="Privacy and security focused design"
                 className="w-full h-80 object-cover rounded-2xl"
               />
