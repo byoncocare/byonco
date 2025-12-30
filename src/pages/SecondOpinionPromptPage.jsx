@@ -4,6 +4,7 @@ import { Activity, Search, Library, Compass, LogIn, Menu, Paperclip, Mic, ArrowR
 import axios from 'axios';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useAuth } from '@/contexts/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
@@ -21,6 +22,7 @@ const STORAGE_SUBSCRIPTION = 'byonco_subscription_status';
 
 export default function SecondOpinionPromptPage() {
   const navigate = useNavigate();
+  const { isAuthenticated, profileCompleted } = useAuth();
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
   const [message, setMessage] = useState('');
@@ -230,10 +232,20 @@ export default function SecondOpinionPromptPage() {
   };
 
   const handleGetConsult = () => {
+    // Check if user needs to complete profile first
+    if (!isAuthenticated || !profileCompleted) {
+      navigate(`/profile?redirect=${encodeURIComponent('/second-opinion/consult')}`);
+      return;
+    }
     navigate('/second-opinion/consult');
   };
 
   const handleUpgrade = () => {
+    // If profile is not completed, redirect to profile completion first
+    if (!isAuthenticated || !profileCompleted) {
+      navigate(`/profile?redirect=${encodeURIComponent('/second-opinion')}`);
+      return;
+    }
     // Navigate to subscription/payment page
     // For now, just show a message - you can integrate with your payment system
     alert('Redirecting to subscription page...');
@@ -400,31 +412,57 @@ export default function SecondOpinionPromptPage() {
             <Card className="mb-6 w-full max-w-3xl bg-gradient-to-br from-purple-900/50 to-blue-900/50 border-purple-500/40 p-6">
               <div className="text-center space-y-4">
                 <Sparkles className="h-12 w-12 text-purple-400 mx-auto" />
-                <h3 className="text-2xl font-bold text-white">Upgrade to Premium</h3>
+                <h3 className="text-2xl font-bold text-white">
+                  {!isAuthenticated || !profileCompleted 
+                    ? 'Complete Your Profile to Continue' 
+                    : 'Upgrade to Premium'}
+                </h3>
                 <p className="text-zinc-300">
-                  You've used your free prompts for today. Subscribe to get unlimited access to AI assistance and premium second opinions from board-certified oncologists.
+                  {!isAuthenticated || !profileCompleted
+                    ? "You've used your free prompts for today. Please complete your profile to continue using our services and get unlimited access to AI assistance."
+                    : "You've used your free prompts for today. Subscribe to get unlimited access to AI assistance and premium second opinions from board-certified oncologists."}
                 </p>
-                <div className="flex gap-4 justify-center">
-                  <Button
-                    onClick={handleUpgrade}
-                    className="bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700"
-                  >
-                    Subscribe Now
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleGetConsult}
-                    className="border-purple-500/40 text-purple-300 hover:bg-purple-500/10"
-                  >
-                    Get Consult Now
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => setShowUpgrade(false)}
-                    className="text-zinc-400 hover:text-zinc-200"
-                  >
-                    Maybe Later
-                  </Button>
+                <div className="flex gap-4 justify-center flex-wrap">
+                  {(!isAuthenticated || !profileCompleted) ? (
+                    <>
+                      <Button
+                        onClick={handleUpgrade}
+                        className="bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700"
+                      >
+                        Complete Profile
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowUpgrade(false)}
+                        className="border-purple-500/40 text-purple-300 hover:bg-purple-500/10"
+                      >
+                        Maybe Later
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={handleUpgrade}
+                        className="bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700"
+                      >
+                        Subscribe Now
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={handleGetConsult}
+                        className="border-purple-500/40 text-purple-300 hover:bg-purple-500/10"
+                      >
+                        Get Consult Now
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={() => setShowUpgrade(false)}
+                        className="text-zinc-400 hover:text-zinc-200"
+                      >
+                        Maybe Later
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </Card>

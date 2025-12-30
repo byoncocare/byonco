@@ -339,9 +339,7 @@ export default function App() {
             <Route
               path="/second-opinion"
               element={
-                <ProtectedRoute>
-                  <SecondOpinionPromptPage />
-                </ProtectedRoute>
+                <SecondOpinionPromptPage />
               }
             />
 
