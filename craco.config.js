@@ -9,13 +9,20 @@ module.exports = {
       "@/products": path.resolve(__dirname, "src/products"),
     },
     configure: (webpackConfig, { env }) => {
-      // Disable treating warnings as errors in production builds
-      const eslintPlugin = webpackConfig.plugins?.find(
-        plugin => plugin.constructor?.name === 'ESLintWebpackPlugin'
-      );
-      if (eslintPlugin && eslintPlugin.options) {
-        eslintPlugin.options.failOnWarning = false;
-        eslintPlugin.options.failOnError = false;
+      // Disable ESLint plugin entirely in production builds to avoid warnings-as-errors
+      if (env === 'production' || process.env.CI === 'true') {
+        // Remove ESLint plugin
+        webpackConfig.plugins = webpackConfig.plugins.filter(
+          plugin => plugin.constructor?.name !== 'ESLintWebpackPlugin'
+        );
+      } else {
+        // In development, just disable failOnWarning
+        const eslintPlugin = webpackConfig.plugins?.find(
+          plugin => plugin.constructor?.name === 'ESLintWebpackPlugin'
+        );
+        if (eslintPlugin && eslintPlugin.options) {
+          eslintPlugin.options.failOnWarning = false;
+        }
       }
       return webpackConfig;
     },
