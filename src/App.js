@@ -38,6 +38,7 @@ import FindHospitalsPage from "./pages/FindHospitalsPage";
 import RareCancersPage from "./pages/RareCancersPage";
 import FindOncologistsPage from "./pages/FindOncologistsPage";
 import SecondOpinionPage from "./pages/SecondOpinionPage";
+import SecondOpinionPromptPage from "./pages/SecondOpinionPromptPage";
 import TeleconsultationPage from "./pages/TeleconsultationPage";
 import CostCalculatorPage from "./pages/CostCalculatorPage";
 import JourneyBuilderPage from "./pages/JourneyBuilderPage";
@@ -337,6 +338,15 @@ export default function App() {
 
             <Route
               path="/second-opinion"
+              element={
+                <ProtectedRoute>
+                  <SecondOpinionPromptPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/second-opinion/consult"
               element={
                 <ProtectedRoute>
                   <motion.div

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,17 +9,12 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, FileText, Loader2, CheckCircle2, Sparkles, Clock, Shield, Upload, X, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import SecondOpinionAIPage from './SecondOpinionAIPage';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
 
-const STORAGE_SUBSCRIPTION = 'byonco_subscription_status';
-
 export default function SecondOpinionPage() {
   const navigate = useNavigate();
-  const [hasSubscription, setHasSubscription] = useState(false);
-  const [showPremiumForm, setShowPremiumForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [result, setResult] = useState(null);
@@ -33,20 +28,6 @@ export default function SecondOpinionPage() {
     questions: ''
   });
   const [uploadedFiles, setUploadedFiles] = useState([]);
-
-  useEffect(() => {
-    // Check subscription status
-    const subscription = localStorage.getItem(STORAGE_SUBSCRIPTION) === 'true';
-    setHasSubscription(subscription);
-    // If subscribed, show premium form directly; otherwise show AI interface
-    setShowPremiumForm(subscription);
-  }, []);
-
-  // If not subscribed, show AI interface first
-  // This check must come AFTER all hooks are called
-  if (!showPremiumForm) {
-    return <SecondOpinionAIPage />;
-  }
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
