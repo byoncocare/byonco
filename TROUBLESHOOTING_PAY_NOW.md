@@ -86,3 +86,4 @@ I've added better error logging to the checkout page. The updated code will:
 
 Redeploy frontend to see better error messages.
 
+

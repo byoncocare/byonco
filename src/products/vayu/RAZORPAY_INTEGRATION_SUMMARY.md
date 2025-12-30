@@ -193,3 +193,4 @@ The Razorpay integration is **complete and production-ready** (pending database 
 
 **Status**: ✅ Ready for backend deployment and testing
 
+
