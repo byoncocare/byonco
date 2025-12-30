@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Activity, Search, Library, Compass, LogIn, Menu, Paperclip, Mic, ArrowRight, Crosshair, AlertCircle, FileText, Building2, Utensils, X, Twitter, Linkedin } from 'lucide-react';
+import { Activity, Search, Library, Compass, LogIn, Menu, Paperclip, Mic, ArrowRight, Crosshair, AlertCircle, FileText, Building2, Utensils, X } from 'lucide-react';
 import axios from 'axios';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -582,10 +582,6 @@ export default function SecondOpinionPromptPage() {
           </div>
           <div className="flex items-center gap-4">
             <span>© 2026 byOnco Labs</span>
-            <div className="flex gap-3">
-              <Twitter className="size-3 hover:text-zinc-400 cursor-pointer" />
-              <Linkedin className="size-3 hover:text-zinc-400 cursor-pointer" />
-            </div>
           </div>
         </footer>
 
