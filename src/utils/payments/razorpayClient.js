@@ -6,41 +6,46 @@ import axios from 'axios';
 import { getAuthToken } from '@/utils/auth';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
-const API = `${BACKEND_URL}/api/payments`;
+// Use same-origin API path to avoid CORS issues (Vercel proxy handles routing)
+const API = '/api/payments';
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || '';
 
 /**
  * Get Razorpay key ID from backend (preferred) or environment variable (fallback)
+ * ALWAYS uses same-origin path to avoid CORS issues
  */
 async function getRazorpayKeyId() {
-  // 1) Prefer env (if intentionally set)
+  // 1) Optional env override (if intentionally set)
   const envKey = process.env.REACT_APP_RAZORPAY_KEY_ID || process.env.REACT_APP_RAZORPAY_KEY;
   if (envKey) {
     return envKey;
   }
 
-  // 2) Otherwise fetch from backend (recommended)
+  // 2) ALWAYS use same-origin path so CORS is never an issue
+  // This uses Vercel proxy: /api/payments/razorpay/key -> backend
+  const url = '/api/payments/razorpay/key';
+
   try {
-    const response = await fetch(`${BACKEND_URL}/api/payments/razorpay/key`, {
+    const response = await fetch(url, {
       method: 'GET',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch Razorpay key (${response.status})`);
+      throw new Error(`Key fetch failed: ${response.status}`);
     }
 
     const data = await response.json();
-    if (!data?.keyId) {
-      throw new Error('Razorpay key not configured');
+    const keyId = data?.keyId;
+    if (!keyId) {
+      throw new Error('keyId missing in response');
     }
 
-    return data.keyId;
+    return keyId;
   } catch (error) {
-    console.error('Error fetching Razorpay key from backend:', error);
+    console.error('Error fetching Razorpay key:', error);
     throw new Error('Razorpay key not configured');
   }
 }
