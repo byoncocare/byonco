@@ -1,85 +1,101 @@
-# Render Backend Deployment Instructions
+# Render Deployment Instructions - Razorpay Key Endpoint
 
-## Current Status
-✅ Backend code is ready for deployment
-✅ Razorpay endpoints are correctly configured:
-   - `/api/payments/razorpay/create-order`
-   - `/api/payments/razorpay/verify`
+## ✅ Code Status
 
-## Required Environment Variables on Render
+The endpoint `/api/payments/razorpay/key` is **already implemented** in the codebase:
 
-Make sure these are set in your Render dashboard:
+- **File:** `backend/payments/api_routes.py`
+- **Line:** 269-278
+- **Route:** `GET /api/payments/razorpay/key`
+- **Router:** `razorpay_router` (prefix: `/api/payments/razorpay`)
+- **Registered in:** `backend/server.py` line 806
 
-1. **RAZORPAY_KEY_ID** - Your Razorpay Key ID (from Razorpay dashboard)
-2. **RAZORPAY_KEY_SECRET** - Your Razorpay Key Secret (from Razorpay dashboard)
-3. **MONGO_URL** - MongoDB connection string
-4. **DB_NAME** - Database name
+## 🔍 Verification
 
-## Deployment Steps
+The endpoint exists in the code and is properly registered. The 404 error indicates Render is running **old code** that doesn't include this endpoint.
 
-1. **Go to Render Dashboard**: https://dashboard.render.com
-2. **Select your backend service** (byonco-fastapi-backend)
-3. **Click "Manual Deploy"** → **"Deploy latest commit"**
-   OR
-   **Push to main branch** (if auto-deploy is enabled)
+## 🚀 Manual Deployment Steps
 
-## Verify Deployment
+### Step 1: Go to Render Dashboard
+1. Navigate to: https://dashboard.render.com
+2. Sign in to your account
+3. Find the service: `byonco-fastapi-backend`
 
-After deployment, test the endpoints:
+### Step 2: Trigger Manual Deploy
+1. Click on the `byonco-fastapi-backend` service
+2. Go to the **"Events"** tab (or look for **"Manual Deploy"** button)
+3. Click **"Deploy latest commit"** or **"Manual Deploy"**
+4. Select the latest commit: `0ae2c47` or `2944300`
+5. Click **"Deploy"**
 
+### Step 3: Monitor Deployment
+1. Watch the **"Logs"** tab during deployment
+2. Look for:
+   - ✅ `Application startup complete`
+   - ✅ No import errors
+   - ✅ FastAPI routes registered
+
+### Step 4: Verify Deployment
+
+After deployment completes (3-5 minutes), test the endpoint:
+
+**Direct Backend URL:**
 ```bash
-# Test create-order endpoint
-curl -X POST https://byonco-fastapi-backend.onrender.com/api/payments/razorpay/create-order \
-  -H "Content-Type: application/json" \
-  -d '{
-    "cart": {
-      "items": [{
-        "productId": "vayu-ai-glasses",
-        "name": "Vayu AI Glasses",
-        "variantId": "non-prescription",
-        "quantity": 1,
-        "unitPrice": 59999
-      }]
-    },
-    "couponCode": ""
-  }'
+curl https://byonco-fastapi-backend.onrender.com/api/payments/razorpay/key
 ```
 
-Expected response:
+**Expected Response:**
 ```json
 {
-  "keyId": "rzp_test_...",
-  "razorpayOrderId": "order_...",
-  "orderId": "uuid-...",
-  "amount": 59999,
-  "currency": "INR"
+  "keyId": "rzp_test_..."
 }
 ```
 
-## Frontend Configuration
+**Via Vercel Proxy:**
+```bash
+curl https://www.byoncocare.com/api/payments/razorpay/key
+```
 
-The frontend is already configured to use:
-- Backend URL: `https://byonco-fastapi-backend.onrender.com`
-- Endpoints: `/api/payments/razorpay/create-order` and `/api/payments/razorpay/verify`
+**Expected Response:** Same JSON as above
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
-If "Pay now" button doesn't work:
+### If endpoint still returns 404:
 
-1. **Check browser console** for errors
-2. **Check Network tab** to see if API calls are failing
-3. **Verify environment variables** are set correctly on Render
-4. **Check Render logs** for backend errors
-5. **Ensure CORS is configured** correctly (already done in server.py)
+1. **Check Render Logs:**
+   - Look for import errors
+   - Check if `razorpay_router` is being registered
+   - Verify FastAPI startup completed
 
-## Code Status
+2. **Verify Code is Deployed:**
+   - Check Render deployment commit hash matches `0ae2c47` or `2944300`
+   - Verify `backend/payments/api_routes.py` contains the `/key` endpoint
 
-✅ All code is committed and pushed to `main` branch
-✅ Backend endpoints match frontend expectations
-✅ Error handling is in place
-✅ Payment verification flow is complete
+3. **Check Environment Variables:**
+   - `RAZORPAY_KEY_ID` must be set in Render
+   - If missing, endpoint will return 500 (not 404)
+
+4. **Verify Router Registration:**
+   - In `backend/server.py`, ensure:
+     ```python
+     payments_router, razorpay_router = create_payments_router(db)
+     app.include_router(payments_router)
+     app.include_router(razorpay_router)  # ← Must be present
+     ```
+
+### If endpoint returns 500:
+
+- Check `RAZORPAY_KEY_ID` is set in Render environment variables
+- Check Render logs for error details
+
+## ✅ Success Criteria
+
+Deployment is successful when:
+1. ✅ `GET /api/payments/razorpay/key` returns `{ "keyId": "rzp_test_..." }`
+2. ✅ No 404 errors
+3. ✅ Frontend "Subscribe Now" button opens Razorpay modal
 
 ---
 
-**Next Step**: Deploy backend on Render using the steps above.
-
+**Last Updated:** After verifying endpoint exists in code
+**Status:** ✅ Code ready, waiting for Render deployment
