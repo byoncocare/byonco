@@ -11,10 +11,15 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "https://byonco-fastapi-backend.onrender.com/api/$1"
+    },
+    {
       "src": "/static/(.*)",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
-      }
+      },
+      "dest": "/static/$1"
     },
     {
       "src": "/(.*)",
