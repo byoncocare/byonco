@@ -52,7 +52,7 @@ const TestimonialCard = ({ testimonial, index }) => {
                       <img
                         src={avatarSrc}
                         alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover ring-2 ring-white/20 shadow-sm"
+                        className="w-12 h-12 rounded-full object-cover ring-2 ring-white/20 shadow-sm relative z-20"
                         loading="lazy"
                         width={48}
                         height={48}

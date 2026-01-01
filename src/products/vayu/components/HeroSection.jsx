@@ -163,15 +163,15 @@ const HeroSection = ({ onPreOrder }) => {
             </div>
 
             {/* Right Content - Hero Image */}
-            <div className="relative isolate mt-8 lg:mt-0">
+            <div className="relative mt-8 lg:mt-0">
               <div className="relative mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-lg">
                 {/* Premium glow behind image */}
                 <div className="absolute inset-0 bg-[#2F6BFF] rounded-3xl blur-3xl opacity-15 animate-pulse z-0 pointer-events-none" />
-                <div className="glass-panel rounded-3xl p-4 relative z-10 hover-lift">
+                <div className="glass-panel rounded-3xl p-4 relative z-20 hover-lift">
                   <img
                     src="/vayu/hero.webp"
                     alt="Person wearing Vayu X smart glasses"
-                    className="relative w-full h-auto rounded-2xl block opacity-100 object-contain mix-blend-normal"
+                    className="relative w-full h-auto rounded-2xl block opacity-100 object-contain mix-blend-normal z-30"
                   />
 
                   {/* Floating AI assistant text overlay - Below the face */}

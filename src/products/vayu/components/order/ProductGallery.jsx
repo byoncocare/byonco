@@ -46,11 +46,11 @@ export default function ProductGallery({ images, activeIndex, onChange }) {
 
       {/* Main image */}
       <div className="flex-1">
-        <div className="relative isolate overflow-hidden rounded-2xl bg-black/40 border border-white/10 shadow-lg">
+        <div className="relative overflow-hidden rounded-2xl bg-black/40 border border-white/10 shadow-lg">
           <img
             src={images[safeIndex]}
             alt="Vayu AI Glasses"
-            className="relative w-full h-auto object-cover aspect-square md:aspect-auto md:max-h-[600px] md:min-h-[500px] block opacity-100 mix-blend-normal z-10"
+            className="relative w-full h-auto object-cover aspect-square md:aspect-auto md:max-h-[600px] md:min-h-[500px] block opacity-100 mix-blend-normal z-30"
             style={{ objectFit: "contain" }}
           />
         </div>

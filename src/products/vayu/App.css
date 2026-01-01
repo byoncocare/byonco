@@ -109,11 +109,11 @@ body {
 }
 
 /* Content wrapper - must be above background layers */
+/* Removed isolation: isolate to prevent stacking context issues with images */
 .page-shell > *,
 .vayu-page > * {
   position: relative;
   z-index: 10;
-  isolation: isolate;
 }
 
 /* Background grid overlay - separate fixed div (handled in VayuPage component) */
