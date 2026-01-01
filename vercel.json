@@ -15,6 +15,9 @@
       "dest": "https://byonco-fastapi-backend.onrender.com/api/$1"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/static/(.*)",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
