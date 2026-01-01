@@ -116,6 +116,15 @@ body {
   z-index: 10;
 }
 
+/* Ensure all images are visible - override any hiding rules */
+.page-shell img,
+.vayu-page img {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+}
+
 /* Background grid overlay - separate fixed div (handled in VayuPage component) */
 /* Edge vignette - separate fixed div (handled in VayuPage component) */
 

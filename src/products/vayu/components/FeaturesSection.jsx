@@ -58,6 +58,7 @@ const FeatureItem = ({ feature, index }) => {
                         }
                         alt={feature.title}
                         className="relative w-full h-64 md:h-80 object-cover rounded-xl block opacity-100 mix-blend-normal z-30"
+                        style={{ display: 'block', visibility: 'visible', position: 'relative' }}
                       />
 
                       {/* Floating UI elements */}

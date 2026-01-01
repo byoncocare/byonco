@@ -172,6 +172,7 @@ const HeroSection = ({ onPreOrder }) => {
                     src="/vayu/hero.webp"
                     alt="Person wearing Vayu X smart glasses"
                     className="relative w-full h-auto rounded-2xl block opacity-100 object-contain mix-blend-normal z-30"
+                    style={{ display: 'block', visibility: 'visible', position: 'relative' }}
                   />
 
                   {/* Floating AI assistant text overlay - Below the face */}

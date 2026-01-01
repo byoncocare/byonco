@@ -57,12 +57,14 @@ const PreOrderPage = ({ onBack }) => {
                   <img
                     src="/vayu/preorder-front.jpg"
                     alt="Vayu glasses front view"
-                    className="w-full rounded-lg"
+                    className="w-full rounded-lg block"
+                    style={{ display: 'block', visibility: 'visible', position: 'relative' }}
                   />
                   <img
                     src="/vayu/preorder-side.jpg"
                     alt="Vayu glasses side view"
-                    className="w-full rounded-lg"
+                    className="w-full rounded-lg block"
+                    style={{ display: 'block', visibility: 'visible', position: 'relative' }}
                   />
                 </div>
               </CardContent>

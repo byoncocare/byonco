@@ -56,6 +56,7 @@ const TestimonialCard = ({ testimonial, index }) => {
                         loading="lazy"
                         width={48}
                         height={48}
+                        style={{ display: 'block', visibility: 'visible', position: 'relative' }}
                       />
                       <div>
                         <h4 className="font-semibold text-white">

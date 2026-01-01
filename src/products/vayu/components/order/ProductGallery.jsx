@@ -36,8 +36,9 @@ export default function ProductGallery({ images, activeIndex, onChange }) {
               <img
                 src={src}
                 alt={`Vayu AI Glasses view ${index + 1}`}
-                className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 object-cover block opacity-100 mix-blend-normal relative z-10"
+                className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 object-cover block opacity-100 mix-blend-normal relative z-30"
                 loading={index > 1 ? "lazy" : "eager"}
+                style={{ display: 'block', visibility: 'visible', position: 'relative' }}
               />
             </button>
           );
@@ -51,7 +52,7 @@ export default function ProductGallery({ images, activeIndex, onChange }) {
             src={images[safeIndex]}
             alt="Vayu AI Glasses"
             className="relative w-full h-auto object-cover aspect-square md:aspect-auto md:max-h-[600px] md:min-h-[500px] block opacity-100 mix-blend-normal z-30"
-            style={{ objectFit: "contain" }}
+            style={{ objectFit: "contain", display: 'block', visibility: 'visible', position: 'relative' }}
           />
         </div>
       </div>

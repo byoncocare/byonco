@@ -41,6 +41,7 @@ const AICapabilities = () => {
                     src="/vayu/ai-main.png"
                     alt="Professional using Vayu smart glasses"
                     className="w-full h-auto rounded-2xl object-cover block opacity-100 mix-blend-normal relative z-40"
+                    style={{ display: 'block', visibility: 'visible', position: 'relative' }}
                   />
 
                   {/* Overlay chips - Smaller and transparent on mobile */}
