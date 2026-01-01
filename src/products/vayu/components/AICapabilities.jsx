@@ -122,15 +122,16 @@ const AICapabilities = () => {
         {/* Privacy Section */}
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative isolate">
-            <div className="glass-panel rounded-3xl p-4 hover-lift relative z-10">
+            <div className="glass-panel rounded-3xl p-4 hover-lift relative z-10 isolate">
               <img
                 src="/vayu/privacy.jpg"
                 alt="Privacy and security focused design"
-                className="w-full h-80 object-cover rounded-2xl block opacity-100 mix-blend-normal"
+                className="w-full h-80 object-cover rounded-2xl block opacity-100 mix-blend-normal relative z-10"
+                style={{ display: 'block', visibility: 'visible', position: 'relative' }}
               />
               
               {/* Privacy indicators */}
-              <div className="absolute top-8 right-8 glass-panel-sm bg-green-500/20 border-green-500/30 text-green-300 text-xs px-3 py-2 rounded-lg backdrop-blur-sm">
+              <div className="absolute top-8 right-8 glass-panel-sm bg-green-500/20 border-green-500/30 text-green-300 text-xs px-3 py-2 rounded-lg backdrop-blur-sm z-40">
                 <Shield className="w-4 h-4 inline mr-1" />
                 Privacy Protected
               </div>
