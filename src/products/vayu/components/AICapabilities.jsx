@@ -55,8 +55,9 @@ const AICapabilities = () => {
                 {/* Bottom-left chip */}
                 <div className="absolute bottom-2 left-2 md:bottom-6 md:left-6 max-w-[60%] md:max-w-[72%] z-40">
                   <div className="inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs lg:text-sm font-medium text-white shadow-lg backdrop-blur bg-[#7C3AED]/40 md:bg-[#7C3AED]/70 lg:bg-[#7C3AED]/90">
-                  <span className="text-xs">🔢</span>
-                  <span className="leading-tight">√(144 × 25) = 60</span>
+                    <span className="text-xs">🔢</span>
+                    <span className="leading-tight">√(144 × 25) = 60</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -120,9 +121,9 @@ const AICapabilities = () => {
         </div>
 
         {/* Privacy Section */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mt-20 lg:mt-24">
           <div className="relative isolate">
-            <div className="glass-panel rounded-3xl p-4 hover-lift relative z-10 isolate">
+            <div className="glass-panel rounded-3xl p-4 hover-lift relative z-20">
               <img
                 src="/vayu/privacy.jpg"
                 alt="Privacy and security focused design"
