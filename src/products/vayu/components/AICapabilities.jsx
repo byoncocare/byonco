@@ -1,6 +1,5 @@
 import React from 'react';
 import { Newspaper, Languages, Calculator, Shield, Database, Mic } from 'lucide-react';
-import { aiCapabilities } from '../data/mock';
 import { useRevealOnScroll } from './hooks/useRevealOnScroll';
 
 const AICapabilities = () => {
