@@ -10,6 +10,42 @@ const API = `${BACKEND_URL}/api/payments`;
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || '';
 
 /**
+ * Get Razorpay key ID from backend (preferred) or environment variable (fallback)
+ */
+async function getRazorpayKeyId() {
+  // 1) Prefer env (if intentionally set)
+  const envKey = process.env.REACT_APP_RAZORPAY_KEY_ID || process.env.REACT_APP_RAZORPAY_KEY;
+  if (envKey) {
+    return envKey;
+  }
+
+  // 2) Otherwise fetch from backend (recommended)
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/payments/razorpay/key`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Razorpay key (${response.status})`);
+    }
+
+    const data = await response.json();
+    if (!data?.keyId) {
+      throw new Error('Razorpay key not configured');
+    }
+
+    return data.keyId;
+  } catch (error) {
+    console.error('Error fetching Razorpay key from backend:', error);
+    throw new Error('Razorpay key not configured');
+  }
+}
+
+/**
  * Load Razorpay script
  */
 export function loadRazorpayScript() {
@@ -53,19 +89,18 @@ export async function createOrder({ amount, currency = 'INR', description, servi
 /**
  * Open Razorpay checkout
  */
-export function openCheckout({ order, prefill = {}, notes = {}, onSuccess, onError, theme = { color: '#7c3aed' } }) {
+export async function openCheckout({ order, prefill = {}, notes = {}, onSuccess, onError, theme = { color: '#7c3aed' } }) {
   if (!window.Razorpay) {
     throw new Error('Razorpay SDK not loaded');
   }
 
-  if (!RAZORPAY_KEY_ID) {
-    throw new Error('Razorpay key not configured');
-  }
+  // Fetch key ID from backend (with fallback to env)
+  const keyId = await getRazorpayKeyId();
 
   const { order_id, amount, currency } = order;
 
   const options = {
-    key: RAZORPAY_KEY_ID,
+    key: keyId,
     amount: amount * 100, // Convert to paise
     currency: currency,
     name: 'ByOnco Care',
@@ -165,8 +200,8 @@ export async function initiatePayment({
       metadata
     });
 
-    // Open checkout
-    openCheckout({
+    // Open checkout (now async)
+    await openCheckout({
       order,
       prefill,
       notes: {
