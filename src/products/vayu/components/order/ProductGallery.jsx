@@ -51,7 +51,7 @@ export default function ProductGallery({ images, activeIndex, onChange }) {
           <img
             src={images[safeIndex]}
             alt="Vayu AI Glasses"
-            className="relative w-full h-auto object-cover aspect-square md:aspect-auto md:max-h-[600px] md:min-h-[500px] block opacity-100 mix-blend-normal z-30"
+            className="relative w-full h-auto object-cover aspect-square md:aspect-auto md:max-h-[600px] md:min-h-[500px] block opacity-100 mix-blend-normal z-10"
             style={{ objectFit: "contain", display: 'block', visibility: 'visible', position: 'relative' }}
           />
         </div>

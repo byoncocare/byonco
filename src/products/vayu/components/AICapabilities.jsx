@@ -34,32 +34,29 @@ const AICapabilities = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-8 md:gap-12 mt-12 md:mt-16 lg:mt-20">
           {/* Right column on desktop – Image, but first on mobile */}
           <div className="order-1 lg:order-2">
-            <div className="relative w-full max-w-xl ml-auto">
+            <div className="relative w-full max-w-xl ml-auto isolate">
               <div className="relative rounded-3xl overflow-hidden glass-panel p-3 z-20">
-                <div className="relative z-30">
-                  <img
-                    src="/vayu/ai-main.png"
-                    alt="Professional using Vayu smart glasses"
-                    className="w-full h-auto rounded-2xl object-cover block opacity-100 mix-blend-normal relative z-40"
-                    style={{ display: 'block', visibility: 'visible', position: 'relative' }}
-                  />
+                <img
+                  src="/vayu/ai-main.png"
+                  alt="Professional using Vayu smart glasses"
+                  className="w-full h-auto rounded-2xl object-cover block opacity-100 mix-blend-normal relative z-10"
+                  style={{ display: 'block', visibility: 'visible', position: 'relative' }}
+                />
 
-                  {/* Overlay chips - Smaller and transparent on mobile */}
-                  {/* Top-left chip */}
-                  <div className="absolute top-2 left-2 md:top-6 md:left-6 max-w-[60%] md:max-w-[72%]">
-                    <div className="inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs lg:text-sm font-medium text-white shadow-lg backdrop-blur bg-emerald-500/40 md:bg-emerald-500/70 lg:bg-emerald-500/90">
-                      <span className="text-xs md:text-base lg:text-lg">📊</span>
-                      <span className="leading-tight">NSE Sensex up 2.3% today</span>
-                    </div>
+                {/* Overlay chips - Smaller and transparent on mobile */}
+                {/* Top-left chip */}
+                <div className="absolute top-2 left-2 md:top-6 md:left-6 max-w-[60%] md:max-w-[72%] z-40">
+                  <div className="inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs lg:text-sm font-medium text-white shadow-lg backdrop-blur bg-emerald-500/40 md:bg-emerald-500/70 lg:bg-emerald-500/90">
+                    <span className="text-xs md:text-base lg:text-lg">📊</span>
+                    <span className="leading-tight">NSE Sensex up 2.3% today</span>
                   </div>
+                </div>
 
-                  {/* Bottom-left chip */}
-                  <div className="absolute bottom-2 left-2 md:bottom-6 md:left-6 max-w-[60%] md:max-w-[72%]">
-                    <div className="inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs lg:text-sm font-medium text-white shadow-lg backdrop-blur bg-[#7C3AED]/40 md:bg-[#7C3AED]/70 lg:bg-[#7C3AED]/90">
-                      <span className="text-xs">🔢</span>
-                      <span className="leading-tight">√(144 × 25) = 60</span>
-                    </div>
-                  </div>
+                {/* Bottom-left chip */}
+                <div className="absolute bottom-2 left-2 md:bottom-6 md:left-6 max-w-[60%] md:max-w-[72%] z-40">
+                  <div className="inline-flex items-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs lg:text-sm font-medium text-white shadow-lg backdrop-blur bg-[#7C3AED]/40 md:bg-[#7C3AED]/70 lg:bg-[#7C3AED]/90">
+                  <span className="text-xs">🔢</span>
+                  <span className="leading-tight">√(144 × 25) = 60</span>
                 </div>
               </div>
             </div>

@@ -167,16 +167,16 @@ const HeroSection = ({ onPreOrder }) => {
               <div className="relative mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-lg">
                 {/* Premium glow behind image */}
                 <div className="absolute inset-0 bg-[#2F6BFF] rounded-3xl blur-3xl opacity-15 animate-pulse z-0 pointer-events-none" />
-                <div className="glass-panel rounded-3xl p-4 relative z-20 hover-lift">
+                <div className="glass-panel rounded-3xl p-4 relative z-20 hover-lift isolate">
                   <img
                     src="/vayu/hero.webp"
                     alt="Person wearing Vayu X smart glasses"
-                    className="relative w-full h-auto rounded-2xl block opacity-100 object-contain mix-blend-normal z-30"
+                    className="relative w-full h-auto rounded-2xl block opacity-100 object-contain mix-blend-normal z-10"
                     style={{ display: 'block', visibility: 'visible', position: 'relative' }}
                   />
 
                   {/* Floating AI assistant text overlay - Below the face */}
-                  <div className="absolute bottom-6 left-6 right-6 md:bottom-6 md:left-auto md:right-6 md:max-w-[80%] glass-panel-sm bg-black/30 md:bg-black/60 backdrop-blur-md border border-white/20 text-xs px-3 py-2 rounded-lg animate-fade-in">
+                  <div className="absolute bottom-6 left-6 right-6 md:bottom-6 md:left-auto md:right-6 md:max-w-[80%] glass-panel-sm bg-black/30 md:bg-black/60 backdrop-blur-md border border-white/20 text-xs px-3 py-2 rounded-lg animate-fade-in z-40">
                     <div className="font-mono font-bold text-[#1E5BFF]">14:32</div>
                     <div className="font-bold text-[#1E5BFF]">
                       Good afternoon! Ready for your presentation?

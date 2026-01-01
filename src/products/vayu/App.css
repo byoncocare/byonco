@@ -125,6 +125,12 @@ body {
   position: relative !important;
 }
 
+/* Ensure overlays appear above images */
+.page-shell [class*="absolute"][class*="z-40"],
+.vayu-page [class*="absolute"][class*="z-40"] {
+  z-index: 40 !important;
+}
+
 /* Background grid overlay - separate fixed div (handled in VayuPage component) */
 /* Edge vignette - separate fixed div (handled in VayuPage component) */
 

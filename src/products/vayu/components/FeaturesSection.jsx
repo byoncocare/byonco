@@ -45,7 +45,7 @@ const FeatureItem = ({ feature, index }) => {
 
                 {/* Image */}
                 <div className={`${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
-                  <div className="relative">
+                  <div className="relative isolate">
                     <div className="absolute inset-0 bg-[#2F6BFF] rounded-2xl blur-2xl opacity-10 z-0 pointer-events-none"></div>
                     <div className="glass-panel rounded-2xl p-2 relative z-20 hover-lift">
                       <img
@@ -57,19 +57,19 @@ const FeatureItem = ({ feature, index }) => {
                             : "/vayu/meeting.png"   // card 3
                         }
                         alt={feature.title}
-                        className="relative w-full h-64 md:h-80 object-cover rounded-xl block opacity-100 mix-blend-normal z-30"
+                        className="relative w-full h-64 md:h-80 object-cover rounded-xl block opacity-100 mix-blend-normal z-10"
                         style={{ display: 'block', visibility: 'visible', position: 'relative' }}
                       />
 
                       {/* Floating UI elements */}
                       {index === 0 && (
-                        <div className="absolute top-6 left-6 glass-panel-sm bg-green-500/20 border-green-500/30 text-green-300 text-xs px-3 py-2 rounded-lg backdrop-blur-sm">
+                        <div className="absolute top-6 left-6 glass-panel-sm bg-green-500/20 border-green-500/30 text-green-300 text-xs px-3 py-2 rounded-lg backdrop-blur-sm z-40">
                           <div className="font-mono">847ms</div>
                         </div>
                       )}
 
                       {index === 2 && (
-                        <div className="absolute bottom-6 right-6 glass-panel-sm bg-blue-500/20 border-blue-500/30 text-xs px-3 py-2 rounded-lg max-w-48 backdrop-blur-sm">
+                        <div className="absolute bottom-6 right-6 glass-panel-sm bg-blue-500/20 border-blue-500/30 text-xs px-3 py-2 rounded-lg max-w-48 backdrop-blur-sm z-40">
                           <div className="font-bold text-[#1E5BFF]">
                             Meeting with Aishwarya at 3 PM tomorrow about about the ongoing litigation.
                           </div>
