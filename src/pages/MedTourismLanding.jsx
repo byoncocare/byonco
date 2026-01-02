@@ -588,7 +588,7 @@ const MedTourismLanding = () => {
           >
             <Badge className="hero-badge" data-testid="hero-badge">
               <Award className="w-4 h-4 mr-2" />
-              YC W25 • AI-Powered Medical Tourism
+              YC S26 • AI-Powered Medical Tourism
             </Badge>
             <h1 className="hero-title" data-testid="hero-title">
               World's Most Powerful
