@@ -2,8 +2,8 @@
 // Inspired by react-hot-toast library
 import * as React from "react"
 
-const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+const TOAST_LIMIT = 3
+const TOAST_REMOVE_DELAY = 1000
 
 const actionTypes = {
   ADD_TOAST: "ADD_TOAST",
@@ -102,9 +102,18 @@ function dispatch(action) {
 }
 
 function toast({
+  duration,
+  variant = "default",
   ...props
 }) {
   const id = genId()
+
+  // Auto-dismiss timing: success/info = 4s, error = 6s, default = 4s
+  const autoDismissDuration = duration !== undefined 
+    ? duration 
+    : variant === "error" 
+      ? 6000 
+      : 4000
 
   const update = (props) =>
     dispatch({
@@ -118,12 +127,21 @@ function toast({
     toast: {
       ...props,
       id,
+      variant,
       open: true,
+      duration: autoDismissDuration,
       onOpenChange: (open) => {
         if (!open) dismiss()
       },
     },
   })
+
+  // Auto-dismiss after duration
+  if (autoDismissDuration > 0) {
+    setTimeout(() => {
+      dismiss()
+    }, autoDismissDuration)
+  }
 
   return {
     id: id,

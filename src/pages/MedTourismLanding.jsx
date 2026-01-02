@@ -53,6 +53,7 @@ import {
 import { SUBSCRIPTION_PLANS } from "@/utils/payments/subscriptionPlans";
 import { initiatePayment } from "@/utils/payments/razorpayClient";
 import PriceTag from "@/components/ui/PriceTag";
+import { toast } from "@/hooks/use-toast";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
@@ -151,19 +152,45 @@ const MedTourismLanding = () => {
           }));
           
           // Show success message
-          alert('Payment successful! Your subscription is now active.');
+          // Show success toast
+          toast({
+            variant: "success",
+            title: "Payment successful",
+            description: "Your subscription is now active.",
+          });
           
           // Optionally redirect or refresh
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
         },
         onError: (error) => {
           console.error('Payment error:', error);
-          alert(error.message || 'Payment failed. Please try again.');
+          const errorMessage = error.message || 'Payment failed. Please try again.';
+          
+          // Show error toast
+          if (errorMessage.includes('cancelled') || errorMessage.includes('Payment cancelled')) {
+            toast({
+              variant: "info",
+              title: "Payment cancelled",
+              description: "You can retry anytime from Pricing.",
+            });
+          } else {
+            toast({
+              variant: "error",
+              title: "Payment failed",
+              description: errorMessage,
+            });
+          }
         }
       });
     } catch (error) {
       console.error('Subscription error:', error);
-      alert('Failed to initiate payment. Please try again.');
+      toast({
+        variant: "error",
+        title: "Payment failed",
+        description: "Failed to initiate payment. Please try again.",
+      });
     } finally {
       setPaymentLoading(false);
     }

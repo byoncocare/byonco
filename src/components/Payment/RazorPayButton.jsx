@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { initiatePayment } from '@/utils/payments/razorpayClient';
+import { toast } from '@/hooks/use-toast';
 
 export default function RazorPayButton({ 
   amount, 
@@ -36,7 +37,20 @@ export default function RazorPayButton({
           if (onError) {
             onError(error);
           } else {
-            alert(error.message || 'Payment failed. Please try again.');
+            const errorMessage = error.message || 'Payment failed. Please try again.';
+            if (errorMessage.includes('cancelled') || errorMessage.includes('Payment cancelled')) {
+              toast({
+                variant: "info",
+                title: "Payment cancelled",
+                description: "You can retry anytime.",
+              });
+            } else {
+              toast({
+                variant: "error",
+                title: "Payment failed",
+                description: errorMessage,
+              });
+            }
           }
         }
       });
@@ -45,7 +59,11 @@ export default function RazorPayButton({
       if (onError) {
         onError(error);
       } else {
-        alert('Failed to initiate payment. Please try again.');
+        toast({
+          variant: "error",
+          title: "Payment failed",
+          description: "Failed to initiate payment. Please try again.",
+        });
       }
     }
   };

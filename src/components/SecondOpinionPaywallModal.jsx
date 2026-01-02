@@ -7,6 +7,7 @@ import RazorPayButton from '@/components/Payment/RazorPayButton';
 import { setEntitlementActive } from '@/utils/secondOpinionAccess';
 import axios from 'axios';
 import { getAuthToken } from '@/utils/auth';
+import { toast } from '@/hooks/use-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api/payments`;
@@ -35,13 +36,30 @@ export default function SecondOpinionPaywallModal({
       onClose();
     } catch (error) {
       console.error('Error processing payment success:', error);
-      alert('Payment successful but there was an error. Please contact support.');
+      toast({
+        variant: "error",
+        title: "Payment error",
+        description: "Payment successful but there was an error. Please contact support.",
+      });
     }
   };
 
   const handlePaymentError = (error) => {
     console.error('Payment error:', error);
-    alert(`Payment failed: ${error}`);
+    const errorMessage = String(error);
+    if (errorMessage.includes('cancelled') || errorMessage.includes('Payment cancelled')) {
+      toast({
+        variant: "info",
+        title: "Payment cancelled",
+        description: "You can retry anytime.",
+      });
+    } else {
+      toast({
+        variant: "error",
+        title: "Payment failed",
+        description: errorMessage,
+      });
+    }
     setPaymentLoading(false);
   };
 

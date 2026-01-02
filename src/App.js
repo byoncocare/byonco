@@ -20,6 +20,7 @@ import Footer from "./components/Footer";
 import TeamSection from "./components/TeamSection";
 import FAQ from "./components/FAQ";
 import CookieConsent from "./components/CookieConsent";
+import { Toaster } from "./components/ui/toaster";
 
 // Pages - Regular imports
 import ByOncoProWaitlist from "./pages/ByOncoProWaitlist";
@@ -710,6 +711,7 @@ export default function App() {
 
       {/* Always visible */}
       <CookieConsent />
+      <Toaster />
     </>
   );
 }
