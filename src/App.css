@@ -291,6 +291,17 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
 }
 
+/* Slim beam animation keyframes - creates a rotating beam effect */
+@keyframes beam-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Slim beam animation for primary CTA button */
 .primary-cta {
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: white;
@@ -303,6 +314,32 @@ h1, h2, h3, h4, h5, h6 {
   border: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+  position: relative;
+  overflow: visible;
+}
+
+.primary-cta::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 70deg,
+    rgba(255, 255, 255, 0.9) 85deg,
+    rgba(255, 255, 255, 0.6) 95deg,
+    transparent 110deg,
+    transparent 360deg
+  );
+  animation: beam-rotate 2.5s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.8;
+  filter: blur(1px);
 }
 
 .primary-cta:hover {
@@ -310,6 +347,22 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 20px 60px rgba(139, 92, 246, 0.6);
 }
 
+.primary-cta:hover::before {
+  animation-duration: 1.5s;
+  opacity: 1;
+  filter: blur(0.5px);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 60deg,
+    rgba(255, 255, 255, 1) 80deg,
+    rgba(255, 255, 255, 0.8) 90deg,
+    transparent 100deg,
+    transparent 360deg
+  );
+}
+
+/* Slim beam animation for secondary CTA button */
 .secondary-cta {
   padding: 1rem 2rem;
   border-radius: 9999px;
@@ -319,11 +372,52 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(139, 92, 246, 0.05);
   color: #a78bfa;
   transition: border-color 0.3s ease, background 0.3s ease;
+  position: relative;
+  overflow: visible;
+}
+
+.secondary-cta::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 70deg,
+    rgba(139, 92, 246, 0.9) 85deg,
+    rgba(139, 92, 246, 0.6) 95deg,
+    transparent 110deg,
+    transparent 360deg
+  );
+  animation: beam-rotate 2.5s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.7;
+  filter: blur(1px);
 }
 
 .secondary-cta:hover {
   border-color: #8b5cf6;
   background: rgba(139, 92, 246, 0.1);
+}
+
+.secondary-cta:hover::before {
+  animation-duration: 1.5s;
+  opacity: 1;
+  filter: blur(0.5px);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 60deg,
+    rgba(139, 92, 246, 1) 80deg,
+    rgba(139, 92, 246, 0.8) 90deg,
+    transparent 100deg,
+    transparent 360deg
+  );
 }
 
 .hero-visual {

@@ -162,11 +162,11 @@ const CostCalculator = () => {
       accreditation: formData.accreditation,
 
       // Patient & Disease
-      age_group: formData.ageGroup,
-      cancer_category: formData.cancerCategory,
+      age_group: formData.ageGroup || 'adult',
+      cancer_category: formData.cancerCategory || 'common',
       cancer_type: formData.cancerType,
       stage: formData.stage,
-      intent: formData.intent,
+      intent: formData.intent || 'curative',
 
       // Treatment - Surgery
       include_surgery: formData.includeSurgery,
