@@ -131,14 +131,26 @@ def is_positive_sentiment(message: str) -> bool:
     
     # Keywords indicating positive sentiment
     positive_keywords = [
+        # English
         "thank", "thanks", "thank you", "thankyou",
         "grateful", "gratitude", "appreciate", "appreciation",
         "helpful", "great help", "very helpful",
         "wonderful", "amazing", "excellent", "perfect",
         "good job", "well done", "nice", "lovely",
         "bless you", "god bless", "appreciated",
-        "dhanyavad", "shukriya", "abhari",  # Hindi/Marathi thanks
-        "nandri", "dhanyavaad", "kritagnya"  # Tamil/Telugu thanks
+        # Hindi/Marathi (Roman)
+        "dhanyavad", "dhanyavaad", "shukriya", "abhari", "abhari ahe",
+        "aabhari", "aabhaar", "dhanyawaad", "shukriyaa",
+        # Hindi (Devanagari)
+        "धन्यवाद", "शुक्रिया", "अभारी", "आभार",
+        # Marathi (Devanagari)
+        "धन्यवाद", "आभारी आहे", "खूप आभार",
+        # Tamil/Telugu thanks
+        "nandri", "kritagnya",
+        # Gujarati thanks
+        "aabhar",
+        # Bengali thanks
+        "dhonyobad"
     ]
     
     # Check if message contains positive keywords
@@ -606,7 +618,14 @@ async def get_response_for_user_async(wa_id: str, message_body: str) -> str:
             return LIMIT_EXCEEDED_TEXT
         
         # SAFETY CHECK 1: Emergency detection (bypasses AI, returns urgent guidance)
-        action, safety_response = classify_message(message_body)
+        action, safety_response, intent_dict = classify_message(message_body)
+        
+        # Log detected intents for analytics
+        if intent_dict:
+            active_intents = [k for k, v in intent_dict.items() if v]
+            if active_intents:
+                logger.info(f"Detected intents for {wa_id[:6]}****: {', '.join(active_intents)}")
+        
         if action == "emergency":
             return safety_response
         if action == "risky":
@@ -614,6 +633,7 @@ async def get_response_for_user_async(wa_id: str, message_body: str) -> str:
         if action == "non_cancer":
             return safety_response
         # action == "cancer_ok" - proceed to OpenAI
+        # intent_dict can be used for response customization in the future
         
         message_upper = message_body.upper().strip()
         menu_selection = None
