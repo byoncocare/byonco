@@ -336,27 +336,26 @@ const FindHospitals = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="hospitals-grid">
-            {filteredHospitals.map((hospital, index) => (
-              <Dialog key={hospital.id} onOpenChange={(open) => {
-                if (open) {
-                  fetchDoctors(hospital.id);
-                }
-              }}>
-                <DialogTrigger asChild>
+            {filteredHospitals.map((hospital, index) => {
+              // If hospital has detailsUrl, render card without Dialog (external link)
+              if (hospital.detailsUrl) {
+                return (
                   <Card 
+                    key={hospital.id}
                     className="bg-gradient-to-br from-[#0f0515] via-[#120a1a] to-[#0f0515] border-purple-600/30 hover:border-purple-500/60 transition-all duration-300 cursor-pointer hover:shadow-2xl hover:shadow-purple-500/20 group overflow-hidden animate-slide-up relative z-10"
                     style={{ animationDelay: `${index * 100}ms` }}
                     data-testid={`hospital-card-${index}`}
+                    onClick={() => window.open(hospital.detailsUrl, "_blank", "noopener,noreferrer")}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0" />
                     
                     <div className="relative h-48 overflow-hidden z-10">
                       <img 
-                        src={hospital.image_url || 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800'} 
+                        src={hospital.imageUrl || hospital.image_url || 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800'} 
                         alt={hospital.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         onError={(e) => {
-                          e.target.src = 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800';
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800';
                         }}
                       />
                       <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 z-20">
@@ -415,13 +414,103 @@ const FindHospitals = () => {
                         data-testid={`view-details-${index}`}
                         onClick={(e) => {
                           e.stopPropagation();
+                          window.open(hospital.detailsUrl, "_blank", "noopener,noreferrer");
                         }}
                       >
                         View Details
                       </Button>
                     </CardContent>
                   </Card>
-                </DialogTrigger>
+                );
+              }
+              
+              // Otherwise, use Dialog (existing behavior for other hospitals)
+              return (
+                <Dialog key={hospital.id} onOpenChange={(open) => {
+                  if (open) {
+                    fetchDoctors(hospital.id);
+                  }
+                }}>
+                  <DialogTrigger asChild>
+                    <Card 
+                      className="bg-gradient-to-br from-[#0f0515] via-[#120a1a] to-[#0f0515] border-purple-600/30 hover:border-purple-500/60 transition-all duration-300 cursor-pointer hover:shadow-2xl hover:shadow-purple-500/20 group overflow-hidden animate-slide-up relative z-10"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                      data-testid={`hospital-card-${index}`}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0" />
+                      
+                      <div className="relative h-48 overflow-hidden z-10">
+                        <img 
+                          src={hospital.imageUrl || hospital.image_url || 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800'} 
+                          alt={hospital.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          onError={(e) => {
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800';
+                          }}
+                        />
+                        <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 z-20">
+                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          <span className="text-white font-semibold">{hospital.rating || 'N/A'}</span>
+                        </div>
+                      </div>
+
+                      <CardHeader className="relative z-10">
+                        <CardTitle className="text-purple-100 text-xl group-hover:text-purple-300 transition-colors">
+                          {hospital.name}
+                        </CardTitle>
+                        <CardDescription className="text-purple-200 flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          {hospital.city}
+                        </CardDescription>
+                      </CardHeader>
+
+                      <CardContent className="space-y-4 relative z-10">
+                        <div className="flex items-center gap-2 text-purple-200">
+                          <Building2 className="w-4 h-4 text-purple-400" />
+                          <span className="text-sm">Est. {hospital.established_year || 'N/A'}</span>
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-sm text-purple-200 font-semibold">Specialties:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {(hospital.specialties || []).slice(0, 2).map((specialty, i) => (
+                              <Badge key={i} variant="secondary" className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs">
+                                {specialty}
+                              </Badge>
+                            ))}
+                            {(hospital.specialties || []).length > 2 && (
+                              <Badge variant="secondary" className="bg-blue-500/20 text-blue-300 border-blue-500/30 text-xs">
+                                +{(hospital.specialties || []).length - 2} more
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-sm text-purple-200 font-semibold">Cancer Types:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {(hospital.cancer_types || []).slice(0, 3).map((type, i) => (
+                              <Badge key={i} variant="outline" className="bg-pink-500/10 text-pink-300 border-pink-500/30 text-xs">
+                                {type}
+                              </Badge>
+                            ))}
+                            {(hospital.cancer_types || []).length > 3 && (
+                              <Badge variant="outline" className="bg-pink-500/10 text-pink-300 border-pink-500/30 text-xs">
+                                +{(hospital.cancer_types || []).length - 3} more
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                        <Button 
+                          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-purple-500/50 transition-all duration-300 relative z-20"
+                          data-testid={`view-details-${index}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          View Details
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </DialogTrigger>
 
                 <DialogContent className="bg-gradient-to-br from-[#0f0515] via-[#120a1a] to-[#0f0515] border-purple-600/40 text-purple-100 w-[95vw] sm:w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] overflow-y-auto rounded-xl sm:rounded-2xl mx-2 sm:mx-4" data-testid="hospital-details-modal">
                   <DialogHeader className="px-4 sm:px-6">
@@ -441,17 +530,68 @@ const FindHospitals = () => {
                         <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
                         <div className="min-w-0 flex-1">
                           <p className="text-xs sm:text-sm text-purple-300">Phone</p>
-                          <p className="text-purple-100 font-semibold text-sm sm:text-base break-words">{hospital.contact || 'N/A'}</p>
+                          {hospital.phone || hospital.contact ? (
+                            <a 
+                              href={`tel:${(hospital.phone || hospital.contact).replace(/\s|\(|\)|-/g, "")}`}
+                              className="text-purple-100 font-semibold text-sm sm:text-base break-words hover:text-purple-300 transition-colors"
+                            >
+                              {hospital.phone || hospital.contact}
+                            </a>
+                          ) : (
+                            <p className="text-purple-100 font-semibold text-sm sm:text-base break-words">N/A</p>
+                          )}
                         </div>
                       </div>
                       <div className="bg-purple-950/60 rounded-lg p-3 sm:p-4 flex items-center gap-2 sm:gap-3">
                         <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 flex-shrink-0" />
                         <div className="min-w-0 flex-1">
-                          <p className="text-xs sm:text-sm text-purple-300">Email</p>
-                          <p className="text-purple-100 font-semibold text-sm sm:text-base break-words">{hospital.email || 'N/A'}</p>
+                          <p className="text-xs sm:text-sm text-purple-300">
+                            {hospital.contactEmail ? 'Email' : hospital.inquiryUrl ? 'Inquiry' : 'Email'}
+                          </p>
+                          {hospital.contactEmail ? (
+                            <a 
+                              href={`mailto:${hospital.contactEmail.split(",")[0].trim()}`}
+                              className="text-purple-100 font-semibold text-sm sm:text-base break-words hover:text-purple-300 transition-colors"
+                            >
+                              {hospital.contactEmail.split(",")[0].trim()}
+                            </a>
+                          ) : hospital.inquiryUrl ? (
+                            <a 
+                              href={hospital.inquiryUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-purple-100 font-semibold text-sm sm:text-base break-words hover:text-purple-300 transition-colors"
+                            >
+                              Inquiry Form
+                            </a>
+                          ) : hospital.email ? (
+                            <a 
+                              href={`mailto:${hospital.email}`}
+                              className="text-purple-100 font-semibold text-sm sm:text-base break-words hover:text-purple-300 transition-colors"
+                            >
+                              {hospital.email}
+                            </a>
+                          ) : (
+                            <p className="text-purple-100 font-semibold text-sm sm:text-base break-words">N/A</p>
+                          )}
                         </div>
                       </div>
                     </div>
+                    
+                    {/* Appointment Link */}
+                    {hospital.appointmentUrl && (
+                      <div className="bg-purple-950/60 rounded-lg p-3 sm:p-4">
+                        <a 
+                          href={hospital.appointmentUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50"
+                        >
+                          <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+                          Book Appointment
+                        </a>
+                      </div>
+                    )}
 
                     {/* Rating */}
                     <div className="bg-purple-950/60 rounded-lg p-4">
@@ -548,7 +688,8 @@ const FindHospitals = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
