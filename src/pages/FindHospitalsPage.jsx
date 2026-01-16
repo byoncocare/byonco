@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Star, MapPin, Phone, Mail, Building2, Stethoscope, Award, Calendar, ChevronLeft, ExternalLink } from 'lucide-react';
+import { Star, MapPin, Phone, Mail, Building2, Stethoscope, Award, Calendar, ChevronLeft, ExternalLink, Clock, TrendingUp, Activity, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
@@ -306,6 +306,84 @@ const FindHospitals = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Coming Soon Banner - Real-Time Features */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-purple-600/20 border-2 border-purple-500/50 shadow-2xl shadow-purple-500/20 backdrop-blur-lg"
+        >
+          {/* Animated background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-blue-600/10 to-purple-600/10 animate-pulse"></div>
+          
+          {/* Sparkle effects */}
+          <div className="absolute top-4 right-4 opacity-30">
+            <Sparkles className="w-6 h-6 text-purple-400 animate-pulse" />
+          </div>
+          <div className="absolute bottom-4 left-4 opacity-20">
+            <Sparkles className="w-5 h-5 text-blue-400 animate-pulse" style={{ animationDelay: '0.5s' }} />
+          </div>
+
+          <div className="relative px-6 sm:px-8 lg:px-12 py-6 sm:py-8">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+              {/* Left side - Content */}
+              <div className="flex-1 text-center lg:text-left">
+                <div className="flex items-center justify-center lg:justify-start gap-3 mb-3">
+                  <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0 px-4 py-1.5 text-sm font-semibold shadow-lg">
+                    <Sparkles className="w-3 h-3 mr-1.5 inline" />
+                    Coming Soon
+                  </Badge>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-300 via-blue-300 to-purple-300 bg-clip-text text-transparent mb-3">
+                  Real-Time Hospital Intelligence
+                </h3>
+                <p className="text-purple-200/90 text-base sm:text-lg mb-4 max-w-2xl">
+                  Get instant access to <span className="font-semibold text-purple-100">real-time bed availability</span>, 
+                  <span className="font-semibold text-blue-100"> waiting periods</span>, and 
+                  <span className="font-semibold text-purple-100"> success rates</span> for informed decision-making.
+                </p>
+                
+                {/* Feature icons */}
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 mt-5">
+                  <div className="flex items-center gap-2 text-purple-200">
+                    <div className="p-2 rounded-lg bg-purple-500/20 border border-purple-400/30">
+                      <Activity className="w-5 h-5 text-purple-300" />
+                    </div>
+                    <span className="text-sm font-medium">Bed Availability</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-blue-200">
+                    <div className="p-2 rounded-lg bg-blue-500/20 border border-blue-400/30">
+                      <Clock className="w-5 h-5 text-blue-300" />
+                    </div>
+                    <span className="text-sm font-medium">Waiting Period</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-purple-200">
+                    <div className="p-2 rounded-lg bg-purple-500/20 border border-purple-400/30">
+                      <TrendingUp className="w-5 h-5 text-purple-300" />
+                    </div>
+                    <span className="text-sm font-medium">Success Rate</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right side - Visual element */}
+              <div className="flex-shrink-0">
+                <div className="relative w-32 h-32 sm:w-40 sm:h-40">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 blur-xl animate-pulse"></div>
+                  <div className="relative w-full h-full rounded-full bg-gradient-to-br from-purple-600/40 to-blue-600/40 border-2 border-purple-400/50 flex items-center justify-center">
+                    <div className="text-center">
+                      <Activity className="w-12 h-12 sm:w-16 sm:h-16 text-purple-300 mx-auto mb-2 animate-pulse" />
+                      <div className="text-xs sm:text-sm font-semibold text-purple-200">Live Data</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Hospitals List */}
