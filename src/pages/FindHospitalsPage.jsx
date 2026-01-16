@@ -491,26 +491,11 @@ const FindHospitals = () => {
                       </div>
                     </div>
                     
-                    {/* Appointment Link */}
-                    {hospital.appointmentUrl && (
+                    {/* View Details Button - Priority: appointmentUrl > inquiryUrl > detailsUrl */}
+                    {(hospital.appointmentUrl || hospital.inquiryUrl || hospital.detailsUrl) && (
                       <div className="bg-purple-950/60 rounded-lg p-3 sm:p-4">
                         <a 
-                          href={hospital.appointmentUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50"
-                        >
-                          <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
-                          Book Appointment
-                        </a>
-                      </div>
-                    )}
-
-                    {/* View Details Button (for hospitals with detailsUrl) */}
-                    {hospital.detailsUrl && (
-                      <div className="bg-purple-950/60 rounded-lg p-3 sm:p-4">
-                        <a 
-                          href={hospital.detailsUrl}
+                          href={hospital.appointmentUrl || hospital.inquiryUrl || hospital.detailsUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50 w-full"

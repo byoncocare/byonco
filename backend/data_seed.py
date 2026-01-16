@@ -201,31 +201,13 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Marathi"],
             "rating": 4.6,
             "reviews_count": 1400,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.kareoptions.com/healthtourism/img/background/8c600df8-92f5-4f23-b932-e7bd88c380c5_h_fortis_mulund_4.jpg",
+            "imageUrl": "https://www.kareoptions.com/healthtourism/img/background/8c600df8-92f5-4f23-b932-e7bd88c380c5_h_fortis_mulund_4.jpg",
+            "detailsUrl": "https://www.fortishealthcare.com/doctors?location=all",
+            "appointmentUrl": "https://www.fortishealthcare.com/doctors?location=all",
+            "phone": "+91-9205-010-100",
+            "contactEmail": "reachus@fortishealthcare.com"
         },
-        {
-            "id": "hcg-manavata-mumbai",
-            "name": "HCG – Manavata Cancer Centre, Nashik (Mumbai Branch)",
-            "city": "Mumbai",
-            "address": "HCG Cancer Centre K.R. Road, Borivali, Mumbai",
-            "established_year": 2007,
-            "tier": "Tier 2/3",
-            "accreditation": "NABH accredited",
-            "specializations": ["Surgical Oncology", "Medical Oncology", "Radiation Oncology", "Breast Cancer", "Head-Neck Cancer", "GI Oncology", "Common Cancers", "Select Rare Cancers"],
-            "success_rate": 89,
-            "wait_time_days": 7,
-            "beds_available": 6,
-            "total_beds": 75,
-            "treatments": ["Surgery", "Chemotherapy", "Radiation", "Minimally Invasive Surgery", "Organ Preservation Protocols"],
-            "cost_range": {"min": 600000, "max": 2500000},
-            "accepts_insurance": True,
-            "insurance_types": ["Mediclaim", "CGHS", "Private Insurance"],
-            "international_patients": True,
-            "languages": ["English", "Hindi", "Marathi"],
-            "rating": 4.5,
-            "reviews_count": 1200,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
-        }
     ],
     "New Delhi": [
         {
@@ -249,7 +231,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi"],
             "rating": 4.8,
             "reviews_count": 4000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://w0.peakpx.com/wallpaper/261/790/HD-wallpaper-aiims-all-india-institute-of-medical-sciences-new-delhi.jpg",
+            "imageUrl": "https://w0.peakpx.com/wallpaper/261/790/HD-wallpaper-aiims-all-india-institute-of-medical-sciences-new-delhi.jpg",
+            "detailsUrl": "https://ors.gov.in/orsportal/",
+            "phone": "+91-11-26588500",
+            "contactEmail": "ms.main@aiims.gov.in"
         },
         {
             "id": "rgcirc-delhi",
@@ -272,7 +258,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Punjabi"],
             "rating": 4.7,
             "reviews_count": 2800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.foxchase.org/sites/default/files/pr-4.jpg",
+            "imageUrl": "https://www.foxchase.org/sites/default/files/pr-4.jpg",
+            "detailsUrl": "https://care.rgcirc.org/",
+            "phone": "+91-11-47022222",
+            "contactEmail": "info@rgcirc.org"
         },
         {
             "id": "apollo-delhi",
@@ -295,7 +285,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi"],
             "rating": 4.7,
             "reviews_count": 2200,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://static.medigence.com/uploads/hospital/images/1743572330_ee6772310d4b579ccdc4.jpg",
+            "imageUrl": "https://static.medigence.com/uploads/hospital/images/1743572330_ee6772310d4b579ccdc4.jpg",
+            "detailsUrl": "https://www.apollohospitals.com/doctors?f%5B0%5D=speciality%3A196&f%5B1%5D=speciality%3A94&f%5B2%5D=speciality%3A124&f%5B3%5D=speciality%3A131&f%5B4%5D=speciality%3A503&f%5B5%5D=speciality%3A519&f%5B6%5D=speciality%3A567&f%5B7%5D=speciality%3A3277&f%5B8%5D=speciality%3A3325&f%5B9%5D=speciality%3A3419&f%5B10%5D=speciality%3A3787&f%5B11%5D=speciality%3A3791&f%5B12%5D=speciality%3A4064&f%5B13%5D=speciality%3A4389&f%5B14%5D=speciality%3A7962&f%5B15%5D=speciality%3A8007&f%5B16%5D=speciality%3A8069&f%5B17%5D=speciality%3A8228&f%5B18%5D=speciality%3A8238&f%5B19%5D=speciality%3A8256&f%5B20%5D=speciality%3A8263&f%5B21%5D=speciality%3A8265&f%5B22%5D=speciality%3A8268&f%5B23%5D=speciality%3A8271&f%5B24%5D=speciality%3A8273&f%5B25%5D=speciality%3A8276&f%5B26%5D=speciality%3A8281&f%5B27%5D=speciality%3A8285&f%5B28%5D=speciality%3A8304&f%5B29%5D=speciality%3A8331&f%5B30%5D=speciality%3A8332&f%5B31%5D=speciality%3A8333&f%5B32%5D=speciality%3A8334&f%5B33%5D=speciality%3A8335&f%5B34%5D=speciality%3A8336&f%5B35%5D=speciality%3A8337&f%5B36%5D=speciality%3A8338&f%5B37%5D=speciality%3A8339&f%5B38%5D=speciality%3A8340&f%5B39%5D=speciality%3A8341&f%5B40%5D=speciality%3A8342&f%5B41%5D=speciality%3A8343&f%5B42%5D=speciality%3A11666&f%5B43%5D=speciality%3A11699&f%5B44%5D=speciality%3A11704&f%5B45%5D=speciality%3A12753",
+            "phone": "+91-11-26925858",
+            "contactEmail": "imcl@apollohospitals.com"
         },
         {
             "id": "dharamshila-delhi",
@@ -318,7 +312,12 @@ HOSPITALS = {
             "languages": ["English", "Hindi"],
             "rating": 4.6,
             "reviews_count": 1800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://images.jdmagicbox.com/v2/comp/delhi/52/011pf025452/catalogue/dharamshila-narayana-superspeciality-hospital-vasundhara-enclave-delhi-private-hospitals-3wuhd.jpg",
+            "imageUrl": "https://images.jdmagicbox.com/v2/comp/delhi/52/011pf025452/catalogue/dharamshila-narayana-superspeciality-hospital-vasundhara-enclave-delhi-private-hospitals-3wuhd.jpg",
+            "detailsUrl": "https://www.narayanahealth.org/appointment",
+            "appointmentUrl": "https://www.narayanahealth.org/appointment",
+            "phone": "+91-1800-309-0309",
+            "contactEmail": "info.dnsh@narayanahealth.org"
         }
     ],
     "Bengaluru": [
@@ -343,7 +342,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Kannada", "Tamil"],
             "rating": 4.8,
             "reviews_count": 2500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://medicaldialogues.in/h-upload/2025/01/25/270976-kidwai-memorial-institute-of-oncology.jpg",
+            "imageUrl": "https://medicaldialogues.in/h-upload/2025/01/25/270976-kidwai-memorial-institute-of-oncology.jpg",
+            "detailsUrl": "https://kmio.karnataka.gov.in/11/register-as-new-patient/en",
+            "phone": "+91-80-66697999",
+            "contactEmail": "drramachandrac18@gmail.com"
         },
         {
             "id": "hcg-bengaluru",
@@ -366,7 +369,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Kannada", "Tamil"],
             "rating": 4.8,
             "reviews_count": 2200,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://static.medigence.com/uploads/hospital/images/1743572330_ee6772310d4b579ccdc4.jpg",
+            "imageUrl": "https://static.medigence.com/uploads/hospital/images/1743572330_ee6772310d4b579ccdc4.jpg",
+            "detailsUrl": "https://www.hcgoncology.com/contact-us/",
+            "phone": "+91-7406-4999-99",
+            "contactEmail": "query@hcgel.com"
         },
         {
             "id": "mazumdar-bengaluru",
@@ -389,7 +396,12 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Kannada", "Tamil"],
             "rating": 4.9,
             "reviews_count": 3000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://images1-fabric.practo.com/mazumdar-shaw-medical-center-bangalore-1468319443-5784c6d343789.jpg",
+            "imageUrl": "https://images1-fabric.practo.com/mazumdar-shaw-medical-center-bangalore-1468319443-5784c6d343789.jpg",
+            "detailsUrl": "https://www.narayanahealth.org/appointment",
+            "appointmentUrl": "https://www.narayanahealth.org/appointment",
+            "phone": "+91-1800-309-0309",
+            "contactEmail": "info.msmc@narayanahealth.org"
         }
     ],
     "Chennai": [
@@ -414,7 +426,11 @@ HOSPITALS = {
             "languages": ["English", "Tamil", "Hindi"],
             "rating": 4.7,
             "reviews_count": 2100,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://rawahealth.com/wp-content/uploads/2024/10/poip.jpg",
+            "imageUrl": "https://rawahealth.com/wp-content/uploads/2024/10/poip.jpg",
+            "detailsUrl": "https://cancerinstitutewia.in/",
+            "phone": "+91-44-2220-9150",
+            "contactEmail": "tncrp@cancerinstitutewia.org"
         },
         {
             "id": "apollo-chennai",
@@ -437,7 +453,12 @@ HOSPITALS = {
             "languages": ["English", "Tamil", "Hindi", "Telugu"],
             "rating": 4.9,
             "reviews_count": 3000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://i.ytimg.com/vi/MR21VfcQEDI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDLGXcdmQx0O-Mv8uKn0aglv6TM9g",
+            "imageUrl": "https://i.ytimg.com/vi/MR21VfcQEDI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDLGXcdmQx0O-Mv8uKn0aglv6TM9g",
+            "detailsUrl": "https://www.apollohospitals.com/doctors?f%5B0%5D=cities%3A12",
+            "appointmentUrl": "https://www.apollohospitals.com/doctors?f%5B0%5D=cities%3A12",
+            "phone": "+91-8062972768",
+            "contactEmail": "apcc@apollohospitals.com"
         },
         {
             "id": "gleneagles-chennai",
@@ -460,7 +481,12 @@ HOSPITALS = {
             "languages": ["English", "Tamil", "Hindi"],
             "rating": 4.7,
             "reviews_count": 1900,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://static.hospidio.com/uploads/hospital/51/gleneagles-hospital-chennai.jpeg.webp",
+            "imageUrl": "https://static.hospidio.com/uploads/hospital/51/gleneagles-hospital-chennai.jpeg.webp",
+            "detailsUrl": "https://www.gleneagleshospitals.co.in/doctors?types=book-an-appointment&hospital=3",
+            "appointmentUrl": "https://www.gleneagleshospitals.co.in/doctors?types=book-an-appointment&hospital=3",
+            "phone": "+91-92402-62425",
+            "contactEmail": "info.chn@gleneagleshospitals.co.in"
         }
     ],
     "Pune": [
@@ -485,7 +511,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Marathi"],
             "rating": 4.6,
             "reviews_count": 1400,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.mgsarchitecture.in/images/Projects/293-GrantMedicalFoundation.jpg",
+            "imageUrl": "https://www.mgsarchitecture.in/images/Projects/293-GrantMedicalFoundation.jpg",
+            "detailsUrl": "https://rubyhallcancercentre.com/contact/index.html",
+            "phone": "+91-20-66455573",
+            "contactEmail": "cancercentre@rubyhall.com"
         },
         {
             "id": "deenanath-pune",
@@ -508,7 +538,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Marathi"],
             "rating": 4.6,
             "reviews_count": 1500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://content.jdmagicbox.com/comp/pune/t2/020pxx20.xx20.000924773752.c2t2/catalogue/deenanath-mangeshkar-hospital-and-research-center-erandwane-pune-hospitals-vdhyu.jpg",
+            "imageUrl": "https://content.jdmagicbox.com/comp/pune/t2/020pxx20.xx20.000924773752.c2t2/catalogue/deenanath-mangeshkar-hospital-and-research-center-erandwane-pune-hospitals-vdhyu.jpg",
+            "detailsUrl": "https://www.dmhospital.org/contact-us",
+            "phone": "+91-20-4015-1000",
+            "contactEmail": "info@dmhospital.org"
         },
         {
             "id": "galaxy-pune",
@@ -531,7 +565,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Marathi"],
             "rating": 4.5,
             "reviews_count": 1200,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.galaxycare.org/custom/images/galaxy_care_facility1.jpg",
+            "imageUrl": "https://www.galaxycare.org/custom/images/galaxy_care_facility1.jpg",
+            "detailsUrl": "https://www.galaxycare.org/contact-us",
+            "phone": "+91-20-67429800",
+            "contactEmail": "info@galaxycare.org"
         }
     ],
     "Hyderabad": [
@@ -556,7 +594,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Telugu"],
             "rating": 4.7,
             "reviews_count": 2100,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://images.jdmagicbox.com/v2/comp/hyderabad/p8/040pxx40.xx40.170926150850.e4p8/catalogue/dr-jayanthi-mnj-institute-of-oncology-and-regional-cancer-centre-lakdi-ka-pool-khairatabad-hyderabad-oncologists-t6ikw8xxmo.jpg",
+            "imageUrl": "https://images.jdmagicbox.com/v2/comp/hyderabad/p8/040pxx40.xx40.170926150850.e4p8/catalogue/dr-jayanthi-mnj-institute-of-oncology-and-regional-cancer-centre-lakdi-ka-pool-khairatabad-hyderabad-oncologists-t6ikw8xxmo.jpg",
+            "detailsUrl": "https://www.mnjiorcc.in/html/contact-info.htm",
+            "phone": "+91-40-23318422",
+            "contactEmail": "info@mnjiorcc.org"
         },
         {
             "id": "basavatarakam-hyderabad",
@@ -579,7 +621,12 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Telugu"],
             "rating": 4.8,
             "reviews_count": 2400,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://basavatarakam.org/wp-content/uploads/2022/02/best-cancer-hospital-in-hyderabad-basavatarakam-indo-american-cancer-hospital-scaled.jpg",
+            "imageUrl": "https://basavatarakam.org/wp-content/uploads/2022/02/best-cancer-hospital-in-hyderabad-basavatarakam-indo-american-cancer-hospital-scaled.jpg",
+            "detailsUrl": "https://basavatarakam.org/book-online-appointment/",
+            "appointmentUrl": "https://basavatarakam.org/book-online-appointment/",
+            "phone": "+91-1800-4253-6666",
+            "contactEmail": "info@basavatarakam.org"
         },
         {
             "id": "aoi-hyderabad",
@@ -602,7 +649,12 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Telugu"],
             "rating": 4.7,
             "reviews_count": 1800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.americanoncology.com/static/landingpage/oncologyhyderabad/images/aoi-hydrabadhp.JPG",
+            "imageUrl": "https://www.americanoncology.com/static/landingpage/oncologyhyderabad/images/aoi-hydrabadhp.JPG",
+            "detailsUrl": "https://www.americanoncology.com/bookanappointment",
+            "appointmentUrl": "https://www.americanoncology.com/bookanappointment",
+            "phone": "+91-1800-208-2000",
+            "contactEmail": "contactus@americanoncology.com"
         },
         {
             "id": "yashoda-hyderabad",
@@ -625,7 +677,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Telugu"],
             "rating": 4.6,
             "reviews_count": 1700,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.yashodahospitals.com/wp-content/uploads/2024/07/yashoda_malakpet-1.jpg",
+            "imageUrl": "https://www.yashodahospitals.com/wp-content/uploads/2024/07/yashoda_malakpet-1.jpg",
+            "detailsUrl": "https://www.yashodahospitals.com/contact-us/",
+            "phone": "+91-8065906200",
+            "contactEmail": "query@yashodamail.com"
         }
     ],
     "Nashik": [
@@ -650,7 +706,12 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Marathi"],
             "rating": 4.5,
             "reviews_count": 1100,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.hcgoncology.com/uploads/images/nasik-manavata-cancer-centre-banner.webp",
+            "imageUrl": "https://www.hcgoncology.com/uploads/images/nasik-manavata-cancer-centre-banner.webp",
+            "detailsUrl": "https://www.hcgmanavatacancer.org/book-an-appointment/",
+            "appointmentUrl": "https://www.hcgmanavatacancer.org/book-an-appointment/",
+            "phone": "+91-253-6661111",
+            "contactEmail": "info@manavatacancercentre.com"
         },
         {
             "id": "ashoka-nashik",
@@ -673,7 +734,12 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Marathi"],
             "rating": 4.4,
             "reviews_count": 900,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.hosmac.com/wp-content/uploads/2019/10/ashoka11.jpg",
+            "imageUrl": "https://www.hosmac.com/wp-content/uploads/2019/10/ashoka11.jpg",
+            "detailsUrl": "https://www.medicoverhospitals.in/appointment",
+            "appointmentUrl": "https://www.medicoverhospitals.in/appointment",
+            "phone": "+91-40-68334455",
+            "contactEmail": "info@medicoverhospitals.in"
         },
         {
             "id": "namco-nashik",
@@ -696,7 +762,11 @@ HOSPITALS = {
             "languages": ["English", "Hindi", "Marathi"],
             "rating": 4.3,
             "reviews_count": 600,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670849683407_HospitalProfileImage_cf74c24b-597b-4eb5-b1e6-b6f599b5d700.png",
+            "imageUrl": "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670849683407_HospitalProfileImage_cf74c24b-597b-4eb5-b1e6-b6f599b5d700.png",
+            "detailsUrl": "https://namcotrust.com/#",
+            "phone": "+91-253-2530139",
+            "contactEmail": "info@namcohospital.com"
         }
     ],
     # USA Cities
@@ -722,7 +792,12 @@ HOSPITALS = {
             "languages": ["English", "Spanish", "Chinese"],
             "rating": 4.9,
             "reviews_count": 5000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.mskcc.org/sites/default/files/images/2024/01/dsc_7550_ret_1200x800_0.jpg",
+            "imageUrl": "https://www.mskcc.org/sites/default/files/images/2024/01/dsc_7550_ret_1200x800_0.jpg",
+            "detailsUrl": "https://www.mskcc.org/appointments/international",
+            "appointmentUrl": "https://www.mskcc.org/appointments/international",
+            "phone": "+1-332-900-5155",
+            "contactEmail": "International@mskcc.org"
         },
         {
             "id": "nyp-nyc",
@@ -745,7 +820,11 @@ HOSPITALS = {
             "languages": ["English", "Spanish", "Chinese"],
             "rating": 4.8,
             "reviews_count": 4800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://starrfoundation.org/wp-content/uploads/2025/02/NewYork-Presbyterian-1.webp",
+            "imageUrl": "https://starrfoundation.org/wp-content/uploads/2025/02/NewYork-Presbyterian-1.webp",
+            "detailsUrl": "https://www.nyp.org/documents/global/patient-intake-form_english.pdf",
+            "phone": "+1-212-746-9100",
+            "contactEmail": "globalservices@nyp.org"
         },
         {
             "id": "mount-sinai-nyc",
@@ -768,7 +847,11 @@ HOSPITALS = {
             "languages": ["English", "Spanish"],
             "rating": 4.8,
             "reviews_count": 4500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.mountsinai.org/files/MSHealth/Assets/Global/Newsroom/2025/Release-Resize-TischNCI.png",
+            "imageUrl": "https://www.mountsinai.org/files/MSHealth/Assets/Global/Newsroom/2025/Release-Resize-TischNCI.png",
+            "detailsUrl": "https://www.mountsinai.org/care/international/services/cancer",
+            "phone": "+1-212-241-1100",
+            "contactEmail": "MSHPatientRelations@mountsinai.org"
         }
     ],
     "Boston": [
@@ -793,7 +876,12 @@ HOSPITALS = {
             "languages": ["English", "Spanish"],
             "rating": 4.9,
             "reviews_count": 4500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://55933-bcmed.s3.amazonaws.com/bcp/images/dmImage/SourceImage/dana-farber-exterior12.jpg",
+            "imageUrl": "https://55933-bcmed.s3.amazonaws.com/bcp/images/dmImage/SourceImage/dana-farber-exterior12.jpg",
+            "detailsUrl": "https://www.dana-farber.org/request-appointment",
+            "appointmentUrl": "https://www.dana-farber.org/request-appointment",
+            "phone": "+1-877-442-3324",
+            "contactEmail": "danafarberinternational@dfci.harvard.edu"
         }
     ],
     "Houston": [
@@ -818,7 +906,12 @@ HOSPITALS = {
             "languages": ["English", "Spanish"],
             "rating": 4.9,
             "reviews_count": 6000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.mdanderson.org/images/publications/cancerfrontline/MDACC_sunrise_exterior_019.jpg",
+            "imageUrl": "https://www.mdanderson.org/images/publications/cancerfrontline/MDACC_sunrise_exterior_019.jpg",
+            "detailsUrl": "https://www.mdanderson.org/about-md-anderson/contact-us/askmdanderson/appointments.html",
+            "appointmentUrl": "https://www.mdanderson.org/about-md-anderson/contact-us/askmdanderson/appointments.html",
+            "phone": "+1-713-745-0450",
+            "contactEmail": "International@MDAnderson.org"
         }
     ],
     "Rochester (MN)": [
@@ -843,7 +936,12 @@ HOSPITALS = {
             "languages": ["English"],
             "rating": 4.9,
             "reviews_count": 5500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://assets.mayoclinic.org/content/dam/media/global/images/2024/06/25/photo-campus-sunset-mayo-clinic-phoenix-az-636x318.jpg",
+            "imageUrl": "https://assets.mayoclinic.org/content/dam/media/global/images/2024/06/25/photo-campus-sunset-mayo-clinic-phoenix-az-636x318.jpg",
+            "detailsUrl": "https://www.mayoclinic.org/appointments",
+            "appointmentUrl": "https://www.mayoclinic.org/appointments",
+            "phone": "+1-507-738-4021",
+            "contactEmail": "intl.isit@mayo.edu"
         }
     ],
     "Los Angeles": [
@@ -868,7 +966,12 @@ HOSPITALS = {
             "languages": ["English", "Spanish", "Chinese"],
             "rating": 4.8,
             "reviews_count": 4800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.cedars-sinai.org/content/dam/cedars-sinai/social-media/images/cedars-sinai-fb.jpg",
+            "imageUrl": "https://www.cedars-sinai.org/content/dam/cedars-sinai/social-media/images/cedars-sinai-fb.jpg",
+            "detailsUrl": "https://www.cedars-sinai.org/contact/make-appointment.html",
+            "appointmentUrl": "https://www.cedars-sinai.org/contact/make-appointment.html",
+            "phone": "+1-310-423-7890",
+            "contactEmail": "csinternational@cshs.org"
         }
     ],
     "Philadelphia": [
@@ -893,7 +996,12 @@ HOSPITALS = {
             "languages": ["English"],
             "rating": 4.8,
             "reviews_count": 4200,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.foxchase.org/sites/default/files/styles/slider_desktop/public/images/slide/slide_GENWestDay012560x1200_1.jpg?itok=8Sk3uINT",
+            "imageUrl": "https://www.foxchase.org/sites/default/files/styles/slider_desktop/public/images/slide/slide_GENWestDay012560x1200_1.jpg?itok=8Sk3uINT",
+            "detailsUrl": "https://www.foxchase.org/request-appointment",
+            "appointmentUrl": "https://www.foxchase.org/request-appointment",
+            "phone": "+1-267-559-5544",
+            "contactEmail": "InternationalMedicine@fccc.edu"
         }
     ],
     "Baltimore": [
@@ -918,7 +1026,12 @@ HOSPITALS = {
             "languages": ["English"],
             "rating": 4.9,
             "reviews_count": 5000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.hopkinsmedicine.org/-/media/kimmel-cancer-center/images/kimmel-cancer-center/viragh.jpg",
+            "imageUrl": "https://www.hopkinsmedicine.org/-/media/kimmel-cancer-center/images/kimmel-cancer-center/viragh.jpg",
+            "detailsUrl": "https://mychart.hopkinsmedicine.org/MyChart/app/prospect-form?quickCrmId=WP-24de6ch432YNb-2BJC9uvFHG-2BA-3D-3D-24w-2BpJnH7o7-2FQT3NBLYgqzB9-2FxK4cHYIY4kUvjh-2B51Mgo-3D",
+            "appointmentUrl": "https://mychart.hopkinsmedicine.org/MyChart/app/prospect-form?quickCrmId=WP-24de6ch432YNb-2BJC9uvFHG-2BA-3D-3D-24w-2BpJnH7o7-2FQT3NBLYgqzB9-2FxK4cHYIY4kUvjh-2B51Mgo-3D",
+            "phone": "+1-410-502-7683",
+            "contactEmail": "JHICare@jhmi.edu"
         }
     ],
     # Asia-Pacific
@@ -944,7 +1057,12 @@ HOSPITALS = {
             "languages": ["English", "Mandarin", "Malay", "Tamil"],
             "rating": 4.8,
             "reviews_count": 3500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.nccs.com.sg/adobe/dynamicmedia/deliver/dm-aid--020527a7-fba2-4ee3-b0cf-86ec370e7474/nccs-new-building-news.jpg?preferwebp=true",
+            "imageUrl": "https://www.nccs.com.sg/adobe/dynamicmedia/deliver/dm-aid--020527a7-fba2-4ee3-b0cf-86ec370e7474/nccs-new-building-news.jpg?preferwebp=true",
+            "detailsUrl": "https://eservices.healthhub.sg/public/appointments/make-new/form/request-form",
+            "appointmentUrl": "https://eservices.healthhub.sg/public/appointments/make-new/form/request-form",
+            "phone": "+65-6436-8088",
+            "contactEmail": "callcentre@nccs.com.sg"
         }
     ],
     "Tokyo": [
@@ -969,7 +1087,12 @@ HOSPITALS = {
             "languages": ["Japanese", "English"],
             "rating": 4.8,
             "reviews_count": 4000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://atlas.ncc.go.jp/atlasprj_cms/wp-content/uploads/ncc_hospital_image.jpg",
+            "imageUrl": "https://atlas.ncc.go.jp/atlasprj_cms/wp-content/uploads/ncc_hospital_image.jpg",
+            "detailsUrl": "https://www.nmct.ntt-east.co.jp/en/divisions/international_healthcare/",
+            "appointmentUrl": "https://www.ncc.go.jp/en/about/appointments/index.html",
+            "phone": "+81-3-6721-6239",
+            "contactEmail": "nttihc-ml@east.ntt.co.jp"
         }
     ],
     "Osaka": [
@@ -994,7 +1117,12 @@ HOSPITALS = {
             "languages": ["Japanese", "English"],
             "rating": 4.7,
             "reviews_count": 3500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.japanhospitalsearch.org/contents/wp-content/uploads/2020/06/%E5%86%99%E7%9C%9F%E3%80%80%E5%A4%A7%E9%98%AA%E5%9B%BD%E9%9A%9B%E3%81%8C%E3%82%93%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%80%80%E5%A4%96%E8%A6%B3.jpg",
+            "imageUrl": "https://www.japanhospitalsearch.org/contents/wp-content/uploads/2020/06/%E5%86%99%E7%9C%9F%E3%80%80%E5%A4%A7%E9%98%AA%E5%9B%BD%E9%9A%9B%E3%81%8C%E3%82%93%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%80%80%E5%A4%96%E8%A6%B3.jpg",
+            "detailsUrl": "https://oici.jp.e.abv.hp.transer.com/hospital/#application",
+            "appointmentUrl": "https://oici.jp.e.abv.hp.transer.com/hospital/#application",
+            "phone": "+81-6-6945-1181",
+            "contactEmail": None
         }
     ],
     # Middle East & Europe
@@ -1020,7 +1148,12 @@ HOSPITALS = {
             "languages": ["Turkish", "English"],
             "rating": 4.7,
             "reviews_count": 2800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://experts-medical.com/wp-content/uploads/2019/02/memorial-hospital-in-istanbul-jpg.jpg",
+            "imageUrl": "https://experts-medical.com/wp-content/uploads/2019/02/memorial-hospital-in-istanbul-jpg.jpg",
+            "detailsUrl": "https://www.memorial.com.tr/en/get-appointment",
+            "appointmentUrl": "https://www.memorial.com.tr/en/get-appointment",
+            "phone": "+90-549-639-3366",
+            "contactEmail": "internationalpatients@memorial.com.tr"
         }
     ],
     "Ankara": [
@@ -1045,7 +1178,11 @@ HOSPITALS = {
             "languages": ["Turkish", "English"],
             "rating": 4.8,
             "reviews_count": 3200,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.university.com.tr/wp-content/uploads/2022/03/85_Hacettepe-University_Campus.jpg",
+            "imageUrl": "https://www.university.com.tr/wp-content/uploads/2022/03/85_Hacettepe-University_Campus.jpg",
+            "detailsUrl": "https://international.hacettepe.edu.tr/contact-information_407.html",
+            "phone": "+90-312-305-2604",
+            "contactEmail": "ipo@hacettepe.edu.tr"
         }
     ],
     "Toronto": [
@@ -1070,7 +1207,12 @@ HOSPITALS = {
             "languages": ["English", "French"],
             "rating": 4.9,
             "reviews_count": 4500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://cdn.prod.website-files.com/67dad124930e6770d64e9036/686fdeb92ace1a3d0517fee0_1423_header_image.jpg",
+            "imageUrl": "https://cdn.prod.website-files.com/67dad124930e6770d64e9036/686fdeb92ace1a3d0517fee0_1423_header_image.jpg",
+            "detailsUrl": "https://www.uhn.ca/IHP/International_Patients",
+            "appointmentUrl": "https://www.uhn.ca/IHP/International_Patients",
+            "phone": "+1-416-603-5015",
+            "contactEmail": "IPP@uhn.ca"
         }
     ],
     "Vancouver": [
@@ -1095,7 +1237,11 @@ HOSPITALS = {
             "languages": ["English", "French", "Chinese"],
             "rating": 4.8,
             "reviews_count": 4000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://henriquezpartners.com/wp-content/uploads/2018/08/henriquez-partners-bc-cancer-research-centre-2.jpg",
+            "imageUrl": "https://henriquezpartners.com/wp-content/uploads/2018/08/henriquez-partners-bc-cancer-research-centre-2.jpg",
+            "detailsUrl": "https://www.bccancer.bc.ca/our-services/patient-guide/out-of-province-out-of-country-patients#Out-of-country--patients",
+            "phone": "+1-604-877-6000",
+            "contactEmail": None
         }
     ],
     "Berlin": [
@@ -1120,7 +1266,11 @@ HOSPITALS = {
             "languages": ["German", "English"],
             "rating": 4.8,
             "reviews_count": 4200,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://neurochirurgie.charite.de/fileadmin/_processed_/2/4/csm_Klinik-fuer-Neurochirurgie-Berlin_940x420_fd34177c4e.jpg",
+            "imageUrl": "https://neurochirurgie.charite.de/fileadmin/_processed_/2/4/csm_Klinik-fuer-Neurochirurgie-Berlin_940x420_fd34177c4e.jpg",
+            "detailsUrl": "https://www.charite.de/en/international/for_international_patients",
+            "phone": "+49-30-450-578-244",
+            "contactEmail": "international-patients@charite.de"
         }
     ],
     "Heidelberg": [
@@ -1145,7 +1295,12 @@ HOSPITALS = {
             "languages": ["German", "English"],
             "rating": 4.9,
             "reviews_count": 4500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://modulo.net/files/chunks/5a5e416da0d55627f0000012/5a5e417ea0d55627d1000018.jpg",
+            "imageUrl": "https://modulo.net/files/chunks/5a5e416da0d55627f0000012/5a5e417ea0d55627d1000018.jpg",
+            "detailsUrl": "https://www.heidelberg-university-hospital.com/treatment-inquiry-appointment/cookies-notice-telemedicine-portal",
+            "appointmentUrl": "https://www.heidelberg-university-hospital.com/treatment-inquiry-appointment/cookies-notice-telemedicine-portal",
+            "phone": "+49-6221-56-6243",
+            "contactEmail": "international.office@med.uni-heidelberg.de"
         }
     ],
     "Abu Dhabi": [
@@ -1170,7 +1325,12 @@ HOSPITALS = {
             "languages": ["Arabic", "English"],
             "rating": 4.7,
             "reviews_count": 2800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.allocationassist.com/wp-content/uploads/2025/06/tawam-hospital.webp",
+            "imageUrl": "https://www.allocationassist.com/wp-content/uploads/2025/06/tawam-hospital.webp",
+            "detailsUrl": "https://www.seha.ae/international-patients",
+            "appointmentUrl": "https://www.seha.ae/international-patients",
+            "phone": "+971-3-767-7444",
+            "contactEmail": "contact@seha.ae"
         }
     ],
     "Dubai": [
@@ -1195,7 +1355,12 @@ HOSPITALS = {
             "languages": ["Arabic", "English"],
             "rating": 4.6,
             "reviews_count": 2400,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://media.assettype.com/gulfnews%2Fimport%2F2020%2F06%2F02%2FMediclinic-City-Hospital_17274486612_medium.jpg?w=1200&ar=40%3A21&auto=format%2Ccompress&ogImage=true&mode=crop&enlarge=true&overlay=false&overlay_position=bottom&overlay_width=100",
+            "imageUrl": "https://media.assettype.com/gulfnews%2Fimport%2F2020%2F06%2F02%2FMediclinic-City-Hospital_17274486612_medium.jpg?w=1200&ar=40%3A21&auto=format%2Ccompress&ogImage=true&mode=crop&enlarge=true&overlay=false&overlay_position=bottom&overlay_width=100",
+            "detailsUrl": "https://www.mediclinic.ae/en/corporate/book-an-appointment.html",
+            "appointmentUrl": "https://www.mediclinic.ae/en/corporate/book-an-appointment.html",
+            "phone": "+971-2-408-3511",
+            "contactEmail": "info@mediclinic.ae"
         }
     ],
     "Oslo": [
@@ -1220,7 +1385,11 @@ HOSPITALS = {
             "languages": ["Norwegian", "English"],
             "rating": 4.8,
             "reviews_count": 3800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/54/Rikshospitalet_Oslo.jpg",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/54/Rikshospitalet_Oslo.jpg",
+            "detailsUrl": "https://www.oslo-universitetssykehus.no/en/about-oslo-university-hospital/contact-us/",
+            "phone": "+47-22-93-40-00",
+            "contactEmail": None
         }
     ],
     "London": [
@@ -1245,7 +1414,12 @@ HOSPITALS = {
             "languages": ["English"],
             "rating": 4.9,
             "reviews_count": 5000,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://lipalondon.com/wp-content/uploads/2024/02/royal-marsden-hospital.jpg",
+            "imageUrl": "https://lipalondon.com/wp-content/uploads/2024/02/royal-marsden-hospital.jpg",
+            "detailsUrl": "https://www.royalmarsden.nhs.uk/private-care/referrals",
+            "appointmentUrl": "https://www.royalmarsden.nhs.uk/private-care/referrals",
+            "phone": "+44-20-7808-2063",
+            "contactEmail": "int@rmh.nhs.uk"
         }
     ],
     "Manchester": [
@@ -1270,7 +1444,12 @@ HOSPITALS = {
             "languages": ["English"],
             "rating": 4.8,
             "reviews_count": 4500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.cruk.manchester.ac.uk/wp-content/uploads/2024/11/21-01-HERO-TheChristie-2560x1200-c-center-1920x1080.jpeg",
+            "imageUrl": "https://www.cruk.manchester.ac.uk/wp-content/uploads/2024/11/21-01-HERO-TheChristie-2560x1200-c-center-1920x1080.jpeg",
+            "detailsUrl": "https://mft.nhs.uk/mymft/virtual-video-appointments/",
+            "appointmentUrl": "https://mft.nhs.uk/mymft/virtual-video-appointments/",
+            "phone": "+44-161-446-8107",
+            "contactEmail": "cancer.information@christie.nhs.uk"
         }
     ],
     "Paris": [
@@ -1295,7 +1474,12 @@ HOSPITALS = {
             "languages": ["French", "English"],
             "rating": 4.9,
             "reviews_count": 4800,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.gustaveroussy.fr/sites/default/files/gustaveroussy-fronton_16.jpg",
+            "imageUrl": "https://www.gustaveroussy.fr/sites/default/files/gustaveroussy-fronton_16.jpg",
+            "detailsUrl": "https://www.gustaveroussy.fr/en/international-appointment",
+            "appointmentUrl": "https://rdv.gustaveroussy.fr/en",
+            "phone": "+33-1-42-11-42-11",
+            "contactEmail": "internationalpatients@gustaveroussy.fr"
         }
     ],
     "Lyon": [
@@ -1320,7 +1504,12 @@ HOSPITALS = {
             "languages": ["French", "English"],
             "rating": 4.8,
             "reviews_count": 4200,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.centreleonberard.fr/sites/default/files/styles/paragraph_block_picture_and_text/public/2018-08/contact-centre-leon-berard.jpg?itok=R0uPWDxY",
+            "imageUrl": "https://www.centreleonberard.fr/sites/default/files/styles/paragraph_block_picture_and_text/public/2018-08/contact-centre-leon-berard.jpg?itok=R0uPWDxY",
+            "detailsUrl": "https://www.centreleonberard.fr/en/patient-relative/how-make-appointment",
+            "appointmentUrl": "https://www.centreleonberard.fr/en/patient-relative/how-make-appointment",
+            "phone": "+33-4-69-85-62-20",
+            "contactEmail": "internationalpatient@lyon.unicancer.fr"
         }
     ],
     "Bangkok": [
@@ -1345,7 +1534,12 @@ HOSPITALS = {
             "languages": ["Thai", "English"],
             "rating": 4.7,
             "reviews_count": 3500,
-            "image_url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800"
+            "image_url": "https://www.bumrungrad.com/getattachment/6e8a1bae-7bd6-4fc2-945a-5a61db4700ff/BH_Health-Screening-Programs.jpg",
+            "imageUrl": "https://www.bumrungrad.com/getattachment/6e8a1bae-7bd6-4fc2-945a-5a61db4700ff/BH_Health-Screening-Programs.jpg",
+            "detailsUrl": "https://www.bumrungrad.com/en/book-appointment",
+            "appointmentUrl": "https://www.bumrungrad.com/en/book-appointment",
+            "phone": "+66-2-066-8888",
+            "contactEmail": "info@bumrungrad.com"
         }
     ]
 }
