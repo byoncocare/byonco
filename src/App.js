@@ -9,21 +9,6 @@ import { Loader2 } from "lucide-react";
 import { StackHandler } from "@stackframe/react";
 import { stackClientApp } from "./stack/client";
 
-// Wrapper component for Stack Auth handler with error handling
-function StackAuthHandlerWrapper({ app, location }) {
-  return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <StackHandler 
-          app={app} 
-          location={location} 
-          fullPage={false}
-        />
-      </div>
-    </div>
-  );
-}
-
 // Sections (old home page)
 import Hero from "./components/Hero";
 import TrustedBy from "./components/TrustedBy";
@@ -142,6 +127,23 @@ function HashScroller({ offset = 96 }) {
   }, [location, offset]);
 
   return null;
+}
+
+/* -------------------------------------------------------
+   Stack Auth Handler Wrapper
+------------------------------------------------------- */
+function StackAuthHandlerWrapper({ app, location }) {
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <StackHandler 
+          app={app} 
+          location={location} 
+          fullPage={false}
+        />
+      </div>
+    </div>
+  );
 }
 
 /* -------------------------------------------------------
