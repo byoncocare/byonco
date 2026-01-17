@@ -9,23 +9,23 @@
       }
     }
   ],
-  "redirects": [
+  "routes": [
     {
-      "source": "/(.*)",
+      "src": "/api/(.*)",
+      "dest": "https://byonco-fastapi-backend.onrender.com/api/$1"
+    },
+    {
+      "src": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "byoncocare.com"
         }
       ],
-      "destination": "https://www.byoncocare.com/$1",
-      "permanent": true
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "https://byonco-fastapi-backend.onrender.com/api/$1"
+      "headers": {
+        "Location": "https://www.byoncocare.com/$1"
+      },
+      "status": 301
     },
     {
       "handle": "filesystem"
