@@ -2,12 +2,26 @@
 // Stack Auth client configuration - Production Ready
 import { StackClientApp } from "@stackframe/react";
 import { useNavigate } from "react-router-dom";
+import { stackConfig } from "@/config/stack";
 
+// Debug: Log configuration before initialization
+if (typeof window !== 'undefined') {
+  console.log("[STACK AUTH] Initializing client with config:", {
+    projectId: stackConfig.projectId ? stackConfig.projectId.substring(0, 6) + "..." : "MISSING",
+    publishableKey: stackConfig.publishableClientKey ? stackConfig.publishableClientKey.substring(0, 6) + "..." : "MISSING",
+    baseUrl: stackConfig.baseUrl,
+    isValid: stackConfig.isValid,
+  });
+}
+
+// Initialize Stack Auth client
 export const stackClientApp = new StackClientApp({
-  // Production keys - MUST be set via environment variables in Vercel
-  // These are required for production deployment
-  projectId: process.env.REACT_APP_STACK_PROJECT_ID || "5a629032-2f33-46db-ac2c-134894a117eb",
-  publishableClientKey: process.env.REACT_APP_STACK_PUBLISHABLE_KEY || "pck_5cxgp4bnstpq82vjxxam2r9sbhkjw09xm00rcjw2cdaxg",
+  // Use centralized config module
+  projectId: stackConfig.projectId,
+  publishableClientKey: stackConfig.publishableClientKey,
+  
+  // Explicitly set API URL for production
+  baseUrl: stackConfig.baseUrl,
   
   // Token storage - secure cookies for production
   tokenStore: "cookie",
@@ -25,8 +39,4 @@ export const stackClientApp = new StackClientApp({
     afterSignIn: "/",
     afterSignUp: "/",
   },
-  
-  // Explicitly set API URL for production (optional, defaults to api.stack-auth.com)
-  // Only needed if using custom Stack Auth instance
-  // baseUrl: process.env.REACT_APP_STACK_API_URL || "https://api.stack-auth.com",
 });

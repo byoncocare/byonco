@@ -4,6 +4,7 @@ import React from 'react';
 import { AlertCircle, RefreshCw, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { debugStackConfig } from '@/config/stack';
 
 class StackAuthErrorBoundary extends React.Component {
   constructor(props) {
@@ -30,6 +31,10 @@ class StackAuthErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
+      // Get debug info to show what's missing
+      const debugInfo = typeof window !== 'undefined' ? debugStackConfig() : null;
+      const isMissingEnvVars = debugInfo && (!debugInfo.projectIdPresent || !debugInfo.publishableKeyPresent);
+      
       return (
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-indigo-950 flex items-center justify-center p-4 sm:p-6">
           <Card className="bg-slate-900/90 border-red-500/50 max-w-md w-full">
@@ -43,6 +48,19 @@ class StackAuthErrorBoundary extends React.Component {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {isMissingEnvVars && (
+                <div className="bg-red-900/20 border border-red-500/50 rounded p-3 mb-4">
+                  <p className="text-red-400 font-semibold text-sm mb-1">⚠️ Missing Environment Variables</p>
+                  <p className="text-xs text-gray-300">
+                    {!debugInfo.projectIdPresent && "• REACT_APP_STACK_PROJECT_ID is missing\n"}
+                    {!debugInfo.publishableKeyPresent && "• REACT_APP_STACK_PUBLISHABLE_KEY is missing\n"}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-2">
+                    Add these in Vercel Dashboard → Settings → Environment Variables → Production
+                  </p>
+                </div>
+              )}
+              
               <div className="text-sm text-gray-400 space-y-3">
                 <div>
                   <p className="text-white font-semibold mb-2">Production Configuration:</p>
@@ -60,15 +78,22 @@ class StackAuthErrorBoundary extends React.Component {
                         <li><code className="bg-slate-800 px-1 py-0.5 rounded text-xs">REACT_APP_STACK_PUBLISHABLE_KEY</code></li>
                       </ul>
                     </li>
-                    <li>After updating, redeploy on Vercel</li>
+                    <li>After updating, redeploy on Vercel (with "Clear build cache")</li>
                     <li>Refresh this page</li>
                   </ol>
                 </div>
                 
-                <div className="pt-2 border-t border-gray-700">
-                  <p className="text-white font-semibold mb-1">Current Domain:</p>
-                  <p className="text-xs"><code className="bg-slate-800 px-2 py-1 rounded">{window.location.origin}</code></p>
-                </div>
+                {debugInfo && (
+                  <div className="pt-2 border-t border-gray-700">
+                    <p className="text-white font-semibold mb-1">Debug Info:</p>
+                    <div className="text-xs space-y-1">
+                      <p>Domain: <code className="bg-slate-800 px-1 py-0.5 rounded">{debugInfo.hostname}</code></p>
+                      <p>Project ID: {debugInfo.projectIdPresent ? "✅ Present" : "❌ Missing"}</p>
+                      <p>Publishable Key: {debugInfo.publishableKeyPresent ? "✅ Present" : "❌ Missing"}</p>
+                      <p>API URL: <code className="bg-slate-800 px-1 py-0.5 rounded">{debugInfo.apiUrl}</code></p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex gap-2 pt-4">
