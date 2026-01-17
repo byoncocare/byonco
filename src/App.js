@@ -5,9 +5,6 @@ import "./App.css";   // Custom marketing + ByOnco/Vayu overrides
 import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2 } from "lucide-react";
-import { StackHandler } from "@stackframe/react";
-import { stackClientApp } from "./stack/client";
 
 // Sections (old home page)
 import Hero from "./components/Hero";
@@ -22,16 +19,20 @@ import Footer from "./components/Footer";
 import TeamSection from "./components/TeamSection";
 import FAQ from "./components/FAQ";
 import CookieConsent from "./components/CookieConsent";
-import { Toaster } from "./components/ui/toaster";
 
-// Pages - Regular imports
+// Pages
 import ByOncoProWaitlist from "./pages/ByOncoProWaitlist";
+import Security from "./pages/Security";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
 import Careers from "./pages/Careers";
 import GetStarted from "./pages/GetStarted";
 import JoinWaitlist from "./pages/JoinWaitlist";
 import GetMatched from "./pages/GetMatched";
 import CancellationRefund from "./pages/CancellationRefund";
 import ShippingDelivery from "./pages/ShippingDelivery";
+
+// Med tourism landing (new main home)
 import MedTourismLanding from "./pages/MedTourismLanding";
 import FindHospitalsPage from "./pages/FindHospitalsPage";
 import RareCancersPage from "./pages/RareCancersPage";
@@ -46,16 +47,16 @@ import JourneyPlanDetails from "./pages/JourneyPlanDetails";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
 import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
-import CancerPage from "./pages/CancerPage";
-import CancerHub from "./pages/CancerHub";
 import ProtectedRoute from "./components/ProtectedRoute";
-import PaymentGate from "./components/PaymentGate";
-import SecurityProtection from "./components/Security/SecurityProtection";
+
+// Vayu legal pages
 import PrivacyPolicyVayu from "./products/vayu/pages/PrivacyPolicyVayu";
 import TermsOfServiceVayu from "./products/vayu/pages/TermsOfServiceVayu";
 import RefundPolicyVayu from "./products/vayu/pages/RefundPolicyVayu";
 import ContactInformationVayu from "./products/vayu/pages/ContactInformationVayu";
 import CookiePolicyVayu from "./products/vayu/pages/CookiePolicyVayu";
+
+// Vayu support pages
 import HelpCenterVayu from "./products/vayu/pages/HelpCenterVayu";
 import WarrantyVayu from "./products/vayu/pages/WarrantyVayu";
 import ReturnsVayu from "./products/vayu/pages/ReturnsVayu";
@@ -64,20 +65,12 @@ import AboutVayu from "./products/vayu/pages/AboutVayu";
 import VayuOrderPage from "./products/vayu/pages/VayuOrderPage";
 import VayuCheckoutPage from "./products/vayu/pages/VayuCheckoutPage";
 import VayuCheckoutSuccess from "./products/vayu/pages/VayuCheckoutSuccess";
-import VayuWaitlist from "./products/vayu/pages/VayuWaitlist";
-import VayuX from "./pages/VayuX";
 
-// Pages - Lazy load legal pages for performance
-// eslint-disable-next-line import/first
-const Security = lazy(() => import("./pages/Security"));
-// eslint-disable-next-line import/first
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-// eslint-disable-next-line import/first
-const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
-// eslint-disable-next-line import/first
-const MedicalDisclaimer = lazy(() => import("./pages/MedicalDisclaimer"));
-// eslint-disable-next-line import/first
-const AboutPage = lazy(() => import("./pages/AboutPage"));
+// Vayu waitlist page
+import VayuWaitlist from "./products/vayu/pages/VayuWaitlist";
+
+// Import Vayu product page directly (no lazy loading to avoid cache issues)
+import VayuX from "./pages/VayuX";
 
 /* -------------------------------------------------------
    Global hash scroller (unchanged)
@@ -130,82 +123,6 @@ function HashScroller({ offset = 96 }) {
 }
 
 /* -------------------------------------------------------
-   Stack Auth Handler Wrapper
-------------------------------------------------------- */
-function StackAuthHandlerWrapper({ app }) {
-  const [error, setError] = React.useState(null);
-
-  // Use full URL including pathname, search, and hash for StackHandler
-  const fullLocation = React.useMemo(() => {
-    if (typeof window === 'undefined') return '/';
-    return window.location.pathname + window.location.search + window.location.hash;
-  }, []);
-
-  React.useEffect(() => {
-    // Debug logging - no secrets
-    console.log('[StackAuthHandler] ===== OAuth Callback Handler MOUNTED =====');
-    console.log('[StackAuthHandler] Full URL:', window.location.href);
-    console.log('[StackAuthHandler] Pathname:', window.location.pathname);
-    console.log('[StackAuthHandler] Search:', window.location.search);
-    console.log('[StackAuthHandler] Hash:', window.location.hash);
-    console.log('[StackAuthHandler] Full Location (for StackHandler):', fullLocation);
-    console.log('[StackAuthHandler] Stack Auth App:', app ? '✅ Present' : '❌ Missing');
-    console.log('[StackAuthHandler] Stack Auth Project ID:', app?.projectId ? app.projectId.substring(0, 6) + '...' : 'Missing');
-    
-    // Log handler path configuration
-    if (app?.urls?.handler) {
-      console.log('[StackAuthHandler] Handler URL:', app.urls.handler);
-    }
-    
-    // Listen for OAuth messages
-    const messageHandler = (e) => {
-      console.log('[StackAuthHandler] OAuth message received:', e.type, e.data);
-    };
-    window.addEventListener("message", messageHandler);
-    
-    return () => {
-      window.removeEventListener("message", messageHandler);
-    };
-  }, [fullLocation, app]);
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-4">
-        <div className="max-w-md w-full text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">OAuth Callback Error</h1>
-          <p className="text-gray-600 mb-4">{error}</p>
-          <button
-            onClick={() => window.location.href = '/authentication'}
-            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-          >
-            Go to Login
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  try {
-    console.log('[StackAuthHandler] Rendering StackHandler with location:', fullLocation);
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
-          <StackHandler 
-            app={app} 
-            location={fullLocation}
-            fullPage={false}
-          />
-        </div>
-      </div>
-    );
-  } catch (err) {
-    console.error('[StackAuthHandler] Error:', err);
-    setError(err.message || 'Failed to process OAuth callback');
-    return null;
-  }
-}
-
-/* -------------------------------------------------------
    Classic old home (/classic-home)
 ------------------------------------------------------- */
 function HomePage() {
@@ -238,28 +155,8 @@ function HomePage() {
 export default function App() {
   const location = useLocation();
 
-  // Domain canonicalization - force www.byoncocare.com
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const hostname = window.location.hostname;
-      // If on byoncocare.com (without www), redirect to www
-      if (hostname === 'byoncocare.com') {
-        const newUrl = `https://www.byoncocare.com${window.location.pathname}${window.location.search}${window.location.hash}`;
-        console.log('[App] Redirecting to canonical domain:', newUrl);
-        window.location.replace(newUrl);
-        return;
-      }
-    }
-  }, []);
-
   return (
-    <SecurityProtection
-      disableRightClick={true}
-      disableCopyPaste={true}
-      disableTextSelection={false} // Only disable on sensitive blocks, not whole page
-      sensitiveSelector="[data-sensitive], .sensitive-content, .pricing-card, .subscription-details"
-      allowDevTools={true} // Allow DevTools for debugging
-    >
+    <>
       <AnimatePresence mode="wait">
         <Suspense
           fallback={
@@ -275,26 +172,6 @@ export default function App() {
           <HashScroller offset={96} />
 
           <Routes location={location} key={location.pathname}>
-            {/* Stack Auth Handler - MUST be FIRST route (before all others) */}
-            {/* StackHandler handles ALL /handler/* routes including /handler/oauth-callback */}
-            {/* This route MUST bypass all guards, security, and auth checks */}
-            <Route
-              path="/handler/*"
-              element={
-                <React.Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><div className="text-center"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600 mx-auto mb-3" /><p className="text-gray-600">Processing authentication...</p></div></div>}>
-                  <StackAuthHandlerWrapper 
-                    app={stackClientApp}
-                  />
-                </React.Suspense>
-              }
-            />
-            
-            {/* Redirect /index.html to root */}
-            <Route
-              path="/index.html"
-              element={<Navigate to="/" replace />}
-            />
-
             {/* MAIN HOME PAGE - MedTourismLanding */}
             <Route
               path="/"
@@ -361,17 +238,11 @@ export default function App() {
             />
 
             {/* ----------- Authentication ----------- */}
-            {/* Redirect /auth to /authentication for backward compatibility */}
-            <Route
-              path="/auth"
-              element={<Navigate to="/authentication" replace />}
-            />
-            {/* Stack Auth Authentication Page */}
             <Route
               path="/authentication"
               element={
                 <motion.div
-                  className="page-shell min-h-screen"
+                  className="page-shell min-h-screen text-gray-900"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -421,17 +292,15 @@ export default function App() {
               path="/find-hospitals"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Find Hospitals">
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <FindHospitalsPage />
-                    </motion.div>
-                  </PaymentGate>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <FindHospitalsPage />
+                  </motion.div>
                 </ProtectedRoute>
               }
             />
@@ -455,17 +324,15 @@ export default function App() {
               path="/rare-cancers"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Rare Cancers">
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <RareCancersPage />
-                    </motion.div>
-                  </PaymentGate>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <RareCancersPage />
+                  </motion.div>
                 </ProtectedRoute>
               }
             />
@@ -498,17 +365,15 @@ export default function App() {
               path="/teleconsultation"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Teleconsultation">
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <TeleconsultationPage />
-                    </motion.div>
-                  </PaymentGate>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <TeleconsultationPage />
+                  </motion.div>
                 </ProtectedRoute>
               }
             />
@@ -517,48 +382,16 @@ export default function App() {
               path="/cost-calculator"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Cost Calculator">
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <CostCalculatorPage />
-                    </motion.div>
-                  </PaymentGate>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <CostCalculatorPage />
+                  </motion.div>
                 </ProtectedRoute>
-              }
-            />
-
-            {/* ----------- Cancer Pages (SEO Optimized) ----------- */}
-            <Route
-              path="/cancer"
-              element={
-                <motion.div
-                  className="page-shell min-h-screen text-gray-900"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <CancerHub />
-                </motion.div>
-              }
-            />
-            <Route
-              path="/cancer/:cancerType"
-              element={
-                <motion.div
-                  className="page-shell min-h-screen text-gray-900"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <CancerPage />
-                </motion.div>
               }
             />
 
@@ -566,17 +399,15 @@ export default function App() {
               path="/journey-builder"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="AI Medical Tourism for Oncology">
-                    <motion.div
-                      className="min-h-screen"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <JourneyBuilderPage />
-                    </motion.div>
-                  </PaymentGate>
+                  <motion.div
+                    className="min-h-screen"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <JourneyBuilderPage />
+                  </motion.div>
                 </ProtectedRoute>
               }
             />
@@ -585,17 +416,15 @@ export default function App() {
               path="/journey-builder/plan/:planId"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="AI Medical Tourism for Oncology">
-                    <motion.div
-                      className="min-h-screen"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <JourneyPlanDetails />
-                    </motion.div>
-                  </PaymentGate>
+                  <motion.div
+                    className="min-h-screen"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <JourneyPlanDetails />
+                  </motion.div>
                 </ProtectedRoute>
               }
             />
@@ -618,81 +447,43 @@ export default function App() {
             <Route
               path="/terms-and-conditions"
               element={
-                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
-                  <motion.div
-                    className="page-shell min-h-screen bg-[#fdfdfc]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <TermsAndConditions />
-                  </motion.div>
-                </Suspense>
+                <motion.div
+                  className="page-shell min-h-screen bg-[#fdfdfc]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <TermsAndConditions />
+                </motion.div>
               }
             />
             <Route
               path="/privacy"
               element={
-                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
-                  <motion.div
-                    className="page-shell min-h-screen bg-[#fdfdfc]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <PrivacyPolicy />
-                  </motion.div>
-                </Suspense>
-              }
-            />
-            <Route
-              path="/medical-disclaimer"
-              element={
-                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
-                  <motion.div
-                    className="page-shell min-h-screen bg-[#fdfdfc]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <MedicalDisclaimer />
-                  </motion.div>
-                </Suspense>
+                <motion.div
+                  className="page-shell min-h-screen bg-[#fdfdfc]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <PrivacyPolicy />
+                </motion.div>
               }
             />
             <Route
               path="/security"
               element={
-                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
-                  <motion.div
-                    className="page-shell min-h-screen bg-[#fdfdfc]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <Security />
-                  </motion.div>
-                </Suspense>
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
-                  <motion.div
-                    className="min-h-screen"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <AboutPage />
-                  </motion.div>
-                </Suspense>
+                <motion.div
+                  className="page-shell min-h-screen bg-[#fdfdfc]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Security />
+                </motion.div>
               }
             />
 
@@ -892,31 +683,13 @@ export default function App() {
               }
             />
 
-            {/* Catch-all route - redirect to home if no route matches */}
-            <Route
-              path="*"
-              element={
-                <div className="min-h-screen bg-white flex items-center justify-center p-4">
-                  <div className="max-w-md w-full text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-4">Page does not exist</h1>
-                    <p className="text-gray-600 mb-4">The page you are looking for could not be found. Please check the URL and try again.</p>
-                    <button
-                      onClick={() => window.location.href = '/'}
-                      className="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-                    >
-                      Go to Home
-                    </button>
-                  </div>
-                </div>
-              }
-            />
+            {/* Optional 404 - not added */}
           </Routes>
         </Suspense>
       </AnimatePresence>
 
       {/* Always visible */}
       <CookieConsent />
-      <Toaster />
-    </SecurityProtection>
+    </>
   );
 }
