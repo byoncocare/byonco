@@ -13,8 +13,6 @@ import { HelmetProvider } from "react-helmet-async";
 
 import App from "./App";
 import { AuthProvider } from "./contexts/AuthContext";
-import { StackProvider, StackTheme } from "@stackframe/react";
-import { stackClientApp } from "./stack/client";
 import reportWebVitals from "./reportWebVitals";
 
 // Security initialization
@@ -65,13 +63,9 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter basename={BASENAME}>
-        <StackProvider app={stackClientApp}>
-          <StackTheme>
-            <AuthProvider>
-              <App />
-            </AuthProvider>
-          </StackTheme>
-        </StackProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </HelmetProvider>
   </React.StrictMode>
