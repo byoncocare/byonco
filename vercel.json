@@ -15,19 +15,6 @@
       "dest": "https://byonco-fastapi-backend.onrender.com/api/$1"
     },
     {
-      "src": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "byoncocare.com"
-        }
-      ],
-      "headers": {
-        "Location": "https://www.byoncocare.com/$1"
-      },
-      "status": 301
-    },
-    {
       "handle": "filesystem"
     },
     {
