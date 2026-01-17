@@ -45,7 +45,6 @@ import JourneyBuilderPage from "./pages/JourneyBuilderPage";
 import JourneyPlanDetails from "./pages/JourneyPlanDetails";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
-import OAuthCallback from "./pages/OAuthCallback";
 import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
 import CancerPage from "./pages/CancerPage";
 import CancerHub from "./pages/CancerHub";
@@ -140,11 +139,28 @@ function StackAuthHandlerWrapper({ app, location }) {
     // Debug logging - no secrets
     console.log('[StackAuthHandler] ===== OAuth Callback Handler =====');
     console.log('[StackAuthHandler] Full URL:', window.location.href);
+    console.log('[StackAuthHandler] Hostname:', window.location.hostname);
+    console.log('[StackAuthHandler] Origin:', window.location.origin);
     console.log('[StackAuthHandler] Pathname:', window.location.pathname);
     console.log('[StackAuthHandler] Search params:', window.location.search);
     console.log('[StackAuthHandler] Location prop:', location);
     console.log('[StackAuthHandler] Stack Auth App:', app ? '✅ Present' : '❌ Missing');
     console.log('[StackAuthHandler] Stack Auth Project ID:', app?.projectId ? app.projectId.substring(0, 6) + '...' : 'Missing');
+    
+    // Log handler path configuration
+    if (app?.urls?.handler) {
+      console.log('[StackAuthHandler] Handler URL:', app.urls.handler);
+    }
+    
+    // Listen for OAuth messages
+    const messageHandler = (e) => {
+      console.log('[StackAuthHandler] OAuth message received:', e.type, e.data);
+    };
+    window.addEventListener("message", messageHandler);
+    
+    return () => {
+      window.removeEventListener("message", messageHandler);
+    };
   }, [location, app]);
 
   if (error) {
