@@ -133,17 +133,48 @@ function HashScroller({ offset = 96 }) {
    Stack Auth Handler Wrapper
 ------------------------------------------------------- */
 function StackAuthHandlerWrapper({ app, location }) {
-  return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <StackHandler 
-          app={app} 
-          location={location} 
-          fullPage={false}
-        />
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    // Log for debugging
+    console.log('[StackAuthHandler] Location:', location);
+    console.log('[StackAuthHandler] App:', app ? 'Present' : 'Missing');
+  }, [location, app]);
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="max-w-md w-full text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">OAuth Callback Error</h1>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.href = '/authentication'}
+            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+          >
+            Go to Login
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  try {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <StackHandler 
+            app={app} 
+            location={location} 
+            fullPage={false}
+          />
+        </div>
+      </div>
+    );
+  } catch (err) {
+    console.error('[StackAuthHandler] Error:', err);
+    setError(err.message || 'Failed to process OAuth callback');
+    return null;
+  }
 }
 
 /* -------------------------------------------------------
@@ -204,6 +235,16 @@ export default function App() {
           <Routes location={location} key={location.pathname}>
             {/* Stack Auth Handler - Must be FIRST route for OAuth callbacks */}
             {/* This handles OAuth redirects from Google, GitHub, etc. */}
+            {/* Match both exact /handler and /handler/* paths */}
+            <Route
+              path="/handler"
+              element={
+                <StackAuthHandlerWrapper 
+                  app={stackClientApp} 
+                  location={location.pathname + location.search}
+                />
+              }
+            />
             <Route
               path="/handler/*"
               element={
