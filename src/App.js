@@ -134,7 +134,6 @@ function HashScroller({ offset = 96 }) {
 ------------------------------------------------------- */
 function StackAuthHandlerWrapper({ app, location }) {
   const [error, setError] = React.useState(null);
-  const navigate = React.useRouter ? React.useRouter().push : null;
 
   React.useEffect(() => {
     // Debug logging - no secrets
