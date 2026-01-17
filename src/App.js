@@ -277,13 +277,22 @@ export default function App() {
           <Routes location={location} key={location.pathname}>
             {/* Stack Auth Handler - MUST be FIRST route (before all others) */}
             {/* StackHandler handles ALL /handler/* routes including /handler/oauth-callback */}
+            {/* This route MUST bypass all guards, security, and auth checks */}
             <Route
               path="/handler/*"
               element={
-                <StackAuthHandlerWrapper 
-                  app={stackClientApp}
-                />
+                <React.Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><div className="text-center"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600 mx-auto mb-3" /><p className="text-gray-600">Processing authentication...</p></div></div>}>
+                  <StackAuthHandlerWrapper 
+                    app={stackClientApp}
+                  />
+                </React.Suspense>
               }
+            />
+            
+            {/* Redirect /index.html to root */}
+            <Route
+              path="/index.html"
+              element={<Navigate to="/" replace />}
             />
 
             {/* MAIN HOME PAGE - MedTourismLanding */}
