@@ -10,20 +10,25 @@ export const createSecureFetch = () => {
   const originalFetch = window.fetch;
 
   window.fetch = async function(...args) {
-    // Check for abuse patterns before making request
-    if (detectAbusePattern()) {
+    const url = typeof args[0] === 'string' ? args[0] : args[0]?.url || '';
+    
+    // Skip security checks for Stack Auth API calls (they need to work)
+    const isStackAuthRequest = url.includes('api.stack-auth.com') || url.includes('app.stack-auth.com');
+    
+    // Check for abuse patterns before making request (skip for Stack Auth)
+    if (!isStackAuthRequest && detectAbusePattern()) {
       logSecurityEvent('abuse_pattern_detected', {
         url: args[0],
       });
     }
 
-    // Add fingerprint to request headers
+    // Add fingerprint to request headers (skip for Stack Auth to avoid breaking their requests)
     const fingerprint = generateFingerprint();
     const options = args[1] || {};
     const headers = new Headers(options.headers || {});
 
-    // Add fingerprint header (if backend supports it)
-    if (fingerprint) {
+    // Add fingerprint header (if backend supports it) - skip for Stack Auth
+    if (fingerprint && !isStackAuthRequest) {
       headers.set('X-Client-Fingerprint', fingerprint.hash);
       headers.set('X-Client-Timestamp', fingerprint.raw.timestamp.toString());
     }
@@ -57,15 +62,20 @@ export const createSecureAxios = (axiosInstance) => {
   // Add request interceptor for fingerprinting
   axiosInstance.interceptors.request.use(
     (config) => {
+      // Skip security checks for Stack Auth API calls
+      const isStackAuthRequest = config.url?.includes('api.stack-auth.com') || 
+                                  config.url?.includes('app.stack-auth.com');
+      
       const fingerprint = generateFingerprint();
       
-      if (fingerprint && config.headers) {
+      // Add fingerprint header (skip for Stack Auth to avoid breaking their requests)
+      if (fingerprint && config.headers && !isStackAuthRequest) {
         config.headers['X-Client-Fingerprint'] = fingerprint.hash;
         config.headers['X-Client-Timestamp'] = fingerprint.raw.timestamp.toString();
       }
 
-      // Check for abuse patterns
-      if (detectAbusePattern()) {
+      // Check for abuse patterns (skip for Stack Auth)
+      if (!isStackAuthRequest && detectAbusePattern()) {
         logSecurityEvent('abuse_pattern_detected', {
           url: config.url,
           method: config.method,

@@ -22,6 +22,7 @@ export default function SecurityProtection({
   disableCopyPaste = true,
   disableTextSelection = false,
   sensitiveSelector = null, // CSS selector for sensitive blocks
+  allowDevTools = false, // Allow DevTools shortcuts (for debugging)
 }) {
   const containerRef = useRef(null);
 
@@ -159,7 +160,19 @@ export default function SecurityProtection({
     };
 
     // Disable F12, Ctrl+Shift+I, Ctrl+U (developer tools shortcuts)
+    // BUT: Allow if allowDevTools prop is true, or in development/localhost
     const handleKeyDown = (e) => {
+      // Allow DevTools if explicitly allowed, in development, or on localhost
+      const isDevelopment = process.env.NODE_ENV === 'development';
+      const isLocalhost = window.location.hostname === 'localhost' || 
+                         window.location.hostname === '127.0.0.1' ||
+                         window.location.hostname.includes('localhost');
+      
+      if (allowDevTools || isDevelopment || isLocalhost) {
+        // Don't block DevTools
+        return;
+      }
+
       // F12
       if (e.key === 'F12') {
         e.preventDefault();

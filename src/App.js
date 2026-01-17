@@ -168,6 +168,7 @@ export default function App() {
       disableCopyPaste={true}
       disableTextSelection={false} // Only disable on sensitive blocks, not whole page
       sensitiveSelector="[data-sensitive], .sensitive-content, .pricing-card, .subscription-details"
+      allowDevTools={true} // Allow DevTools for debugging
     >
       <AnimatePresence mode="wait">
         <Suspense
