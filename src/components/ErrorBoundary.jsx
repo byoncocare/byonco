@@ -39,26 +39,35 @@ class StackAuthErrorBoundary extends React.Component {
                 <CardTitle className="text-red-400">Stack Auth Connection Error</CardTitle>
               </div>
               <CardDescription className="text-gray-300">
-                Unable to connect to Stack Auth server. Please configure trusted domains.
+                Unable to connect to Stack Auth server. Please verify production configuration.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-sm text-gray-400 space-y-3">
                 <div>
-                  <p className="text-white font-semibold mb-2">Quick Fix:</p>
-                  <ol className="list-decimal list-inside space-y-1 ml-2">
-                    <li>Go to <a href="https://stack-auth.com/dashboard" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Stack Auth Dashboard</a></li>
-                    <li>Select your project: <code className="bg-slate-800 px-2 py-1 rounded text-xs">5a629032-2f33-46db-ac2c-134894a117eb</code></li>
-                    <li>Navigate to <strong>Settings → Trusted Domains</strong></li>
-                    <li>Add: <code className="bg-slate-800 px-2 py-1 rounded text-xs">localhost:3000</code></li>
-                    <li>Click <strong>Save</strong></li>
+                  <p className="text-white font-semibold mb-2">Production Configuration:</p>
+                  <ol className="list-decimal list-inside space-y-2 ml-2">
+                    <li>Go to <a href="https://app.stack-auth.com/projects/5a629032-2f33-46db-ac2c-134894a117eb/domains" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Stack Auth Dashboard → Trusted Domains</a></li>
+                    <li>Verify these domains are added (with <code className="bg-slate-800 px-1 py-0.5 rounded text-xs">https://</code> prefix):
+                      <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                        <li><code className="bg-slate-800 px-1 py-0.5 rounded text-xs">https://www.byoncocare.com</code></li>
+                        <li><code className="bg-slate-800 px-1 py-0.5 rounded text-xs">https://byoncocare.com</code></li>
+                      </ul>
+                    </li>
+                    <li>Check Vercel Environment Variables:
+                      <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                        <li><code className="bg-slate-800 px-1 py-0.5 rounded text-xs">REACT_APP_STACK_PROJECT_ID</code></li>
+                        <li><code className="bg-slate-800 px-1 py-0.5 rounded text-xs">REACT_APP_STACK_PUBLISHABLE_KEY</code></li>
+                      </ul>
+                    </li>
+                    <li>After updating, redeploy on Vercel</li>
                     <li>Refresh this page</li>
                   </ol>
                 </div>
                 
                 <div className="pt-2 border-t border-gray-700">
-                  <p className="text-white font-semibold mb-1">For Production:</p>
-                  <p className="text-xs">Also add: <code className="bg-slate-800 px-2 py-1 rounded">www.byoncocare.com</code> and <code className="bg-slate-800 px-2 py-1 rounded">byoncocare.com</code></p>
+                  <p className="text-white font-semibold mb-1">Current Domain:</p>
+                  <p className="text-xs"><code className="bg-slate-800 px-2 py-1 rounded">{window.location.origin}</code></p>
                 </div>
               </div>
 
