@@ -225,67 +225,65 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
   };
 
   return (
-    <div className="max-w-lg w-full bg-white border border-purple-200 rounded-2xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 shadow-lg">
-      <div className="mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-purple-600 mb-2">Create your account</h2>
-        <p className="text-sm sm:text-base text-gray-600">Join thousands of families navigating their cancer care journey</p>
+    <div className="w-full bg-white rounded-lg shadow-md px-6 py-8">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-1">Create your account</h2>
+        <p className="text-sm text-gray-600">Sign up to your ByOncoCare account</p>
       </div>
       
-      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-5">
         {error && (
           <div className="text-sm bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
             {error}
           </div>
         )}
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="space-y-2">
-            <label htmlFor="full_name" className="block text-sm font-medium text-purple-600">
-              Full Name
-            </label>
-            <div className="relative">
-              <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-purple-400">
-                <User className="h-4 w-4 sm:h-5 sm:w-5" />
-              </span>
-              <input
-                id="full_name"
-                type="text"
-                placeholder="John Doe (optional)"
-                value={formData.full_name}
-                onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                className="w-full rounded-lg border border-purple-300 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium text-purple-600">
-              Email *
-            </label>
-            <div className="relative">
-              <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-purple-400">
-                <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
-              </span>
-              <input
-                id="email"
-                type="email"
-                placeholder="your@email.com"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full rounded-lg border border-purple-300 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-                required
-              />
-            </div>
+        <div className="space-y-2">
+          <label htmlFor="full_name" className="block text-sm font-medium text-gray-700">
+            Full Name
+          </label>
+          <div className="relative">
+            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-gray-400">
+              <User className="h-5 w-5" />
+            </span>
+            <input
+              id="full_name"
+              type="text"
+              placeholder="John Doe (optional)"
+              value={formData.full_name}
+              onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 pl-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition"
+            />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="phone" className="block text-sm font-medium text-purple-600">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Email *
+          </label>
+          <div className="relative">
+            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-gray-400">
+              <Mail className="h-5 w-5" />
+            </span>
+            <input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 pl-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
             Phone Number *
           </label>
           <div className="relative">
-            <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-purple-400">
-              <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-gray-400">
+              <Phone className="h-5 w-5" />
             </span>
             <input
               id="phone"
@@ -293,53 +291,51 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
               placeholder="+91 1234567890"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full rounded-lg border border-purple-300 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 pl-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition"
               required
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="space-y-2">
-            <label htmlFor="password" className="block text-sm font-medium text-purple-600">
-              Password *
-            </label>
-            <div className="relative">
-              <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-purple-400">
-                <Lock className="h-4 w-4 sm:h-5 sm:w-5" />
-              </span>
-              <input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full rounded-lg border border-purple-300 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-                required
-                minLength={8}
-              />
-            </div>
-            <p className="text-xs text-gray-500">Must be at least 8 characters</p>
+        <div className="space-y-2">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            Password *
+          </label>
+          <div className="relative">
+            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-gray-400">
+              <Lock className="h-5 w-5" />
+            </span>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 pl-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition"
+              required
+              minLength={8}
+            />
           </div>
+          <p className="text-xs text-gray-500">Must be at least 8 characters</p>
+        </div>
 
-          <div className="space-y-2">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-purple-600">
-              Confirm Password *
-            </label>
-            <div className="relative">
-              <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-purple-400">
-                <Lock className="h-4 w-4 sm:h-5 sm:w-5" />
-              </span>
-              <input
-                id="confirmPassword"
-                type="password"
-                placeholder="••••••••"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className="w-full rounded-lg border border-purple-300 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-                required
-              />
-            </div>
+        <div className="space-y-2">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+            Confirm Password *
+          </label>
+          <div className="relative">
+            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-gray-400">
+              <Lock className="h-5 w-5" />
+            </span>
+            <input
+              id="confirmPassword"
+              type="password"
+              placeholder="••••••••"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 pl-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition"
+              required
+            />
           </div>
         </div>
 
@@ -353,11 +349,11 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
           />
           <label htmlFor="terms" className="text-sm text-gray-600 leading-relaxed cursor-pointer">
             I agree to the{' '}
-            <a href="/terms-and-conditions" target="_blank" className="text-purple-600 hover:text-purple-700 underline underline-offset-2 transition">
+            <a href="/terms-and-conditions" target="_blank" className="text-blue-600 hover:text-blue-700 underline underline-offset-2 transition">
               Terms and Conditions
             </a>{' '}
             and{' '}
-            <a href="/privacy" target="_blank" className="text-purple-600 hover:text-purple-700 underline underline-offset-2 transition">
+            <a href="/privacy" target="_blank" className="text-blue-600 hover:text-blue-700 underline underline-offset-2 transition">
               Privacy Policy
             </a>
           </label>
@@ -365,12 +361,12 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
 
         <button
           type="submit"
-          className="w-full inline-flex items-center justify-center rounded-lg px-4 py-3 sm:px-6 sm:py-3.5 text-sm sm:text-base font-semibold bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 mt-4"
+          className="w-full inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200"
           disabled={loading}
         >
           {loading ? (
             <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Creating account...
             </>
           ) : (
@@ -384,7 +380,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
             <button
               type="button"
               onClick={onSwitchToLogin}
-              className="text-base font-medium text-purple-600 hover:text-purple-700 underline underline-offset-2 transition"
+              className="text-sm font-medium text-blue-600 hover:text-blue-700 underline underline-offset-2 transition"
             >
               Sign in
             </button>
