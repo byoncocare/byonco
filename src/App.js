@@ -45,6 +45,7 @@ import JourneyBuilderPage from "./pages/JourneyBuilderPage";
 import JourneyPlanDetails from "./pages/JourneyPlanDetails";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
+import OAuthCallback from "./pages/OAuthCallback";
 import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
 import CancerPage from "./pages/CancerPage";
 import CancerHub from "./pages/CancerHub";
@@ -239,18 +240,12 @@ export default function App() {
 
           <Routes location={location} key={location.pathname}>
             {/* Stack Auth Handler - Must be FIRST route for OAuth callbacks */}
-            {/* This handles OAuth redirects from Google, GitHub, etc. */}
-            {/* Explicit route for OAuth callback */}
+            {/* Explicit route for OAuth callback - highest priority */}
             <Route
               path="/handler/oauth-callback"
-              element={
-                <StackAuthHandlerWrapper 
-                  app={stackClientApp} 
-                  location={location.pathname + location.search}
-                />
-              }
+              element={<OAuthCallback />}
             />
-            {/* Catch-all handler route for other Stack Auth callbacks */}
+            {/* StackHandler for other Stack Auth internal routes */}
             <Route
               path="/handler/*"
               element={

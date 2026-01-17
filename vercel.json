@@ -9,6 +9,12 @@
       }
     }
   ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -27,7 +33,6 @@
     {
       "src": "/(.*)",
       "dest": "/index.html",
-      "continue": true,
       "headers": {
         "X-Frame-Options": "DENY",
         "X-Content-Type-Options": "nosniff",
