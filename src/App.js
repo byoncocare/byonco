@@ -134,11 +134,17 @@ function HashScroller({ offset = 96 }) {
 ------------------------------------------------------- */
 function StackAuthHandlerWrapper({ app, location }) {
   const [error, setError] = React.useState(null);
+  const navigate = React.useRouter ? React.useRouter().push : null;
 
   React.useEffect(() => {
-    // Log for debugging
-    console.log('[StackAuthHandler] Location:', location);
-    console.log('[StackAuthHandler] App:', app ? 'Present' : 'Missing');
+    // Debug logging - no secrets
+    console.log('[StackAuthHandler] ===== OAuth Callback Handler =====');
+    console.log('[StackAuthHandler] Full URL:', window.location.href);
+    console.log('[StackAuthHandler] Pathname:', window.location.pathname);
+    console.log('[StackAuthHandler] Search params:', window.location.search);
+    console.log('[StackAuthHandler] Location prop:', location);
+    console.log('[StackAuthHandler] Stack Auth App:', app ? '✅ Present' : '❌ Missing');
+    console.log('[StackAuthHandler] Stack Auth Project ID:', app?.projectId ? app.projectId.substring(0, 6) + '...' : 'Missing');
   }, [location, app]);
 
   if (error) {
@@ -235,9 +241,9 @@ export default function App() {
           <Routes location={location} key={location.pathname}>
             {/* Stack Auth Handler - Must be FIRST route for OAuth callbacks */}
             {/* This handles OAuth redirects from Google, GitHub, etc. */}
-            {/* Match both exact /handler and /handler/* paths */}
+            {/* Explicit route for OAuth callback */}
             <Route
-              path="/handler"
+              path="/handler/oauth-callback"
               element={
                 <StackAuthHandlerWrapper 
                   app={stackClientApp} 
@@ -245,6 +251,7 @@ export default function App() {
                 />
               }
             />
+            {/* Catch-all handler route for other Stack Auth callbacks */}
             <Route
               path="/handler/*"
               element={

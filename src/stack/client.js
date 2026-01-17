@@ -38,7 +38,9 @@ export const stackClientApp = new StackClientApp({
     signUp: "/authentication",
     afterSignIn: "/",
     afterSignUp: "/",
-    // OAuth callback handler - required for OAuth flows
-    handler: "/handler",
+    // OAuth callback handler - explicit path for OAuth callbacks
+    handler: typeof window !== 'undefined' 
+      ? `${window.location.origin}/handler` 
+      : "/handler",
   },
 });
