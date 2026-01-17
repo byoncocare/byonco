@@ -71,25 +71,25 @@ export default function AuthPage() {
   // Error boundary will catch any connection errors from Stack Auth
   return (
     <StackAuthErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4 sm:p-6">
+      <div className="min-h-screen bg-white flex items-center justify-center p-4 sm:p-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
-          {/* Custom styles for Stack Auth components to ensure visibility */}
+          {/* Custom styles for Stack Auth components - purple theme on white background */}
           <style>{`
-            /* Stack Auth component styling - ensure ALL text is white */
+            /* Stack Auth component styling - purple text on white background */
             [data-stack-auth] *,
             [data-stack-auth-root] *,
             .stack-auth-sign-in *,
             .stack-auth-sign-up *,
             [class*="stack-auth"] * {
-              color: #ffffff !important;
+              color: #7c3aed !important;
             }
             
-            /* Stack Auth headings and titles */
+            /* Stack Auth headings and titles - darker purple */
             [data-stack-auth] h1,
             [data-stack-auth] h2,
             [data-stack-auth] h3,
@@ -102,35 +102,54 @@ export default function AuthPage() {
             .stack-auth-sign-up h1,
             .stack-auth-sign-up h2,
             .stack-auth-sign-up h3 {
-              color: #ffffff !important;
+              color: #6d28d9 !important;
             }
             
-            /* Stack Auth input fields */
+            /* Stack Auth input fields - white background with purple border */
             [data-stack-auth] input,
             [data-stack-auth-root] input,
             .stack-auth-sign-in input,
             .stack-auth-sign-up input {
-              background-color: rgba(255, 255, 255, 0.1) !important;
-              border-color: rgba(255, 255, 255, 0.3) !important;
-              color: #ffffff !important;
+              background-color: #ffffff !important;
+              border-color: #a78bfa !important;
+              border-width: 1px !important;
+              color: #1f2937 !important;
+            }
+            
+            [data-stack-auth] input:focus,
+            [data-stack-auth-root] input:focus,
+            .stack-auth-sign-in input:focus,
+            .stack-auth-sign-up input:focus {
+              border-color: #7c3aed !important;
+              outline-color: #7c3aed !important;
+              box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
             }
             
             [data-stack-auth] input::placeholder,
             [data-stack-auth-root] input::placeholder,
             .stack-auth-sign-in input::placeholder,
             .stack-auth-sign-up input::placeholder {
-              color: rgba(255, 255, 255, 0.6) !important;
+              color: #9ca3af !important;
             }
             
-            /* Stack Auth buttons */
-            [data-stack-auth] button,
-            [data-stack-auth-root] button,
-            .stack-auth-sign-in button,
-            .stack-auth-sign-up button {
+            /* Stack Auth buttons - purple background */
+            [data-stack-auth] button[type="submit"],
+            [data-stack-auth-root] button[type="submit"],
+            .stack-auth-sign-in button[type="submit"],
+            .stack-auth-sign-up button[type="submit"] {
+              background-color: #7c3aed !important;
               color: #ffffff !important;
+              border: none !important;
             }
             
-            /* Stack Auth text and labels */
+            [data-stack-auth] button[type="submit"]:hover,
+            [data-stack-auth-root] button[type="submit"]:hover,
+            .stack-auth-sign-in button[type="submit"]:hover,
+            .stack-auth-sign-up button[type="submit"]:hover {
+              background-color: #6d28d9 !important;
+            }
+            
+            /* Stack Auth text and labels - purple */
             [data-stack-auth] label,
             [data-stack-auth-root] label,
             [data-stack-auth] p,
@@ -147,35 +166,46 @@ export default function AuthPage() {
             .stack-auth-sign-up span,
             .stack-auth-sign-in div,
             .stack-auth-sign-up div {
-              color: #ffffff !important;
+              color: #7c3aed !important;
             }
             
-            /* Stack Auth links */
+            /* Stack Auth links - purple with hover */
             [data-stack-auth] a,
             [data-stack-auth-root] a,
             .stack-auth-sign-in a,
             .stack-auth-sign-up a {
-              color: #a78bfa !important;
+              color: #7c3aed !important;
             }
             
             [data-stack-auth] a:hover,
             [data-stack-auth-root] a:hover,
             .stack-auth-sign-in a:hover,
             .stack-auth-sign-up a:hover {
-              color: #c4b5fd !important;
+              color: #6d28d9 !important;
             }
             
-            /* Stack Auth card/container background */
+            /* Stack Auth card/container background - white with purple border */
             [data-stack-auth] > div,
             [data-stack-auth-root] > div {
-              background-color: rgba(15, 23, 42, 0.8) !important;
-              border-color: rgba(255, 255, 255, 0.1) !important;
+              background-color: #ffffff !important;
+              border-color: #e9d5ff !important;
+              border-width: 1px !important;
+            }
+            
+            /* Google sign-in button - keep original styling but ensure visibility */
+            [data-stack-auth] button[aria-label*="Google"],
+            [data-stack-auth-root] button[aria-label*="Google"],
+            .stack-auth-sign-in button[aria-label*="Google"],
+            .stack-auth-sign-up button[aria-label*="Google"] {
+              background-color: #ffffff !important;
+              color: #1f2937 !important;
+              border-color: #d1d5db !important;
             }
           `}</style>
           
-          {/* Subtitle text */}
+          {/* Subtitle text - purple */}
           <div className="text-center mb-6">
-            <p className="text-white text-base sm:text-lg font-medium">
+            <p className="text-purple-600 text-base sm:text-lg font-medium">
               Join over 10,000+ people taking control of their cancer journey.
             </p>
           </div>
