@@ -238,6 +238,11 @@ export default function App() {
             />
 
             {/* ----------- Authentication ----------- */}
+            {/* Redirect /auth to /authentication */}
+            <Route
+              path="/auth"
+              element={<Navigate to="/authentication" replace />}
+            />
             <Route
               path="/authentication"
               element={
