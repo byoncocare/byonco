@@ -9,6 +9,21 @@ import { Loader2 } from "lucide-react";
 import { StackHandler } from "@stackframe/react";
 import { stackClientApp } from "./stack/client";
 
+// Wrapper component for Stack Auth handler with error handling
+function StackAuthHandlerWrapper({ app, location }) {
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <StackHandler 
+          app={app} 
+          location={location} 
+          fullPage={false}
+        />
+      </div>
+    </div>
+  );
+}
+
 // Sections (old home page)
 import Hero from "./components/Hero";
 import TrustedBy from "./components/TrustedBy";
@@ -185,18 +200,15 @@ export default function App() {
           <HashScroller offset={96} />
 
           <Routes location={location} key={location.pathname}>
-            {/* Stack Auth Handler - Must be before other routes for OAuth callbacks */}
+            {/* Stack Auth Handler - Must be FIRST route for OAuth callbacks */}
             {/* This handles OAuth redirects from Google, GitHub, etc. */}
             <Route
               path="/handler/*"
               element={
-                <div className="min-h-screen bg-white flex items-center justify-center">
-                  <StackHandler 
-                    app={stackClientApp} 
-                    location={location.pathname + location.search} 
-                    fullPage={false}
-                  />
-                </div>
+                <StackAuthHandlerWrapper 
+                  app={stackClientApp} 
+                  location={location.pathname + location.search}
+                />
               }
             />
 
