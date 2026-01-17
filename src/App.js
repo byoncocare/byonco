@@ -279,7 +279,7 @@ export default function App() {
               element={
                 <StackAuthHandlerWrapper 
                   app={stackClientApp} 
-                  location={location.pathname}
+                  location={location.pathname + location.search}
                 />
               }
             />
