@@ -67,12 +67,21 @@ export default function AuthPage() {
   
   // Update mode when URL changes
   useEffect(() => {
+    console.log('[AuthPage] URL mode changed:', urlMode);
     if (urlMode === 'signup') {
+      console.log('[AuthPage] Switching to signup mode');
       setMode('signup');
     } else if (urlMode === 'signin' || !urlMode) {
+      console.log('[AuthPage] Switching to signin mode');
       setMode('signin');
     }
   }, [urlMode]);
+  
+  // Debug: Log current mode
+  useEffect(() => {
+    console.log('[AuthPage] Current mode:', mode);
+    console.log('[AuthPage] URL mode param:', urlMode);
+  }, [mode, urlMode]);
 
   // Log config on mount (non-blocking)
   useEffect(() => {
@@ -251,17 +260,25 @@ export default function AuthPage() {
           
           {/* Render Stack Auth components immediately - they handle their own loading and errors */}
           {mode === 'signin' ? (
-            <SignIn
-              afterSignInUrl={signInRedirect}
-              fullPage={false}
-              signUpUrl={`/authentication?mode=signup${redirect ? `&redirect=${encodeURIComponent(redirect)}` : ''}`}
-            />
+            <>
+              {console.log('[AuthPage] Rendering SignIn component')}
+              <SignIn
+                afterSignInUrl={signInRedirect}
+                fullPage={false}
+                signUpUrl={`/authentication?mode=signup${redirect ? `&redirect=${encodeURIComponent(redirect)}` : ''}`}
+              />
+            </>
           ) : (
-            <SignUp
-              afterSignUpUrl={signUpRedirect}
-              fullPage={false}
-              signInUrl={`/authentication?mode=signin${redirect ? `&redirect=${encodeURIComponent(redirect)}` : ''}`}
-            />
+            <>
+              {console.log('[AuthPage] Rendering SignUp component')}
+              <div className="w-full">
+                <SignUp
+                  afterSignUpUrl={signUpRedirect}
+                  fullPage={false}
+                  signInUrl={`/authentication?mode=signin${redirect ? `&redirect=${encodeURIComponent(redirect)}` : ''}`}
+                />
+              </div>
+            </>
           )}
         </motion.div>
       </div>
