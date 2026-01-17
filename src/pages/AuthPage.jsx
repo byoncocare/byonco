@@ -8,6 +8,43 @@ import { motion } from 'framer-motion';
 import StackAuthErrorBoundary from '@/components/ErrorBoundary';
 import { stackConfig, STACK_PROJECT_ID, STACK_PUBLISHABLE_KEY } from '@/config/stack';
 
+// Non-blocking connection check with timeout
+const checkStackAuthConnection = async () => {
+  if (typeof window === 'undefined') return;
+  
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+  
+  try {
+    const response = await fetch(`${stackConfig.baseUrl}/health`, {
+      method: 'GET',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (response.ok) {
+      console.log("[AUTH] ✅ Stack Auth connection successful");
+    } else {
+      console.warn("[AUTH] ⚠️ Stack Auth connection check returned:", response.status, response.statusText);
+      console.warn("[AUTH] Request URL:", `${stackConfig.baseUrl}/health`);
+    }
+  } catch (error) {
+    clearTimeout(timeoutId);
+    
+    if (error.name === 'AbortError') {
+      console.warn("[AUTH] ⚠️ Stack Auth connection check timed out after 5s");
+    } else {
+      console.warn("[AUTH] ⚠️ Stack Auth connection check failed:", error.message);
+      console.warn("[AUTH] Request URL:", `${stackConfig.baseUrl}/health`);
+      console.warn("[AUTH] Error type:", error.name);
+    }
+  }
+};
+
 // Log configuration on mount (non-blocking)
 const logAuthConfig = () => {
   if (typeof window !== 'undefined') {
@@ -40,6 +77,8 @@ export default function AuthPage() {
   // Log config on mount (non-blocking)
   useEffect(() => {
     logAuthConfig();
+    // Non-blocking connection check in background (doesn't block render)
+    checkStackAuthConnection();
   }, []);
 
   // Handle redirect after successful authentication

@@ -16,23 +16,26 @@ The OAuth callback handler route was not properly configured to handle Stack Aut
 - Added `handler: "/handler"` to the `urls` configuration
 - This tells Stack Auth where to redirect after OAuth completes
 
-## Stack Auth Dashboard Configuration Required
+## Stack Auth Dashboard Configuration
 
-**IMPORTANT:** You must configure the OAuth callback URL in the Stack Auth dashboard:
+**IMPORTANT:** Stack Auth does NOT require explicit callback URLs in the dashboard.
 
-1. Go to [Stack Auth Dashboard](https://app.stack-auth.com)
-2. Select your project: `5a629032-2f33-46db-ac2c-134894a117eb`
-3. Navigate to **Settings** → **OAuth Providers** (or **Redirect URLs**)
-4. Add the following callback URLs:
-   - `https://www.byoncocare.com/handler/oauth-callback`
-   - `https://byoncocare.com/handler/oauth-callback`
-   - `http://localhost:3000/handler/oauth-callback` (for development)
+**What IS Required:**
+1. **Trusted Domains** (Settings → Authentication → Trusted Domains):
+   - `https://byoncocare.com`
+   - `https://www.byoncocare.com`
+   
+   Stack Auth uses trusted domains to know which domains it can redirect back to after OAuth. This is sufficient.
 
-5. For Google OAuth specifically:
-   - Go to **Settings** → **OAuth** → **Google**
-   - Ensure the **Authorized redirect URIs** includes:
-     - `https://www.byoncocare.com/handler/oauth-callback`
-     - `https://byoncocare.com/handler/oauth-callback`
+2. **Google OAuth Provider** (Settings → Authentication → Auth Methods → SSO Providers → Google):
+   - Configure your Google OAuth Client ID and Secret
+   - Stack Auth will use its own callback URL: `https://api.stack-auth.com/api/v1/auth/oauth/callback/google`
+
+**What is NOT Required:**
+- ❌ Explicit callback URLs like `/handler/oauth-callback` in Stack Auth dashboard
+- ❌ App callback URLs in Stack Auth settings
+
+**Why:** Stack Auth automatically redirects to your app's `/handler/oauth-callback` route based on the `handler: "/handler"` URL configured in your Stack Auth client. The trusted domains tell Stack Auth which domains are allowed to receive these redirects.
 
 ## Testing
 
