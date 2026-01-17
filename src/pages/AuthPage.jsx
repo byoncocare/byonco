@@ -80,11 +80,28 @@ export default function AuthPage() {
         >
           {/* Custom styles for Stack Auth components to ensure visibility */}
           <style>{`
-            /* Stack Auth component styling - ensure text is visible */
+            /* Stack Auth component styling - ensure ALL text is white */
             [data-stack-auth] *,
             [data-stack-auth-root] *,
             .stack-auth-sign-in *,
-            .stack-auth-sign-up * {
+            .stack-auth-sign-up *,
+            [class*="stack-auth"] * {
+              color: #ffffff !important;
+            }
+            
+            /* Stack Auth headings and titles */
+            [data-stack-auth] h1,
+            [data-stack-auth] h2,
+            [data-stack-auth] h3,
+            [data-stack-auth-root] h1,
+            [data-stack-auth-root] h2,
+            [data-stack-auth-root] h3,
+            .stack-auth-sign-in h1,
+            .stack-auth-sign-in h2,
+            .stack-auth-sign-in h3,
+            .stack-auth-sign-up h1,
+            .stack-auth-sign-up h2,
+            .stack-auth-sign-up h3 {
               color: #ffffff !important;
             }
             
@@ -120,12 +137,16 @@ export default function AuthPage() {
             [data-stack-auth-root] p,
             [data-stack-auth] span,
             [data-stack-auth-root] span,
+            [data-stack-auth] div,
+            [data-stack-auth-root] div,
             .stack-auth-sign-in label,
             .stack-auth-sign-up label,
             .stack-auth-sign-in p,
             .stack-auth-sign-up p,
             .stack-auth-sign-in span,
-            .stack-auth-sign-up span {
+            .stack-auth-sign-up span,
+            .stack-auth-sign-in div,
+            .stack-auth-sign-up div {
               color: #ffffff !important;
             }
             
@@ -151,6 +172,13 @@ export default function AuthPage() {
               border-color: rgba(255, 255, 255, 0.1) !important;
             }
           `}</style>
+          
+          {/* Subtitle text */}
+          <div className="text-center mb-6">
+            <p className="text-white text-base sm:text-lg font-medium">
+              Join over 10,000+ people taking control of their cancer journey.
+            </p>
+          </div>
           
           {/* Render Stack Auth components immediately - they handle their own loading and errors */}
           {mode === 'signin' ? (
