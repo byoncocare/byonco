@@ -239,7 +239,7 @@ export default function App() {
 
             {/* ----------- Authentication ----------- */}
             <Route
-              path="/auth"
+              path="/authentication"
               element={
                 <motion.div
                   className="page-shell min-h-screen text-gray-900"

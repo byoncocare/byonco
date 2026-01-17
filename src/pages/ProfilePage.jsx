@@ -43,7 +43,7 @@ export default function ProfilePage() {
       try {
         const token = localStorage.getItem('byonco_jwt');
         if (!token) {
-          navigate('/auth');
+          navigate('/authentication');
           return;
         }
 

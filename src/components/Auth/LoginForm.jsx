@@ -230,25 +230,25 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
   };
 
   return (
-    <div className="max-w-lg w-full bg-[#0b0f1f]/95 border border-white/30 rounded-2xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 text-white shadow-xl shadow-black/40 backdrop-blur">
+    <div className="max-w-lg w-full bg-white border border-purple-200 rounded-2xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 shadow-lg">
       <div className="mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-2">Welcome back to ByOnco</h2>
-        <p className="text-sm sm:text-base text-white/90">Sign in to continue your cancer care journey</p>
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-purple-600 mb-2">Sign in to your account</h2>
+        <p className="text-sm sm:text-base text-gray-600">Welcome back to ByOnco</p>
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         {error && (
-          <div className="text-sm bg-red-500/30 border border-red-500/60 text-white px-4 py-3 rounded-lg">
+          <div className="text-sm bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
             {error}
           </div>
         )}
         
         <div className="space-y-2">
-          <label htmlFor="email" className="block text-sm font-medium text-white">
+          <label htmlFor="email" className="block text-sm font-medium text-purple-600">
             Email
           </label>
           <div className="relative">
-            <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-white/70">
+            <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-purple-400">
               <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
             </span>
             <input
@@ -257,18 +257,18 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
               placeholder="your@email.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full rounded-lg border border-white/30 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+              className="w-full rounded-lg border border-purple-300 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
               required
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="password" className="block text-sm font-medium text-white">
+          <label htmlFor="password" className="block text-sm font-medium text-purple-600">
             Password
           </label>
           <div className="relative">
-            <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-white/70">
+            <span className="pointer-events-none absolute inset-y-0 left-3 sm:left-4 flex items-center text-purple-400">
               <Lock className="h-4 w-4 sm:h-5 sm:w-5" />
             </span>
             <input
@@ -277,7 +277,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
               placeholder="••••••••"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full rounded-lg border border-white/30 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+              className="w-full rounded-lg border border-purple-300 bg-white px-3 py-2.5 sm:px-4 sm:py-3 pl-12 sm:pl-16 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
               required
             />
           </div>
@@ -285,7 +285,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
 
         <button
           type="submit"
-          className="w-full inline-flex items-center justify-center rounded-full px-4 py-3 sm:px-6 sm:py-3.5 text-sm sm:text-base font-semibold bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-600 border-2 border-purple-300/90 text-white font-bold shadow-[0_0_30px_rgba(139,92,246,0.7),0_0_60px_rgba(139,92,246,0.4)] hover:shadow-[0_0_40px_rgba(139,92,246,0.9),0_0_80px_rgba(139,92,246,0.6)] hover:from-purple-400 hover:via-purple-500 hover:to-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 mt-4"
+          className="w-full inline-flex items-center justify-center rounded-lg px-4 py-3 sm:px-6 sm:py-3.5 text-sm sm:text-base font-semibold bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 mt-4"
           disabled={loading}
         >
           {loading ? (
@@ -299,12 +299,12 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
         </button>
 
         <div className="text-center pt-2">
-          <p className="text-sm text-white/90">
+          <p className="text-sm text-gray-600">
             Don't have an account?{' '}
             <button
               type="button"
               onClick={onSwitchToRegister}
-              className="text-base font-medium text-white hover:text-purple-300 underline underline-offset-2 transition"
+              className="text-base font-medium text-purple-600 hover:text-purple-700 underline underline-offset-2 transition"
             >
               Sign up
             </button>

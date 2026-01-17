@@ -410,7 +410,7 @@ const MedTourismLanding = () => {
             ) : (
               <>
                 <button
-                  onClick={() => navigate("/auth")}
+                  onClick={() => navigate("/authentication")}
                   className="px-4 py-2 rounded-full text-sm font-medium border border-violet-400/60 text-white hover:border-purple-400 hover:bg-white/5 transition"
                 >
                   Login
@@ -525,7 +525,7 @@ const MedTourismLanding = () => {
                 <>
                   <button
                     onClick={() => {
-                      navigate("/auth");
+                      navigate("/authentication");
                       setMenuOpen(false);
                     }}
                     className="w-full mt-2 px-4 py-2 rounded-full text-sm font-medium border border-violet-400/60 text-white hover:border-purple-400 hover:bg-white/5 transition"
