@@ -39,6 +39,12 @@ import {
   X,
   User,
   LogOut,
+  MessageCircle,
+  Dna,
+  ClipboardList,
+  FlaskConical,
+  FileCheck,
+  Users2,
 } from "lucide-react";
 
 import axios from "axios";
@@ -54,6 +60,7 @@ import { SUBSCRIPTION_PLANS } from "@/utils/payments/subscriptionPlans";
 import { initiatePayment } from "@/utils/payments/razorpayClient";
 import PriceTag from "@/components/ui/PriceTag";
 import { toast } from "@/hooks/use-toast";
+import { saveSubscription } from "@/utils/subscription";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api`;
@@ -142,14 +149,8 @@ const MedTourismLanding = () => {
           plan_name: plan.name
         },
         onSuccess: (result) => {
-          // Store subscription status
-          localStorage.setItem('subscription_status', JSON.stringify({
-            planId: plan.id,
-            planName: plan.name,
-            subscribedAt: new Date().toISOString(),
-            paymentId: result.payment_id,
-            orderId: result.order_id
-          }));
+          // Save subscription with expiry date
+          saveSubscription(plan.id, result.payment_id, result.order_id);
           
           // Show success message
           // Show success toast
@@ -346,6 +347,48 @@ const MedTourismLanding = () => {
         "Expert second opinions delivered in under 24 hours, plus clinical trial matching and subsidy discovery in a multilingual app",
       color: "from-blue-500 via-cyan-500 to-teal-600",
     },
+    {
+      icon: <Stethoscope className="w-8 h-8" />,
+      title: "Personalized Cancer Treatment Options",
+      description:
+        "Understand your diagnosis, explore personalized treatment options tailored to your specific cancer type, stage, and medical history",
+      color: "from-emerald-500 via-teal-500 to-cyan-600",
+    },
+    {
+      icon: <Dna className="w-8 h-8" />,
+      title: "Genetic and Genomic Testing Opportunities",
+      description:
+        "Access cutting-edge genetic and genomic testing to identify targeted therapies and personalized treatment approaches",
+      color: "from-pink-500 via-rose-500 to-red-600",
+    },
+    {
+      icon: <ClipboardList className="w-8 h-8" />,
+      title: "Symptom Tracking and Management",
+      description:
+        "Track your symptoms, side effects, and treatment progress in one place with AI-powered insights and recommendations",
+      color: "from-orange-500 via-amber-500 to-yellow-600",
+    },
+    {
+      icon: <FlaskConical className="w-8 h-8" />,
+      title: "Access to Latest Innovation and Clinical Trials",
+      description:
+        "Discover and access the latest clinical trials, innovative treatments, and breakthrough therapies matched to your condition",
+      color: "from-indigo-500 via-purple-500 to-pink-600",
+    },
+    {
+      icon: <FileCheck className="w-8 h-8" />,
+      title: "Health Records You Can Understand",
+      description:
+        "Get simplified, easy-to-understand explanations of your medical records, test results, and treatment plans",
+      color: "from-blue-500 via-indigo-500 to-purple-600",
+    },
+    {
+      icon: <Users2 className="w-8 h-8" />,
+      title: "A Peer Community",
+      description:
+        "Connect with others on similar journeys, share experiences, and find support in a safe, moderated community",
+      color: "from-green-500 via-emerald-500 to-teal-600",
+    },
   ];
 
   const hospitalFeatures = [
@@ -455,7 +498,7 @@ const MedTourismLanding = () => {
             ) : (
               <>
                 <button
-                  onClick={() => navigate("/auth")}
+                  onClick={() => navigate("/authentication")}
                   className="px-4 py-2 rounded-full text-sm font-medium border border-violet-400/60 text-white hover:border-purple-400 hover:bg-white/5 transition"
                 >
                   Login
@@ -465,7 +508,7 @@ const MedTourismLanding = () => {
                     if (isAuthenticated) {
                       navigate("/get-started");
                     } else {
-                      navigate("/auth?redirect=/get-started");
+                      navigate("/authentication?redirect=/get-started");
                     }
                   }}
                   className="cta-button"
@@ -570,7 +613,7 @@ const MedTourismLanding = () => {
                 <>
                   <button
                     onClick={() => {
-                      navigate("/auth");
+                      navigate("/authentication");
                       setMenuOpen(false);
                     }}
                     className="w-full mt-2 px-4 py-2 rounded-full text-sm font-medium border border-violet-400/60 text-white hover:border-purple-400 hover:bg-white/5 transition"
@@ -582,7 +625,7 @@ const MedTourismLanding = () => {
                       if (isAuthenticated) {
                         navigate("/get-started");
                       } else {
-                        navigate("/auth?redirect=/get-started");
+                        navigate("/authentication?redirect=/get-started");
                       }
                       setMenuOpen(false);
                     }}
@@ -688,7 +731,7 @@ const MedTourismLanding = () => {
                       if (isAuthenticated) {
                         navigate("/find-hospitals?hospital=apollo");
                       } else {
-                        navigate("/auth?redirect=/find-hospitals?hospital=apollo");
+                        navigate("/authentication?redirect=/find-hospitals?hospital=apollo");
                       }
                     }}
                   >
@@ -875,8 +918,7 @@ const MedTourismLanding = () => {
             Your Complete Cancer Care Companion
           </h2>
           <p className="section-subtitle">
-            From discovery to treatment, we guide you every step of the way with
-            AI-powered intelligence
+            Take control of your cancer care — start with ByOnco. Understand your diagnosis, explore clinical trials, and track symptoms — all in one place.
           </p>
         </div>
         <div className="features-grid">
@@ -1134,6 +1176,12 @@ const MedTourismLanding = () => {
           "Professional translators",
           "Dedicated care coordinator",
           "24/7 emergency support",
+          "Personalized cancer treatment options",
+          "Genetic and genomic testing opportunities",
+          "Symptom tracking and management",
+          "Access to the latest innovation and clinical trials",
+          "Health records you can understand",
+          "A peer community",
         ].map((item, idx) => (
           <li
             key={idx}
@@ -1338,7 +1386,7 @@ const MedTourismLanding = () => {
                 What is the ByOnco PRO subscription?
               </summary>
               <div className="faq-answer">
-                ByOnco PRO at ₹99/month gives you unlimited access to real-time
+                ByOnco PRO at ₹99/week gives you unlimited access to real-time
                 bed and queue visibility across India, AI-powered hospital
                 matching, subsidy and clinical trial matching, fast second
                 opinions, multilingual app support, and dedicated care
@@ -1419,7 +1467,7 @@ const MedTourismLanding = () => {
                 if (isAuthenticated) {
                   navigate("/get-started");
                 } else {
-                  navigate("/auth?redirect=/get-started");
+                  navigate("/authentication?redirect=/get-started");
                 }
               }}
               data-testid="final-cta-button"
@@ -1515,6 +1563,23 @@ const MedTourismLanding = () => {
           </p>
         </div>
       </footer>
+
+      {/* WhatsApp Floating Chat Button */}
+      <a
+        href="https://wa.me/919022792824?text=Hi,%20I%20need%20help%20with%20cancer%20treatment%20options."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-full p-4 shadow-2xl hover:shadow-[#25D366]/50 transition-all duration-300 hover:scale-110 group"
+        aria-label="Chat on WhatsApp"
+      >
+        <MessageCircle className="w-6 h-6" />
+        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+          1
+        </span>
+        <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-sm">
+          Chat with us on WhatsApp
+        </div>
+      </a>
 
       {/* Contact Modal */}
       {showContactForm && (

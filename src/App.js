@@ -6,6 +6,8 @@ import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { StackHandler } from "@stackframe/react";
+import { stackClientApp } from "./stack/client";
 
 // Sections (old home page)
 import Hero from "./components/Hero";
@@ -44,7 +46,11 @@ import JourneyPlanDetails from "./pages/JourneyPlanDetails";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
 import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
+import CancerPage from "./pages/CancerPage";
+import CancerHub from "./pages/CancerHub";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PaymentGate from "./components/PaymentGate";
+import SecurityProtection from "./components/Security/SecurityProtection";
 import PrivacyPolicyVayu from "./products/vayu/pages/PrivacyPolicyVayu";
 import TermsOfServiceVayu from "./products/vayu/pages/TermsOfServiceVayu";
 import RefundPolicyVayu from "./products/vayu/pages/RefundPolicyVayu";
@@ -68,6 +74,8 @@ const Security = lazy(() => import("./pages/Security"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 // eslint-disable-next-line import/first
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
+// eslint-disable-next-line import/first
+const MedicalDisclaimer = lazy(() => import("./pages/MedicalDisclaimer"));
 // eslint-disable-next-line import/first
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 
@@ -155,7 +163,12 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <>
+    <SecurityProtection
+      disableRightClick={true}
+      disableCopyPaste={true}
+      disableTextSelection={false} // Only disable on sensitive blocks, not whole page
+      sensitiveSelector="[data-sensitive], .sensitive-content, .pricing-card, .subscription-details"
+    >
       <AnimatePresence mode="wait">
         <Suspense
           fallback={
@@ -171,6 +184,14 @@ export default function App() {
           <HashScroller offset={96} />
 
           <Routes location={location} key={location.pathname}>
+            {/* Stack Auth Handler - Must be before other routes */}
+            <Route
+              path="/handler/*"
+              element={
+                <StackHandler app={stackClientApp} location={location.pathname + location.search} fullPage />
+              }
+            />
+
             {/* MAIN HOME PAGE - MedTourismLanding */}
             <Route
               path="/"
@@ -237,11 +258,17 @@ export default function App() {
             />
 
             {/* ----------- Authentication ----------- */}
+            {/* Redirect /auth to /authentication for backward compatibility */}
             <Route
               path="/auth"
+              element={<Navigate to="/authentication" replace />}
+            />
+            {/* Stack Auth Authentication Page */}
+            <Route
+              path="/authentication"
               element={
                 <motion.div
-                  className="page-shell min-h-screen text-gray-900"
+                  className="page-shell min-h-screen"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -291,15 +318,17 @@ export default function App() {
               path="/find-hospitals"
               element={
                 <ProtectedRoute>
-                  <motion.div
-                    className="page-shell min-h-screen text-gray-900"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <FindHospitalsPage />
-                  </motion.div>
+                  <PaymentGate serviceName="Find Hospitals">
+                    <motion.div
+                      className="page-shell min-h-screen text-gray-900"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <FindHospitalsPage />
+                    </motion.div>
+                  </PaymentGate>
                 </ProtectedRoute>
               }
             />
@@ -323,15 +352,17 @@ export default function App() {
               path="/rare-cancers"
               element={
                 <ProtectedRoute>
-                  <motion.div
-                    className="page-shell min-h-screen text-gray-900"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <RareCancersPage />
-                  </motion.div>
+                  <PaymentGate serviceName="Rare Cancers">
+                    <motion.div
+                      className="page-shell min-h-screen text-gray-900"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <RareCancersPage />
+                    </motion.div>
+                  </PaymentGate>
                 </ProtectedRoute>
               }
             />
@@ -364,15 +395,17 @@ export default function App() {
               path="/teleconsultation"
               element={
                 <ProtectedRoute>
-                  <motion.div
-                    className="page-shell min-h-screen text-gray-900"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <TeleconsultationPage />
-                  </motion.div>
+                  <PaymentGate serviceName="Teleconsultation">
+                    <motion.div
+                      className="page-shell min-h-screen text-gray-900"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <TeleconsultationPage />
+                    </motion.div>
+                  </PaymentGate>
                 </ProtectedRoute>
               }
             />
@@ -381,16 +414,48 @@ export default function App() {
               path="/cost-calculator"
               element={
                 <ProtectedRoute>
-                  <motion.div
-                    className="page-shell min-h-screen text-gray-900"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <CostCalculatorPage />
-                  </motion.div>
+                  <PaymentGate serviceName="Cost Calculator">
+                    <motion.div
+                      className="page-shell min-h-screen text-gray-900"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <CostCalculatorPage />
+                    </motion.div>
+                  </PaymentGate>
                 </ProtectedRoute>
+              }
+            />
+
+            {/* ----------- Cancer Pages (SEO Optimized) ----------- */}
+            <Route
+              path="/cancer"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <CancerHub />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/cancer/:cancerType"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <CancerPage />
+                </motion.div>
               }
             />
 
@@ -398,15 +463,17 @@ export default function App() {
               path="/journey-builder"
               element={
                 <ProtectedRoute>
-                  <motion.div
-                    className="min-h-screen"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <JourneyBuilderPage />
-                  </motion.div>
+                  <PaymentGate serviceName="AI Medical Tourism for Oncology">
+                    <motion.div
+                      className="min-h-screen"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <JourneyBuilderPage />
+                    </motion.div>
+                  </PaymentGate>
                 </ProtectedRoute>
               }
             />
@@ -415,15 +482,17 @@ export default function App() {
               path="/journey-builder/plan/:planId"
               element={
                 <ProtectedRoute>
-                  <motion.div
-                    className="min-h-screen"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <JourneyPlanDetails />
-                  </motion.div>
+                  <PaymentGate serviceName="AI Medical Tourism for Oncology">
+                    <motion.div
+                      className="min-h-screen"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <JourneyPlanDetails />
+                    </motion.div>
+                  </PaymentGate>
                 </ProtectedRoute>
               }
             />
@@ -471,6 +540,22 @@ export default function App() {
                     transition={{ duration: 0.4 }}
                   >
                     <PrivacyPolicy />
+                  </motion.div>
+                </Suspense>
+              }
+            />
+            <Route
+              path="/medical-disclaimer"
+              element={
+                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
+                  <motion.div
+                    className="page-shell min-h-screen bg-[#fdfdfc]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <MedicalDisclaimer />
                   </motion.div>
                 </Suspense>
               }
@@ -712,6 +797,6 @@ export default function App() {
       {/* Always visible */}
       <CookieConsent />
       <Toaster />
-    </>
+    </SecurityProtection>
   );
 }

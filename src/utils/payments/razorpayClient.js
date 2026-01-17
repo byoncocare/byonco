@@ -104,13 +104,20 @@ export async function openCheckout({ order, prefill = {}, notes = {}, onSuccess,
 
   const { order_id, amount, currency } = order;
 
+  // Backend returns amount in rupees, but Razorpay checkout needs paise
+  // However, since backend already created the order with correct amount in paise,
+  // we should use the order_id directly. The amount here is just for display/verification.
+  // Razorpay will use the amount from the order_id, so we don't need to convert again.
+  // But to be safe, we'll use the amount from order (which is in rupees) and convert to paise
+  const amountInPaise = Math.round(amount * 100);
+
   const options = {
     key: keyId,
-    amount: amount * 100, // Convert to paise
+    amount: amountInPaise, // Amount in paise (backend returns in rupees)
     currency: currency,
     name: 'ByOnco Care',
     description: notes.description || 'Payment',
-    order_id: order_id,
+    order_id: order_id, // Use order_id from backend (order already created with correct amount)
     prefill: prefill,
     notes: notes,
     theme: theme,

@@ -40,6 +40,7 @@
     <meta property="og:image" content="https://www.byoncocare.com/preview.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ByOnco - AI-Powered Cancer Care" />
     <meta property="og:url" content="https://www.byoncocare.com/" />
 
     <!-- Twitter Card -->
@@ -50,6 +51,7 @@
       content="Find the best cancer hospitals in India — matched by urgency, budget, insurance, and more."
     />
     <meta name="twitter:image" content="https://www.byoncocare.com/preview.png" />
+    <meta name="twitter:image:alt" content="ByOnco - AI-Powered Cancer Care" />
 
     <!-- Optional generic image fallback -->
     <meta name="image" content="https://www.byoncocare.com/preview.png" />
@@ -116,7 +118,8 @@
     />
 
     <!-- TEMP: iOS error capture (remove after debugging) -->
-    <script id="ios-error-capture">
+    <!-- Note: This script uses 'unsafe-eval' in CSP for development only -->
+    <script id="ios-error-capture" nonce="">
       (function () {
         // Only run in Safari / iOS webviews (basic UA heuristic)
         var ua = navigator.userAgent || "";

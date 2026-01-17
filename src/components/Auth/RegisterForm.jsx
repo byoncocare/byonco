@@ -228,7 +228,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
     <div className="max-w-lg w-full bg-[#0b0f1f]/95 border border-white/30 rounded-2xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 text-white shadow-xl shadow-black/40 backdrop-blur">
       <div className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-2">Create your ByOnco account</h2>
-        <p className="text-sm sm:text-base text-white/90">Join thousands of families navigating their cancer care journey</p>
+        <p className="text-sm sm:text-base text-white/90">Join over 10,000+ people taking control of their cancer journey</p>
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">

@@ -9,10 +9,33 @@ import "whatwg-fetch";                // window.fetch()
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 
 import App from "./App";
 import { AuthProvider } from "./contexts/AuthContext";
+import { StackProvider, StackTheme } from "@stackframe/react";
+import { stackClientApp } from "./stack/client";
 import reportWebVitals from "./reportWebVitals";
+
+// Security initialization
+import { initializeWindowSanitization } from "./utils/security/windowSanitizer";
+import { initializeRequestInterceptors } from "./utils/security/requestInterceptor";
+import axios from 'axios';
+import { createSecureAxios } from "./utils/security/requestInterceptor";
+
+// Initialize security on app load
+if (typeof window !== 'undefined') {
+  initializeWindowSanitization();
+  initializeRequestInterceptors();
+  
+  // Apply security interceptors to default axios instance
+  // This ensures all axios calls include fingerprinting
+  try {
+    createSecureAxios(axios);
+  } catch (e) {
+    console.warn('Failed to secure axios instance:', e);
+  }
+}
 
 // ---- iOS Safari (12.x / some webviews) MediaQueryList shim ----
 // Older iOS only has addListener/removeListener; this maps change events.
@@ -40,11 +63,17 @@ const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename={BASENAME}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter basename={BASENAME}>
+        <StackProvider app={stackClientApp}>
+          <StackTheme>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </StackTheme>
+        </StackProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   </React.StrictMode>
 );
 

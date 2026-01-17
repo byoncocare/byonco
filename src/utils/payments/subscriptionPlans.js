@@ -9,7 +9,7 @@ export const SUBSCRIPTION_PLANS = [
     subtitle: 'For Patients & Families',
     amount: 99,
     currency: 'INR',
-    period: '/month',
+    period: '/week',
     description: 'Complete access to AI-powered oncology navigation',
     features: [
       'Real-time bed & queue visibility across India',

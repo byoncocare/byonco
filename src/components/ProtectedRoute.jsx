@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
  * ProtectedRoute component - Wraps routes that require authentication and profile completion
  * 
  * Flow:
- * - If not authenticated → redirect to /auth
+ * - If not authenticated → redirect to /authentication
  * - If authenticated but profile not complete → redirect to /profile
  * - If authenticated and profile complete → render children
  */
@@ -29,7 +29,7 @@ export default function ProtectedRoute({ children }) {
   // If not authenticated, redirect to login with return path
   if (!isAuthenticated) {
     const redirectPath = location.pathname + location.search;
-    return <Navigate to={`/auth?redirect=${encodeURIComponent(redirectPath)}`} replace />;
+    return <Navigate to={`/authentication?redirect=${encodeURIComponent(redirectPath)}`} replace />;
   }
 
   // If authenticated but profile not complete, redirect to profile

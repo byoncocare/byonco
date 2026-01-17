@@ -64,6 +64,7 @@ export default function PrivacyPolicy() {
               <li><strong className="text-white">Usage Data</strong>: IP address, device type, browser, OS, screen resolution, time spent on app or pages.</li>
               <li><strong className="text-white">Cookies and Local Storage</strong>: To personalize experience, retain session data, and offer relevant content.</li>
               <li><strong className="text-white">Device & Diagnostic Logs</strong>: For security, troubleshooting, and improving app experience.</li>
+              <li><strong className="text-white">Security Fingerprinting</strong>: Browser characteristics, device identifiers, and request patterns for abuse detection and security monitoring.</li>
             </ul>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center gap-2 mt-8">
@@ -73,8 +74,10 @@ export default function PrivacyPolicy() {
             <ul className="list-disc ml-6 mb-6 space-y-2 text-gray-300">
               <li><strong className="text-white">Hospital Matching & Care Navigation</strong>: To help recommend best-fit cancer hospitals based on your profile.</li>
               <li><strong className="text-white">Communications</strong>: To send confirmations, alerts, WhatsApp messages, and respond to queries.</li>
+              <li><strong className="text-white">WhatsApp Integration</strong>: When you contact us via WhatsApp, we process your messages, phone number, and related data to provide customer support, send appointment reminders, and facilitate care coordination. WhatsApp data is subject to WhatsApp's privacy policy, and we store only necessary information for service delivery.</li>
               <li><strong className="text-white">Service Optimization</strong>: Analyze aggregated data to improve user experience, routes, and performance.</li>
               <li><strong className="text-white">Personalization</strong>: Tailor hospital and treatment suggestions based on user patterns.</li>
+              <li><strong className="text-white">Security & Abuse Prevention</strong>: Monitor for unauthorized access, scraping attempts, and security threats to protect our platform and users.</li>
               <li><strong className="text-white">Compliance</strong>: Ensure adherence to Indian laws like IT Act, DISHA guidelines, and data protection frameworks.</li>
             </ul>
 
@@ -92,13 +95,15 @@ export default function PrivacyPolicy() {
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center gap-2 mt-8">
               <Shield className="h-6 w-6 text-purple-400" />
-              4. Data Security Measures
+              4. Data Security Measures & Storage
             </h2>
             <ul className="list-disc ml-6 mb-6 space-y-2 text-gray-300">
               <li><strong className="text-white">Encryption</strong>: HTTPS/TLS for data in transit. AES encryption for data at rest.</li>
-              <li><strong className="text-white">Access Control</strong>: Only essential staff and systems have access based on role.</li>
+              <li><strong className="text-white">Data Storage</strong>: Your data is stored on secure cloud servers with geographic redundancy. Primary storage is in India, with backup systems as needed for service continuity.</li>
+              <li><strong className="text-white">Access Control</strong>: Only essential staff and systems have access based on role. All access is logged and monitored.</li>
               <li><strong className="text-white">Audit Logs</strong>: All critical actions and logins are tracked securely.</li>
-              <li><strong className="text-white">Breach Notification</strong>: In the event of a data breach, we'll notify affected parties as required under Indian law.</li>
+              <li><strong className="text-white">Security Monitoring</strong>: We employ automated systems to detect and prevent unauthorized access, scraping, and abuse.</li>
+              <li><strong className="text-white">Breach Notification</strong>: In the event of a data breach, we'll notify affected parties as required under Indian law within 72 hours of discovery.</li>
             </ul>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">5. Data Retention</h2>
@@ -119,17 +124,42 @@ export default function PrivacyPolicy() {
               <li><strong className="text-white">Opt-out</strong> of marketing or communications via <a className="text-purple-400 hover:text-purple-300 hover:underline" href="mailto:contact@byoncocare.com">contact@byoncocare.com</a></li>
             </ul>
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">7. Consent & Compliance</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">7. User Consent & Compliance</h2>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              By using ByOnco, you explicitly consent to:
+            </p>
+            <ul className="list-disc ml-6 mb-4 space-y-2 text-gray-300">
+              <li>Processing of your health-related data for service delivery</li>
+              <li>Storage of your data on secure servers as described in this policy</li>
+              <li>Communication via WhatsApp, email, and other channels for service-related purposes</li>
+              <li>Sharing necessary information with healthcare partners you engage with</li>
+              <li>Security monitoring and abuse prevention measures</li>
+            </ul>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              You confirm that:
+              <br />• You are either the patient or an authorized caregiver with legal authority to consent
+              <br />• The information you provide is accurate and complete
+              <br />• You agree to abide by the Terms and Conditions and Privacy Policy
+            </p>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              By using ByOnco, you:
-              <br />• Consent to us processing your health-related data
-              <br />• Confirm you're either the patient or an authorized caregiver
-              <br />• Agree to abide by the Terms and Conditions and Privacy Policy
-              <br /><br />
-              We comply with India's evolving data laws, including those under the <strong className="text-white">Digital Personal Data Protection Act, 2023</strong> and healthcare-specific norms.
+              We comply with India's evolving data laws, including those under the <strong className="text-white">Digital Personal Data Protection Act, 2023</strong> and healthcare-specific norms. For users in the United States, we also consider applicable US privacy frameworks, though our primary jurisdiction is India.
             </p>
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">8. Changes to this Privacy Policy</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">8. Prohibited Activities & Content Protection</h2>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              ByOnco's content, data, and platform are protected by intellectual property laws and security measures. You agree not to:
+            </p>
+            <ul className="list-disc ml-6 mb-6 space-y-2 text-gray-300">
+              <li><strong className="text-white">Scrape or Extract Data</strong>: Use automated tools, bots, or scripts to extract, copy, or download content, hospital data, pricing information, or user data from our platform.</li>
+              <li><strong className="text-white">Redistribute Content</strong>: Republish, resell, or redistribute any content, data, or information obtained from ByOnco without written permission.</li>
+              <li><strong className="text-white">Reverse Engineer</strong>: Attempt to reverse engineer, decompile, or extract source code, algorithms, or proprietary logic.</li>
+              <li><strong className="text-white">Circumvent Security</strong>: Bypass security measures, rate limits, or access controls.</li>
+            </ul>
+            <p className="text-gray-300 mb-6 leading-relaxed">
+              Violations may result in immediate termination of access and legal action. We monitor for such activities and reserve the right to take appropriate measures to protect our platform and users.
+            </p>
+
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">9. Changes to this Privacy Policy</h2>
             <p className="text-gray-300 mb-6 leading-relaxed">
               We may revise this policy periodically. Any changes will be posted on this page with a new effective date.
               Continued use of ByOnco after updates constitutes your consent to the changes.
@@ -137,7 +167,7 @@ export default function PrivacyPolicy() {
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8 flex items-center gap-2">
               <Mail className="h-6 w-6 text-purple-400" />
-              9. Contact Us
+              10. Contact Us
             </h2>
             <div className="text-gray-300 space-y-2">
               <p><strong className="text-white">Email</strong>: <a href="mailto:contact@byoncocare.com" className="text-purple-400 hover:text-purple-300 hover:underline">contact@byoncocare.com</a></p>

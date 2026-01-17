@@ -67,10 +67,21 @@ export default function TermsAndConditions() {
               <Scale className="h-6 w-6 text-purple-400" />
               2. Acceptance and Modifications
             </h2>
-            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">2.1 Acceptance</h3>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">2.1 Acceptance & User Consent</h3>
             <p className="text-gray-300 mb-4 leading-relaxed">
-              By using the Services, you confirm that you have read, understood, and agreed to be bound by these Terms and our
-              Privacy Policy.
+              By accessing, using, or registering for the Services, you explicitly acknowledge and agree that:
+            </p>
+            <ul className="list-disc pl-5 mb-4 text-gray-300 space-y-2">
+              <li>You have read, understood, and agree to be bound by these Terms and our Privacy Policy</li>
+              <li>You consent to the collection, use, storage, and processing of your personal and health information as described in our Privacy Policy</li>
+              <li>You consent to communication via WhatsApp, email, and other channels for service delivery</li>
+              <li>You understand that ByOnco is not a medical provider and does not provide medical advice</li>
+              <li>You are either the patient or an authorized caregiver with legal authority to consent</li>
+              <li>You will not engage in scraping, data extraction, or unauthorized redistribution of our content</li>
+              <li>You accept the limitations of liability and medical disclaimers outlined in these Terms</li>
+            </ul>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              If you do not agree to these Terms, you must immediately stop using the Services and may not access or use any part of the platform.
             </p>
 
             <h3 className="text-xl font-semibold text-gray-300 mb-2">2.2 Modifications</h3>
@@ -156,8 +167,20 @@ export default function TermsAndConditions() {
               <li>Impersonate others or use the platform for fraudulent purposes</li>
               <li>Upload malicious content, spam, or inappropriate material</li>
             </ul>
+
+            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-6">5.3 Prohibited Activities: Scraping & Redistribution</h3>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              <strong className="text-white">You expressly agree NOT to:</strong>
+            </p>
+            <ul className="list-disc pl-5 mb-4 text-gray-300 space-y-2">
+              <li><strong className="text-white">Scrape, Extract, or Harvest Data</strong>: Use automated tools, bots, crawlers, scrapers, or scripts to extract, copy, download, or collect any content, data, hospital information, pricing, doctor details, or user information from our platform.</li>
+              <li><strong className="text-white">Redistribute or Resell Content</strong>: Republish, resell, redistribute, or share any content, data, or information obtained from ByOnco, whether for commercial or non-commercial purposes, without our explicit written permission.</li>
+              <li><strong className="text-white">Reverse Engineer</strong>: Attempt to reverse engineer, decompile, disassemble, or extract source code, algorithms, database structures, or proprietary logic from our platform.</li>
+              <li><strong className="text-white">Circumvent Security Measures</strong>: Bypass, disable, or interfere with security features, rate limits, access controls, or technical protection measures.</li>
+              <li><strong className="text-white">Create Derivative Works</strong>: Build competing services, databases, or platforms using data or insights obtained from ByOnco.</li>
+            </ul>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              We reserve the right to suspend or terminate your access if misuse is detected.
+              <strong className="text-white">Consequences:</strong> Violations of these prohibitions may result in immediate termination of your account, legal action, and claims for damages. We actively monitor for such activities and employ technical measures to prevent unauthorized access and data extraction.
             </p>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">6. Payment Terms & Billing</h2>
@@ -188,24 +211,50 @@ export default function TermsAndConditions() {
               itemized and disclosed before purchase. You may opt into specific package components based on your needs.
             </p>
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">7. Intellectual Property</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">7. Intellectual Property & Content Protection</h2>
             <p className="text-gray-300 mb-4 leading-relaxed">
-              All content, design, logos, and technology used in the platform are the intellectual property of PraesidioCare
-              Private Limited. You may not reuse, replicate, or redistribute without written permission.
+              All content, design, logos, technology, algorithms, databases, hospital data, pricing information, and proprietary information used in the platform are the intellectual property of PraesidioCare Private Limited and are protected by copyright, trademark, and other intellectual property laws.
             </p>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              <strong className="text-white">No Redistribution:</strong> You may not reuse, replicate, redistribute, resell, or share any content, data, or information from ByOnco without our explicit written permission. This includes but is not limited to:
+            </p>
+            <ul className="list-disc pl-5 mb-4 text-gray-300 space-y-2">
+              <li>Hospital listings, availability data, or pricing information</li>
+              <li>Doctor profiles, specializations, or credentials</li>
+              <li>Treatment recommendations, cost estimates, or care packages</li>
+              <li>User-generated content, reviews, or testimonials</li>
+              <li>Platform design, UI/UX elements, or branding</li>
+            </ul>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              You retain rights to any information you upload but grant us a limited license to use it for providing the
-              Services.
+              You retain rights to any information you upload but grant us a limited, non-exclusive license to use it for providing and improving the Services. This license terminates when you delete your account or request data deletion, subject to legal retention requirements.
             </p>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8">8. Medical Disclaimer & Limitation of Liability</h2>
-            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">8.1 Medical Disclaimer</h3>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2 mt-4">8.1 Medical Non-Advice Disclaimer</h3>
             <p className="text-gray-300 mb-4 leading-relaxed">
-              <strong className="text-white">ByOnco is not a medical provider and does not provide medical advice, diagnosis, or treatment.</strong> 
-              Our Services are designed to assist you in finding healthcare providers, understanding costs, and coordinating care. 
-              All medical decisions must be made in consultation with qualified healthcare professionals. ByOnco's recommendations, 
-              AI-generated insights, and care packages are informational tools only and do not constitute medical advice.
+              <strong className="text-white">ByOnco is NOT a medical provider, healthcare facility, or licensed medical professional. We do NOT provide medical advice, diagnosis, treatment, or prescriptions.</strong>
             </p>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              Our Services are informational and coordination tools designed to assist you in:
+            </p>
+            <ul className="list-disc pl-5 mb-4 text-gray-300 space-y-2">
+              <li>Finding healthcare providers and hospitals</li>
+              <li>Understanding treatment costs and financial options</li>
+              <li>Coordinating care and medical tourism</li>
+              <li>Accessing second opinions from qualified oncologists</li>
+            </ul>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              <strong className="text-white">All medical decisions, including diagnosis, treatment selection, medication, and care plans, must be made in consultation with qualified, licensed healthcare professionals.</strong> ByOnco's recommendations, AI-generated insights, hospital matches, cost estimates, and care packages are informational tools only and do not constitute medical advice, diagnosis, or treatment recommendations.
+            </p>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              You acknowledge that:
+            </p>
+            <ul className="list-disc pl-5 mb-6 text-gray-300 space-y-2">
+              <li>ByOnco does not replace professional medical consultation</li>
+              <li>You are solely responsible for all medical decisions</li>
+              <li>You will consult with qualified healthcare providers before making any treatment decisions</li>
+              <li>ByOnco is not liable for medical outcomes or treatment results</li>
+            </ul>
             <h3 className="text-xl font-semibold text-gray-300 mb-2">8.2 Limitation of Liability</h3>
             <p className="text-gray-300 mb-4 leading-relaxed">
               To the maximum extent permitted by law, ByOnco and PraesidioCare Private Limited shall not be liable for:
@@ -239,11 +288,16 @@ export default function TermsAndConditions() {
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8 flex items-center gap-2">
               <Globe className="h-6 w-6 text-purple-400" />
-              10. Governing Law
+              10. Governing Law & Jurisdiction
             </h2>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              <strong className="text-white">Governing Law:</strong> These Terms are governed by and construed in accordance with the laws of India, without regard to conflict of law principles. For users in the United States, these Terms are also subject to applicable US federal and state laws, though Indian law shall prevail in case of conflict.
+            </p>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              <strong className="text-white">Jurisdiction:</strong> Any disputes, claims, or legal proceedings arising out of or relating to these Terms, the Services, or your use of ByOnco shall be subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra, India. You consent to the personal jurisdiction of such courts and waive any objection to venue.
+            </p>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              These Terms are governed by the laws of India. Disputes, if any, shall be subject to the exclusive jurisdiction
-              of the courts in Mumbai, Maharashtra.
+              <strong className="text-white">Compliance:</strong> By using ByOnco, you represent that you are in compliance with all applicable laws in your jurisdiction, including but not limited to healthcare regulations, data protection laws, and export control laws.
             </p>
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 mt-8 flex items-center gap-2">

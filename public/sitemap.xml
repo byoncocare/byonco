@@ -7,7 +7,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.byoncocare.com/</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,7 +15,7 @@
   <!-- About -->
   <url>
     <loc>https://www.byoncocare.com/about</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -23,42 +23,128 @@
   <!-- Services -->
   <url>
     <loc>https://www.byoncocare.com/find-hospitals</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://www.byoncocare.com/second-opinion</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://www.byoncocare.com/cost-calculator</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://www.byoncocare.com/rare-cancers</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://www.byoncocare.com/teleconsultation</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://www.byoncocare.com/get-started</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/find-oncologists</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Cancer Hub -->
+  <url>
+    <loc>https://www.byoncocare.com/cancer</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Cancer Type Pages (SEO Optimized) -->
+  <url>
+    <loc>https://www.byoncocare.com/cancer/breast</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/lung</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/oral</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/cervical</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/colorectal</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/prostate</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/ovarian</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/liver-hcc</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/pancreatic</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.byoncocare.com/cancer/non-hodgkin-lymphoma</loc>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -66,21 +152,21 @@
   <!-- Legal -->
   <url>
     <loc>https://www.byoncocare.com/terms-and-conditions</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://www.byoncocare.com/privacy</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://www.byoncocare.com/security</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -88,7 +174,7 @@
   <!-- Company -->
   <url>
     <loc>https://www.byoncocare.com/careers</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
