@@ -32,9 +32,9 @@ export default function SecurityProtection({
       return;
     }
 
-    // Skip all protections on Stack Auth handler routes (OAuth callbacks need to work)
+    // Skip all protections on Stack Auth handler routes and authentication pages (OAuth callbacks need to work)
     const currentPath = window.location.pathname;
-    if (currentPath.startsWith('/handler/')) {
+    if (currentPath.startsWith('/handler/') || currentPath.startsWith('/authentication')) {
       return;
     }
 

@@ -134,6 +134,7 @@ function HashScroller({ offset = 96 }) {
 ------------------------------------------------------- */
 function StackAuthHandlerWrapper({ app, location }) {
   const [error, setError] = React.useState(null);
+  const navigate = React.useRouter?.() || null;
 
   React.useEffect(() => {
     // Debug logging - no secrets
@@ -180,13 +181,16 @@ function StackAuthHandlerWrapper({ app, location }) {
     );
   }
 
+  // Use full pathname including search params for StackHandler
+  const fullLocation = window.location.pathname + window.location.search;
+
   try {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <StackHandler 
             app={app} 
-            location={location} 
+            location={fullLocation}
             fullPage={false}
           />
         </div>
@@ -276,7 +280,7 @@ export default function App() {
               element={
                 <StackAuthHandlerWrapper 
                   app={stackClientApp} 
-                  location={location.pathname + location.search}
+                  location={location.pathname}
                 />
               }
             />
