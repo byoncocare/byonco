@@ -32,6 +32,12 @@ export default function SecurityProtection({
       return;
     }
 
+    // Skip all protections on Stack Auth handler routes (OAuth callbacks need to work)
+    const currentPath = window.location.pathname;
+    if (currentPath.startsWith('/handler/')) {
+      return;
+    }
+
     // Detect headless browsers
     if (detectHeadlessBrowser()) {
       logSecurityEvent('headless_browser_detected', {
