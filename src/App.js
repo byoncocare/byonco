@@ -852,7 +852,24 @@ export default function App() {
               }
             />
 
-            {/* Optional 404 - not added */}
+            {/* Catch-all route - redirect to home if no route matches */}
+            <Route
+              path="*"
+              element={
+                <div className="min-h-screen bg-white flex items-center justify-center p-4">
+                  <div className="max-w-md w-full text-center">
+                    <h1 className="text-2xl font-bold text-gray-900 mb-4">Page does not exist</h1>
+                    <p className="text-gray-600 mb-4">The page you are looking for could not be found. Please check the URL and try again.</p>
+                    <button
+                      onClick={() => window.location.href = '/'}
+                      className="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                    >
+                      Go to Home
+                    </button>
+                  </div>
+                </div>
+              }
+            />
           </Routes>
         </Suspense>
       </AnimatePresence>
