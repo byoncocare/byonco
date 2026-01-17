@@ -31,16 +31,14 @@ export const stackClientApp = new StackClientApp({
     useNavigate,
   },
   
-  // URL configuration - relative paths work in production
+  // URL configuration - use canonical domain (www.byoncocare.com)
   // Stack Auth will use the current domain automatically
   urls: {
     signIn: "/authentication",
     signUp: "/authentication",
     afterSignIn: "/",
     afterSignUp: "/",
-    // OAuth callback handler - explicit path for OAuth callbacks
-    handler: typeof window !== 'undefined' 
-      ? `${window.location.origin}/handler` 
-      : "/handler",
+    // OAuth callback handler - use relative path (Stack Auth handles domain)
+    handler: "/handler",
   },
 });

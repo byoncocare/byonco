@@ -216,6 +216,20 @@ function HomePage() {
 export default function App() {
   const location = useLocation();
 
+  // Domain canonicalization - force www.byoncocare.com
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      // If on byoncocare.com (without www), redirect to www
+      if (hostname === 'byoncocare.com') {
+        const newUrl = `https://www.byoncocare.com${window.location.pathname}${window.location.search}${window.location.hash}`;
+        console.log('[App] Redirecting to canonical domain:', newUrl);
+        window.location.replace(newUrl);
+        return;
+      }
+    }
+  }, []);
+
   return (
     <SecurityProtection
       disableRightClick={true}
@@ -239,13 +253,8 @@ export default function App() {
           <HashScroller offset={96} />
 
           <Routes location={location} key={location.pathname}>
-            {/* Stack Auth Handler - Must be FIRST route for OAuth callbacks */}
-            {/* Explicit route for OAuth callback - highest priority */}
-            <Route
-              path="/handler/oauth-callback"
-              element={<OAuthCallback />}
-            />
-            {/* StackHandler for other Stack Auth internal routes */}
+            {/* Stack Auth Handler - MUST be FIRST route (before all others) */}
+            {/* StackHandler handles ALL /handler/* routes including /handler/oauth-callback */}
             <Route
               path="/handler/*"
               element={

@@ -9,6 +9,19 @@
       }
     }
   ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "byoncocare.com"
+        }
+      ],
+      "destination": "https://www.byoncocare.com/$1",
+      "permanent": true
+    }
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
