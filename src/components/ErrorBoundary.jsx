@@ -99,8 +99,10 @@ class StackAuthErrorBoundary extends React.Component {
               <div className="flex gap-2 pt-4">
                 <Button
                   onClick={() => {
+                    // Clear error state and retry without full page reload
                     this.setState({ hasError: false, error: null });
-                    window.location.reload();
+                    // Trigger a re-render by forcing component remount
+                    window.dispatchEvent(new Event('stackauth-retry'));
                   }}
                   className="flex-1 bg-purple-600 hover:bg-purple-700"
                 >
