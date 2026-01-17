@@ -185,11 +185,18 @@ export default function App() {
           <HashScroller offset={96} />
 
           <Routes location={location} key={location.pathname}>
-            {/* Stack Auth Handler - Must be before other routes */}
+            {/* Stack Auth Handler - Must be before other routes for OAuth callbacks */}
+            {/* This handles OAuth redirects from Google, GitHub, etc. */}
             <Route
               path="/handler/*"
               element={
-                <StackHandler app={stackClientApp} location={location.pathname + location.search} fullPage />
+                <div className="min-h-screen bg-white flex items-center justify-center">
+                  <StackHandler 
+                    app={stackClientApp} 
+                    location={location.pathname + location.search} 
+                    fullPage={false}
+                  />
+                </div>
               }
             />
 

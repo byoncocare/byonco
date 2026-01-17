@@ -38,5 +38,7 @@ export const stackClientApp = new StackClientApp({
     signUp: "/authentication",
     afterSignIn: "/",
     afterSignUp: "/",
+    // OAuth callback handler - required for OAuth flows
+    handler: "/handler",
   },
 });
