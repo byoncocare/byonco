@@ -132,18 +132,23 @@ function HashScroller({ offset = 96 }) {
 /* -------------------------------------------------------
    Stack Auth Handler Wrapper
 ------------------------------------------------------- */
-function StackAuthHandlerWrapper({ app, location }) {
+function StackAuthHandlerWrapper({ app }) {
   const [error, setError] = React.useState(null);
+
+  // Use full URL including pathname, search, and hash for StackHandler
+  const fullLocation = React.useMemo(() => {
+    if (typeof window === 'undefined') return '/';
+    return window.location.pathname + window.location.search + window.location.hash;
+  }, []);
 
   React.useEffect(() => {
     // Debug logging - no secrets
-    console.log('[StackAuthHandler] ===== OAuth Callback Handler =====');
+    console.log('[StackAuthHandler] ===== OAuth Callback Handler MOUNTED =====');
     console.log('[StackAuthHandler] Full URL:', window.location.href);
-    console.log('[StackAuthHandler] Hostname:', window.location.hostname);
-    console.log('[StackAuthHandler] Origin:', window.location.origin);
     console.log('[StackAuthHandler] Pathname:', window.location.pathname);
-    console.log('[StackAuthHandler] Search params:', window.location.search);
-    console.log('[StackAuthHandler] Location prop:', location);
+    console.log('[StackAuthHandler] Search:', window.location.search);
+    console.log('[StackAuthHandler] Hash:', window.location.hash);
+    console.log('[StackAuthHandler] Full Location (for StackHandler):', fullLocation);
     console.log('[StackAuthHandler] Stack Auth App:', app ? '✅ Present' : '❌ Missing');
     console.log('[StackAuthHandler] Stack Auth Project ID:', app?.projectId ? app.projectId.substring(0, 6) + '...' : 'Missing');
     
@@ -161,7 +166,7 @@ function StackAuthHandlerWrapper({ app, location }) {
     return () => {
       window.removeEventListener("message", messageHandler);
     };
-  }, [location, app]);
+  }, [fullLocation, app]);
 
   if (error) {
     return (
@@ -180,10 +185,8 @@ function StackAuthHandlerWrapper({ app, location }) {
     );
   }
 
-  // Use full pathname including search params for StackHandler
-  const fullLocation = window.location.pathname + window.location.search;
-
   try {
+    console.log('[StackAuthHandler] Rendering StackHandler with location:', fullLocation);
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-4">
         <div className="w-full max-w-md">
@@ -278,8 +281,7 @@ export default function App() {
               path="/handler/*"
               element={
                 <StackAuthHandlerWrapper 
-                  app={stackClientApp} 
-                  location={location.pathname + location.search}
+                  app={stackClientApp}
                 />
               }
             />
