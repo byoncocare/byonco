@@ -92,8 +92,10 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
     if (!plan) return;
 
     setPaymentLoading(true);
+    console.log('[PaymentGate] Starting subscription payment...', plan);
+    
     try {
-      await initiatePayment({
+      const razorpayInstance = await initiatePayment({
         amount: plan.amount,
         currency: plan.currency,
         description: `${plan.name} - ${plan.subtitle}`,
@@ -102,8 +104,9 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
           plan_id: plan.id,
           plan_name: plan.name
         },
-      }, {
         onSuccess: async (result) => {
+          console.log('[PaymentGate] Payment success callback:', result);
+          
           // Save subscription from backend response if available
           if (result.subscription) {
             saveSubscription(result.subscription);
@@ -128,23 +131,42 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
           }, 1500);
         },
         onError: (error) => {
-          console.error('Payment error:', error);
-          toast({
-            variant: "error",
-            title: "Payment failed",
-            description: error.message || "Failed to process payment. Please try again.",
-          });
+          console.error('[PaymentGate] Payment error:', error);
           setPaymentLoading(false);
+          
+          // Don't show error toast for cancelled payments
+          if (error.message && (error.message.includes('cancelled') || error.message.includes('Payment cancelled'))) {
+            toast({
+              variant: "info",
+              title: "Payment cancelled",
+              description: "You can retry anytime.",
+            });
+          } else {
+            toast({
+              variant: "error",
+              title: "Payment failed",
+              description: error.message || "Failed to process payment. Please try again.",
+            });
+          }
         }
       });
+      
+      // If razorpay instance was returned, the modal should be open
+      if (razorpayInstance) {
+        console.log('[PaymentGate] Razorpay instance created, modal should be visible');
+        // Don't set loading to false here - keep it true until payment completes or fails
+      } else {
+        console.warn('[PaymentGate] No Razorpay instance returned');
+        setPaymentLoading(false);
+      }
     } catch (error) {
-      console.error('Subscription error:', error);
+      console.error('[PaymentGate] Subscription error:', error);
+      setPaymentLoading(false);
       toast({
         variant: "error",
         title: "Payment failed",
-        description: "Failed to initiate payment. Please try again.",
+        description: error.message || "Failed to initiate payment. Please try again.",
       });
-      setPaymentLoading(false);
     }
   };
 

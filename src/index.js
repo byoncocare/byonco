@@ -6,6 +6,9 @@ import "regenerator-runtime/runtime"; // async/await, generators
 import "whatwg-fetch";                // window.fetch()
 // ----------------------------------------------------------------------
 
+// Razorpay modal CSS overrides - ensure payment gateway is visible
+import "./styles/razorpay-overrides.css";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";

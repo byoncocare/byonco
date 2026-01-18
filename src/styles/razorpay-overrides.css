@@ -1,0 +1,45 @@
+/* Razorpay Modal Overrides - Ensure payment gateway is visible */
+
+/* Ensure Razorpay modal and iframe are always visible */
+.razorpay-container,
+.razorpay-checkout-frame,
+iframe[src*="razorpay"],
+iframe[src*="checkout.razorpay.com"] {
+  z-index: 999999 !important;
+  position: fixed !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+  pointer-events: auto !important;
+}
+
+/* Razorpay modal overlay */
+.razorpay-checkout,
+.razorpay-checkout-frame,
+.razorpay-checkout-overlay {
+  z-index: 999999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+  pointer-events: auto !important;
+}
+
+/* Ensure no parent containers block Razorpay */
+body.razorpay-open,
+html.razorpay-open {
+  overflow: hidden !important;
+}
+
+/* Allow Razorpay iframe to render */
+iframe[src*="razorpay"] {
+  border: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
