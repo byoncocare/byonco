@@ -17,14 +17,40 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [paymentLoading, setPaymentLoading] = React.useState(false);
+  const [accessCheck, setAccessCheck] = React.useState({ hasAccess: false, reason: 'checking' });
+  const [loading, setLoading] = React.useState(true);
 
-  // Check access
-  const accessCheck = hasPaidAccess(user);
   const admin = isAdmin(user);
+
+  // Check access on mount and when user changes
+  React.useEffect(() => {
+    const checkAccess = async () => {
+      setLoading(true);
+      try {
+        const check = await hasPaidAccess(user);
+        setAccessCheck(check);
+      } catch (error) {
+        console.error('Error checking access:', error);
+        setAccessCheck({ hasAccess: false, reason: 'error' });
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAccess();
+  }, [user]);
 
   // If admin, allow access
   if (admin) {
     return <>{children}</>;
+  }
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+        <div className="text-white">Checking access...</div>
+      </div>
+    );
   }
 
   // If user has active subscription, allow access
@@ -77,13 +103,18 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
           plan_name: plan.name
         },
       }, {
-        onSuccess: (result) => {
-          // Save subscription
-          const subscription = saveSubscription(
-            plan.id,
-            result.payment_id,
-            result.order_id
-          );
+        onSuccess: async (result) => {
+          // Save subscription from backend response if available
+          if (result.subscription) {
+            saveSubscription(result.subscription);
+          } else {
+            // Fallback: create subscription locally
+            saveSubscription({
+              planId: plan.id,
+              paymentId: result.payment_id,
+              orderId: result.order_id
+            });
+          }
 
           toast({
             variant: "success",

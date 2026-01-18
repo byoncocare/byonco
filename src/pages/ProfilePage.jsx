@@ -6,9 +6,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert } from '@/components/ui/alert';
-import { Loader2, User, Calendar, MapPin, Phone, UserCircle, Heart, ChevronLeft, Upload, Image as ImageIcon } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Loader2, User, Calendar, MapPin, Phone, UserCircle, Heart, ChevronLeft, Upload, Image as ImageIcon, Crown, CreditCard, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from '@/contexts/AuthContext';
+import { getSubscriptionStatus, isSubscriptionActive, getDaysRemaining, isAdmin, clearSubscription } from '@/utils/subscription';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { initiatePayment } from '@/utils/payments/razorpayClient';
+import { SUBSCRIPTION_PLANS } from '@/utils/payments/subscriptionPlans';
+import { toast } from '@/hooks/use-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API = `${BACKEND_URL}/api/auth`;
@@ -16,11 +22,15 @@ const API = `${BACKEND_URL}/api/auth`;
 export default function ProfilePage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { updateUser } = useAuth();
+  const { updateUser, user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [subscription, setSubscription] = useState(null);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(true);
+  const [showExpiryModal, setShowExpiryModal] = useState(false);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
 
   const [formData, setFormData] = useState({
     full_name: '',
@@ -78,6 +88,35 @@ export default function ProfilePage() {
 
     fetchProfile();
   }, [navigate]);
+
+  // Fetch subscription status
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      if (user) {
+        setSubscriptionLoading(true);
+        try {
+          const sub = await getSubscriptionStatus(user);
+          setSubscription(sub);
+          
+          // Check if subscription is expired or about to expire
+          if (sub && !isSubscriptionActive(sub)) {
+            setShowExpiryModal(true);
+            // Clear expired subscription from localStorage
+            clearSubscription();
+            setSubscription(null);
+          }
+        } catch (error) {
+          console.error('Error fetching subscription:', error);
+        } finally {
+          setSubscriptionLoading(false);
+        }
+      } else {
+        setSubscriptionLoading(false);
+      }
+    };
+    
+    fetchSubscription();
+  }, [user]);
 
   // Calculate age from date of birth
   const handleDateChange = (e) => {
@@ -242,10 +281,31 @@ export default function ProfilePage() {
                 Back
               </Button>
             </div>
-            <CardTitle className="text-2xl text-white">Complete your ByOnco profile</CardTitle>
-            <CardDescription className="text-white/80">
-              Please fill in all required information to access our services
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-2xl text-white">Complete your ByOnco profile</CardTitle>
+                <CardDescription className="text-white/80">
+                  Please fill in all required information to access our services
+                </CardDescription>
+              </div>
+              {!subscriptionLoading && subscription && isSubscriptionActive(subscription) && (
+                <Badge className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-none px-3 py-1.5 flex items-center gap-1.5">
+                  <Crown className="w-3.5 h-3.5" />
+                  <span>Subscribed</span>
+                </Badge>
+              )}
+              {!subscriptionLoading && user && isAdmin(user) && (
+                <Badge className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white border-none px-3 py-1.5 flex items-center gap-1.5">
+                  <Crown className="w-3.5 h-3.5" />
+                  <span>Admin</span>
+                </Badge>
+              )}
+            </div>
+            {!subscriptionLoading && subscription && isSubscriptionActive(subscription) && (
+              <div className="mt-3 text-sm text-white/70">
+                <span>Plan expires in {getDaysRemaining(subscription)} days</span>
+              </div>
+            )}
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -476,6 +536,98 @@ export default function ProfilePage() {
             </form>
           </CardContent>
         </Card>
+
+        {/* Subscription Expiry Modal */}
+        <Dialog open={showExpiryModal} onOpenChange={setShowExpiryModal}>
+          <DialogContent className="bg-[#0b0f1f] border-white/30 text-white">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-white">
+                <AlertCircle className="w-5 h-5 text-yellow-400" />
+                Subscription Expired
+              </DialogTitle>
+              <DialogDescription className="text-white/80">
+                Your subscription has expired. Renew to continue accessing all ByOnco services.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
+                <p className="text-sm text-white/90">
+                  <strong>ByOnco PRO</strong> - ₹99/week
+                </p>
+                <p className="text-xs text-white/70 mt-1">
+                  Access to all services including Find Hospitals, Cost Calculator, Rare Cancers, Teleconsultation, and AI Medical Tourism
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <Button
+                  onClick={async () => {
+                    setPaymentProcessing(true);
+                    const plan = SUBSCRIPTION_PLANS.find(p => p.id === 'byonco-pro');
+                    if (!plan) return;
+                    
+                    try {
+                      await initiatePayment({
+                        amount: plan.amount,
+                        currency: plan.currency,
+                        description: `${plan.name} - ${plan.subtitle}`,
+                        serviceType: plan.serviceType,
+                        metadata: { plan_id: plan.id },
+                        onSuccess: async (result) => {
+                          if (result.subscription) {
+                            setSubscription(result.subscription);
+                            localStorage.setItem('subscription_status', JSON.stringify(result.subscription));
+                          }
+                          setShowExpiryModal(false);
+                          toast({
+                            variant: "success",
+                            title: "Subscription renewed!",
+                            description: "Your subscription is now active.",
+                          });
+                          window.location.reload();
+                        },
+                        onError: (error) => {
+                          toast({
+                            variant: "error",
+                            title: "Payment failed",
+                            description: error.message || "Failed to process payment.",
+                          });
+                          setPaymentProcessing(false);
+                        }
+                      });
+                    } catch (error) {
+                      console.error('Payment initiation error:', error);
+                      setPaymentProcessing(false);
+                    }
+                  }}
+                  disabled={paymentProcessing}
+                  className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+                >
+                  {paymentProcessing ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      Renew Subscription - ₹99
+                    </>
+                  )}
+                </Button>
+                <Button
+                  onClick={() => {
+                    clearSubscription();
+                    setShowExpiryModal(false);
+                  }}
+                  variant="outline"
+                  className="border-white/30 text-white hover:bg-white/10"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </motion.div>
     </div>
   );

@@ -22,9 +22,38 @@ export const isAdmin = (user) => {
 };
 
 /**
- * Get subscription status from localStorage
+ * Get subscription status from backend or localStorage
  */
-export const getSubscriptionStatus = () => {
+export const getSubscriptionStatus = async (user) => {
+  // First check backend if user is logged in
+  if (user && user.email) {
+    try {
+      // Try multiple token keys for compatibility
+      const token = localStorage.getItem('byonco_jwt') || localStorage.getItem('auth_token');
+      if (token) {
+        const response = await fetch('/api/payments/subscription/status', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.has_subscription && data.subscription) {
+            // Save to localStorage for offline access
+            localStorage.setItem('subscription_status', JSON.stringify(data.subscription));
+            return data.subscription;
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('Error fetching subscription from backend:', error);
+      // Fallback to localStorage
+    }
+  }
+  
+  // Fallback to localStorage
   try {
     const stored = localStorage.getItem('subscription_status');
     if (!stored) return null;
@@ -53,9 +82,29 @@ export const isSubscriptionActive = (subscription) => {
 };
 
 /**
- * Save subscription after payment
+ * Save subscription after payment (from backend response or local creation)
  */
-export const saveSubscription = (planId, paymentId, orderId) => {
+export const saveSubscription = (subscriptionData) => {
+  // If subscriptionData is already a subscription object from backend, use it
+  if (subscriptionData && subscriptionData.expires_at) {
+    const subscription = {
+      planId: subscriptionData.plan_id,
+      planName: subscriptionData.plan_name,
+      subscribedAt: subscriptionData.subscribed_at,
+      expiresAt: subscriptionData.expires_at,
+      paymentId: subscriptionData.payment_id,
+      orderId: subscriptionData.order_id,
+      active: subscriptionData.active
+    };
+    localStorage.setItem('subscription_status', JSON.stringify(subscription));
+    return subscription;
+  }
+  
+  // Legacy: create subscription from planId, paymentId, orderId
+  const planId = subscriptionData.planId || subscriptionData;
+  const paymentId = subscriptionData.paymentId || subscriptionData;
+  const orderId = subscriptionData.orderId || subscriptionData;
+  
   const plan = planId === 'byonco-pro' 
     ? { id: 'byonco-pro', durationDays: 7 } // 1 week
     : { id: 'hospital-saas', durationDays: 30 }; // 1 month
@@ -80,14 +129,14 @@ export const saveSubscription = (planId, paymentId, orderId) => {
 /**
  * Check if user has access to paid services
  */
-export const hasPaidAccess = (user) => {
+export const hasPaidAccess = async (user) => {
   // Admin has free access
   if (isAdmin(user)) {
     return { hasAccess: true, reason: 'admin' };
   }
   
-  // Check subscription
-  const subscription = getSubscriptionStatus();
+  // Check subscription (from backend or localStorage)
+  const subscription = await getSubscriptionStatus(user);
   if (!subscription) {
     return { hasAccess: false, reason: 'no_subscription' };
   }

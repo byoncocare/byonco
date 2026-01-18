@@ -148,9 +148,18 @@ const MedTourismLanding = () => {
           plan_id: plan.id,
           plan_name: plan.name
         },
-        onSuccess: (result) => {
-          // Save subscription with expiry date
-          saveSubscription(plan.id, result.payment_id, result.order_id);
+        onSuccess: async (result) => {
+          // Save subscription from backend response if available
+          if (result.subscription) {
+            saveSubscription(result.subscription);
+          } else {
+            // Fallback: create subscription locally
+            saveSubscription({
+              planId: plan.id,
+              paymentId: result.payment_id,
+              orderId: result.order_id
+            });
+          }
           
           // Show success message
           // Show success toast
