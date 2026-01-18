@@ -288,20 +288,25 @@ export default function ProfilePage() {
                   Please fill in all required information to access our services
                 </CardDescription>
               </div>
-              {!subscriptionLoading && subscription && isSubscriptionActive(subscription) && (
+              {!subscriptionLoading && user && isAdmin(user) && (
                 <Badge className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-none px-3 py-1.5 flex items-center gap-1.5">
                   <Crown className="w-3.5 h-3.5" />
                   <span>Subscribed</span>
                 </Badge>
               )}
-              {!subscriptionLoading && user && isAdmin(user) && (
-                <Badge className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white border-none px-3 py-1.5 flex items-center gap-1.5">
+              {!subscriptionLoading && subscription && isSubscriptionActive(subscription) && !isAdmin(user) && (
+                <Badge className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-none px-3 py-1.5 flex items-center gap-1.5">
                   <Crown className="w-3.5 h-3.5" />
-                  <span>Admin</span>
+                  <span>Subscribed</span>
                 </Badge>
               )}
             </div>
-            {!subscriptionLoading && subscription && isSubscriptionActive(subscription) && (
+            {!subscriptionLoading && user && isAdmin(user) && (
+              <div className="mt-3 text-sm text-white/70">
+                <span>Admin Account - Full Access</span>
+              </div>
+            )}
+            {!subscriptionLoading && subscription && isSubscriptionActive(subscription) && !isAdmin(user) && (
               <div className="mt-3 text-sm text-white/70">
                 <span>Plan expires in {getDaysRemaining(subscription)} days</span>
               </div>
