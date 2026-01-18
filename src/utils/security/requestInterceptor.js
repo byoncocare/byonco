@@ -15,20 +15,25 @@ export const createSecureFetch = () => {
     // Skip security checks for Stack Auth API calls (they need to work)
     const isStackAuthRequest = url.includes('api.stack-auth.com') || url.includes('app.stack-auth.com');
     
-    // Check for abuse patterns before making request (skip for Stack Auth)
-    if (!isStackAuthRequest && detectAbusePattern()) {
+    // Skip security checks for Razorpay API calls (payment gateway needs to work)
+    const isRazorpayRequest = url.includes('razorpay.com') || 
+                             url.includes('checkout.razorpay.com') ||
+                             url.includes('api.razorpay.com');
+    
+    // Check for abuse patterns before making request (skip for Stack Auth and Razorpay)
+    if (!isStackAuthRequest && !isRazorpayRequest && detectAbusePattern()) {
       logSecurityEvent('abuse_pattern_detected', {
         url: args[0],
       });
     }
 
-    // Add fingerprint to request headers (skip for Stack Auth to avoid breaking their requests)
+    // Add fingerprint to request headers (skip for Stack Auth and Razorpay to avoid breaking their requests)
     const fingerprint = generateFingerprint();
     const options = args[1] || {};
     const headers = new Headers(options.headers || {});
 
-    // Add fingerprint header (if backend supports it) - skip for Stack Auth
-    if (fingerprint && !isStackAuthRequest) {
+    // Add fingerprint header (if backend supports it) - skip for Stack Auth and Razorpay
+    if (fingerprint && !isStackAuthRequest && !isRazorpayRequest) {
       headers.set('X-Client-Fingerprint', fingerprint.hash);
       headers.set('X-Client-Timestamp', fingerprint.raw.timestamp.toString());
     }
@@ -66,16 +71,21 @@ export const createSecureAxios = (axiosInstance) => {
       const isStackAuthRequest = config.url?.includes('api.stack-auth.com') || 
                                   config.url?.includes('app.stack-auth.com');
       
+      // Skip security checks for Razorpay API calls (payment gateway needs to work)
+      const isRazorpayRequest = config.url?.includes('razorpay.com') || 
+                                config.url?.includes('checkout.razorpay.com') ||
+                                config.url?.includes('api.razorpay.com');
+      
       const fingerprint = generateFingerprint();
       
-      // Add fingerprint header (skip for Stack Auth to avoid breaking their requests)
-      if (fingerprint && config.headers && !isStackAuthRequest) {
+      // Add fingerprint header (skip for Stack Auth and Razorpay to avoid breaking their requests)
+      if (fingerprint && config.headers && !isStackAuthRequest && !isRazorpayRequest) {
         config.headers['X-Client-Fingerprint'] = fingerprint.hash;
         config.headers['X-Client-Timestamp'] = fingerprint.raw.timestamp.toString();
       }
 
-      // Check for abuse patterns (skip for Stack Auth)
-      if (!isStackAuthRequest && detectAbusePattern()) {
+      // Check for abuse patterns (skip for Stack Auth and Razorpay)
+      if (!isStackAuthRequest && !isRazorpayRequest && detectAbusePattern()) {
         logSecurityEvent('abuse_pattern_detected', {
           url: config.url,
           method: config.method,

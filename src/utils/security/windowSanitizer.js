@@ -24,10 +24,16 @@ export const sanitizeWindowObject = () => {
     '__REACT_DEVTOOLS_GLOBAL_HOOK__',
     '__REDUX_DEVTOOLS_EXTENSION__',
   ];
+  
+  // Properties that should be ALLOWED (payment gateways, etc.)
+  const allowedProperties = [
+    'Razorpay', // Razorpay SDK needs to be on window
+    'razorpay', // Alternative casing
+  ];
 
-  // Remove sensitive properties if they exist
+  // Remove sensitive properties if they exist (but allow payment gateway properties)
   sensitiveProperties.forEach(prop => {
-    if (window[prop] !== undefined) {
+    if (window[prop] !== undefined && !allowedProperties.includes(prop)) {
       try {
         delete window[prop];
       } catch (e) {
@@ -37,10 +43,11 @@ export const sanitizeWindowObject = () => {
   });
 
   // Prevent adding new properties to window (in development only)
+  // BUT: Allow payment gateway properties (Razorpay, etc.)
   if (process.env.NODE_ENV === 'development') {
     const originalDefineProperty = Object.defineProperty;
     Object.defineProperty = function(obj, prop, descriptor) {
-      if (obj === window && sensitiveProperties.includes(prop)) {
+      if (obj === window && sensitiveProperties.includes(prop) && !allowedProperties.includes(prop)) {
         console.warn(`[Security] Attempted to define sensitive property "${prop}" on window object`);
         return obj;
       }
@@ -92,6 +99,15 @@ export const initializeWindowSanitization = () => {
       const handler = {
         set(target, prop, value) {
           const sensitiveProps = ['API_KEY', 'SECRET', 'TOKEN', 'PASSWORD', 'PRIVATE'];
+          const allowedProps = ['Razorpay', 'razorpay'];
+          
+          // Allow payment gateway properties
+          if (typeof prop === 'string' && allowedProps.some(ap => prop.includes(ap))) {
+            target[prop] = value;
+            return true;
+          }
+          
+          // Warn about sensitive properties but don't block payment gateways
           if (typeof prop === 'string' && sensitiveProps.some(sp => prop.toUpperCase().includes(sp))) {
             console.warn(`[Security] Attempted to set potentially sensitive property "${prop}" on window`);
           }

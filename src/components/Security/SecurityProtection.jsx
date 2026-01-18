@@ -33,8 +33,27 @@ export default function SecurityProtection({
     }
 
     // Skip all protections on Stack Auth handler routes and authentication pages (OAuth callbacks need to work)
+    // Also skip on payment-related routes and Razorpay iframes
     const currentPath = window.location.pathname;
-    if (currentPath.startsWith('/handler/') || currentPath.startsWith('/authentication')) {
+    if (currentPath.startsWith('/handler/') || 
+        currentPath.startsWith('/authentication') ||
+        currentPath.includes('/checkout') ||
+        currentPath.includes('/payment') ||
+        currentPath.includes('/vayu/order') ||
+        currentPath.includes('/vayu/checkout')) {
+      return;
+    }
+    
+    // Skip protections inside Razorpay iframes
+    if (window.location !== window.parent.location) {
+      // We're in an iframe - likely Razorpay checkout
+      return;
+    }
+    
+    // Skip protections on Razorpay iframe elements
+    const isRazorpayIframe = document.querySelector('iframe[src*="razorpay"], iframe[src*="checkout.razorpay"]');
+    if (isRazorpayIframe) {
+      // Allow interactions with Razorpay iframe
       return;
     }
 
@@ -57,8 +76,15 @@ export default function SecurityProtection({
         target.tagName === 'SELECT' ||
         target.isContentEditable ||
         target.closest('input, textarea, select, [contenteditable="true"]');
+      
+      // Allow right-click on Razorpay iframes and payment-related elements
+      const isPaymentElement = 
+        target.closest('iframe[src*="razorpay"], iframe[src*="checkout.razorpay"]') ||
+        target.closest('[data-razorpay], [id*="razorpay"], [class*="razorpay"]') ||
+        target.closest('[data-payment], [id*="payment"], [class*="payment"]') ||
+        target.closest('[data-checkout], [id*="checkout"], [class*="checkout"]');
 
-      if (!isInputElement) {
+      if (!isInputElement && !isPaymentElement) {
         e.preventDefault();
         logSecurityEvent('right_click_blocked', {
           element: target.tagName,
@@ -77,9 +103,15 @@ export default function SecurityProtection({
         target.tagName === 'TEXTAREA' ||
         target.isContentEditable ||
         target.closest('input, textarea, [contenteditable="true"]');
+      
+      // Allow copy in payment-related elements
+      const isPaymentElement = 
+        target.closest('iframe[src*="razorpay"], iframe[src*="checkout.razorpay"]') ||
+        target.closest('[data-razorpay], [id*="razorpay"], [class*="razorpay"]') ||
+        target.closest('[data-payment], [id*="payment"], [class*="payment"]');
 
-      // Allow copy in form elements
-      if (!isFormElement) {
+      // Allow copy in form elements and payment elements
+      if (!isFormElement && !isPaymentElement) {
         e.preventDefault();
         logSecurityEvent('copy_blocked', {
           element: target.tagName,
@@ -167,6 +199,7 @@ export default function SecurityProtection({
 
     // Disable F12, Ctrl+Shift+I, Ctrl+U (developer tools shortcuts)
     // BUT: Allow if allowDevTools prop is true, or in development/localhost
+    // OR if user is interacting with payment iframe
     const handleKeyDown = (e) => {
       // Allow DevTools if explicitly allowed, in development, or on localhost
       const isDevelopment = process.env.NODE_ENV === 'development';
@@ -174,8 +207,15 @@ export default function SecurityProtection({
                          window.location.hostname === '127.0.0.1' ||
                          window.location.hostname.includes('localhost');
       
-      if (allowDevTools || isDevelopment || isLocalhost) {
-        // Don't block DevTools
+      // Check if user is interacting with payment iframe
+      const target = e.target;
+      const isPaymentElement = 
+        target.closest('iframe[src*="razorpay"], iframe[src*="checkout.razorpay"]') ||
+        target.closest('[data-razorpay], [id*="razorpay"], [class*="razorpay"]') ||
+        target.closest('[data-payment], [id*="payment"], [class*="payment"]');
+      
+      if (allowDevTools || isDevelopment || isLocalhost || isPaymentElement) {
+        // Don't block DevTools or payment interactions
         return;
       }
 
