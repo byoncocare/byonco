@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -58,6 +58,7 @@ const countryCodes = [
 
 export default function GetStarted() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
@@ -223,6 +224,16 @@ export default function GetStarted() {
       savePatientProfile(patientProfile);
       
       setSubmitted(true);
+      
+      // Handle returnUrl if present (redirect after successful submission)
+      const urlParams = new URLSearchParams(location.search);
+      const returnUrl = urlParams.get('returnUrl');
+      if (returnUrl) {
+        // Redirect after a short delay to show success message
+        setTimeout(() => {
+          navigate(returnUrl, { replace: true });
+        }, 2000);
+      }
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to submit form. Please try again.');
     } finally {

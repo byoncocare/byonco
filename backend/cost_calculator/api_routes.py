@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Depends
 from models import (
     Country, Insurer, CancerType, Stage, HospitalTier,
     CostCalculationRequest, CostCalculationResponse
@@ -27,6 +27,14 @@ except ImportError:
 def create_api_router(db):
     router = APIRouter(prefix="/api/cost-calculator")
     calculator_service = CostCalculatorService(db)
+    
+    # Import subscription middleware
+    import sys
+    from pathlib import Path
+    payments_path = Path(__file__).parent.parent / "payments"
+    sys.path.insert(0, str(payments_path))
+    from payments.middleware import create_subscription_checker
+    subscription_checker = create_subscription_checker(db)
     
     @router.get("/countries", response_model=List[Country])
     async def get_countries():
@@ -99,8 +107,11 @@ def create_api_router(db):
             return HOSPITAL_TIERS_DATA
     
     @router.post("/calculate-cost", response_model=CostCalculationResponse)
-    async def calculate_cost(request: CostCalculationRequest):
-        """Calculate treatment cost based on all input parameters"""
+    async def calculate_cost(
+        request: CostCalculationRequest,
+        user: dict = Depends(subscription_checker)
+    ):
+        """Calculate treatment cost based on all input parameters - Requires active subscription"""
         try:
             result = await calculator_service.calculate_treatment_cost(request)
             return result

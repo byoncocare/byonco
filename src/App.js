@@ -51,6 +51,8 @@ import PaymentTestPage from "./pages/PaymentTestPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PaymentGate from "./components/PaymentGate";
 import PaidGate from "./components/PaidGate";
+import SubscriptionGuard from "./components/SubscriptionGuard";
+import SubscriptionExpiryWarning from "./components/SubscriptionExpiryWarning";
 import SubscribePage from "./pages/SubscribePage";
 
 // Vayu legal pages
@@ -161,6 +163,7 @@ export default function App() {
 
   return (
     <>
+      <SubscriptionExpiryWarning />
       <AnimatePresence mode="wait">
         <Suspense
           fallback={
@@ -332,57 +335,51 @@ export default function App() {
             <Route
               path="/find-hospitals"
               element={
-                <ProtectedRoute>
-                  <PaidGate>
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <FindHospitalsPage />
-                    </motion.div>
-                  </PaidGate>
-                </ProtectedRoute>
+                <SubscriptionGuard>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <FindHospitalsPage />
+                  </motion.div>
+                </SubscriptionGuard>
               }
             />
 
             <Route
               path="/find-oncologists"
               element={
-                <ProtectedRoute>
-                  <PaidGate>
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <FindOncologistsPage />
-                    </motion.div>
-                  </PaidGate>
-                </ProtectedRoute>
+                <SubscriptionGuard>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <FindOncologistsPage />
+                  </motion.div>
+                </SubscriptionGuard>
               }
             />
 
             <Route
               path="/rare-cancers"
               element={
-                <ProtectedRoute>
-                  <PaidGate>
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <RareCancersPage />
-                    </motion.div>
-                  </PaidGate>
-                </ProtectedRoute>
+                <SubscriptionGuard>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <RareCancersPage />
+                  </motion.div>
+                </SubscriptionGuard>
               }
             />
 
@@ -413,76 +410,68 @@ export default function App() {
             <Route
               path="/teleconsultation"
               element={
-                <ProtectedRoute>
-                  <PaidGate>
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <TeleconsultationPage />
-                    </motion.div>
-                  </PaidGate>
-                </ProtectedRoute>
+                <SubscriptionGuard>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <TeleconsultationPage />
+                  </motion.div>
+                </SubscriptionGuard>
               }
             />
 
             <Route
               path="/cost-calculator"
               element={
-                <ProtectedRoute>
-                  <PaidGate>
-                    <motion.div
-                      className="page-shell min-h-screen text-gray-900"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <CostCalculatorPage />
-                    </motion.div>
-                  </PaidGate>
-                </ProtectedRoute>
+                <SubscriptionGuard>
+                  <motion.div
+                    className="page-shell min-h-screen text-gray-900"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <CostCalculatorPage />
+                  </motion.div>
+                </SubscriptionGuard>
               }
             />
 
             <Route
               path="/journey-builder"
               element={
-                <ProtectedRoute>
-                  <PaidGate>
-                    <motion.div
-                      className="min-h-screen"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <JourneyBuilderPage />
-                    </motion.div>
-                  </PaidGate>
-                </ProtectedRoute>
+                <SubscriptionGuard>
+                  <motion.div
+                    className="min-h-screen"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <JourneyBuilderPage />
+                  </motion.div>
+                </SubscriptionGuard>
               }
             />
 
             <Route
               path="/journey-builder/plan/:planId"
               element={
-                <ProtectedRoute>
-                  <PaidGate>
-                    <motion.div
-                      className="min-h-screen"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <JourneyPlanDetails />
-                    </motion.div>
-                  </PaidGate>
-                </ProtectedRoute>
+                <SubscriptionGuard>
+                  <motion.div
+                    className="min-h-screen"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <JourneyPlanDetails />
+                  </motion.div>
+                </SubscriptionGuard>
               }
             />
 

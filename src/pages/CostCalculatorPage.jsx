@@ -243,6 +243,14 @@ const CostCalculator = () => {
       });
 
       if (!response.ok) {
+        // Handle subscription/authentication errors
+        const { handleApiError } = await import('@/utils/apiErrorHandler');
+        const { handled } = await handleApiError(response, navigate);
+        if (handled) {
+          setIsLoading(false);
+          return;
+        }
+
         // Log the full error for debugging
         const status = response.status;
         const errorBody = await response.json().catch(() => ({}));

@@ -163,6 +163,92 @@ export const getDaysRemaining = (subscription) => {
 };
 
 /**
+ * TASK 1: Single source of truth for subscription state
+ * Returns unified subscription state object
+ * 
+ * @param {Object} user - User object from auth context
+ * @returns {Promise<{isActive: boolean, expiresAt: string|null, daysLeft: number|null}>}
+ */
+export const getSubscriptionState = async (user) => {
+  // Admin has perpetual access
+  if (isAdmin(user)) {
+    return {
+      isActive: true,
+      expiresAt: null, // Admin never expires
+      daysLeft: null
+    };
+  }
+
+  // Get subscription from backend (preferred) or localStorage (fallback)
+  const subscription = await getSubscriptionStatus(user);
+  
+  // No subscription
+  if (!subscription) {
+    return {
+      isActive: false,
+      expiresAt: null,
+      daysLeft: null
+    };
+  }
+
+  // Handle missing expiresAt - treat as NOT subscribed
+  if (!subscription.expiresAt && !subscription.expires_at) {
+    return {
+      isActive: false,
+      expiresAt: null,
+      daysLeft: null
+    };
+  }
+
+  // Normalize expiresAt field (backend uses expires_at, frontend uses expiresAt)
+  const expiresAt = subscription.expiresAt || subscription.expires_at;
+  
+  // Parse expiry date (handle both ISO strings and timestamps)
+  let expiryDate;
+  try {
+    if (typeof expiresAt === 'string') {
+      // Handle ISO string (with or without Z)
+      expiryDate = new Date(expiresAt.replace('Z', '+00:00'));
+    } else if (typeof expiresAt === 'number') {
+      // Handle timestamp
+      expiryDate = new Date(expiresAt);
+    } else {
+      // Invalid format
+      return {
+        isActive: false,
+        expiresAt: null,
+        daysLeft: null
+      };
+    }
+  } catch (error) {
+    console.error('Error parsing expiresAt:', error);
+    return {
+      isActive: false,
+      expiresAt: null,
+      daysLeft: null
+    };
+  }
+
+  // Check if expired (using UTC to avoid timezone issues)
+  const now = new Date();
+  const isActive = expiryDate > now;
+  
+  // Calculate days left (only if active)
+  let daysLeft = null;
+  if (isActive) {
+    const diffTime = expiryDate - now;
+    daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    daysLeft = Math.max(0, daysLeft); // Ensure non-negative
+  }
+
+  return {
+    isActive,
+    expiresAt: expiresAt, // Return original value
+    daysLeft
+  };
+};
+
+/**
  * Clear subscription (on logout or cancellation)
  */
 export const clearSubscription = () => {
