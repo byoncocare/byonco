@@ -33,7 +33,7 @@ export default function PaidGate({ children }) {
       }
 
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || localStorage.getItem('byonco_jwt') || localStorage.getItem('auth_token');
         const response = await fetch(`${BACKEND_URL}/api/payments/subscription/status`, {
           method: 'GET',
           headers: {
