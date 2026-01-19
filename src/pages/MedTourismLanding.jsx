@@ -57,7 +57,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SUBSCRIPTION_PLANS } from "@/utils/payments/subscriptionPlans";
-import { initiatePaymentFlow } from "@/utils/payments/razorpay";
+import { initiatePayment } from "@/utils/payments/razorpay-new";
 import PriceTag from "@/components/ui/PriceTag";
 import { toast } from "@/hooks/use-toast";
 import { saveSubscription } from "@/utils/subscription";
@@ -145,7 +145,7 @@ const MedTourismLanding = () => {
 
     try {
       // CRITICAL: Call payment flow immediately after user gesture
-      await initiatePaymentFlow({
+      await initiatePayment({
         amount: plan.amount,
         currency: plan.currency,
         description: `${plan.name} - ${plan.subtitle}`,
@@ -155,6 +155,7 @@ const MedTourismLanding = () => {
           plan_name: plan.name
         },
         onSuccess: (result) => {
+          setPaymentLoading(false);
           // Save subscription from backend response if available
           if (result.subscription) {
             saveSubscription(result.subscription);
@@ -177,6 +178,22 @@ const MedTourismLanding = () => {
             window.location.reload();
           }, 1500);
         },
+        onDismiss: () => {
+          setPaymentLoading(false);
+          toast({
+            variant: "info",
+            title: "Payment cancelled",
+            description: "You can subscribe anytime.",
+          });
+        },
+        onFail: (error) => {
+          setPaymentLoading(false);
+          toast({
+            variant: "error",
+            title: "Payment failed",
+            description: error.message || "Please try again.",
+          });
+        }
         onDismiss: () => {
           // Payment modal dismissed - reset processing state
           setPaymentLoading(false);
