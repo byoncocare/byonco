@@ -16,19 +16,27 @@ export default function PaidGate({ children }) {
   const [hasAccess, setHasAccess] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+    
     const checkSubscription = async () => {
+      if (!isMounted) return;
+      
       setLoading(true);
       
       // Admin bypass
       if (isAdmin(user)) {
-        setHasAccess(true);
-        setLoading(false);
+        if (isMounted) {
+          setHasAccess(true);
+          setLoading(false);
+        }
         return;
       }
 
       // Not authenticated - redirect to login with return path
       if (!isAuthenticated) {
-        navigate(`/authentication?redirect=${encodeURIComponent(location.pathname)}`);
+        const redirectPath = `/authentication?redirect=${encodeURIComponent(location.pathname + location.search)}`;
+        // Use replace to avoid adding to history stack
+        navigate(redirectPath, { replace: true });
         return;
       }
 
@@ -42,11 +50,15 @@ export default function PaidGate({ children }) {
           }
         });
 
+        if (!isMounted) return;
+
         if (!response.ok) {
           throw new Error('Failed to check subscription');
         }
 
         const data = await response.json();
+        
+        if (!isMounted) return;
         
         // Check if subscription is active
         if (data.subscription && data.subscription.status === 'active' && data.subscription.is_active) {
@@ -56,24 +68,35 @@ export default function PaidGate({ children }) {
           if (expiresAt > now) {
             setHasAccess(true);
           } else {
-            // Expired - redirect to subscribe
-            navigate('/subscribe');
+            // Expired - redirect to subscribe with return path
+            const returnPath = location.pathname + location.search;
+            navigate(`/subscribe?redirect=${encodeURIComponent(returnPath)}`, { replace: true });
           }
         } else {
-          // No active subscription - redirect to subscribe
-          navigate('/subscribe');
+          // No active subscription - redirect to subscribe with return path
+          const returnPath = location.pathname + location.search;
+          navigate(`/subscribe?redirect=${encodeURIComponent(returnPath)}`, { replace: true });
         }
       } catch (error) {
         console.error('Error checking subscription:', error);
-        // On error, redirect to subscribe
-        navigate('/subscribe');
+        if (isMounted) {
+          // On error, redirect to subscribe with return path
+          const returnPath = location.pathname + location.search;
+          navigate(`/subscribe?redirect=${encodeURIComponent(returnPath)}`, { replace: true });
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     checkSubscription();
-  }, [user, isAuthenticated, navigate, location.pathname]);
+    
+    return () => {
+      isMounted = false;
+    };
+  }, [user, isAuthenticated, navigate, location.pathname, location.search]);
 
   if (loading) {
     return (

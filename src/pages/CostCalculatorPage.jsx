@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { countriesData, insurersData, cancerTypes, stages, hospitalTiers } from '@/lib/costCalculatorData';
 import Spline from '@splinetool/react-spline';
+import SplineErrorBoundary from '@/components/SplineErrorBoundary';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://byonco-fastapi-backend.onrender.com';
 const API_BASE = `${BACKEND_URL}/api/cost-calculator`;
@@ -1531,7 +1532,9 @@ const CostCalculator = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
           >
             <div className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden rounded-xl border border-purple-600/40 bg-purple-950/40 shadow-2xl">
-              <Spline scene="https://prod.spline.design/NbVmy6DPLhY-5Lvg/scene.splinecode" />
+              <SplineErrorBoundary>
+                <Spline scene="https://prod.spline.design/NbVmy6DPLhY-5Lvg/scene.splinecode" />
+              </SplineErrorBoundary>
             </div>
           </motion.div>
         </div>
