@@ -57,7 +57,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SUBSCRIPTION_PLANS } from "@/utils/payments/subscriptionPlans";
-import { initiatePayment } from "@/utils/payments/razorpayClient";
+import { initiatePaymentFlow } from "@/utils/payments/razorpay";
 import PriceTag from "@/components/ui/PriceTag";
 import { toast } from "@/hooks/use-toast";
 import { saveSubscription } from "@/utils/subscription";
