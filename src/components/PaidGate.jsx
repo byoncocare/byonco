@@ -21,6 +21,14 @@ export default function PaidGate({ children }) {
     const checkSubscription = async () => {
       if (!isMounted) return;
       
+      // Prevent redirect loops - if already on subscribe/auth page, don't redirect
+      if (location.pathname === '/subscribe' || location.pathname === '/authentication') {
+        if (isMounted) {
+          setLoading(false);
+        }
+        return;
+      }
+      
       setLoading(true);
       
       // Admin bypass
