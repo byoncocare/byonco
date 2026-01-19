@@ -280,21 +280,41 @@ export async function createPaymentOrder({ amount, currency = 'INR', description
     ...(token ? { Authorization: `Bearer ${token}` } : {})
   };
 
+  // Ensure all required fields are present
+  const requestBody = {
+    amount: Number(amount),
+    currency: currency || 'INR',
+    description: description || 'Payment',
+    service_type: serviceType || null,
+    ...metadata
+  };
+
+  // Validate amount
+  if (!requestBody.amount || requestBody.amount <= 0) {
+    throw new Error('Invalid amount: amount must be greater than 0');
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[Razorpay] Creating order with payload:', requestBody);
+  }
+
   const response = await fetch(`${BACKEND_API}/create-order`, {
     method: 'POST',
     headers,
-    body: JSON.stringify({
-      amount,
-      currency,
-      description,
-      service_type: serviceType,
-      ...metadata
-    })
+    body: JSON.stringify(requestBody)
   });
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `Order creation failed: ${response.status}`);
+    const errorMessage = errorData.detail || errorData.message || `Order creation failed: ${response.status}`;
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[Razorpay] Order creation failed:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData
+      });
+    }
+    throw new Error(errorMessage);
   }
 
   const data = await response.json();
