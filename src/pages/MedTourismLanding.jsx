@@ -137,9 +137,15 @@ const MedTourismLanding = () => {
     const plan = SUBSCRIPTION_PLANS.find(p => p.id === planId);
     if (!plan) return;
 
+    // Prevent double clicks
+    if (paymentLoading) return;
+
+    // Set processing state immediately
     setPaymentLoading(true);
+
     try {
-      await initiatePayment({
+      // CRITICAL: Call payment flow immediately after user gesture
+      await initiatePaymentFlow({
         amount: plan.amount,
         currency: plan.currency,
         description: `${plan.name} - ${plan.subtitle}`,
@@ -148,37 +154,43 @@ const MedTourismLanding = () => {
           plan_id: plan.id,
           plan_name: plan.name
         },
-        onSuccess: async (result) => {
+        onSuccess: (result) => {
           // Save subscription from backend response if available
           if (result.subscription) {
             saveSubscription(result.subscription);
-          } else {
+          } else if (result.payment_id) {
             // Fallback: create subscription locally
             saveSubscription({
               planId: plan.id,
               paymentId: result.payment_id,
-              orderId: result.order_id
+              orderId: result.order_id || result.razorpay_order_id
             });
           }
           
-          // Show success message
-          // Show success toast
           toast({
             variant: "success",
             title: "Payment successful",
             description: "Your subscription is now active.",
           });
           
-          // Optionally redirect or refresh
           setTimeout(() => {
             window.location.reload();
           }, 1500);
         },
-        onError: (error) => {
-          console.error('Payment error:', error);
+        onDismiss: () => {
+          // Payment modal dismissed - reset processing state
+          setPaymentLoading(false);
+          toast({
+            variant: "info",
+            title: "Payment cancelled",
+            description: "You can retry anytime from Pricing.",
+          });
+        },
+        onFail: (error) => {
+          // Payment failed - reset processing state
+          setPaymentLoading(false);
           const errorMessage = error.message || 'Payment failed. Please try again.';
           
-          // Show error toast
           if (errorMessage.includes('cancelled') || errorMessage.includes('Payment cancelled')) {
             toast({
               variant: "info",
@@ -195,14 +207,13 @@ const MedTourismLanding = () => {
         }
       });
     } catch (error) {
-      console.error('Subscription error:', error);
+      // Error in payment initiation - reset processing state
+      setPaymentLoading(false);
       toast({
         variant: "error",
         title: "Payment failed",
-        description: "Failed to initiate payment. Please try again.",
+        description: error.message || "Failed to initiate payment. Please try again.",
       });
-    } finally {
-      setPaymentLoading(false);
     }
   };
 

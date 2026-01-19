@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import { initiatePayment } from '@/utils/payments/razorpayClient';
+import { initiatePaymentFlow } from '@/utils/payments/razorpay';
 import { toast } from '@/hooks/use-toast';
 
 export default function RazorPayButton({ 
