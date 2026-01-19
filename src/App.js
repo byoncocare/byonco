@@ -47,6 +47,7 @@ import JourneyPlanDetails from "./pages/JourneyPlanDetails";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
 import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
+import PaymentTestPage from "./pages/PaymentTestPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PaymentGate from "./components/PaymentGate";
 

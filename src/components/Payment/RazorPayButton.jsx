@@ -18,9 +18,15 @@ export default function RazorPayButton({
   const [loading, setLoading] = useState(false);
 
   const handlePayment = async () => {
+    // Prevent double clicks
+    if (loading) return;
+    
+    // Set processing state immediately
     setLoading(true);
+    
     try {
-      await initiatePayment({
+      // CRITICAL: Call payment flow immediately after user gesture
+      await initiatePaymentFlow({
         amount,
         currency,
         description,
@@ -32,7 +38,21 @@ export default function RazorPayButton({
             onSuccess(result);
           }
         },
-        onError: (error) => {
+        onDismiss: () => {
+          // Payment modal dismissed - reset processing state
+          setLoading(false);
+          if (onError) {
+            onError(new Error('Payment cancelled'));
+          } else {
+            toast({
+              variant: "info",
+              title: "Payment cancelled",
+              description: "You can retry anytime.",
+            });
+          }
+        },
+        onFail: (error) => {
+          // Payment failed - reset processing state
           setLoading(false);
           if (onError) {
             onError(error);
@@ -55,6 +75,7 @@ export default function RazorPayButton({
         }
       });
     } catch (error) {
+      // Error in payment initiation - reset processing state
       setLoading(false);
       if (onError) {
         onError(error);
@@ -62,7 +83,7 @@ export default function RazorPayButton({
         toast({
           variant: "error",
           title: "Payment failed",
-          description: "Failed to initiate payment. Please try again.",
+          description: error.message || "Failed to initiate payment. Please try again.",
         });
       }
     }

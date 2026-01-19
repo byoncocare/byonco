@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lock, CreditCard, CheckCircle2, AlertCircle } from 'lucide-react';
 import { SUBSCRIPTION_PLANS } from '@/utils/payments/subscriptionPlans';
-import { initiatePayment } from '@/utils/payments/razorpayClient';
+import { initiatePaymentFlow } from '@/utils/payments/razorpay';
 import { saveSubscription } from '@/utils/subscription';
 import { toast } from '@/hooks/use-toast';
 
@@ -90,12 +90,17 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
 
   const handleSubscribe = async () => {
     if (!plan) return;
+    
+    // Prevent double clicks
+    if (paymentLoading) return;
 
+    // Set processing state immediately
     setPaymentLoading(true);
-    console.log('[PaymentGate] Starting subscription payment...', plan);
     
     try {
-      const razorpayInstance = await initiatePayment({
+      // CRITICAL: Call payment flow immediately after user gesture
+      // Do NOT add any delays or extra async operations here
+      await initiatePaymentFlow({
         amount: plan.amount,
         currency: plan.currency,
         description: `${plan.name} - ${plan.subtitle}`,
@@ -105,17 +110,15 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
           plan_name: plan.name
         },
         onSuccess: async (result) => {
-          console.log('[PaymentGate] Payment success callback:', result);
-          
           // Save subscription from backend response if available
           if (result.subscription) {
             saveSubscription(result.subscription);
-          } else {
+          } else if (result.payment_id) {
             // Fallback: create subscription locally
             saveSubscription({
               planId: plan.id,
               paymentId: result.payment_id,
-              orderId: result.order_id
+              orderId: result.order_id || result.razorpay_order_id
             });
           }
 
@@ -130,8 +133,17 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
             window.location.reload();
           }, 1500);
         },
-        onError: (error) => {
-          console.error('[PaymentGate] Payment error:', error);
+        onDismiss: () => {
+          // Payment modal dismissed - reset processing state
+          setPaymentLoading(false);
+          toast({
+            variant: "info",
+            title: "Payment cancelled",
+            description: "You can retry anytime.",
+          });
+        },
+        onFail: (error) => {
+          // Payment failed - reset processing state
           setPaymentLoading(false);
           
           // Don't show error toast for cancelled payments
@@ -150,17 +162,8 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
           }
         }
       });
-      
-      // If razorpay instance was returned, the modal should be open
-      if (razorpayInstance) {
-        console.log('[PaymentGate] Razorpay instance created, modal should be visible');
-        // Don't set loading to false here - keep it true until payment completes or fails
-      } else {
-        console.warn('[PaymentGate] No Razorpay instance returned');
-        setPaymentLoading(false);
-      }
     } catch (error) {
-      console.error('[PaymentGate] Subscription error:', error);
+      // Error in payment initiation - reset processing state
       setPaymentLoading(false);
       toast({
         variant: "error",
