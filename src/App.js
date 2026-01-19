@@ -276,6 +276,22 @@ export default function App() {
               }
             />
 
+            {/* ----------- Payment Test Page ----------- */}
+            <Route
+              path="/payment-test"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen text-gray-900"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <PaymentTestPage />
+                </motion.div>
+              }
+            />
+
             {/* ----------- Waitlist ----------- */}
             <Route
               path="/waitlist/medical-tourism"
