@@ -590,13 +590,21 @@ export default function ProfilePage() {
                           });
                           window.location.reload();
                         },
-                        onError: (error) => {
+                        onFail: (error) => {
                           toast({
                             variant: "error",
                             title: "Payment failed",
                             description: error.message || "Failed to process payment.",
                           });
                           setPaymentProcessing(false);
+                        },
+                        onDismiss: () => {
+                          setPaymentProcessing(false);
+                          toast({
+                            variant: "info",
+                            title: "Payment cancelled",
+                            description: "You can renew anytime.",
+                          });
                         }
                       });
                     } catch (error) {
