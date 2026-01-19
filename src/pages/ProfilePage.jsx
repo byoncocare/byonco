@@ -12,7 +12,7 @@ import axios from 'axios';
 import { useAuth } from '@/contexts/AuthContext';
 import { getSubscriptionStatus, isSubscriptionActive, getDaysRemaining, isAdmin, clearSubscription } from '@/utils/subscription';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { initiatePayment } from '@/utils/payments/razorpayClient';
+import { initiatePayment } from '@/utils/payments/razorpay-new';
 import { SUBSCRIPTION_PLANS } from '@/utils/payments/subscriptionPlans';
 import { toast } from '@/hooks/use-toast';
 
