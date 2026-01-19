@@ -194,34 +194,6 @@ const MedTourismLanding = () => {
             description: error.message || "Please try again.",
           });
         }
-        onDismiss: () => {
-          // Payment modal dismissed - reset processing state
-          setPaymentLoading(false);
-          toast({
-            variant: "info",
-            title: "Payment cancelled",
-            description: "You can retry anytime from Pricing.",
-          });
-        },
-        onFail: (error) => {
-          // Payment failed - reset processing state
-          setPaymentLoading(false);
-          const errorMessage = error.message || 'Payment failed. Please try again.';
-          
-          if (errorMessage.includes('cancelled') || errorMessage.includes('Payment cancelled')) {
-            toast({
-              variant: "info",
-              title: "Payment cancelled",
-              description: "You can retry anytime from Pricing.",
-            });
-          } else {
-            toast({
-              variant: "error",
-              title: "Payment failed",
-              description: errorMessage,
-            });
-          }
-        }
       });
     } catch (error) {
       // Error in payment initiation - reset processing state
