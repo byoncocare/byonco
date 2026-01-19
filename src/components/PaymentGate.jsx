@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lock, CreditCard, CheckCircle2, AlertCircle } from 'lucide-react';
 import { SUBSCRIPTION_PLANS } from '@/utils/payments/subscriptionPlans';
-import { initiatePaymentFlow } from '@/utils/payments/razorpay';
+import { initiatePayment } from '@/utils/payments/razorpay-new';
 import { saveSubscription } from '@/utils/subscription';
 import { toast } from '@/hooks/use-toast';
 
@@ -100,7 +100,7 @@ export default function PaymentGate({ children, serviceName = "this service" }) 
     try {
       // CRITICAL: Call payment flow immediately after user gesture
       // Do NOT add any delays or extra async operations here
-      await initiatePaymentFlow({
+      await initiatePayment({
         amount: plan.amount,
         currency: plan.currency,
         description: `${plan.name} - ${plan.subtitle}`,

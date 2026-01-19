@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import { initiatePaymentFlow } from '@/utils/payments/razorpay';
+import { initiatePayment } from '@/utils/payments/razorpay-new';
 import { toast } from '@/hooks/use-toast';
 
 export default function RazorPayButton({ 
@@ -26,7 +26,7 @@ export default function RazorPayButton({
     
     try {
       // CRITICAL: Call payment flow immediately after user gesture
-      await initiatePaymentFlow({
+      await initiatePayment({
         amount,
         currency,
         description,

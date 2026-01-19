@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, CreditCard, CheckCircle2 } from 'lucide-react';
-import { initiatePaymentFlow } from '@/utils/payments/razorpay';
+import { initiatePayment } from '@/utils/payments/razorpay-new';
 import { toast } from '@/hooks/use-toast';
 
 export default function PaymentTestPage() {
@@ -24,7 +24,7 @@ export default function PaymentTestPage() {
 
     try {
       // CRITICAL: Call payment flow immediately after user gesture
-      await initiatePaymentFlow({
+      await initiatePayment({
         amount: 99, // ₹99 test payment
         currency: 'INR',
         description: 'Test Payment - ByOnco',
