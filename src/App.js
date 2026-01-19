@@ -50,6 +50,8 @@ import MedicalTourismWaitlistPage from "./pages/MedicalTourismWaitlistPage";
 import PaymentTestPage from "./pages/PaymentTestPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PaymentGate from "./components/PaymentGate";
+import PaidGate from "./components/PaidGate";
+import SubscribePage from "./pages/SubscribePage";
 
 // Vayu legal pages
 import PrivacyPolicyVayu from "./products/vayu/pages/PrivacyPolicyVayu";
@@ -239,6 +241,22 @@ export default function App() {
               }
             />
 
+            {/* ----------- Subscribe ----------- */}
+            <Route
+              path="/subscribe"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <SubscribePage />
+                </motion.div>
+              }
+            />
+
             {/* ----------- Authentication ----------- */}
             {/* Redirect /auth to /authentication */}
             <Route
@@ -315,7 +333,7 @@ export default function App() {
               path="/find-hospitals"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Find Hospitals">
+                  <PaidGate>
                     <motion.div
                       className="page-shell min-h-screen text-gray-900"
                       initial={{ opacity: 0 }}
@@ -325,7 +343,7 @@ export default function App() {
                     >
                       <FindHospitalsPage />
                     </motion.div>
-                  </PaymentGate>
+                  </PaidGate>
                 </ProtectedRoute>
               }
             />
@@ -334,7 +352,7 @@ export default function App() {
               path="/find-oncologists"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Find Oncologists">
+                  <PaidGate>
                     <motion.div
                       className="page-shell min-h-screen text-gray-900"
                       initial={{ opacity: 0 }}
@@ -344,7 +362,7 @@ export default function App() {
                     >
                       <FindOncologistsPage />
                     </motion.div>
-                  </PaymentGate>
+                  </PaidGate>
                 </ProtectedRoute>
               }
             />
@@ -353,7 +371,7 @@ export default function App() {
               path="/rare-cancers"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Rare Cancers">
+                  <PaidGate>
                     <motion.div
                       className="page-shell min-h-screen text-gray-900"
                       initial={{ opacity: 0 }}
@@ -363,7 +381,7 @@ export default function App() {
                     >
                       <RareCancersPage />
                     </motion.div>
-                  </PaymentGate>
+                  </PaidGate>
                 </ProtectedRoute>
               }
             />
@@ -396,7 +414,7 @@ export default function App() {
               path="/teleconsultation"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Teleconsultation">
+                  <PaidGate>
                     <motion.div
                       className="page-shell min-h-screen text-gray-900"
                       initial={{ opacity: 0 }}
@@ -406,7 +424,7 @@ export default function App() {
                     >
                       <TeleconsultationPage />
                     </motion.div>
-                  </PaymentGate>
+                  </PaidGate>
                 </ProtectedRoute>
               }
             />
@@ -415,7 +433,7 @@ export default function App() {
               path="/cost-calculator"
               element={
                 <ProtectedRoute>
-                  <PaymentGate serviceName="Cost Calculator">
+                  <PaidGate>
                     <motion.div
                       className="page-shell min-h-screen text-gray-900"
                       initial={{ opacity: 0 }}
@@ -425,7 +443,7 @@ export default function App() {
                     >
                       <CostCalculatorPage />
                     </motion.div>
-                  </PaymentGate>
+                  </PaidGate>
                 </ProtectedRoute>
               }
             />
@@ -434,15 +452,17 @@ export default function App() {
               path="/journey-builder"
               element={
                 <ProtectedRoute>
-                  <motion.div
-                    className="min-h-screen"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <JourneyBuilderPage />
-                  </motion.div>
+                  <PaidGate>
+                    <motion.div
+                      className="min-h-screen"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <JourneyBuilderPage />
+                    </motion.div>
+                  </PaidGate>
                 </ProtectedRoute>
               }
             />
@@ -451,15 +471,17 @@ export default function App() {
               path="/journey-builder/plan/:planId"
               element={
                 <ProtectedRoute>
-                  <motion.div
-                    className="min-h-screen"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <JourneyPlanDetails />
-                  </motion.div>
+                  <PaidGate>
+                    <motion.div
+                      className="min-h-screen"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <JourneyPlanDetails />
+                    </motion.div>
+                  </PaidGate>
                 </ProtectedRoute>
               }
             />
