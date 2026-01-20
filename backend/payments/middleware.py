@@ -66,8 +66,6 @@ async def require_subscription(
     
     # Admin bypass (check admin emails)
     ADMIN_EMAILS = [
-        'admin@byoncocare.com',
-        'ajinkya@byoncocare.com',
         'imajinkyajadhav@gmail.com'
     ]
     if user_email in [email.lower() for email in ADMIN_EMAILS]:

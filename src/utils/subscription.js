@@ -5,8 +5,6 @@
  * Admin email addresses that have free access to all services
  */
 const ADMIN_EMAILS = [
-  'admin@byoncocare.com',
-  'ajinkya@byoncocare.com',
   'imajinkyajadhav@gmail.com', // Admin access - free access to all services
 ];
 
