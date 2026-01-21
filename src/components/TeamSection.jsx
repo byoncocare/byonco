@@ -6,19 +6,19 @@ const affiliations = [
     src: '/logos/meta.svg',
     alt: 'Meta (formerly Facebook)',
     label: 'Team member from Meta',
-    heightClass: 'h-8 sm:h-12',
+    heightClass: 'h-6 md:h-12',
   },
   {
     src: '/logos/harvard.svg',
     alt: 'Harvard University',
     label: 'Team member from Harvard University',
-    heightClass: 'h-8 sm:h-10',
+    heightClass: 'h-6 md:h-10',
   },
   {
     src: '/logos/microsoft.svg',
     alt: 'Microsoft',
     label: 'Team member from Microsoft',
-    heightClass: 'h-8 sm:h-12',
+    heightClass: 'h-6 md:h-12',
   },
 ];
 

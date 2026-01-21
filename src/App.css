@@ -974,7 +974,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Mobile: Reduce logo size */
 @media (max-width: 767px) {
   .team-logo-item img {
-    max-width: 80px;
+    max-width: 60px;
+    max-height: 40px;
   }
   
   .team-logos {
