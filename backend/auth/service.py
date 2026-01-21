@@ -7,14 +7,18 @@ from passlib.context import CryptContext
 from jose import JWTError, jwt
 import secrets
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# JWT settings
-SECRET_KEY = "your-secret-key-change-in-production"  # Should be in .env
+# JWT settings - MUST be set via environment variable in production
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", os.getenv("SECRET_KEY", ""))
+if not SECRET_KEY:
+    logger.warning("⚠️ JWT_SECRET_KEY not set - using fallback (INSECURE for production)")
+    SECRET_KEY = "CHANGE-THIS-IN-PRODUCTION-VIA-ENV-VAR"  # Fallback only for local dev
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 

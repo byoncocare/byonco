@@ -26,10 +26,16 @@ from datetime import datetime, timezone
 # Load environment variables
 load_dotenv()
 
-ADMIN_EMAIL = "imajinkyajadhav@gmail.com"
-ADMIN_PASSWORD = ",t$+.VNq6Tmk6+:"
-ADMIN_NAME = "Admin User"
-ADMIN_PHONE = "+919999999999"  # Placeholder phone
+# Read admin credentials from environment variables (NEVER hardcode passwords)
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "imajinkyajadhav@gmail.com")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
+ADMIN_NAME = os.getenv("ADMIN_NAME", "Admin User")
+ADMIN_PHONE = os.getenv("ADMIN_PHONE", "+919999999999")  # Placeholder phone
+
+if not ADMIN_PASSWORD:
+    print("❌ ADMIN_PASSWORD environment variable is required")
+    print("   Set it in your .env file or environment: ADMIN_PASSWORD=your_password")
+    sys.exit(1)
 
 async def create_admin_user():
     """Create or update admin user"""
@@ -88,7 +94,7 @@ async def create_admin_user():
         
         print(f"\n📋 Admin Account Details:")
         print(f"   Email: {ADMIN_EMAIL}")
-        print(f"   Password: {ADMIN_PASSWORD}")
+        print(f"   Password: [REDACTED - Set via ADMIN_PASSWORD env var]")
         print(f"   Status: Active")
         
     except Exception as e:
