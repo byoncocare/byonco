@@ -1,7 +1,7 @@
 """
 API routes for Payment/RazorPay
 """
-from fastapi import APIRouter, HTTPException, Depends, status, Body
+from fastapi import APIRouter, HTTPException, Depends, status, Body, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from .models import PaymentRequest, PaymentVerification, PaymentResponse, RazorPayOrderResponse
 from .service import PaymentService
@@ -13,6 +13,9 @@ auth_path = Path(__file__).parent.parent / "auth"
 sys.path.insert(0, str(auth_path))
 from auth.service import AuthService
 from typing import Optional
+import hmac
+import hashlib
+import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -182,6 +185,75 @@ def create_api_router(db):
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to get payment status"
+            )
+
+    @router.post("/webhook")
+    async def razorpay_webhook(request: Request):
+        """
+        Handle Razorpay webhooks.
+
+        Verifies the payload using the RAZORPAY_WEBHOOK_SECRET (NOT the key secret).
+        """
+        try:
+            body = await request.body()
+            signature = request.headers.get("X-Razorpay-Signature")
+
+            webhook_secret = os.getenv("RAZORPAY_WEBHOOK_SECRET", "").strip()
+            if not webhook_secret:
+                logger.error("Razorpay webhook received but RAZORPAY_WEBHOOK_SECRET is not configured")
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Webhook not configured"
+                )
+
+            if not signature:
+                logger.warning("Razorpay webhook received without X-Razorpay-Signature header")
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Missing signature header"
+                )
+
+            expected_signature = hmac.new(
+                webhook_secret.encode(),
+                body,
+                hashlib.sha256
+            ).hexdigest()
+
+            if not hmac.compare_digest(expected_signature, signature):
+                logger.warning("Razorpay webhook signature mismatch")
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Invalid webhook signature"
+                )
+
+            # Safe parse of payload for logging (no secrets)
+            try:
+                payload = json.loads(body.decode("utf-8"))
+            except Exception:
+                payload = {}
+
+            event = payload.get("event")
+            payload_entity = payload.get("payload", {})
+
+            payment_entity = payload_entity.get("payment", {}).get("entity", {}) if isinstance(payload_entity, dict) else {}
+            order_entity = payload_entity.get("order", {}).get("entity", {}) if isinstance(payload_entity, dict) else {}
+
+            payment_id = payment_entity.get("id")
+            order_id = order_entity.get("id") or payment_entity.get("order_id")
+
+            logger.info(
+                f"Razorpay webhook received: event={event}, payment_id={payment_id}, order_id={order_id}"
+            )
+
+            # For now, we only acknowledge the event. Business logic can be added later.
+            return {"status": "ok"}
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Error handling Razorpay webhook: {str(e)}", exc_info=True)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to process webhook"
             )
     
     @router.get("/subscription/status")

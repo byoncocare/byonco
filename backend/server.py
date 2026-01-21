@@ -934,13 +934,25 @@ except Exception as e:
 # ======================================
 @app.on_event("startup")
 async def startup_log_razorpay():
-    """Log Razorpay environment variable status at startup"""
+    """Log Razorpay environment variable status at startup (no secrets)."""
     import os
-    key_id_present = bool(os.getenv("RAZORPAY_KEY_ID", ""))
-    key_secret_present = bool(os.getenv("RAZORPAY_KEY_SECRET", ""))
+
+    raw_key_id = os.getenv("RAZORPAY_KEY_ID", "") or ""
+    key_id = raw_key_id.strip()
+    key_secret_present = bool(os.getenv("RAZORPAY_KEY_SECRET", "").strip())
+
+    key_id_present = bool(key_id)
     logger.info(f"Razorpay env present? id={key_id_present} secret={key_secret_present}")
+
     if key_id_present and key_secret_present:
-        logger.info("✅ Razorpay environment variables configured")
+        mode = "UNKNOWN"
+        if key_id.startswith("rzp_live_"):
+            mode = "LIVE"
+        elif key_id.startswith("rzp_test_"):
+            mode = "TEST"
+
+        safe_prefix = key_id[:8] if len(key_id) >= 8 else key_id
+        logger.info(f"✅ Razorpay environment variables configured – mode={mode}, key_prefix={safe_prefix}")
     else:
         logger.warning("⚠️ Razorpay environment variables missing - payment features will not work")
 
