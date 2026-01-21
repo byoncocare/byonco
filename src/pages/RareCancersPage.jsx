@@ -389,30 +389,30 @@ export default function RareCancersPage() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="mb-8"
           >
-            <TabsList className="inline-flex h-auto w-full bg-slate-900/80 border border-purple-500/40 rounded-lg sm:rounded-xl p-1 sm:p-1.5 gap-1 sm:gap-2 overflow-x-auto">
+            <TabsList className="inline-flex h-auto w-full bg-slate-900/80 border border-purple-500/40 rounded-lg sm:rounded-xl p-1 sm:p-1.5 gap-2 md:gap-2 overflow-x-auto md:overflow-x-visible flex-nowrap md:flex-wrap">
               <TabsTrigger 
                 value="ultra-rare" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-600 data-[state=active]:to-red-700 data-[state=active]:text-white text-purple-200 font-medium py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm md:text-base flex-1 min-w-0 shrink-0"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-600 data-[state=active]:to-red-700 data-[state=active]:text-white text-purple-200 font-medium py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm md:text-base shrink-0 whitespace-nowrap break-normal"
               >
-                <span className="whitespace-nowrap">Ultra-Rare ({ultraRare.length})</span>
+                Ultra-Rare ({ultraRare.length})
               </TabsTrigger>
               <TabsTrigger 
                 value="very-rare" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-700 data-[state=active]:text-white text-purple-200 font-medium py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm md:text-base flex-1 min-w-0 shrink-0"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-700 data-[state=active]:text-white text-purple-200 font-medium py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm md:text-base shrink-0 whitespace-nowrap break-normal"
               >
-                <span className="whitespace-nowrap">Very Rare ({veryRare.length})</span>
+                Very Rare ({veryRare.length})
               </TabsTrigger>
               <TabsTrigger 
                 value="rare" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-600 data-[state=active]:to-yellow-700 data-[state=active]:text-white text-purple-200 font-medium py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm md:text-base flex-1 min-w-0 shrink-0"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-600 data-[state=active]:to-yellow-700 data-[state=active]:text-white text-purple-200 font-medium py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm md:text-base shrink-0 whitespace-nowrap break-normal"
               >
-                <span className="whitespace-nowrap">Rare ({rare.length})</span>
+                Rare ({rare.length})
               </TabsTrigger>
               <TabsTrigger 
                 value="common" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-violet-600 data-[state=active]:text-white text-purple-200 font-medium py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm md:text-base flex-1 min-w-0 shrink-0"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-violet-600 data-[state=active]:text-white text-purple-200 font-medium py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm md:text-base shrink-0 whitespace-nowrap break-normal"
               >
-                <span className="whitespace-nowrap">Common ({commonCancers.length})</span>
+                Common ({commonCancers.length})
               </TabsTrigger>
             </TabsList>
           </motion.div>

@@ -919,14 +919,14 @@ const MedTourismLanding = () => {
       {/* Patient Features */}
       <section id="features" className="features-section fade-in-section">
         <div className="section-header">
-          <Badge className="section-badge">For Patients</Badge>
+          <Badge className="section-badge whitespace-nowrap break-normal">For Patients</Badge>
           <h2
-            className="section-title"
+            className="section-title break-words"
             data-testid="patient-features-title"
           >
             Your Complete Cancer Care Companion
           </h2>
-          <p className="section-subtitle">
+          <p className="section-subtitle break-words">
             Take control of your cancer care — start with ByOnco. Understand your diagnosis, explore clinical trials, and track symptoms — all in one place.
           </p>
         </div>
@@ -959,10 +959,10 @@ const MedTourismLanding = () => {
       </section>
 
 {/* Specialized Care – Rare & Ultra-Rare Cancer */}
-<section className="features-section fade-in-section">
+<section className="features-section fade-in-section mt-8 md:mt-16">
   <div className="section-header">
     <span
-      className="section-badge"
+      className="section-badge whitespace-nowrap break-normal"
       style={{
         background: "rgba(220,38,38,0.15)",
         border: "1px solid rgba(220,38,38,0.4)",
@@ -972,8 +972,8 @@ const MedTourismLanding = () => {
       Specialized Care
     </span>
 
-    <h2 className="section-title">Rare & Ultra-Rare Cancer Expertise</h2>
-    <p className="section-subtitle">
+    <h2 className="section-title break-words">Rare & Ultra-Rare Cancer Expertise</h2>
+    <p className="section-subtitle break-words">
       We specialize in 45+ rare cancer types, connecting you with the right global specialists.
     </p>
 
@@ -1080,7 +1080,7 @@ const MedTourismLanding = () => {
 </section>
 
 {/* International Care – Medical Tourism Packages */}
-<section className="features-section fade-in-section" style={{ marginTop: "6rem" }}>
+<section className="features-section fade-in-section mt-12 md:mt-24">
   <div className="section-header">
     <span
       className="section-badge"
@@ -1093,8 +1093,8 @@ const MedTourismLanding = () => {
       International Care
     </span>
 
-    <h2 className="section-title">Medical Tourism Packages</h2>
-    <p className="section-subtitle">
+    <h2 className="section-title break-words">Medical Tourism Packages</h2>
+    <p className="section-subtitle break-words">
       All-inclusive cancer care packages for international patients covering 31 major cities worldwide
     </p>
   </div>
@@ -1212,12 +1212,12 @@ const MedTourismLanding = () => {
         <div className="section-header">
           <Badge className="section-badge">For Hospitals</Badge>
           <h2
-            className="section-title"
+            className="section-title break-words"
             data-testid="hospital-features-title"
           >
             Grow Your International Patient Base
           </h2>
-          <p className="section-subtitle">
+          <p className="section-subtitle break-words">
             Connect with qualified patients globally and optimize your care delivery
           </p>
         </div>
@@ -1252,10 +1252,10 @@ const MedTourismLanding = () => {
       <section id="pricing" className="pricing-section fade-in-section">
         <div className="section-header">
           <Badge className="section-badge">Pricing</Badge>
-          <h2 className="section-title" data-testid="pricing-title">
+          <h2 className="section-title break-words" data-testid="pricing-title">
             Simple, Transparent Pricing
           </h2>
-          <p className="section-subtitle">
+          <p className="section-subtitle break-words">
             Choose the plan that fits your needs
           </p>
         </div>
