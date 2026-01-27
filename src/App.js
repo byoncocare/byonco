@@ -6,18 +6,6 @@ import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Sections (old home page)
-import Hero from "./components/Hero";
-import TrustedBy from "./components/TrustedBy";
-import HowItWorks from "./components/HowItWorks";
-import About from "./components/About";
-import WhyAI from "./components/WhyAI";
-import Features from "./components/Features";
-import Testimonials from "./components/Testimonials";
-import CallToAction from "./components/CallToAction";
-import Footer from "./components/Footer";
-import TeamSection from "./components/TeamSection";
-import FAQ from "./components/FAQ";
 import CookieConsent from "./components/CookieConsent";
 
 // Pages
@@ -54,6 +42,7 @@ import PaidGate from "./components/PaidGate";
 import SubscriptionGuard from "./components/SubscriptionGuard";
 import SubscriptionExpiryWarning from "./components/SubscriptionExpiryWarning";
 import SubscribePage from "./pages/SubscribePage";
+import AboutPage from "./pages/AboutPage";
 
 // Vayu legal pages
 import PrivacyPolicyVayu from "./products/vayu/pages/PrivacyPolicyVayu";
@@ -129,33 +118,6 @@ function HashScroller({ offset = 96 }) {
 }
 
 /* -------------------------------------------------------
-   Classic old home (/classic-home)
-------------------------------------------------------- */
-function HomePage() {
-  return (
-    <motion.main
-      className="page-shell bg-gradient-to-b from-[#fffdfa] to-[#f9f9f8] text-gray-800 font-sans leading-relaxed overflow-x-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <Hero />
-      <TrustedBy />
-      <HowItWorks />
-      <About />
-      <WhyAI />
-      <Features />
-      <TeamSection />
-      <FAQ />
-      <Testimonials />
-      <CallToAction />
-      <Footer />
-    </motion.main>
-  );
-}
-
-/* -------------------------------------------------------
    App Component (routing)
 ------------------------------------------------------- */
 export default function App() {
@@ -196,7 +158,7 @@ export default function App() {
             />
 
             {/* Classic old ByOnco homepage */}
-            <Route path="/classic-home" element={<HomePage />} />
+            {/* Classic old ByOnco homepage route removed to hide legacy landing page */}
 
             {/* ----------- Core ByOnco flows ----------- */}
             <Route
@@ -529,6 +491,20 @@ export default function App() {
                   transition={{ duration: 0.4 }}
                 >
                   <Security />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <motion.div
+                  className="page-shell min-h-screen"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <AboutPage />
                 </motion.div>
               }
             />

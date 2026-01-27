@@ -96,7 +96,7 @@ function PlanCard({ plan, navigate }) {
   const priceColor = isBalanced ? "text-indigo-600" : "text-slate-900";
 
   return (
-    <div className={`group bg-white rounded-xl border ${isBalanced ? 'border-indigo-200 ring-1 ring-indigo-50' : 'border-slate-200'} p-0 overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col relative`}>
+    <div className={`group bg-white rounded-xl border ${isBalanced ? 'border-indigo-200 ring-1 ring-indigo-50' : 'border-slate-200'} p-0 overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col relative w-full min-w-0`}>
       {isBalanced && (
         <div className="absolute top-0 right-0 size-16 bg-gradient-to-bl from-indigo-50 to-transparent -z-10 rounded-bl-3xl"></div>
       )}
@@ -452,23 +452,23 @@ export default function JourneyBuilderPage() {
                         Extracted Journey Profile
                       </h3>
                       {/* Tools Section */}
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 flex-nowrap overflow-x-auto whitespace-nowrap pb-1 md:flex-wrap md:overflow-visible">
                         <button 
                           onClick={() => setShowCurrencyModal(true)}
-                          className="px-3 py-1 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100 transition-colors"
+                          className="px-3 py-1 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100 transition-colors shrink-0 whitespace-nowrap break-normal"
                         >
                           Currency Converter
                         </button>
                         <button 
                           disabled
-                          className="px-3 py-1 text-xs font-medium text-slate-400 bg-slate-50 border border-slate-200 rounded-full opacity-60 cursor-not-allowed"
+                          className="px-3 py-1 text-xs font-medium text-slate-400 bg-slate-50 border border-slate-200 rounded-full opacity-60 cursor-not-allowed shrink-0 whitespace-nowrap break-normal"
                           title="We'll soon help you check what your insurance really covers."
                         >
                           Insurance Analyzer <span className="text-[10px]">(Coming Soon)</span>
                         </button>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-4 gap-x-4 sm:gap-x-6 md:gap-x-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-4 sm:gap-x-6 md:gap-x-8">
                       {profile.cancerType && (
                         <div>
                           <span className="block text-[10px] text-slate-400 font-medium uppercase">Cancer Type</span>
@@ -513,12 +513,14 @@ export default function JourneyBuilderPage() {
               {/* Journey Plans */}
               {plans.length > 0 && (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold text-slate-900">Recommended Journey Packages</h3>
-                    <span className="text-xs text-slate-400">Estimates include medical + travel + stay</span>
+                  <div className="flex flex-col gap-1 sm:flex-col md:flex-row md:items-center md:justify-between">
+                    <h3 className="text-sm font-semibold text-slate-900 break-words">Recommended Journey Packages</h3>
+                    <span className="text-xs sm:text-xs md:text-xs text-slate-400 leading-snug md:text-right">
+                      Estimates include medical + travel + stay
+                    </span>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
                     {plans.map((plan, idx) => (
                       <PlanCard key={idx} plan={plan} navigate={navigate} />
                     ))}
@@ -545,13 +547,13 @@ export default function JourneyBuilderPage() {
                   </ul>
                   
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <button className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 shadow-sm rounded-full text-xs font-medium text-slate-700 hover:text-indigo-600 hover:border-indigo-200 transition-colors">
+                    <button className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 shadow-sm rounded-full text-xs font-medium text-slate-700 hover:text-indigo-600 hover:border-indigo-200 transition-colors whitespace-nowrap">
                       I have relatives for stay
                     </button>
-                    <button className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 shadow-sm rounded-full text-xs font-medium text-slate-700 hover:text-indigo-600 hover:border-indigo-200 transition-colors">
+                    <button className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 shadow-sm rounded-full text-xs font-medium text-slate-700 hover:text-indigo-600 hover:border-indigo-200 transition-colors whitespace-nowrap">
                       Prefer train travel
                     </button>
-                    <button className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 shadow-sm rounded-full text-xs font-medium text-slate-700 hover:text-indigo-600 hover:border-indigo-200 transition-colors">
+                    <button className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 shadow-sm rounded-full text-xs font-medium text-slate-700 hover:text-indigo-600 hover:border-indigo-200 transition-colors whitespace-nowrap">
                       Show options in Chennai instead
                     </button>
                   </div>
@@ -573,14 +575,14 @@ export default function JourneyBuilderPage() {
 
         {/* Input Area */}
         <div className="p-4 bg-white border-t border-slate-200 z-10">
-          <form onSubmit={handleSubmit} className="max-w-4xl mx-auto relative">
+          <form onSubmit={handleSubmit} className="max-w-4xl mx-auto relative w-full">
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask to modify the plan (e.g., 'Remove the hotel cost' or 'Is proton therapy an option?')"
-              className="w-full pl-4 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400 text-slate-900 shadow-sm"
+              className="w-full pl-4 pr-12 py-3 md:py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400 text-slate-900 shadow-sm"
               disabled={loading}
             />
             <button

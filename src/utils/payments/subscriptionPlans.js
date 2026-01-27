@@ -15,7 +15,7 @@ export const SUBSCRIPTION_PLANS = [
       'Real-time bed & queue visibility across India',
       'AI hospital and doctor matching',
       'Subsidy and trial matching',
-      'Fast second opinions (<24h)',
+      'Fast second opinions (<12h)',
       'Multilingual app support',
       'Treatment cost estimates',
       'Medical tourism packages',

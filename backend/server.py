@@ -830,7 +830,7 @@ async def debug_mongo_config():
         "db_name_has_newline": db_name_has_newline,
         "mongo_url_length": len(raw_mongo_url),
         "db_name_length": len(raw_db_name),
-        "mongo_url_preview": clean_mongo_url[:50] + "..." if len(clean_mongo_url) > 50 else clean_mongo_url,
+        # Do NOT return any part of the actual URL to avoid leaking credentials/hosts
         "db_name": clean_db_name,
         "write_concern_in_url": write_concern_in_url,
         "write_concern_value": repr(write_concern_value) if write_concern_value else None,

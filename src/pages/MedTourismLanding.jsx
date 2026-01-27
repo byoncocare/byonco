@@ -353,7 +353,7 @@ const MedTourismLanding = () => {
       icon: <Clock className="w-8 h-8" />,
       title: "Rapid Second Opinions",
       description:
-        "Expert second opinions delivered in under 24 hours, plus clinical trial matching and subsidy discovery in a multilingual app",
+        "Expert second opinions delivered in under 12 hours, plus clinical trial matching and subsidy discovery in a multilingual app",
       color: "from-blue-500 via-cyan-500 to-teal-600",
     },
     {
@@ -418,9 +418,9 @@ const MedTourismLanding = () => {
   ];
 
   const stats = [
-    { value: "10,000+", label: "Monthly Active Users" },
+    { value: "3,000+", label: "Patients Engaged" },
     { value: "1,000+", label: "Families Guided" },
-    { value: "1300+", label: "Hospitals Mapped" },
+    { value: "1,200+", label: "Hospitals Mapped" },
     { value: "<12 Hours", label: "Second Opinions" },
   ];
 
@@ -845,7 +845,7 @@ const MedTourismLanding = () => {
             },
             {
               title: "Second Opinion",
-              description: "Expert second opinions delivered in under 24 hours",
+              description: "Expert second opinions delivered in under 12 hours",
               icon: <FileText className="w-8 h-8" />,
               color: "from-emerald-500 to-teal-600",
               route: "/second-opinion"
@@ -1384,7 +1384,7 @@ const MedTourismLanding = () => {
                 How fast can I get a second opinion?
               </summary>
               <div className="faq-answer">
-                We provide expert second opinions in under 24 hours. Our network
+                We provide expert second opinions in under 12 hours. Our network
                 includes top oncologists from India and internationally who can
                 review your case quickly and provide detailed recommendations.
               </div>
@@ -1567,7 +1567,7 @@ const MedTourismLanding = () => {
 
         <div className="footer-bottom">
           <p>
-            © 2025 ByOnco by PraesidioCare Private Limited. All rights
+            © 2026 ByOnco by PraesidioCare Private Limited. All rights
             reserved.
           </p>
         </div>

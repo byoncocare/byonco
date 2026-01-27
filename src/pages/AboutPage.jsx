@@ -120,7 +120,7 @@ export default function AboutPage() {
               {
                 icon: <FileText className="h-6 w-6 text-violet-400" />,
                 title: "Rapid Second Opinions",
-                description: "Connect with board-certified oncologists for comprehensive second opinions delivered in under 24 hours."
+                description: "Connect with board-certified oncologists for comprehensive second opinions delivered in under 12 hours."
               },
               {
                 icon: <Globe className="h-6 w-6 text-blue-400" />,
